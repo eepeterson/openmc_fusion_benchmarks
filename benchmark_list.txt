@@ -1,0 +1,36 @@
+1. Fusion Neutronic Source (FNS) clean benchmarks -- These experiments measure
+neutron spectra, photon spectra and heating, and dosimetry reaction rates in a
+series of beryllium, vanadium, iron, copper, and tungsten assemblies irradiated
+by a D-T source.
+
+2. FNS dogleg duct streaming benchmark -- This experiment measures neutron
+streaming through a double-bend duct representative of fusion channel designs
+used for diagnosis of radiofrequency heating. Neutron spectra and reaction rates
+are measured within the duct irradiated with a D-T source.
+
+3. Frascati Neutron Generator (FNG) streaming benchmark -- This experiment
+evaluates the prediction of neutron reaction rates and nuclear heating in a
+mockup of the ITER shielding system with a high aspect ratio streaming path.
+Neutron reaction rates are measured in activation foils within and behind the
+streaming channel and in a cavity at the end of the channel.
+
+4. ITER port plug computational benchmark -- This benchmark consists of a series
+of cylinders representing a simplified port plug and has been used in the ITER
+R&D program for comparing different code systems for performing SDR
+calculations.
+
+5. FNG SDR benchmark -- This benchmark is part of the SINBAD suite of radiation
+shielding and fusion neutronics benchmarks and is designed to emulate the
+irradiation of the ITER vacuum vessel. The experiment consists of several layers
+of water-equivalent PMMA (poly methyl methacrylate) embedded in a stainless
+steel block. A tissue-equivalent dosimeter was used to evaluate the biological
+dose at 19 decay times after 2 days of irradiation with 14 MeV neutrons.
+Notably, a complete model for this benchmark already exists and is accessible to
+our team.
+
+6. ITER E-Lite model -- To demonstrate the capabilities developed for large,
+complex models, we will develop an OpenMC model equivalent to the ITER E-Lite
+MCNP model, which is the most detailed, complete model of a tokamak device for
+nuclear analysis. Argonne has previously developed capabilities for automated
+conversion from MCNP to OpenMC models. These capabilities will be leveraged and
+expanded if needed in order to convert the E-lite MCNP model.
