@@ -21,7 +21,7 @@ yield_data = np.loadtxt('yields.txt')
 yields = []
 for i in range(cos_theta.size):
     yields.append(
-        openmc.stats.Tabular(yield_data[:, 2*i], yield_data[:, 2*i+1])
+        openmc.stats.Tabular(1e6*yield_data[:, 2*i], yield_data[:, 2*i+1])
     )
 
 sources = []
@@ -41,7 +41,7 @@ for i in range(cos_theta.size):
 
 settings = openmc.Settings()
 settings.run_mode = 'fixed source'
-settings.particles = 1000
+settings.particles = 10_000
 settings.batches = 100
 settings.source = sources
 settings.export_to_xml()
