@@ -54,7 +54,16 @@ settings.batches = 100
 settings.source = sources
 settings.export_to_xml()
 
+# Nickel reaction rates
 """
+foil_filter = openmc.CellFilter([602, 603, 604, 605, 606, 608])
+ni_rr = openmc.Tally()
+ni_rr.filters = [foil_filter]
+ni_rr.nuclides = ['Ni58']
+ni_rr.scores = ['(n,p)', '(n,2n)']
+tallies = openmc.Tallies([ni_rr])
+tallies.export_to_xml()
+
 fig, ax = plt.subplots()
 for idx, label in zip([0, 6, 9, 12, 18], [0, 60, 90, 120, 180]):
     E = yields[idx].x
