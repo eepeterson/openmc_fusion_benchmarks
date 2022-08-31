@@ -1,0 +1,2092 @@
+<depletion_chain>
+  <nuclide name="H1" reactions="1">
+    <reaction type="(n,gamma)" Q="2224631.0" target="H2"/>
+  </nuclide>
+  <nuclide name="H2" reactions="2">
+    <reaction type="(n,2n)" Q="-2225002.0" target="H1"/>
+    <reaction type="(n,gamma)" Q="6257402.0" target="H3"/>
+  </nuclide>
+  <nuclide name="H3" half_life="388789600.0" decay_modes="1" decay_energy="5690.0" reactions="1">
+    <decay type="beta-" target="He3" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-6257557.0" target="H2"/>
+  </nuclide>
+  <nuclide name="He3" reactions="2">
+    <reaction type="(n,gamma)" Q="20577780.0" target="He4"/>
+    <reaction type="(n,p)" Q="763752.0" target="H3"/>
+  </nuclide>
+  <nuclide name="He4" reactions="0"/>
+  <nuclide name="He6" half_life="0.8067" decay_modes="1" decay_energy="1567620.0" reactions="0">
+    <decay type="beta-" target="Li6" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Li6" reactions="2">
+    <reaction type="(n,gamma)" Q="7250600.0" target="Li7"/>
+    <reaction type="(n,p)" Q="-2727300.0" target="He6"/>
+  </nuclide>
+  <nuclide name="Li7" reactions="2">
+    <reaction type="(n,2n)" Q="-7250500.0" target="Li6"/>
+    <reaction type="(n,gamma)" Q="2032800.0" target="Li8"/>
+  </nuclide>
+  <nuclide name="Li8" half_life="0.838" decay_modes="1" decay_energy="9362853.1" reactions="0">
+    <decay type="beta-,alpha" target="He4" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Be10" half_life="47652000000000.0" decay_modes="1" decay_energy="202560.0" reactions="0">
+    <decay type="beta-" target="B10" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Be11" half_life="13.81" decay_modes="2" decay_energy="7501115.93" reactions="0">
+    <decay type="beta-" target="B11" branching_ratio="0.969"/>
+    <decay type="beta-,alpha" target="Li7" branching_ratio="0.031"/>
+  </nuclide>
+  <nuclide name="B10" reactions="3">
+    <reaction type="(n,gamma)" Q="11456000.0" target="B11"/>
+    <reaction type="(n,p)" Q="226241.0" target="Be10"/>
+    <reaction type="(n,a)" Q="2789520.0" target="Li7"/>
+  </nuclide>
+  <nuclide name="B11" reactions="4">
+    <reaction type="(n,2n)" Q="-11454100.0" target="B10"/>
+    <reaction type="(n,gamma)" Q="3369870.0" target="B12"/>
+    <reaction type="(n,p)" Q="-10723700.0" target="Be11"/>
+    <reaction type="(n,a)" Q="-6630950.0" target="Li8"/>
+  </nuclide>
+  <nuclide name="B12" half_life="0.0202" decay_modes="1" decay_energy="6406833.76" reactions="0">
+    <decay type="beta-" target="C12" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="C12" reactions="0"/>
+  <nuclide name="C13" reactions="0"/>
+  <nuclide name="C14" half_life="179878000000.0" decay_modes="1" decay_energy="49470.0" reactions="0">
+    <decay type="beta-" target="N14" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="C15" half_life="2.449" decay_modes="1" decay_energy="6352186.0" reactions="0">
+    <decay type="beta-" target="N15" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="N13" half_life="597.9" decay_modes="1" decay_energy="1510845.6" reactions="0">
+    <decay type="ec/beta+" target="C13" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="N14" reactions="4">
+    <reaction type="(n,2n)" Q="-10553470.0" target="N13"/>
+    <reaction type="(n,gamma)" Q="10833390.0" target="N15"/>
+    <reaction type="(n,p)" Q="625876.1" target="C14"/>
+    <reaction type="(n,a)" Q="-158297.0" target="B11"/>
+  </nuclide>
+  <nuclide name="N15" reactions="4">
+    <reaction type="(n,2n)" Q="-10833000.0" target="N14"/>
+    <reaction type="(n,gamma)" Q="2490000.0" target="N16"/>
+    <reaction type="(n,p)" Q="-8989300.0" target="C15"/>
+    <reaction type="(n,a)" Q="-7621500.0" target="B12"/>
+  </nuclide>
+  <nuclide name="N16" half_life="7.13" decay_modes="2" decay_energy="7258573.2758" reactions="0">
+    <decay type="beta-" target="O16" branching_ratio="0.999988"/>
+    <decay type="beta-,alpha" target="C12" branching_ratio="1.2e-05"/>
+  </nuclide>
+  <nuclide name="N17" half_life="4.171" decay_modes="2" decay_energy="2684407.04" reactions="0">
+    <decay type="beta-" target="O17" branching_ratio="0.049"/>
+    <decay type="beta-,n" target="O16" branching_ratio="0.951"/>
+  </nuclide>
+  <nuclide name="O15" half_life="122.24" decay_modes="1" decay_energy="1755626.2" reactions="0">
+    <decay type="ec/beta+" target="N15" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="O16" reactions="4">
+    <reaction type="(n,2n)" Q="-15663800.0" target="O15"/>
+    <reaction type="(n,gamma)" Q="4144590.0" target="O17"/>
+    <reaction type="(n,p)" Q="-9636800.0" target="N16"/>
+    <reaction type="(n,a)" Q="-2214300.0" target="C13"/>
+  </nuclide>
+  <nuclide name="O17" reactions="4">
+    <reaction type="(n,2n)" Q="-4144300.0" target="O16"/>
+    <reaction type="(n,gamma)" Q="8047000.0" target="O18"/>
+    <reaction type="(n,p)" Q="-7896000.0" target="N17"/>
+    <reaction type="(n,a)" Q="1819400.0" target="C14"/>
+  </nuclide>
+  <nuclide name="O18" reactions="0"/>
+  <nuclide name="Ne21" reactions="0"/>
+  <nuclide name="Ne22" reactions="0"/>
+  <nuclide name="Ne23" half_life="37.24" decay_modes="1" decay_energy="2066016.1" reactions="0">
+    <decay type="beta-" target="Na23" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Na23" reactions="5">
+    <reaction type="(n,2n)" Q="-12414000.0"/>
+    <reaction type="(n,p)" Q="-3597000.0" target="Ne23"/>
+    <reaction type="(n,a)" Q="-3866000.0"/>
+    <reaction type="(n,gamma)" Q="6959490.0" target="Na24" branching_ratio="0.232"/>
+    <reaction type="(n,gamma)" Q="6959490.0" branching_ratio="0.768"/>
+  </nuclide>
+  <nuclide name="Na24" half_life="53989.2" decay_modes="1" decay_energy="4676923.1" reactions="0">
+    <decay type="beta-" target="Mg24" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Na25" half_life="59.1" decay_modes="1" decay_energy="1942344.5" reactions="0">
+    <decay type="beta-" target="Mg25" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Na26" half_life="1.077" decay_modes="1" decay_energy="5528135.0" reactions="0">
+    <decay type="beta-" target="Mg26" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mg23" half_life="11.317" decay_modes="1" decay_energy="2394868.0" reactions="0">
+    <decay type="ec/beta+" target="Na23" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mg24" reactions="4">
+    <reaction type="(n,2n)" Q="-16530600.0" target="Mg23"/>
+    <reaction type="(n,gamma)" Q="7331890.0" target="Mg25"/>
+    <reaction type="(n,p)" Q="-4732090.0" target="Na24"/>
+    <reaction type="(n,a)" Q="-2553350.0" target="Ne21"/>
+  </nuclide>
+  <nuclide name="Mg25" reactions="4">
+    <reaction type="(n,2n)" Q="-7331880.0" target="Mg24"/>
+    <reaction type="(n,gamma)" Q="11093300.0" target="Mg26"/>
+    <reaction type="(n,p)" Q="-3053030.0" target="Na25"/>
+    <reaction type="(n,a)" Q="480349.0" target="Ne22"/>
+  </nuclide>
+  <nuclide name="Mg26" reactions="4">
+    <reaction type="(n,2n)" Q="-11093600.0" target="Mg25"/>
+    <reaction type="(n,gamma)" Q="6444290.0" target="Mg27"/>
+    <reaction type="(n,p)" Q="-7920920.0" target="Na26"/>
+    <reaction type="(n,a)" Q="-5416640.0" target="Ne23"/>
+  </nuclide>
+  <nuclide name="Mg27" half_life="567.48" decay_modes="1" decay_energy="1593053.4" reactions="0">
+    <decay type="beta-" target="Al27" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Al26" half_life="22626800000000.0" decay_modes="1" decay_energy="3119363.6" reactions="0">
+    <decay type="ec/beta+" target="Mg26" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Al27" reactions="4">
+    <reaction type="(n,2n)" Q="-13058200.0" target="Al26"/>
+    <reaction type="(n,gamma)" Q="7725200.0" target="Al28"/>
+    <reaction type="(n,p)" Q="-1828549.0" target="Mg27"/>
+    <reaction type="(n,a)" Q="-3130330.0" target="Na24"/>
+  </nuclide>
+  <nuclide name="Al28" half_life="134.484" decay_modes="1" decay_energy="3020144.0" reactions="0">
+    <decay type="beta-" target="Si28" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Al29" half_life="393.6" decay_modes="1" decay_energy="2356072.1" reactions="0">
+    <decay type="beta-" target="Si29" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Al30" half_life="3.62" decay_modes="1" decay_energy="5656012.0" reactions="0">
+    <decay type="beta-" target="Si30" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Si27" half_life="4.16" decay_modes="1" decay_energy="2743135.0" reactions="0">
+    <decay type="ec/beta+" target="Al27" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Si28" reactions="4">
+    <reaction type="(n,2n)" Q="-17177000.0" target="Si27"/>
+    <reaction type="(n,gamma)" Q="8473900.0" target="Si29"/>
+    <reaction type="(n,p)" Q="-3860000.0" target="Al28"/>
+    <reaction type="(n,a)" Q="-2650000.0" target="Mg25"/>
+  </nuclide>
+  <nuclide name="Si29" reactions="4">
+    <reaction type="(n,2n)" Q="-8473900.0" target="Si28"/>
+    <reaction type="(n,gamma)" Q="10610000.0" target="Si30"/>
+    <reaction type="(n,p)" Q="-2898500.0" target="Al29"/>
+    <reaction type="(n,a)" Q="-34700.0" target="Mg26"/>
+  </nuclide>
+  <nuclide name="Si30" reactions="4">
+    <reaction type="(n,2n)" Q="-10610000.0" target="Si29"/>
+    <reaction type="(n,gamma)" Q="6592000.0" target="Si31"/>
+    <reaction type="(n,p)" Q="-7751600.0" target="Al30"/>
+    <reaction type="(n,a)" Q="-4200200.0" target="Mg27"/>
+  </nuclide>
+  <nuclide name="Si31" half_life="9438.0" decay_modes="1" decay_energy="596447.405" reactions="0">
+    <decay type="beta-" target="P31" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Si33" half_life="6.11" decay_modes="1" decay_energy="2757379.4" reactions="0">
+    <decay type="beta-" target="P33" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="P30" half_life="149.88" decay_modes="1" decay_energy="2460431.0" reactions="0">
+    <decay type="ec/beta+" target="Si30" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="P31" reactions="4">
+    <reaction type="(n,2n)" Q="-12310000.0" target="P30"/>
+    <reaction type="(n,gamma)" Q="7930000.0" target="P32"/>
+    <reaction type="(n,p)" Q="-710000.0" target="Si31"/>
+    <reaction type="(n,a)" Q="-1940000.0" target="Al28"/>
+  </nuclide>
+  <nuclide name="P32" half_life="1232323.0" decay_modes="1" decay_energy="694900.0" reactions="0">
+    <decay type="beta-" target="S32" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="P33" half_life="2189376.0" decay_modes="1" decay_energy="76430.0" reactions="0">
+    <decay type="beta-" target="S33" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="P34" half_life="12.43" decay_modes="1" decay_energy="2639205.3" reactions="0">
+    <decay type="beta-" target="S34" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="P36" half_life="5.6" decay_modes="1" decay_energy="8026552.0" reactions="0">
+    <decay type="beta-" target="S36" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="S31" half_life="2.572" decay_modes="1" decay_energy="3034467.0" reactions="0">
+    <decay type="ec/beta+" target="P31" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="S32" reactions="4">
+    <reaction type="(n,2n)" Q="-15088000.0" target="S31"/>
+    <reaction type="(n,gamma)" Q="8642990.0" target="S33"/>
+    <reaction type="(n,p)" Q="-927629.0" target="P32"/>
+    <reaction type="(n,a)" Q="1525750.0" target="Si29"/>
+  </nuclide>
+  <nuclide name="S33" reactions="4">
+    <reaction type="(n,2n)" Q="-8643380.0" target="S32"/>
+    <reaction type="(n,gamma)" Q="11417000.0" target="S34"/>
+    <reaction type="(n,p)" Q="533469.0" target="P33"/>
+    <reaction type="(n,a)" Q="3492040.0" target="Si30"/>
+  </nuclide>
+  <nuclide name="S34" reactions="4">
+    <reaction type="(n,2n)" Q="-11414900.0" target="S33"/>
+    <reaction type="(n,gamma)" Q="6986990.0" target="S35"/>
+    <reaction type="(n,p)" Q="-4316720.0" target="P34"/>
+    <reaction type="(n,a)" Q="-1334550.0" target="Si31"/>
+  </nuclide>
+  <nuclide name="S35" half_life="7560864.0" decay_modes="1" decay_energy="48758.0" reactions="0">
+    <decay type="beta-" target="Cl35" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="S36" reactions="4">
+    <reaction type="(n,2n)" Q="-9891980.0" target="S35"/>
+    <reaction type="(n,gamma)" Q="4313990.0" target="S37"/>
+    <reaction type="(n,p)" Q="-8990920.0" target="P36"/>
+    <reaction type="(n,a)" Q="-3954040.0" target="Si33"/>
+  </nuclide>
+  <nuclide name="S37" half_life="303.0" decay_modes="1" decay_energy="3731492.6" reactions="0">
+    <decay type="beta-" target="Cl37" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cl34" half_life="1.5264" decay_modes="1" decay_energy="3071575.0" reactions="0">
+    <decay type="ec/beta+" target="S34" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cl35" reactions="4">
+    <reaction type="(n,2n)" Q="-12645000.0" target="Cl34"/>
+    <reaction type="(n,gamma)" Q="8579770.0" target="Cl36"/>
+    <reaction type="(n,p)" Q="615220.0" target="S35"/>
+    <reaction type="(n,a)" Q="938230.0" target="P32"/>
+  </nuclide>
+  <nuclide name="Cl36" half_life="9498840000000.0" decay_modes="2" decay_energy="297613.4844" reactions="0">
+    <decay type="ec/beta+" target="S36" branching_ratio="0.019"/>
+    <decay type="beta-" target="Ar36" branching_ratio="0.981"/>
+  </nuclide>
+  <nuclide name="Cl37" reactions="6">
+    <reaction type="(n,2n)" Q="-10311100.0" target="Cl36"/>
+    <reaction type="(n,3n)" Q="-18890800.0" target="Cl35"/>
+    <reaction type="(n,p)" Q="-4082950.0" target="S37"/>
+    <reaction type="(n,a)" Q="-1557610.0" target="P34"/>
+    <reaction type="(n,gamma)" Q="6107830.0" target="Cl38" branching_ratio="0.8809"/>
+    <reaction type="(n,gamma)" Q="6107830.0" target="Cl38_m1" branching_ratio="0.1191"/>
+  </nuclide>
+  <nuclide name="Cl38" half_life="2233.8" decay_modes="1" decay_energy="3030769.0" reactions="0">
+    <decay type="beta-" target="Ar38" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cl38_m1" half_life="0.715" decay_modes="1" decay_energy="671425.8973" reactions="0">
+    <decay type="IT" target="Cl38" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ar36" reactions="4">
+    <reaction type="(n,2n)" Q="-14838000.0"/>
+    <reaction type="(n,gamma)" Q="8788000.0"/>
+    <reaction type="(n,p)" Q="-680900.0" target="Cl36"/>
+    <reaction type="(n,a)" Q="-486400.0" target="S33"/>
+  </nuclide>
+  <nuclide name="Ar38" reactions="4">
+    <reaction type="(n,2n)" Q="-11689000.0"/>
+    <reaction type="(n,gamma)" Q="6599700.0" target="Ar39"/>
+    <reaction type="(n,p)" Q="-4870600.0" target="Cl38"/>
+    <reaction type="(n,a)" Q="-222200.0" target="S35"/>
+  </nuclide>
+  <nuclide name="Ar39" half_life="8488990000.0" decay_modes="1" decay_energy="218800.0" reactions="0">
+    <decay type="beta-" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ar40" reactions="5">
+    <reaction type="(n,2n)" Q="-9870880.0" target="Ar39"/>
+    <reaction type="(n,3n)" Q="-16468200.0" target="Ar38"/>
+    <reaction type="(n,gamma)" Q="6099390.0" target="Ar41"/>
+    <reaction type="(n,p)" Q="-6716720.0"/>
+    <reaction type="(n,a)" Q="-2485450.0" target="S37"/>
+  </nuclide>
+  <nuclide name="Ar41" half_life="6576.6" decay_modes="1" decay_energy="1747650.1" reactions="0">
+    <decay type="beta-" target="K41" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ar43" half_life="322.2" decay_modes="1" decay_energy="2843943.0" reactions="0">
+    <decay type="beta-" target="K43" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="K41" reactions="4">
+    <reaction type="(n,2n)" Q="-10095900.0"/>
+    <reaction type="(n,gamma)" Q="7534990.0" target="K42"/>
+    <reaction type="(n,p)" Q="-1709730.0" target="Ar41"/>
+    <reaction type="(n,a)" Q="-111550.0" target="Cl38"/>
+  </nuclide>
+  <nuclide name="K42" half_life="44496.0" decay_modes="1" decay_energy="1709247.8" reactions="0">
+    <decay type="beta-" target="Ca42" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="K43" half_life="80280.0" decay_modes="1" decay_energy="1281704.4" reactions="0">
+    <decay type="beta-" target="Ca43" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="K44" half_life="1327.8" decay_modes="1" decay_energy="3825279.0" reactions="0">
+    <decay type="beta-" target="Ca44" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="K46" half_life="105.0" decay_modes="1" decay_energy="4973981.0" reactions="0">
+    <decay type="beta-" target="Ca46" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ca41" half_life="3218880000000.0" decay_modes="1" decay_energy="3111.7509" reactions="0">
+    <decay type="ec/beta+" target="K41" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ca42" reactions="4">
+    <reaction type="(n,2n)" Q="-11480600.0" target="Ca41"/>
+    <reaction type="(n,gamma)" Q="7933000.0" target="Ca43"/>
+    <reaction type="(n,p)" Q="-2743090.0" target="K42"/>
+    <reaction type="(n,a)" Q="341482.0" target="Ar39"/>
+  </nuclide>
+  <nuclide name="Ca43" reactions="5">
+    <reaction type="(n,2n)" Q="-7933000.0" target="Ca42"/>
+    <reaction type="(n,3n)" Q="-19413600.0" target="Ca41"/>
+    <reaction type="(n,gamma)" Q="11132000.0" target="Ca44"/>
+    <reaction type="(n,p)" Q="-1033050.0" target="K43"/>
+    <reaction type="(n,a)" Q="2277860.0" target="Ar40"/>
+  </nuclide>
+  <nuclide name="Ca44" reactions="5">
+    <reaction type="(n,2n)" Q="-11132000.0" target="Ca43"/>
+    <reaction type="(n,3n)" Q="-19065000.0" target="Ca42"/>
+    <reaction type="(n,gamma)" Q="7414770.0" target="Ca45"/>
+    <reaction type="(n,p)" Q="-4876520.0" target="K44"/>
+    <reaction type="(n,a)" Q="-2755410.0" target="Ar41"/>
+  </nuclide>
+  <nuclide name="Ca45" half_life="14049500.0" decay_modes="2" decay_energy="76860.28" reactions="0">
+    <decay type="beta-" target="Sc45" branching_ratio="0.999981"/>
+    <decay type="beta-" target="Sc45_m1" branching_ratio="1.9e-05"/>
+  </nuclide>
+  <nuclide name="Ca46" reactions="5">
+    <reaction type="(n,2n)" Q="-10393700.0" target="Ca45"/>
+    <reaction type="(n,3n)" Q="-17808500.0" target="Ca44"/>
+    <reaction type="(n,gamma)" Q="7276100.0" target="Ca47"/>
+    <reaction type="(n,p)" Q="-6933630.0" target="K46"/>
+    <reaction type="(n,a)" Q="-5510970.0" target="Ar43"/>
+  </nuclide>
+  <nuclide name="Ca47" half_life="391910.4" decay_modes="1" decay_energy="1346828.4" reactions="0">
+    <decay type="beta-" target="Sc47" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sc45" reactions="5">
+    <reaction type="(n,2n)" Q="-11454000.0"/>
+    <reaction type="(n,p)" Q="526000.0" target="Ca45"/>
+    <reaction type="(n,a)" Q="-397170.0" target="K42"/>
+    <reaction type="(n,gamma)" Q="8760690.0" target="Sc46" branching_ratio="0.556"/>
+    <reaction type="(n,gamma)" Q="8760690.0" branching_ratio="0.444"/>
+  </nuclide>
+  <nuclide name="Sc45_m1" half_life="0.318" decay_modes="1" decay_energy="12319.6394" reactions="0">
+    <decay type="IT" target="Sc45" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sc46" half_life="7239456.0" decay_modes="1" decay_energy="2121429.6" reactions="0">
+    <decay type="beta-" target="Ti46" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sc47" half_life="289370.9" decay_modes="1" decay_energy="271319.9" reactions="0">
+    <decay type="beta-" target="Ti47" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sc48" half_life="157212.0" decay_modes="1" decay_energy="3573721.4" reactions="0">
+    <decay type="beta-" target="Ti48" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sc49" half_life="3430.8" decay_modes="1" decay_energy="824697.21" reactions="0">
+    <decay type="beta-" target="Ti49" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sc50" half_life="102.5" decay_modes="1" decay_energy="4829944.0" reactions="0">
+    <decay type="beta-" target="Ti50" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ti45" half_life="11088.0" decay_modes="1" decay_energy="1243170.3" reactions="0">
+    <decay type="ec/beta+" target="Sc45" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ti46" reactions="4">
+    <reaction type="(n,2n)" Q="-13196800.0" target="Ti45"/>
+    <reaction type="(n,gamma)" Q="8877400.0" target="Ti47"/>
+    <reaction type="(n,p)" Q="-1584930.0" target="Sc46"/>
+    <reaction type="(n,a)" Q="-80049.8" target="Ca43"/>
+  </nuclide>
+  <nuclide name="Ti47" reactions="4">
+    <reaction type="(n,2n)" Q="-8875080.0" target="Ti46"/>
+    <reaction type="(n,gamma)" Q="11627400.0" target="Ti48"/>
+    <reaction type="(n,p)" Q="182300.0" target="Sc47"/>
+    <reaction type="(n,a)" Q="2181150.0" target="Ca44"/>
+  </nuclide>
+  <nuclide name="Ti48" reactions="4">
+    <reaction type="(n,2n)" Q="-11628100.0" target="Ti47"/>
+    <reaction type="(n,gamma)" Q="8142400.0" target="Ti49"/>
+    <reaction type="(n,p)" Q="-3208100.0" target="Sc48"/>
+    <reaction type="(n,a)" Q="-2031400.0" target="Ca45"/>
+  </nuclide>
+  <nuclide name="Ti49" reactions="4">
+    <reaction type="(n,2n)" Q="-8143380.0" target="Ti48"/>
+    <reaction type="(n,gamma)" Q="10939400.0" target="Ti50"/>
+    <reaction type="(n,p)" Q="-1222830.0" target="Sc49"/>
+    <reaction type="(n,a)" Q="227450.0" target="Ca46"/>
+  </nuclide>
+  <nuclide name="Ti50" reactions="5">
+    <reaction type="(n,2n)" Q="-10948000.0" target="Ti49"/>
+    <reaction type="(n,3n)" Q="-19091400.0" target="Ti48"/>
+    <reaction type="(n,gamma)" Q="6372390.0" target="Ti51"/>
+    <reaction type="(n,p)" Q="-6106120.0" target="Sc50"/>
+    <reaction type="(n,a)" Q="-3443850.0" target="Ca47"/>
+  </nuclide>
+  <nuclide name="Ti51" half_life="345.6" decay_modes="1" decay_energy="1238637.9" reactions="0">
+    <decay type="beta-" target="V51" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="V49" half_life="28512000.0" decay_modes="1" decay_energy="4451.444" reactions="0">
+    <decay type="ec/beta+" target="Ti49" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="V50" half_life="4.41806e+24" decay_modes="2" decay_energy="1439353.97" reactions="4">
+    <decay type="ec/beta+" target="Ti50" branching_ratio="0.83"/>
+    <decay type="beta-" target="Cr50" branching_ratio="0.17"/>
+    <reaction type="(n,2n)" Q="-9335930.0" target="V49"/>
+    <reaction type="(n,gamma)" Q="11051200.0" target="V51"/>
+    <reaction type="(n,p)" Q="2987460.0" target="Ti50"/>
+    <reaction type="(n,a)" Q="756968.0" target="Sc47"/>
+  </nuclide>
+  <nuclide name="V51" reactions="4">
+    <reaction type="(n,2n)" Q="-11051410.0" target="V50"/>
+    <reaction type="(n,gamma)" Q="7311341.0" target="V52"/>
+    <reaction type="(n,p)" Q="-1688260.0" target="Ti51"/>
+    <reaction type="(n,a)" Q="-2058228.0" target="Sc48"/>
+  </nuclide>
+  <nuclide name="V52" half_life="224.58" decay_modes="1" decay_energy="2513663.0" reactions="0">
+    <decay type="beta-" target="Cr52" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="V53" half_life="92.58" decay_modes="1" decay_energy="2047200.0" reactions="0">
+    <decay type="beta-" target="Cr53" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="V54" half_life="49.8" decay_modes="1" decay_energy="5576653.0" reactions="0">
+    <decay type="beta-" target="Cr54" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cr49" half_life="2538.0" decay_modes="1" decay_energy="1658203.7" reactions="0">
+    <decay type="ec/beta+" target="V49" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cr50" reactions="4">
+    <reaction type="(n,2n)" Q="-13000000.0" target="Cr49"/>
+    <reaction type="(n,gamma)" Q="9261700.0" target="Cr51"/>
+    <reaction type="(n,p)" Q="-256300.0" target="V50"/>
+    <reaction type="(n,a)" Q="319500.0" target="Ti47"/>
+  </nuclide>
+  <nuclide name="Cr51" half_life="2393366.0" decay_modes="1" decay_energy="36679.621999999996" reactions="0">
+    <decay type="ec/beta+" target="V51" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cr52" reactions="4">
+    <reaction type="(n,2n)" Q="-12039000.0" target="Cr51"/>
+    <reaction type="(n,gamma)" Q="7939230.0" target="Cr53"/>
+    <reaction type="(n,p)" Q="-3194000.0" target="V52"/>
+    <reaction type="(n,a)" Q="-1210000.0" target="Ti49"/>
+  </nuclide>
+  <nuclide name="Cr53" reactions="4">
+    <reaction type="(n,2n)" Q="-7940000.0" target="Cr52"/>
+    <reaction type="(n,gamma)" Q="9719090.0" target="Cr54"/>
+    <reaction type="(n,p)" Q="-2640000.0" target="V53"/>
+    <reaction type="(n,a)" Q="1795000.0" target="Ti50"/>
+  </nuclide>
+  <nuclide name="Cr54" reactions="4">
+    <reaction type="(n,2n)" Q="-9719000.0" target="Cr53"/>
+    <reaction type="(n,gamma)" Q="6246350.0" target="Cr55"/>
+    <reaction type="(n,p)" Q="-6214000.0" target="V54"/>
+    <reaction type="(n,a)" Q="-1552000.0" target="Ti51"/>
+  </nuclide>
+  <nuclide name="Cr55" half_life="209.82" decay_modes="1" decay_energy="1101665.9996" reactions="0">
+    <decay type="beta-" target="Mn55" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mn52" half_life="483062.4" decay_modes="1" decay_energy="3532712.41" reactions="0">
+    <decay type="ec/beta+" target="Cr52" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mn53" half_life="116763000000000.0" decay_modes="1" decay_energy="5387.326" reactions="0">
+    <decay type="ec/beta+" target="Cr53" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mn54" half_life="26961120.0" decay_modes="1" decay_energy="840172.983" reactions="0">
+    <decay type="ec/beta+" target="Cr54" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mn55" reactions="6">
+    <reaction type="(n,2n)" Q="-10226000.0" target="Mn54"/>
+    <reaction type="(n,3n)" Q="-19164000.0" target="Mn53"/>
+    <reaction type="(n,4n)" Q="-31218000.0" target="Mn52"/>
+    <reaction type="(n,gamma)" Q="7271001.0" target="Mn56"/>
+    <reaction type="(n,p)" Q="-1821000.0" target="Cr55"/>
+    <reaction type="(n,a)" Q="-623000.0" target="V52"/>
+  </nuclide>
+  <nuclide name="Mn56" half_life="9284.04" decay_modes="1" decay_energy="2522640.3" reactions="0">
+    <decay type="beta-" target="Fe56" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mn57" half_life="85.4" decay_modes="1" decay_energy="1204822.75" reactions="0">
+    <decay type="beta-" target="Fe57" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mn58" half_life="3.0" decay_modes="1" decay_energy="2868949.2" reactions="0">
+    <decay type="beta-" target="Fe58" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Fe53" half_life="510.6" decay_modes="1" decay_energy="2273447.0" reactions="0">
+    <decay type="ec/beta+" target="Mn53" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Fe54" reactions="4">
+    <reaction type="(n,2n)" Q="-13380000.0" target="Fe53"/>
+    <reaction type="(n,gamma)" Q="9298000.0" target="Fe55"/>
+    <reaction type="(n,p)" Q="85300.0" target="Mn54"/>
+    <reaction type="(n,a)" Q="843000.0" target="Cr51"/>
+  </nuclide>
+  <nuclide name="Fe55" half_life="86594050.0" decay_modes="1" decay_energy="5842.102" reactions="0">
+    <decay type="ec/beta+" target="Mn55" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Fe56" reactions="4">
+    <reaction type="(n,2n)" Q="-11200000.0" target="Fe55"/>
+    <reaction type="(n,gamma)" Q="7646090.0" target="Fe57"/>
+    <reaction type="(n,p)" Q="-2913000.0" target="Mn56"/>
+    <reaction type="(n,a)" Q="326000.0" target="Cr53"/>
+  </nuclide>
+  <nuclide name="Fe57" reactions="4">
+    <reaction type="(n,2n)" Q="-7646000.0" target="Fe56"/>
+    <reaction type="(n,gamma)" Q="10044540.0" target="Fe58"/>
+    <reaction type="(n,p)" Q="-1909000.0" target="Mn57"/>
+    <reaction type="(n,a)" Q="2400000.0" target="Cr54"/>
+  </nuclide>
+  <nuclide name="Fe58" reactions="4">
+    <reaction type="(n,2n)" Q="-10044000.0" target="Fe57"/>
+    <reaction type="(n,gamma)" Q="6580960.0" target="Fe59"/>
+    <reaction type="(n,p)" Q="-5159000.0" target="Mn58"/>
+    <reaction type="(n,a)" Q="-1399000.0" target="Cr55"/>
+  </nuclide>
+  <nuclide name="Fe59" half_life="3844368.0" decay_modes="1" decay_energy="1306009.3" reactions="0">
+    <decay type="beta-" target="Co59" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Fe61" half_life="358.8" decay_modes="1" decay_energy="2515414.0" reactions="0">
+    <decay type="beta-" target="Co61" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Co57" half_life="23478340.0" decay_modes="1" decay_energy="143804.05" reactions="0">
+    <decay type="ec/beta+" target="Fe57" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Co58" half_life="6122304.0" decay_modes="1" decay_energy="1008776.54" reactions="4">
+    <decay type="ec/beta+" target="Fe58" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8572000.0" target="Co57"/>
+    <reaction type="(n,gamma)" Q="10454000.0" target="Co59"/>
+    <reaction type="(n,p)" Q="0.0" target="Fe58"/>
+    <reaction type="(n,a)" Q="0.0" target="Mn55"/>
+  </nuclide>
+  <nuclide name="Co59" reactions="5">
+    <reaction type="(n,2n)" Q="-10454000.0" target="Co58"/>
+    <reaction type="(n,p)" Q="-782000.0" target="Fe59"/>
+    <reaction type="(n,a)" Q="329000.0" target="Mn56"/>
+    <reaction type="(n,gamma)" Q="7490000.0" target="Co60" branching_ratio="0.444"/>
+    <reaction type="(n,gamma)" Q="7490000.0" target="Co60_m1" branching_ratio="0.556"/>
+  </nuclide>
+  <nuclide name="Co60" half_life="166344200.0" decay_modes="1" decay_energy="2600613.1" reactions="0">
+    <decay type="beta-" target="Ni60" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Co60_m1" half_life="628.02" decay_modes="2" decay_energy="63044.943999999996" reactions="0">
+    <decay type="beta-" target="Ni60" branching_ratio="0.0024"/>
+    <decay type="IT" target="Co60" branching_ratio="0.9976"/>
+  </nuclide>
+  <nuclide name="Co61" half_life="5940.0" decay_modes="1" decay_energy="563911.34" reactions="0">
+    <decay type="beta-" target="Ni61" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Co62" half_life="90.0" decay_modes="1" decay_energy="3236869.0" reactions="0">
+    <decay type="beta-" target="Ni62" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Co64" half_life="0.3" decay_modes="1" decay_energy="3469635.0" reactions="0">
+    <decay type="beta-" target="Ni64" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ni57" half_life="128160.0" decay_modes="1" decay_energy="2092651.3" reactions="0">
+    <decay type="ec/beta+" target="Co57" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ni58" reactions="4">
+    <reaction type="(n,2n)" Q="-12196000.0" target="Ni57"/>
+    <reaction type="(n,gamma)" Q="8999510.0" target="Ni59"/>
+    <reaction type="(n,p)" Q="402000.0" target="Co58"/>
+    <reaction type="(n,a)" Q="2901000.0" target="Fe55"/>
+  </nuclide>
+  <nuclide name="Ni59" half_life="2398380000000.0" decay_modes="1" decay_energy="6915.5689999999995" reactions="4">
+    <decay type="ec/beta+" target="Co59" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8997200.0" target="Ni58"/>
+    <reaction type="(n,gamma)" Q="11240000.0" target="Ni60"/>
+    <reaction type="(n,p)" Q="1584000.0" target="Co59"/>
+    <reaction type="(n,a)" Q="4878000.0" target="Fe56"/>
+  </nuclide>
+  <nuclide name="Ni60" reactions="4">
+    <reaction type="(n,2n)" Q="-11389000.0" target="Ni59"/>
+    <reaction type="(n,gamma)" Q="7820050.0" target="Ni61"/>
+    <reaction type="(n,p)" Q="-2042000.0" target="Co60"/>
+    <reaction type="(n,a)" Q="1355000.0" target="Fe57"/>
+  </nuclide>
+  <nuclide name="Ni61" reactions="4">
+    <reaction type="(n,2n)" Q="-7820300.0" target="Ni60"/>
+    <reaction type="(n,gamma)" Q="10597330.0" target="Ni62"/>
+    <reaction type="(n,p)" Q="-539700.0" target="Co61"/>
+    <reaction type="(n,a)" Q="3579000.0" target="Fe58"/>
+  </nuclide>
+  <nuclide name="Ni62" reactions="4">
+    <reaction type="(n,2n)" Q="-10598000.0" target="Ni61"/>
+    <reaction type="(n,gamma)" Q="6837910.0" target="Ni63"/>
+    <reaction type="(n,p)" Q="-4459000.0" target="Co62"/>
+    <reaction type="(n,a)" Q="-437400.0" target="Fe59"/>
+  </nuclide>
+  <nuclide name="Ni63" half_life="3193630000.0" decay_modes="1" decay_energy="17425.0" reactions="0">
+    <decay type="beta-" target="Cu63" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ni64" reactions="4">
+    <reaction type="(n,2n)" Q="-9657000.0" target="Ni63"/>
+    <reaction type="(n,gamma)" Q="6098061.0" target="Ni65"/>
+    <reaction type="(n,p)" Q="-6524000.0" target="Co64"/>
+    <reaction type="(n,a)" Q="-2442000.0" target="Fe61"/>
+  </nuclide>
+  <nuclide name="Ni65" half_life="9061.884" decay_modes="1" decay_energy="1186322.7999999998" reactions="0">
+    <decay type="beta-" target="Cu65" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cu62" half_life="580.38" decay_modes="1" decay_energy="2297607.0" reactions="0">
+    <decay type="ec/beta+" target="Ni62" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cu63" reactions="4">
+    <reaction type="(n,2n)" Q="-10854000.0" target="Cu62"/>
+    <reaction type="(n,gamma)" Q="7916020.0" target="Cu64"/>
+    <reaction type="(n,p)" Q="717000.0" target="Ni63"/>
+    <reaction type="(n,a)" Q="1714900.0" target="Co60"/>
+  </nuclide>
+  <nuclide name="Cu64" half_life="45723.6" decay_modes="2" decay_energy="311878.7" reactions="0">
+    <decay type="ec/beta+" target="Ni64" branching_ratio="0.615"/>
+    <decay type="beta-" target="Zn64" branching_ratio="0.385"/>
+  </nuclide>
+  <nuclide name="Cu65" reactions="4">
+    <reaction type="(n,2n)" Q="-9910000.0" target="Cu64"/>
+    <reaction type="(n,gamma)" Q="7065990.0" target="Cu66"/>
+    <reaction type="(n,p)" Q="-1354000.0" target="Ni65"/>
+    <reaction type="(n,a)" Q="-110000.0" target="Co62"/>
+  </nuclide>
+  <nuclide name="Cu66" half_life="307.2" decay_modes="1" decay_energy="1164461.65" reactions="0">
+    <decay type="beta-" target="Zn66" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cu67" half_life="222588.0" decay_modes="1" decay_energy="270947.69999999995" reactions="0">
+    <decay type="beta-" target="Zn67" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Zn63" half_life="2308.2" decay_modes="1" decay_energy="2016083.9" reactions="0">
+    <decay type="ec/beta+" target="Cu63" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Zn64" reactions="4">
+    <reaction type="(n,2n)" Q="-11861900.0" target="Zn63"/>
+    <reaction type="(n,gamma)" Q="7979320.0" target="Zn65"/>
+    <reaction type="(n,p)" Q="202995.0" target="Cu64"/>
+    <reaction type="(n,a)" Q="3863700.0" target="Ni61"/>
+  </nuclide>
+  <nuclide name="Zn65" half_life="21075550.0" decay_modes="1" decay_energy="582841.347" reactions="4">
+    <decay type="ec/beta+" target="Cu65" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7979320.0" target="Zn64"/>
+    <reaction type="(n,gamma)" Q="11059200.0" target="Zn66"/>
+    <reaction type="(n,p)" Q="2134410.0" target="Cu65"/>
+    <reaction type="(n,a)" Q="6480900.0" target="Ni62"/>
+  </nuclide>
+  <nuclide name="Zn66" reactions="5">
+    <reaction type="(n,2n)" Q="-11059200.0" target="Zn65"/>
+    <reaction type="(n,3n)" Q="-19038500.0" target="Zn64"/>
+    <reaction type="(n,gamma)" Q="7052330.0" target="Zn67"/>
+    <reaction type="(n,p)" Q="-1858810.0" target="Cu66"/>
+    <reaction type="(n,a)" Q="2259530.0" target="Ni63"/>
+  </nuclide>
+  <nuclide name="Zn67" reactions="5">
+    <reaction type="(n,2n)" Q="-7052330.0" target="Zn66"/>
+    <reaction type="(n,3n)" Q="-18111500.0" target="Zn65"/>
+    <reaction type="(n,gamma)" Q="10198100.0" target="Zn68"/>
+    <reaction type="(n,p)" Q="220685.0" target="Cu67"/>
+    <reaction type="(n,a)" Q="4865240.0" target="Ni64"/>
+  </nuclide>
+  <nuclide name="Zn68" reactions="5">
+    <reaction type="(n,2n)" Q="-10198100.0" target="Zn67"/>
+    <reaction type="(n,3n)" Q="-17250400.0" target="Zn66"/>
+    <reaction type="(n,gamma)" Q="6482070.0"/>
+    <reaction type="(n,p)" Q="-3657840.0"/>
+    <reaction type="(n,a)" Q="765233.0" target="Ni65"/>
+  </nuclide>
+  <nuclide name="Se82" reactions="6">
+    <reaction type="(n,2n)" Q="-9271090.0"/>
+    <reaction type="(n,3n)" Q="-15976900.0"/>
+    <reaction type="(n,p)" Q="-6613520.0"/>
+    <reaction type="(n,a)" Q="-2361780.0"/>
+    <reaction type="(n,gamma)" Q="5895390.0" target="Se83" branching_ratio="0.1402"/>
+    <reaction type="(n,gamma)" Q="5895390.0" branching_ratio="0.8598"/>
+  </nuclide>
+  <nuclide name="Se83" half_life="1338.0" decay_modes="1" decay_energy="3006160.4" reactions="0">
+    <decay type="beta-" target="Br83" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Br82" half_life="127015.2" decay_modes="1" decay_energy="2805585.8" reactions="0">
+    <decay type="beta-" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Br83" half_life="8640.0" decay_modes="2" decay_energy="337110.751" reactions="0">
+    <decay type="beta-" target="Kr83" branching_ratio="0.0002403"/>
+    <decay type="beta-" branching_ratio="0.9997597"/>
+  </nuclide>
+  <nuclide name="Br84" half_life="1905.6" decay_modes="1" decay_energy="2986727.0" reactions="0">
+    <decay type="beta-" target="Kr84" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Br85" half_life="174.0" decay_modes="2" decay_energy="1105724.39" reactions="0">
+    <decay type="beta-" target="Kr85" branching_ratio="0.0016262"/>
+    <decay type="beta-" branching_ratio="0.9983738"/>
+  </nuclide>
+  <nuclide name="Br86" half_life="55.0" decay_modes="1" decay_energy="5240864.0" reactions="0">
+    <decay type="beta-" target="Kr86" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Kr83" reactions="5">
+    <reaction type="(n,2n)" Q="-7462400.0"/>
+    <reaction type="(n,3n)" Q="-18428000.0"/>
+    <reaction type="(n,gamma)" Q="10520000.0" target="Kr84"/>
+    <reaction type="(n,p)" Q="-190030.0" target="Br83"/>
+    <reaction type="(n,a)" Q="3426000.0"/>
+  </nuclide>
+  <nuclide name="Kr84" reactions="6">
+    <reaction type="(n,2n)" Q="-10523400.0" target="Kr83"/>
+    <reaction type="(n,3n)" Q="-17993100.0"/>
+    <reaction type="(n,p)" Q="-3890430.0" target="Br84"/>
+    <reaction type="(n,a)" Q="-386683.0"/>
+    <reaction type="(n,gamma)" Q="7111390.0" target="Kr85" branching_ratio="0.1839"/>
+    <reaction type="(n,gamma)" Q="7111390.0" branching_ratio="0.8161"/>
+  </nuclide>
+  <nuclide name="Kr85" half_life="339433500.0" decay_modes="1" decay_energy="252834.105" reactions="5">
+    <decay type="beta-" target="Rb85" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7121000.0" target="Kr84"/>
+    <reaction type="(n,3n)" Q="-17641000.0" target="Kr83"/>
+    <reaction type="(n,gamma)" Q="9856000.0" target="Kr86"/>
+    <reaction type="(n,p)" Q="0.0" target="Br85"/>
+    <reaction type="(n,a)" Q="0.0" target="Se82"/>
+  </nuclide>
+  <nuclide name="Kr86" reactions="5">
+    <reaction type="(n,2n)" Q="-9867290.0" target="Kr85"/>
+    <reaction type="(n,3n)" Q="-16983300.0" target="Kr84"/>
+    <reaction type="(n,gamma)" Q="5515390.0" target="Kr87"/>
+    <reaction type="(n,p)" Q="-6520520.0" target="Br86"/>
+    <reaction type="(n,a)" Q="-2198780.0" target="Se83"/>
+  </nuclide>
+  <nuclide name="Kr87" half_life="4578.0" decay_modes="1" decay_energy="2123020.7" reactions="0">
+    <decay type="beta-" target="Rb87" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rb83" half_life="7447680.0" decay_modes="2" decay_energy="499766.858" reactions="0">
+    <decay type="ec/beta+" target="Kr83" branching_ratio="0.2573625"/>
+    <decay type="ec/beta+" branching_ratio="0.7426375"/>
+  </nuclide>
+  <nuclide name="Rb84" half_life="2835648.0" decay_modes="2" decay_energy="1052178.7" reactions="0">
+    <decay type="ec/beta+" target="Kr84" branching_ratio="0.961"/>
+    <decay type="beta-" branching_ratio="0.039"/>
+  </nuclide>
+  <nuclide name="Rb85" reactions="6">
+    <reaction type="(n,2n)" Q="-10482900.0" target="Rb84"/>
+    <reaction type="(n,3n)" Q="-19324000.0" target="Rb83"/>
+    <reaction type="(n,p)" Q="95460.0" target="Kr85"/>
+    <reaction type="(n,a)" Q="993416.0" target="Br82"/>
+    <reaction type="(n,gamma)" Q="8650290.0" target="Rb86" branching_ratio="0.8791"/>
+    <reaction type="(n,gamma)" Q="8650290.0" target="Rb86_m1" branching_ratio="0.1209"/>
+  </nuclide>
+  <nuclide name="Rb86" half_life="1609718.0" decay_modes="2" decay_energy="761991.19" reactions="5">
+    <decay type="beta-" target="Sr86" branching_ratio="0.999948"/>
+    <decay type="ec/beta+" target="Kr86" branching_ratio="5.2e-05"/>
+    <reaction type="(n,2n)" Q="-8650000.0" target="Rb85"/>
+    <reaction type="(n,3n)" Q="-19139000.0" target="Rb84"/>
+    <reaction type="(n,gamma)" Q="9919000.0" target="Rb87"/>
+    <reaction type="(n,p)" Q="0.0" target="Kr86"/>
+    <reaction type="(n,a)" Q="0.0" target="Br83"/>
+  </nuclide>
+  <nuclide name="Rb86_m1" half_life="61.02" decay_modes="1" decay_energy="556082.42" reactions="0">
+    <decay type="IT" target="Rb86" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rb87" half_life="1.51792e+18" decay_modes="1" decay_energy="81700.0" reactions="5">
+    <decay type="beta-" target="Sr87" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-9934090.0" target="Rb86"/>
+    <reaction type="(n,3n)" Q="-18589100.0" target="Rb85"/>
+    <reaction type="(n,gamma)" Q="6077690.0" target="Rb88"/>
+    <reaction type="(n,p)" Q="-3106240.0" target="Kr87"/>
+    <reaction type="(n,a)" Q="-1182480.0" target="Br84"/>
+  </nuclide>
+  <nuclide name="Rb88" half_life="1066.38" decay_modes="1" decay_energy="2728562.3" reactions="0">
+    <decay type="beta-" target="Sr88" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rb89" half_life="909.0" decay_modes="1" decay_energy="3205465.7" reactions="0">
+    <decay type="beta-" target="Sr89" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rb90" half_life="158.0" decay_modes="1" decay_energy="4176952.0" reactions="0">
+    <decay type="beta-" target="Sr90" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sr85" half_life="5602176.0" decay_modes="1" decay_energy="509019.938" reactions="0">
+    <decay type="ec/beta+" target="Rb85" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sr86" reactions="5">
+    <reaction type="(n,2n)" Q="-11493200.0" target="Sr85"/>
+    <reaction type="(n,p)" Q="-991935.0" target="Rb86"/>
+    <reaction type="(n,a)" Q="1126710.0" target="Kr83"/>
+    <reaction type="(n,gamma)" Q="8428190.0" target="Sr87" branching_ratio="0.1988"/>
+    <reaction type="(n,gamma)" Q="8428190.0" target="Sr87_m1" branching_ratio="0.8012"/>
+  </nuclide>
+  <nuclide name="Sr87" reactions="4">
+    <reaction type="(n,2n)" Q="-8432900.0" target="Sr86"/>
+    <reaction type="(n,gamma)" Q="11113000.0" target="Sr88"/>
+    <reaction type="(n,p)" Q="509259.0" target="Rb87"/>
+    <reaction type="(n,a)" Q="3217210.0" target="Kr84"/>
+  </nuclide>
+  <nuclide name="Sr87_m1" half_life="10134.0" decay_modes="2" decay_energy="387980.24" reactions="0">
+    <decay type="ec/beta+" target="Rb87" branching_ratio="0.003"/>
+    <decay type="IT" target="Sr87" branching_ratio="0.997"/>
+  </nuclide>
+  <nuclide name="Sr88" reactions="5">
+    <reaction type="(n,2n)" Q="-11113000.0" target="Sr87"/>
+    <reaction type="(n,3n)" Q="-19541000.0" target="Sr86"/>
+    <reaction type="(n,gamma)" Q="6367000.0" target="Sr89"/>
+    <reaction type="(n,p)" Q="-4532700.0" target="Rb88"/>
+    <reaction type="(n,a)" Q="-792740.0" target="Kr85"/>
+  </nuclide>
+  <nuclide name="Sr89" half_life="4365792.0" decay_modes="2" decay_energy="585341.9" reactions="5">
+    <decay type="beta-" target="Y89" branching_ratio="0.9999036"/>
+    <decay type="beta-" target="Y89_m1" branching_ratio="9.64e-05"/>
+    <reaction type="(n,2n)" Q="-6367000.0" target="Sr88"/>
+    <reaction type="(n,3n)" Q="-17480000.0" target="Sr87"/>
+    <reaction type="(n,gamma)" Q="7802400.0" target="Sr90"/>
+    <reaction type="(n,p)" Q="-3719500.0" target="Rb89"/>
+    <reaction type="(n,a)" Q="2697600.0" target="Kr86"/>
+  </nuclide>
+  <nuclide name="Sr90" half_life="908543300.0" decay_modes="1" decay_energy="195800.0" reactions="5">
+    <decay type="beta-" target="Y90" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7807800.0" target="Sr89"/>
+    <reaction type="(n,3n)" Q="-14176300.0" target="Sr88"/>
+    <reaction type="(n,gamma)" Q="5802690.0" target="Sr91"/>
+    <reaction type="(n,p)" Q="-5582230.0" target="Rb90"/>
+    <reaction type="(n,a)" Q="426505.0" target="Kr87"/>
+  </nuclide>
+  <nuclide name="Sr91" half_life="34668.0" decay_modes="2" decay_energy="1348533.8" reactions="0">
+    <decay type="beta-" target="Y91" branching_ratio="0.4116369"/>
+    <decay type="beta-" target="Y91_m1" branching_ratio="0.5883631"/>
+  </nuclide>
+  <nuclide name="Sr92" half_life="9756.0" decay_modes="1" decay_energy="1540835.7" reactions="0">
+    <decay type="beta-" target="Y92" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sr93" half_life="445.38" decay_modes="2" decay_energy="2959088.6" reactions="0">
+    <decay type="beta-" target="Y93" branching_ratio="0.6591541"/>
+    <decay type="beta-" target="Y93_m1" branching_ratio="0.3408459"/>
+  </nuclide>
+  <nuclide name="Y88" half_life="9212486.0" decay_modes="1" decay_energy="2701677.42" reactions="0">
+    <decay type="ec/beta+" target="Sr88" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y89" reactions="5">
+    <reaction type="(n,2n)" Q="-11476000.0" target="Y88"/>
+    <reaction type="(n,p)" Q="-713000.0" target="Sr89"/>
+    <reaction type="(n,a)" Q="691000.0" target="Rb86"/>
+    <reaction type="(n,gamma)" Q="6857000.0" target="Y90" branching_ratio="0.9979"/>
+    <reaction type="(n,gamma)" Q="6857000.0" target="Y90_m1" branching_ratio="0.0021"/>
+  </nuclide>
+  <nuclide name="Y89_m1" half_life="15.663" decay_modes="1" decay_energy="909020.9210000001" reactions="0">
+    <decay type="IT" target="Y89" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y90" half_life="230400.0" decay_modes="1" decay_energy="933015.6857674001" reactions="6">
+    <decay type="beta-" target="Zr90" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-6857000.0" target="Y89"/>
+    <reaction type="(n,3n)" Q="-18333000.0" target="Y88"/>
+    <reaction type="(n,p)" Q="236000.0" target="Sr90"/>
+    <reaction type="(n,a)" Q="3753000.0" target="Rb87"/>
+    <reaction type="(n,gamma)" Q="7929000.0" target="Y91" branching_ratio="0.7496"/>
+    <reaction type="(n,gamma)" Q="7929000.0" target="Y91_m1" branching_ratio="0.2504"/>
+  </nuclide>
+  <nuclide name="Y90_m1" half_life="11484.0" decay_modes="2" decay_energy="680003.77" reactions="0">
+    <decay type="IT" target="Y90" branching_ratio="0.999982"/>
+    <decay type="beta-" target="Zr90_m1" branching_ratio="1.8e-05"/>
+  </nuclide>
+  <nuclide name="Y91" half_life="5055264.0" decay_modes="1" decay_energy="606173.414" reactions="5">
+    <decay type="beta-" target="Zr91" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7944890.0" target="Y90"/>
+    <reaction type="(n,3n)" Q="-14806400.0" target="Y89"/>
+    <reaction type="(n,gamma)" Q="6543890.0" target="Y92"/>
+    <reaction type="(n,p)" Q="-1901030.0" target="Sr91"/>
+    <reaction type="(n,a)" Q="1906710.0" target="Rb88"/>
+  </nuclide>
+  <nuclide name="Y91_m1" half_life="2982.6" decay_modes="1" decay_energy="555544.8" reactions="0">
+    <decay type="IT" target="Y91" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y92" half_life="12744.0" decay_modes="1" decay_energy="1701652.9" reactions="0">
+    <decay type="beta-" target="Zr92" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y93" half_life="36648.0" decay_modes="1" decay_energy="1267983.51" reactions="0">
+    <decay type="beta-" target="Zr93" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y93_m1" half_life="0.82" decay_modes="1" decay_energy="758654.63" reactions="0">
+    <decay type="IT" target="Y93" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y94" half_life="1122.0" decay_modes="1" decay_energy="2587308.8" reactions="0">
+    <decay type="beta-" target="Zr94" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y95" half_life="618.0" decay_modes="1" decay_energy="2605544.0" reactions="0">
+    <decay type="beta-" target="Zr95" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Y96" half_life="5.34" decay_modes="1" decay_energy="3285861.87" reactions="0">
+    <decay type="beta-" target="Zr96" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Zr89" half_life="282276.0" decay_modes="2" decay_energy="352556.99" reactions="0">
+    <decay type="ec/beta+" target="Y89" branching_ratio="0.0012281"/>
+    <decay type="ec/beta+" target="Y89_m1" branching_ratio="0.9987719"/>
+  </nuclide>
+  <nuclide name="Zr90" reactions="4">
+    <reaction type="(n,2n)" Q="-11970000.0" target="Zr89"/>
+    <reaction type="(n,gamma)" Q="7194000.0" target="Zr91"/>
+    <reaction type="(n,p)" Q="-1498000.0" target="Y90"/>
+    <reaction type="(n,a)" Q="1756000.0" target="Sr87"/>
+  </nuclide>
+  <nuclide name="Zr90_m1" half_life="0.8092" decay_modes="1" decay_energy="2344863.29" reactions="0">
+    <decay type="IT" target="Zr90" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Zr91" reactions="4">
+    <reaction type="(n,2n)" Q="-7194000.0" target="Zr90"/>
+    <reaction type="(n,gamma)" Q="8635000.0" target="Zr92"/>
+    <reaction type="(n,p)" Q="-763000.0" target="Y91"/>
+    <reaction type="(n,a)" Q="5675000.0" target="Sr88"/>
+  </nuclide>
+  <nuclide name="Zr92" reactions="5">
+    <reaction type="(n,2n)" Q="-8635000.0" target="Zr91"/>
+    <reaction type="(n,3n)" Q="-15829000.0" target="Zr90"/>
+    <reaction type="(n,gamma)" Q="6733000.0" target="Zr93"/>
+    <reaction type="(n,p)" Q="-2858000.0" target="Y92"/>
+    <reaction type="(n,a)" Q="3398000.0" target="Sr89"/>
+  </nuclide>
+  <nuclide name="Zr93" half_life="48283100000000.0" decay_modes="2" decay_energy="19051.25" reactions="5">
+    <decay type="beta-" target="Nb93" branching_ratio="0.025"/>
+    <decay type="beta-" target="Nb93_m1" branching_ratio="0.975"/>
+    <reaction type="(n,2n)" Q="-6733000.0" target="Zr92"/>
+    <reaction type="(n,3n)" Q="-15368000.0" target="Zr91"/>
+    <reaction type="(n,gamma)" Q="8220000.0" target="Zr94"/>
+    <reaction type="(n,p)" Q="-2111000.0" target="Y93"/>
+    <reaction type="(n,a)" Q="4471000.0" target="Sr90"/>
+  </nuclide>
+  <nuclide name="Zr94" reactions="5">
+    <reaction type="(n,2n)" Q="-8220000.0" target="Zr93"/>
+    <reaction type="(n,3n)" Q="-14953000.0" target="Zr92"/>
+    <reaction type="(n,gamma)" Q="6463000.0" target="Zr95"/>
+    <reaction type="(n,p)" Q="-4134000.0" target="Y94"/>
+    <reaction type="(n,a)" Q="2019000.0" target="Sr91"/>
+  </nuclide>
+  <nuclide name="Zr95" half_life="5532365.0" decay_modes="2" decay_energy="850129.6" reactions="5">
+    <decay type="beta-" target="Nb95" branching_ratio="0.9891978"/>
+    <decay type="beta-" target="Nb95_m1" branching_ratio="0.0108022"/>
+    <reaction type="(n,2n)" Q="-6463000.0" target="Zr94"/>
+    <reaction type="(n,3n)" Q="-14683000.0" target="Zr93"/>
+    <reaction type="(n,gamma)" Q="7854000.0" target="Zr96"/>
+    <reaction type="(n,p)" Q="-3672000.0" target="Y95"/>
+    <reaction type="(n,a)" Q="2863000.0" target="Sr92"/>
+  </nuclide>
+  <nuclide name="Zr96" half_life="6.31152e+26" decay_modes="1" decay_energy="1674000.0" reactions="5">
+    <decay type="beta-,beta-" target="Mo96" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7854000.0" target="Zr95"/>
+    <reaction type="(n,3n)" Q="-14317000.0" target="Zr94"/>
+    <reaction type="(n,gamma)" Q="5579000.0" target="Zr97"/>
+    <reaction type="(n,p)" Q="-6318000.0" target="Y96"/>
+    <reaction type="(n,a)" Q="293000.0" target="Sr93"/>
+  </nuclide>
+  <nuclide name="Zr97" half_life="60296.4" decay_modes="2" decay_energy="864261.4" reactions="0">
+    <decay type="beta-" target="Nb97" branching_ratio="0.0495367"/>
+    <decay type="beta-" target="Nb97_m1" branching_ratio="0.9504633"/>
+  </nuclide>
+  <nuclide name="Nb91" half_life="21459200000.0" decay_modes="1" decay_energy="17697.033" reactions="0">
+    <decay type="ec/beta+" target="Zr91" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb91_m1" half_life="5258304.0" decay_modes="2" decay_energy="126340.14" reactions="0">
+    <decay type="ec/beta+" target="Zr91" branching_ratio="0.034"/>
+    <decay type="IT" target="Nb91" branching_ratio="0.966"/>
+  </nuclide>
+  <nuclide name="Nb92" half_life="1095050000000000.0" decay_modes="1" decay_energy="1510708.405" reactions="0">
+    <decay type="ec/beta+" target="Zr92" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb93" reactions="6">
+    <reaction type="(n,2n)" Q="-8833000.0" target="Nb92"/>
+    <reaction type="(n,3n)" Q="-16715000.0" target="Nb91"/>
+    <reaction type="(n,p)" Q="693000.0" target="Zr93"/>
+    <reaction type="(n,a)" Q="4918000.0" target="Y90"/>
+    <reaction type="(n,gamma)" Q="7214000.0" target="Nb94" branching_ratio="0.3101"/>
+    <reaction type="(n,gamma)" Q="7214000.0" target="Nb94_m1" branching_ratio="0.6899"/>
+  </nuclide>
+  <nuclide name="Nb93_m1" half_life="509024100.0" decay_modes="1" decay_energy="29290.888" reactions="0">
+    <decay type="IT" target="Nb93" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb94" half_life="640619000000.0" decay_modes="1" decay_energy="1759923.6" reactions="6">
+    <decay type="beta-" target="Mo94" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7234200.0" target="Nb93"/>
+    <reaction type="(n,3n)" Q="-16071200.0" target="Nb92"/>
+    <reaction type="(n,p)" Q="1679260.0" target="Zr94"/>
+    <reaction type="(n,a)" Q="5636600.0" target="Y91"/>
+    <reaction type="(n,gamma)" Q="8490790.0" target="Nb95" branching_ratio="0.961"/>
+    <reaction type="(n,gamma)" Q="8490790.0" target="Nb95_m1" branching_ratio="0.039"/>
+  </nuclide>
+  <nuclide name="Nb94_m1" half_life="375.78" decay_modes="2" decay_energy="46732.15" reactions="0">
+    <decay type="beta-" target="Mo94" branching_ratio="0.005"/>
+    <decay type="IT" target="Nb94" branching_ratio="0.995"/>
+  </nuclide>
+  <nuclide name="Nb95" half_life="3023222.0" decay_modes="1" decay_energy="809003.9099999999" reactions="5">
+    <decay type="beta-" target="Mo95" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8495490.0" target="Nb94"/>
+    <reaction type="(n,3n)" Q="-15729700.0" target="Nb93"/>
+    <reaction type="(n,gamma)" Q="6892890.0" target="Nb96"/>
+    <reaction type="(n,p)" Q="-340631.0" target="Zr95"/>
+    <reaction type="(n,a)" Q="3689700.0" target="Y92"/>
+  </nuclide>
+  <nuclide name="Nb95_m1" half_life="311904.0" decay_modes="2" decay_energy="249328.32" reactions="0">
+    <decay type="beta-" target="Mo95" branching_ratio="0.056"/>
+    <decay type="IT" target="Nb95" branching_ratio="0.944"/>
+  </nuclide>
+  <nuclide name="Nb96" half_life="84060.0" decay_modes="1" decay_energy="2713979.1" reactions="0">
+    <decay type="beta-" target="Mo96" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb97" half_life="4326.0" decay_modes="1" decay_energy="1133025.1" reactions="0">
+    <decay type="beta-" target="Mo97" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb97_m1" half_life="58.7" decay_modes="1" decay_energy="743360.41" reactions="0">
+    <decay type="IT" target="Nb97" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb98" half_life="2.86" decay_modes="1" decay_energy="2258490.0" reactions="0">
+    <decay type="beta-" target="Mo98" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb99" half_life="15.0" decay_modes="1" decay_energy="1748269.2" reactions="0">
+    <decay type="beta-" target="Mo99" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Nb100" half_life="1.5" decay_modes="1" decay_energy="3260684.0" reactions="0">
+    <decay type="beta-" target="Mo100" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mo91" half_life="929.4" decay_modes="2" decay_energy="2426999.7" reactions="0">
+    <decay type="ec/beta+" target="Nb91" branching_ratio="0.9996578"/>
+    <decay type="ec/beta+" target="Nb91_m1" branching_ratio="0.0003422"/>
+  </nuclide>
+  <nuclide name="Mo92" reactions="5">
+    <reaction type="(n,2n)" Q="-12692100.0" target="Mo91"/>
+    <reaction type="(n,p)" Q="423561.0" target="Nb92"/>
+    <reaction type="(n,a)" Q="3706700.0" target="Zr89"/>
+    <reaction type="(n,gamma)" Q="8067390.0" target="Mo93" branching_ratio="0.9978"/>
+    <reaction type="(n,gamma)" Q="8067390.0" target="Mo93_m1" branching_ratio="0.0022"/>
+  </nuclide>
+  <nuclide name="Mo93" half_life="126230000000.0" decay_modes="2" decay_energy="16142.654" reactions="0">
+    <decay type="ec/beta+" target="Nb93" branching_ratio="0.12"/>
+    <decay type="ec/beta+" target="Nb93_m1" branching_ratio="0.88"/>
+  </nuclide>
+  <nuclide name="Mo93_m1" half_life="24660.0" decay_modes="2" decay_energy="2415812.2" reactions="0">
+    <decay type="ec/beta+" target="Nb93" branching_ratio="0.0012"/>
+    <decay type="IT" target="Mo93" branching_ratio="0.9988"/>
+  </nuclide>
+  <nuclide name="Mo94" reactions="5">
+    <reaction type="(n,2n)" Q="-9672580.0" target="Mo93"/>
+    <reaction type="(n,3n)" Q="-17744900.0" target="Mo92"/>
+    <reaction type="(n,gamma)" Q="7371190.0" target="Mo95"/>
+    <reaction type="(n,p)" Q="-1262740.0" target="Nb94"/>
+    <reaction type="(n,a)" Q="5134390.0" target="Zr91"/>
+  </nuclide>
+  <nuclide name="Mo95" reactions="5">
+    <reaction type="(n,2n)" Q="-7369000.0" target="Mo94"/>
+    <reaction type="(n,3n)" Q="-17046000.0" target="Mo93"/>
+    <reaction type="(n,gamma)" Q="9154000.0" target="Mo96"/>
+    <reaction type="(n,p)" Q="0.0" target="Nb95"/>
+    <reaction type="(n,a)" Q="0.0" target="Zr92"/>
+  </nuclide>
+  <nuclide name="Mo96" reactions="5">
+    <reaction type="(n,2n)" Q="-9154280.0" target="Mo95"/>
+    <reaction type="(n,3n)" Q="-16529400.0" target="Mo94"/>
+    <reaction type="(n,gamma)" Q="6821090.0" target="Mo97"/>
+    <reaction type="(n,p)" Q="-2404430.0" target="Nb96"/>
+    <reaction type="(n,a)" Q="3976000.0" target="Zr93"/>
+  </nuclide>
+  <nuclide name="Mo97" reactions="5">
+    <reaction type="(n,2n)" Q="-6815980.0" target="Mo96"/>
+    <reaction type="(n,3n)" Q="-15970300.0" target="Mo95"/>
+    <reaction type="(n,gamma)" Q="8642290.0" target="Mo98"/>
+    <reaction type="(n,p)" Q="-1150430.0" target="Nb97"/>
+    <reaction type="(n,a)" Q="5373600.0" target="Zr94"/>
+  </nuclide>
+  <nuclide name="Mo98" reactions="5">
+    <reaction type="(n,2n)" Q="-8642380.0" target="Mo97"/>
+    <reaction type="(n,3n)" Q="-15458400.0" target="Mo96"/>
+    <reaction type="(n,gamma)" Q="5925590.0" target="Mo99"/>
+    <reaction type="(n,p)" Q="-3802920.0" target="Nb98"/>
+    <reaction type="(n,a)" Q="3202220.0" target="Zr95"/>
+  </nuclide>
+  <nuclide name="Mo99" half_life="237513.6" decay_modes="2" decay_energy="543174.1000000001" reactions="5">
+    <decay type="beta-" target="Tc99" branching_ratio="0.1211359"/>
+    <decay type="beta-" target="Tc99_m1" branching_ratio="0.8788641"/>
+    <reaction type="(n,2n)" Q="-5930200.0" target="Mo98"/>
+    <reaction type="(n,3n)" Q="-14577200.0" target="Mo97"/>
+    <reaction type="(n,gamma)" Q="8290890.0" target="Mo100"/>
+    <reaction type="(n,p)" Q="-2841030.0" target="Nb99"/>
+    <reaction type="(n,a)" Q="5129400.0" target="Zr96"/>
+  </nuclide>
+  <nuclide name="Mo100" half_life="2.3037e+26" decay_modes="1" decay_energy="1517000.0" reactions="5">
+    <decay type="beta-,beta-" target="Ru100" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8290500.0" target="Mo99"/>
+    <reaction type="(n,3n)" Q="-14217000.0" target="Mo98"/>
+    <reaction type="(n,gamma)" Q="5398200.0" target="Mo101"/>
+    <reaction type="(n,p)" Q="-5474400.0" target="Nb100"/>
+    <reaction type="(n,a)" Q="2410700.0" target="Zr97"/>
+  </nuclide>
+  <nuclide name="Mo101" half_life="876.6" decay_modes="1" decay_energy="1973498.0" reactions="0">
+    <decay type="beta-" target="Tc101" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Mo102" half_life="678.0" decay_modes="1" decay_energy="369428.05" reactions="0">
+    <decay type="beta-" target="Tc102" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tc96" half_life="369792.0" decay_modes="1" decay_energy="2511988.574" reactions="0">
+    <decay type="ec/beta+" target="Mo96" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tc97" half_life="132857000000000.0" decay_modes="1" decay_energy="17587.856" reactions="0">
+    <decay type="ec/beta+" target="Mo97" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tc97_m1" half_life="7862400.0" decay_modes="2" decay_energy="92671.034" reactions="0">
+    <decay type="ec/beta+" target="Mo97" branching_ratio="0.0394"/>
+    <decay type="IT" target="Tc97" branching_ratio="0.9606"/>
+  </nuclide>
+  <nuclide name="Tc98" half_life="132542000000000.0" decay_modes="1" decay_energy="1515759.4" reactions="0">
+    <decay type="beta-" target="Ru98" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tc99" half_life="6661810000000.0" decay_modes="1" decay_energy="55201.871743799995" reactions="5">
+    <decay type="beta-" target="Ru99" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8966000.0" target="Tc98"/>
+    <reaction type="(n,3n)" Q="-16244000.0" target="Tc97"/>
+    <reaction type="(n,gamma)" Q="6764000.0" target="Tc100"/>
+    <reaction type="(n,p)" Q="0.0" target="Mo99"/>
+    <reaction type="(n,a)" Q="0.0" target="Nb96"/>
+  </nuclide>
+  <nuclide name="Tc99_m1" half_life="21624.12" decay_modes="2" decay_energy="142219.16" reactions="0">
+    <decay type="beta-" target="Ru99" branching_ratio="3.7e-05"/>
+    <decay type="IT" target="Tc99" branching_ratio="0.999963"/>
+  </nuclide>
+  <nuclide name="Tc100" half_life="15.46" decay_modes="2" decay_energy="1393638.62" reactions="0">
+    <decay type="beta-" target="Ru100" branching_ratio="0.999982"/>
+    <decay type="ec/beta+" target="Mo100" branching_ratio="1.8e-05"/>
+  </nuclide>
+  <nuclide name="Tc101" half_life="852.0" decay_modes="1" decay_energy="816003.0" reactions="0">
+    <decay type="beta-" target="Ru101" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tc102" half_life="5.28" decay_modes="1" decay_energy="2025959.61" reactions="0">
+    <decay type="beta-" target="Ru102" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tc105" half_life="456.0" decay_modes="1" decay_energy="2589000.0" reactions="0">
+    <decay type="beta-" target="Ru105" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ru95" half_life="5914.8" decay_modes="2" decay_energy="1317538.4" reactions="0">
+    <decay type="ec/beta+" branching_ratio="0.9736547"/>
+    <decay type="ec/beta+" branching_ratio="0.0263453"/>
+  </nuclide>
+  <nuclide name="Ru96" reactions="4">
+    <reaction type="(n,2n)" Q="-10699100.0" target="Ru95"/>
+    <reaction type="(n,gamma)" Q="8066390.0" target="Ru97"/>
+    <reaction type="(n,p)" Q="528458.0" target="Tc96"/>
+    <reaction type="(n,a)" Q="6382200.0" target="Mo93"/>
+  </nuclide>
+  <nuclide name="Ru97" half_life="244512.0" decay_modes="2" decay_energy="253720.54" reactions="0">
+    <decay type="ec/beta+" target="Tc97" branching_ratio="0.9996382"/>
+    <decay type="ec/beta+" target="Tc97_m1" branching_ratio="0.0003618"/>
+  </nuclide>
+  <nuclide name="Ru98" reactions="5">
+    <reaction type="(n,2n)" Q="-10232100.0" target="Ru97"/>
+    <reaction type="(n,3n)" Q="-18303200.0" target="Ru96"/>
+    <reaction type="(n,gamma)" Q="7465190.0" target="Ru99"/>
+    <reaction type="(n,p)" Q="-1009540.0" target="Tc98"/>
+    <reaction type="(n,a)" Q="5140300.0" target="Mo95"/>
+  </nuclide>
+  <nuclide name="Ru99" reactions="5">
+    <reaction type="(n,2n)" Q="-7469900.0" target="Ru98"/>
+    <reaction type="(n,3n)" Q="-17702000.0" target="Ru97"/>
+    <reaction type="(n,gamma)" Q="9673200.0" target="Ru100"/>
+    <reaction type="(n,p)" Q="488861.0" target="Tc99"/>
+    <reaction type="(n,a)" Q="6829300.0" target="Mo96"/>
+  </nuclide>
+  <nuclide name="Ru100" reactions="5">
+    <reaction type="(n,2n)" Q="-9677890.0" target="Ru99"/>
+    <reaction type="(n,3n)" Q="-17147800.0" target="Ru98"/>
+    <reaction type="(n,gamma)" Q="6801390.0" target="Ru101"/>
+    <reaction type="(n,p)" Q="-2420340.0" target="Tc100"/>
+    <reaction type="(n,a)" Q="3977090.0" target="Mo97"/>
+  </nuclide>
+  <nuclide name="Ru101" reactions="5">
+    <reaction type="(n,2n)" Q="-6802000.0" target="Ru100"/>
+    <reaction type="(n,3n)" Q="-16475000.0" target="Ru99"/>
+    <reaction type="(n,gamma)" Q="9219000.0" target="Ru102"/>
+    <reaction type="(n,p)" Q="0.0" target="Tc101"/>
+    <reaction type="(n,a)" Q="0.0" target="Mo98"/>
+  </nuclide>
+  <nuclide name="Ru102" reactions="5">
+    <reaction type="(n,2n)" Q="-9220600.0" target="Ru101"/>
+    <reaction type="(n,3n)" Q="-16022000.0" target="Ru100"/>
+    <reaction type="(n,gamma)" Q="6232400.0" target="Ru103"/>
+    <reaction type="(n,p)" Q="-3747500.0" target="Tc102"/>
+    <reaction type="(n,a)" Q="2651360.0" target="Mo99"/>
+  </nuclide>
+  <nuclide name="Ru103" half_life="3390941.0" decay_modes="2" decay_energy="562233.03" reactions="5">
+    <decay type="beta-" branching_ratio="0.011741"/>
+    <decay type="beta-" branching_ratio="0.988259"/>
+    <reaction type="(n,2n)" Q="-6232400.0" target="Ru102"/>
+    <reaction type="(n,3n)" Q="-15453000.0" target="Ru101"/>
+    <reaction type="(n,gamma)" Q="8903900.0" target="Ru104"/>
+    <reaction type="(n,p)" Q="-1877100.0"/>
+    <reaction type="(n,a)" Q="4572300.0" target="Mo100"/>
+  </nuclide>
+  <nuclide name="Ru104" reactions="5">
+    <reaction type="(n,2n)" Q="-8903900.0" target="Ru103"/>
+    <reaction type="(n,3n)" Q="-15136000.0" target="Ru102"/>
+    <reaction type="(n,gamma)" Q="5910100.0" target="Ru105"/>
+    <reaction type="(n,p)" Q="-4820500.0"/>
+    <reaction type="(n,a)" Q="1130960.0" target="Mo101"/>
+  </nuclide>
+  <nuclide name="Ru105" half_life="15984.0" decay_modes="2" decay_energy="1152153.7" reactions="5">
+    <decay type="beta-" target="Rh105" branching_ratio="0.7165613"/>
+    <decay type="beta-" target="Rh105_m1" branching_ratio="0.2834387"/>
+    <reaction type="(n,2n)" Q="-5910100.0" target="Ru104"/>
+    <reaction type="(n,3n)" Q="-14814000.0" target="Ru103"/>
+    <reaction type="(n,gamma)" Q="8465200.0" target="Ru106"/>
+    <reaction type="(n,p)" Q="-2799200.0" target="Tc105"/>
+    <reaction type="(n,a)" Q="3273800.0" target="Mo102"/>
+  </nuclide>
+  <nuclide name="Ru106" half_life="32123520.0" decay_modes="1" decay_energy="10030.0" reactions="5">
+    <decay type="beta-" target="Rh106" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8471090.0" target="Ru105"/>
+    <reaction type="(n,3n)" Q="-14386200.0" target="Ru104"/>
+    <reaction type="(n,gamma)" Q="5448390.0" target="Ru107"/>
+    <reaction type="(n,p)" Q="-5520520.0"/>
+    <reaction type="(n,a)" Q="-68781.9"/>
+  </nuclide>
+  <nuclide name="Ru107" half_life="225.0" decay_modes="1" decay_energy="1410192.8" reactions="0">
+    <decay type="beta-" target="Rh107" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rh105" half_life="127296.0" decay_modes="1" decay_energy="231588.22" reactions="6">
+    <decay type="beta-" target="Pd105" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8968200.0"/>
+    <reaction type="(n,3n)" Q="-15967000.0"/>
+    <reaction type="(n,p)" Q="-1134700.0" target="Ru105"/>
+    <reaction type="(n,a)" Q="2366600.0" target="Tc102"/>
+    <reaction type="(n,gamma)" Q="6587300.0" target="Rh106" branching_ratio="0.904"/>
+    <reaction type="(n,gamma)" Q="6587300.0" branching_ratio="0.096"/>
+  </nuclide>
+  <nuclide name="Rh105_m1" half_life="40.0" decay_modes="1" decay_energy="129225.66" reactions="0">
+    <decay type="IT" target="Rh105" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rh106" half_life="30.07" decay_modes="1" decay_energy="1619498.5" reactions="0">
+    <decay type="beta-" target="Pd106" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rh107" half_life="1302.0" decay_modes="1" decay_energy="749942.7" reactions="0">
+    <decay type="beta-" target="Pd107" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rh108" half_life="16.8" decay_modes="1" decay_energy="2161007.2" reactions="0">
+    <decay type="beta-" target="Pd108" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Rh110" half_life="3.2" decay_modes="1" decay_energy="2443222.3" reactions="0">
+    <decay type="beta-" target="Pd110" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pd103" half_life="1468022.0" decay_modes="2" decay_energy="20214.371" reactions="0">
+    <decay type="ec/beta+" branching_ratio="0.0007523"/>
+    <decay type="ec/beta+" branching_ratio="0.9992477"/>
+  </nuclide>
+  <nuclide name="Pd104" reactions="6">
+    <reaction type="(n,2n)" Q="-9993380.0" target="Pd103"/>
+    <reaction type="(n,3n)" Q="-17617800.0"/>
+    <reaction type="(n,4n)" Q="-28177100.0"/>
+    <reaction type="(n,gamma)" Q="7094380.0" target="Pd105"/>
+    <reaction type="(n,p)" Q="-1658649.0"/>
+    <reaction type="(n,a)" Q="4203870.0" target="Ru101"/>
+  </nuclide>
+  <nuclide name="Pd105" reactions="5">
+    <reaction type="(n,2n)" Q="-7094000.0" target="Pd104"/>
+    <reaction type="(n,3n)" Q="-17077000.0" target="Pd103"/>
+    <reaction type="(n,gamma)" Q="9562000.0" target="Pd106"/>
+    <reaction type="(n,p)" Q="0.0" target="Rh105"/>
+    <reaction type="(n,a)" Q="0.0" target="Ru102"/>
+  </nuclide>
+  <nuclide name="Pd106" reactions="7">
+    <reaction type="(n,2n)" Q="-9562380.0" target="Pd105"/>
+    <reaction type="(n,3n)" Q="-16656800.0" target="Pd104"/>
+    <reaction type="(n,4n)" Q="-26650100.0" target="Pd103"/>
+    <reaction type="(n,p)" Q="-2759649.0" target="Rh106"/>
+    <reaction type="(n,a)" Q="2999870.0" target="Ru103"/>
+    <reaction type="(n,gamma)" Q="6538380.0" target="Pd107" branching_ratio="0.9527"/>
+    <reaction type="(n,gamma)" Q="6538380.0" target="Pd107_m1" branching_ratio="0.0473"/>
+  </nuclide>
+  <nuclide name="Pd107" half_life="205124000000000.0" decay_modes="1" decay_energy="9870.0" reactions="5">
+    <decay type="beta-" target="Ag107" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-6534100.0" target="Pd106"/>
+    <reaction type="(n,3n)" Q="-16101200.0" target="Pd105"/>
+    <reaction type="(n,gamma)" Q="9223390.0" target="Pd108"/>
+    <reaction type="(n,p)" Q="-728534.0" target="Rh107"/>
+    <reaction type="(n,a)" Q="5382200.0" target="Ru104"/>
+  </nuclide>
+  <nuclide name="Pd107_m1" half_life="21.3" decay_modes="1" decay_energy="215336.91999999998" reactions="0">
+    <decay type="IT" target="Pd107" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pd108" reactions="7">
+    <reaction type="(n,2n)" Q="-9220380.0" target="Pd107"/>
+    <reaction type="(n,3n)" Q="-15758800.0" target="Pd106"/>
+    <reaction type="(n,4n)" Q="-25321100.0" target="Pd105"/>
+    <reaction type="(n,p)" Q="-3660649.0" target="Rh108"/>
+    <reaction type="(n,a)" Q="2055470.0" target="Ru105"/>
+    <reaction type="(n,gamma)" Q="6153380.0" target="Pd109" branching_ratio="0.9779"/>
+    <reaction type="(n,gamma)" Q="6153380.0" target="Pd109_m1" branching_ratio="0.0221"/>
+  </nuclide>
+  <nuclide name="Pd109" half_life="49324.32" decay_modes="2" decay_energy="361438.32899999997" reactions="0">
+    <decay type="beta-" target="Ag109" branching_ratio="0.0004846"/>
+    <decay type="beta-" target="Ag109_m1" branching_ratio="0.9995154"/>
+  </nuclide>
+  <nuclide name="Pd109_m1" half_life="281.4" decay_modes="1" decay_energy="188139.77000000002" reactions="0">
+    <decay type="IT" target="Pd109" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pd110" reactions="7">
+    <reaction type="(n,2n)" Q="-8811380.0" target="Pd109"/>
+    <reaction type="(n,3n)" Q="-14964800.0" target="Pd108"/>
+    <reaction type="(n,4n)" Q="-24185100.0" target="Pd107"/>
+    <reaction type="(n,p)" Q="-4622650.0" target="Rh110"/>
+    <reaction type="(n,a)" Q="1011470.0" target="Ru107"/>
+    <reaction type="(n,gamma)" Q="5756380.0" target="Pd111" branching_ratio="0.85"/>
+    <reaction type="(n,gamma)" Q="5756380.0" target="Pd111_m1" branching_ratio="0.15"/>
+  </nuclide>
+  <nuclide name="Pd111" half_life="1404.0" decay_modes="2" decay_energy="879089.3300000001" reactions="0">
+    <decay type="beta-" target="Ag111" branching_ratio="0.0070304"/>
+    <decay type="beta-" target="Ag111_m1" branching_ratio="0.9929696"/>
+  </nuclide>
+  <nuclide name="Pd111_m1" half_life="19800.0" decay_modes="3" decay_energy="565000.0" reactions="0">
+    <decay type="beta-" target="Ag111" branching_ratio="0.0789123"/>
+    <decay type="beta-" target="Ag111_m1" branching_ratio="0.1910876"/>
+    <decay type="IT" target="Pd111" branching_ratio="0.7300001"/>
+  </nuclide>
+  <nuclide name="Pd112" half_life="75708.0" decay_modes="1" decay_energy="85156.939" reactions="0">
+    <decay type="beta-" target="Ag112" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pd113" half_life="93.0" decay_modes="2" decay_energy="1486390.0" reactions="0">
+    <decay type="beta-" target="Ag113" branching_ratio="0.0424257"/>
+    <decay type="beta-" target="Ag113_m1" branching_ratio="0.9575743"/>
+  </nuclide>
+  <nuclide name="Ag107" reactions="6">
+    <reaction type="(n,2n)" Q="-9546690.0"/>
+    <reaction type="(n,3n)" Q="-17472000.0"/>
+    <reaction type="(n,p)" Q="749499.0" target="Pd107"/>
+    <reaction type="(n,a)" Q="4194690.0"/>
+    <reaction type="(n,gamma)" Q="7269690.0" target="Ag108" branching_ratio="0.9898"/>
+    <reaction type="(n,gamma)" Q="7269690.0" branching_ratio="0.0102"/>
+  </nuclide>
+  <nuclide name="Ag108" half_life="142.92" decay_modes="2" decay_energy="626480.5299999999" reactions="0">
+    <decay type="ec/beta+" target="Pd108" branching_ratio="0.0285"/>
+    <decay type="beta-" target="Cd108" branching_ratio="0.9715"/>
+  </nuclide>
+  <nuclide name="Ag109" reactions="6">
+    <reaction type="(n,2n)" Q="-9187000.0" target="Ag108"/>
+    <reaction type="(n,3n)" Q="-16457000.0" target="Ag107"/>
+    <reaction type="(n,p)" Q="0.0" target="Pd109"/>
+    <reaction type="(n,a)" Q="0.0" target="Rh106"/>
+    <reaction type="(n,gamma)" Q="6809000.0" target="Ag110" branching_ratio="0.954"/>
+    <reaction type="(n,gamma)" Q="6809000.0" target="Ag110_m1" branching_ratio="0.046"/>
+  </nuclide>
+  <nuclide name="Ag109_m1" half_life="39.6" decay_modes="1" decay_energy="87026.32999999999" reactions="0">
+    <decay type="IT" target="Ag109" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ag110" half_life="24.6" decay_modes="2" decay_energy="1208712.07" reactions="0">
+    <decay type="beta-" target="Cd110" branching_ratio="0.997"/>
+    <decay type="ec/beta+" target="Pd110" branching_ratio="0.003"/>
+  </nuclide>
+  <nuclide name="Ag110_m1" half_life="21579260.0" decay_modes="2" decay_energy="2834732.4" reactions="5">
+    <decay type="beta-" target="Cd110" branching_ratio="0.9864"/>
+    <decay type="IT" target="Ag110" branching_ratio="0.0136"/>
+    <reaction type="(n,2n)" Q="-6810090.0" target="Ag109"/>
+    <reaction type="(n,3n)" Q="-16006200.0" target="Ag108"/>
+    <reaction type="(n,gamma)" Q="8841390.0" target="Ag111"/>
+    <reaction type="(n,p)" Q="1661460.0" target="Pd110"/>
+    <reaction type="(n,a)" Q="5058200.0" target="Rh107"/>
+  </nuclide>
+  <nuclide name="Ag111" half_life="643680.0" decay_modes="1" decay_energy="377372.8" reactions="5">
+    <decay type="beta-" target="Cd111" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8830000.0" target="Ag110"/>
+    <reaction type="(n,3n)" Q="-15639000.0" target="Ag109"/>
+    <reaction type="(n,gamma)" Q="6479000.0" target="Ag112"/>
+    <reaction type="(n,p)" Q="0.0" target="Pd111"/>
+    <reaction type="(n,a)" Q="0.0" target="Rh108"/>
+  </nuclide>
+  <nuclide name="Ag111_m1" half_life="64.8" decay_modes="2" decay_energy="63282.547000000006" reactions="0">
+    <decay type="beta-" target="Cd111" branching_ratio="0.007"/>
+    <decay type="IT" target="Ag111" branching_ratio="0.993"/>
+  </nuclide>
+  <nuclide name="Ag112" half_life="11268.0" decay_modes="1" decay_energy="2109537.5" reactions="0">
+    <decay type="beta-" target="Cd112" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ag113" half_life="19332.0" decay_modes="2" decay_energy="835728.72" reactions="0">
+    <decay type="beta-" target="Cd113" branching_ratio="0.9826357"/>
+    <decay type="beta-" target="Cd113_m1" branching_ratio="0.0173643"/>
+  </nuclide>
+  <nuclide name="Ag113_m1" half_life="68.7" decay_modes="2" decay_energy="429591.1" reactions="0">
+    <decay type="beta-" target="Cd113" branching_ratio="0.36"/>
+    <decay type="IT" target="Ag113" branching_ratio="0.64"/>
+  </nuclide>
+  <nuclide name="Ag114" half_life="4.6" decay_modes="1" decay_energy="2408864.6" reactions="0">
+    <decay type="beta-" target="Cd114" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Ag115" half_life="1200.0" decay_modes="2" decay_energy="1533629.0" reactions="0">
+    <decay type="beta-" target="Cd115" branching_ratio="0.9424104"/>
+    <decay type="beta-" target="Cd115_m1" branching_ratio="0.0575896"/>
+  </nuclide>
+  <nuclide name="Ag116" half_life="237.0" decay_modes="1" decay_energy="3700936.0" reactions="0">
+    <decay type="beta-" target="Cd116" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cd106" reactions="5">
+    <reaction type="(n,2n)" Q="-10871100.0"/>
+    <reaction type="(n,3n)" Q="-19433200.0"/>
+    <reaction type="(n,gamma)" Q="7927390.0" target="Cd107"/>
+    <reaction type="(n,p)" Q="580454.0"/>
+    <reaction type="(n,a)" Q="6001190.0" target="Pd103"/>
+  </nuclide>
+  <nuclide name="Cd107" half_life="23400.0" decay_modes="2" decay_energy="27058.839" reactions="0">
+    <decay type="ec/beta+" target="Ag107" branching_ratio="0.000638"/>
+    <decay type="ec/beta+" branching_ratio="0.999362"/>
+  </nuclide>
+  <nuclide name="Cd108" reactions="5">
+    <reaction type="(n,2n)" Q="-10334000.0" target="Cd107"/>
+    <reaction type="(n,3n)" Q="-18261000.0" target="Cd106"/>
+    <reaction type="(n,gamma)" Q="7330004.0" target="Cd109"/>
+    <reaction type="(n,p)" Q="-866000.3" target="Ag108"/>
+    <reaction type="(n,a)" Q="4863002.0" target="Pd105"/>
+  </nuclide>
+  <nuclide name="Cd109" half_life="39864960.0" decay_modes="1" decay_energy="21102.392" reactions="0">
+    <decay type="ec/beta+" target="Ag109_m1" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cd110" reactions="6">
+    <reaction type="(n,2n)" Q="-9880304.0" target="Cd109"/>
+    <reaction type="(n,3n)" Q="-17243000.0" target="Cd108"/>
+    <reaction type="(n,p)" Q="-2110800.0" target="Ag110"/>
+    <reaction type="(n,a)" Q="3701002.0" target="Pd107"/>
+    <reaction type="(n,gamma)" Q="6976804.0" target="Cd111" branching_ratio="0.9945"/>
+    <reaction type="(n,gamma)" Q="6976804.0" target="Cd111_m1" branching_ratio="0.0055"/>
+  </nuclide>
+  <nuclide name="Cd111" reactions="5">
+    <reaction type="(n,2n)" Q="-6981100.0" target="Cd110"/>
+    <reaction type="(n,3n)" Q="-16866200.0" target="Cd109"/>
+    <reaction type="(n,gamma)" Q="9395290.0" target="Cd112"/>
+    <reaction type="(n,p)" Q="-245534.0" target="Ag111"/>
+    <reaction type="(n,a)" Q="5923190.0" target="Pd108"/>
+  </nuclide>
+  <nuclide name="Cd111_m1" half_life="2912.4" decay_modes="1" decay_energy="388800.10000000003" reactions="0">
+    <decay type="IT" target="Cd111" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cd112" reactions="6">
+    <reaction type="(n,2n)" Q="-9397104.0" target="Cd111"/>
+    <reaction type="(n,3n)" Q="-16374000.0" target="Cd110"/>
+    <reaction type="(n,p)" Q="-3176002.0" target="Ag112"/>
+    <reaction type="(n,a)" Q="2698002.0" target="Pd109"/>
+    <reaction type="(n,gamma)" Q="6539802.0" target="Cd113" branching_ratio="0.8685"/>
+    <reaction type="(n,gamma)" Q="6539802.0" target="Cd113_m1" branching_ratio="0.1315"/>
+  </nuclide>
+  <nuclide name="Cd113" half_life="2.53723e+23" decay_modes="1" decay_energy="92620.0" reactions="5">
+    <decay type="beta-" target="In113" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-6539801.0" target="Cd112"/>
+    <reaction type="(n,3n)" Q="-15938000.0" target="Cd111"/>
+    <reaction type="(n,gamma)" Q="9042701.0" target="Cd114"/>
+    <reaction type="(n,p)" Q="-1226900.0" target="Ag113"/>
+    <reaction type="(n,a)" Q="4942101.0" target="Pd110"/>
+  </nuclide>
+  <nuclide name="Cd113_m1" half_life="444962200.0" decay_modes="2" decay_energy="185726.03165" reactions="0">
+    <decay type="beta-" target="In113" branching_ratio="0.9986"/>
+    <decay type="IT" target="Cd113" branching_ratio="0.0014"/>
+  </nuclide>
+  <nuclide name="Cd114" reactions="6">
+    <reaction type="(n,2n)" Q="-9040700.0" target="Cd113"/>
+    <reaction type="(n,3n)" Q="-15583000.0" target="Cd112"/>
+    <reaction type="(n,p)" Q="-4077000.0" target="Ag114"/>
+    <reaction type="(n,a)" Q="1671500.0" target="Pd111"/>
+    <reaction type="(n,gamma)" Q="6148000.0" target="Cd115" branching_ratio="0.8812"/>
+    <reaction type="(n,gamma)" Q="6148000.0" target="Cd115_m1" branching_ratio="0.1188"/>
+  </nuclide>
+  <nuclide name="Cd115" half_life="192456.0" decay_modes="2" decay_energy="511232.10000000003" reactions="0">
+    <decay type="beta-" target="In115" branching_ratio="7e-07"/>
+    <decay type="beta-" target="In115_m1" branching_ratio="0.9999993"/>
+  </nuclide>
+  <nuclide name="Cd115_m1" half_life="3849984.0" decay_modes="2" decay_energy="637353.08" reactions="5">
+    <decay type="beta-" target="In115" branching_ratio="0.9998942"/>
+    <decay type="beta-" target="In115_m1" branching_ratio="0.0001058"/>
+    <reaction type="(n,2n)" Q="-5960000.0" target="Cd114"/>
+    <reaction type="(n,3n)" Q="-15002000.0" target="Cd113"/>
+    <reaction type="(n,gamma)" Q="8881000.0" target="Cd116"/>
+    <reaction type="(n,p)" Q="0.0" target="Ag115"/>
+    <reaction type="(n,a)" Q="0.0" target="Pd112"/>
+  </nuclide>
+  <nuclide name="Cd116" half_life="9.78286e+26" decay_modes="1" decay_energy="1404355.0" reactions="6">
+    <decay type="beta-,beta-" target="Sn116" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8697000.0" target="Cd115"/>
+    <reaction type="(n,3n)" Q="-14842000.0" target="Cd114"/>
+    <reaction type="(n,p)" Q="-5316000.0" target="Ag116"/>
+    <reaction type="(n,a)" Q="572900.0" target="Pd113"/>
+    <reaction type="(n,gamma)" Q="5765000.0" target="Cd117" branching_ratio="0.666"/>
+    <reaction type="(n,gamma)" Q="5765000.0" target="Cd117_m1" branching_ratio="0.334"/>
+  </nuclide>
+  <nuclide name="Cd117" half_life="8964.0" decay_modes="2" decay_energy="1507766.7" reactions="0">
+    <decay type="beta-" target="In117" branching_ratio="0.0834207"/>
+    <decay type="beta-" target="In117_m1" branching_ratio="0.9165793"/>
+  </nuclide>
+  <nuclide name="Cd117_m1" half_life="12096.0" decay_modes="2" decay_energy="2239789.3" reactions="0">
+    <decay type="beta-" target="In117" branching_ratio="0.9900627"/>
+    <decay type="beta-" target="In117_m1" branching_ratio="0.0099373"/>
+  </nuclide>
+  <nuclide name="Cd119" half_life="161.4" decay_modes="2" decay_energy="2277114.7" reactions="0">
+    <decay type="beta-" target="In119" branching_ratio="0.0972575"/>
+    <decay type="beta-" target="In119_m1" branching_ratio="0.9027425"/>
+  </nuclide>
+  <nuclide name="Cd120" half_life="50.8" decay_modes="1" decay_energy="681000.0" reactions="0">
+    <decay type="beta-" target="In120" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cd121" half_life="13.5" decay_modes="2" decay_energy="2868809.0" reactions="0">
+    <decay type="beta-" target="In121" branching_ratio="0.3256421"/>
+    <decay type="beta-" target="In121_m1" branching_ratio="0.6743579"/>
+  </nuclide>
+  <nuclide name="Cd122" half_life="5.24" decay_modes="1" decay_energy="1229000.0" reactions="0">
+    <decay type="beta-" target="In122" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Cd123" half_life="2.1" decay_modes="2" decay_energy="3661009.0" reactions="0">
+    <decay type="beta-" target="In123" branching_ratio="0.3097548"/>
+    <decay type="beta-" target="In123_m1" branching_ratio="0.6902452"/>
+  </nuclide>
+  <nuclide name="In110_m1" half_life="4146.0" decay_modes="1" decay_energy="2188252.2" reactions="0">
+    <decay type="ec/beta+" target="Cd110" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="In111" half_life="242326.1" decay_modes="2" decay_energy="439570.66000000003" reactions="0">
+    <decay type="ec/beta+" target="Cd111" branching_ratio="0.99995"/>
+    <decay type="ec/beta+" target="Cd111_m1" branching_ratio="5e-05"/>
+  </nuclide>
+  <nuclide name="In112" half_life="898.2" decay_modes="2" decay_energy="507102.1" reactions="0">
+    <decay type="ec/beta+" target="Cd112" branching_ratio="0.56"/>
+    <decay type="beta-" target="Sn112" branching_ratio="0.44"/>
+  </nuclide>
+  <nuclide name="In113" reactions="6">
+    <reaction type="(n,2n)" Q="-9448090.0" target="In112"/>
+    <reaction type="(n,3n)" Q="-17119200.0" target="In111"/>
+    <reaction type="(n,p)" Q="460756.0" target="Cd113"/>
+    <reaction type="(n,a)" Q="3738190.0" target="Ag110"/>
+    <reaction type="(n,gamma)" Q="7275390.0" target="In114" branching_ratio="0.4191"/>
+    <reaction type="(n,gamma)" Q="7275390.0" target="In114_m1" branching_ratio="0.5809"/>
+  </nuclide>
+  <nuclide name="In113_m1" half_life="5968.56" decay_modes="1" decay_energy="391593.8" reactions="0">
+    <decay type="IT" target="In113" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="In114" half_life="71.9" decay_modes="2" decay_energy="776072.255" reactions="0">
+    <decay type="beta-" target="Sn114" branching_ratio="0.995"/>
+    <decay type="ec/beta+" target="Cd114" branching_ratio="0.005"/>
+  </nuclide>
+  <nuclide name="In114_m1" half_life="4277664.0" decay_modes="2" decay_energy="222767.83" reactions="0">
+    <decay type="ec/beta+" target="Cd114" branching_ratio="0.0325"/>
+    <decay type="IT" target="In114" branching_ratio="0.9675"/>
+  </nuclide>
+  <nuclide name="In115" half_life="1.39169e+22" decay_modes="1" decay_energy="154000.0" reactions="5">
+    <decay type="beta-" target="Sn115" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-9041100.0" target="In114"/>
+    <reaction type="(n,3n)" Q="-16321200.0" target="In113"/>
+    <reaction type="(n,gamma)" Q="6783390.0" target="In116"/>
+    <reaction type="(n,p)" Q="-665537.0" target="Cd115"/>
+    <reaction type="(n,a)" Q="2733210.0" target="Ag112"/>
+  </nuclide>
+  <nuclide name="In115_m1" half_life="16149.6" decay_modes="2" decay_energy="334359.2" reactions="0">
+    <decay type="beta-" target="Sn115" branching_ratio="0.05"/>
+    <decay type="IT" target="In115" branching_ratio="0.95"/>
+  </nuclide>
+  <nuclide name="In116" half_life="14.1" decay_modes="2" decay_energy="1385548.77" reactions="0">
+    <decay type="beta-" target="Sn116" branching_ratio="0.99977"/>
+    <decay type="ec/beta+" target="Cd116" branching_ratio="0.00023"/>
+  </nuclide>
+  <nuclide name="In117" half_life="2592.0" decay_modes="2" decay_energy="957459.6" reactions="0">
+    <decay type="beta-" target="Sn117" branching_ratio="0.9964915"/>
+    <decay type="beta-" target="Sn117_m1" branching_ratio="0.0035085"/>
+  </nuclide>
+  <nuclide name="In117_m1" half_life="6972.0" decay_modes="2" decay_energy="524578.14" reactions="0">
+    <decay type="beta-" target="Sn117" branching_ratio="0.529"/>
+    <decay type="IT" target="In117" branching_ratio="0.471"/>
+  </nuclide>
+  <nuclide name="In118" half_life="5.0" decay_modes="1" decay_energy="1958094.37" reactions="0">
+    <decay type="beta-" target="Sn118" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="In119" half_life="144.0" decay_modes="2" decay_energy="1346873.8" reactions="0">
+    <decay type="beta-" target="Sn119" branching_ratio="0.9257886"/>
+    <decay type="beta-" target="Sn119_m1" branching_ratio="0.07421140000000004"/>
+  </nuclide>
+  <nuclide name="In119_m1" half_life="1080.0" decay_modes="2" decay_energy="1055599.17" reactions="0">
+    <decay type="beta-" target="Sn119" branching_ratio="0.956"/>
+    <decay type="IT" target="In119" branching_ratio="0.044"/>
+  </nuclide>
+  <nuclide name="In120" half_life="3.08" decay_modes="1" decay_energy="2500680.0" reactions="0">
+    <decay type="beta-" target="Sn120" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="In121" half_life="23.1" decay_modes="2" decay_energy="1909266.0" reactions="0">
+    <decay type="beta-" target="Sn121" branching_ratio="0.8864807"/>
+    <decay type="beta-" target="Sn121_m1" branching_ratio="0.1135193"/>
+  </nuclide>
+  <nuclide name="In121_m1" half_life="232.8" decay_modes="2" decay_energy="1580541.6" reactions="0">
+    <decay type="beta-" target="Sn121" branching_ratio="0.988"/>
+    <decay type="IT" target="In121" branching_ratio="0.012"/>
+  </nuclide>
+  <nuclide name="In122" half_life="1.5" decay_modes="1" decay_energy="3163151.7" reactions="0">
+    <decay type="beta-" target="Sn122" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="In123" half_life="6.17" decay_modes="2" decay_energy="2416612.0" reactions="0">
+    <decay type="beta-" target="Sn123" branching_ratio="0.0323334"/>
+    <decay type="beta-" target="Sn123_m1" branching_ratio="0.9676666"/>
+  </nuclide>
+  <nuclide name="In123_m1" half_life="47.4" decay_modes="1" decay_energy="2073038.69" reactions="0">
+    <decay type="beta-" target="Sn123_m1" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="In124" half_life="3.12" decay_modes="1" decay_energy="4702781.0" reactions="0">
+    <decay type="beta-" target="Sn124" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="In125" half_life="2.36" decay_modes="2" decay_energy="3050588.0" reactions="0">
+    <decay type="beta-" target="Sn125" branching_ratio="0.1869045"/>
+    <decay type="beta-" target="Sn125_m1" branching_ratio="0.8130955"/>
+  </nuclide>
+  <nuclide name="In126" half_life="1.53" decay_modes="1" decay_energy="5164000.0" reactions="0">
+    <decay type="beta-" target="Sn126" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn110" half_life="14796.0" decay_modes="1" decay_energy="304090.81" reactions="0">
+    <decay type="ec/beta+" target="In110_m1" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn111" half_life="2118.0" decay_modes="1" decay_energy="1634549.4" reactions="0">
+    <decay type="ec/beta+" target="In111" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn112" reactions="6">
+    <reaction type="(n,2n)" Q="-10793100.0" target="Sn111"/>
+    <reaction type="(n,3n)" Q="-18976200.0" target="Sn110"/>
+    <reaction type="(n,p)" Q="124467.0" target="In112"/>
+    <reaction type="(n,a)" Q="5536200.0" target="Cd109"/>
+    <reaction type="(n,gamma)" Q="7745390.0" target="Sn113" branching_ratio="0.7253"/>
+    <reaction type="(n,gamma)" Q="7745390.0" target="Sn113_m1" branching_ratio="0.2747"/>
+  </nuclide>
+  <nuclide name="Sn113" half_life="9943776.0" decay_modes="1" decay_energy="29753.493" reactions="5">
+    <decay type="ec/beta+" target="In113_m1" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7742000.0" target="Sn112"/>
+    <reaction type="(n,3n)" Q="-18528000.0" target="Sn111"/>
+    <reaction type="(n,gamma)" Q="10299000.0" target="Sn114"/>
+    <reaction type="(n,p)" Q="0.0" target="In113"/>
+    <reaction type="(n,a)" Q="0.0" target="Cd110"/>
+  </nuclide>
+  <nuclide name="Sn113_m1" half_life="1284.0" decay_modes="2" decay_energy="71749.2" reactions="0">
+    <decay type="ec/beta+" target="In113" branching_ratio="0.089"/>
+    <decay type="IT" target="Sn113" branching_ratio="0.911"/>
+  </nuclide>
+  <nuclide name="Sn114" reactions="5">
+    <reaction type="(n,2n)" Q="-10304100.0" target="Sn113"/>
+    <reaction type="(n,3n)" Q="-18054200.0" target="Sn112"/>
+    <reaction type="(n,gamma)" Q="7546590.0" target="Sn115"/>
+    <reaction type="(n,p)" Q="-1201540.0" target="In114"/>
+    <reaction type="(n,a)" Q="4348190.0" target="Cd111"/>
+  </nuclide>
+  <nuclide name="Sn115" reactions="5">
+    <reaction type="(n,2n)" Q="-7551190.0" target="Sn114"/>
+    <reaction type="(n,3n)" Q="-17855300.0" target="Sn113"/>
+    <reaction type="(n,gamma)" Q="9562390.0" target="Sn116"/>
+    <reaction type="(n,p)" Q="288364.0" target="In115"/>
+    <reaction type="(n,a)" Q="6197000.0" target="Cd112"/>
+  </nuclide>
+  <nuclide name="Sn116" reactions="6">
+    <reaction type="(n,2n)" Q="-9567090.0" target="Sn115"/>
+    <reaction type="(n,3n)" Q="-17118300.0" target="Sn114"/>
+    <reaction type="(n,p)" Q="-2490640.0" target="In116"/>
+    <reaction type="(n,a)" Q="3178410.0" target="Cd113"/>
+    <reaction type="(n,gamma)" Q="6944190.0" target="Sn117" branching_ratio="0.9568"/>
+    <reaction type="(n,gamma)" Q="6944190.0" target="Sn117_m1" branching_ratio="0.0432"/>
+  </nuclide>
+  <nuclide name="Sn117" reactions="5">
+    <reaction type="(n,2n)" Q="-6948900.0" target="Sn116"/>
+    <reaction type="(n,3n)" Q="-16516000.0" target="Sn115"/>
+    <reaction type="(n,gamma)" Q="9326190.0" target="Sn118"/>
+    <reaction type="(n,p)" Q="-672430.0" target="In117"/>
+    <reaction type="(n,a)" Q="5274900.0" target="Cd114"/>
+  </nuclide>
+  <nuclide name="Sn117_m1" half_life="1175040.0" decay_modes="1" decay_energy="315631.9" reactions="0">
+    <decay type="IT" target="Sn117" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn118" reactions="6">
+    <reaction type="(n,2n)" Q="-9330800.0" target="Sn117"/>
+    <reaction type="(n,3n)" Q="-16279700.0" target="Sn116"/>
+    <reaction type="(n,p)" Q="-3421130.0" target="In118"/>
+    <reaction type="(n,a)" Q="2093610.0" target="Cd115"/>
+    <reaction type="(n,gamma)" Q="6484490.0" target="Sn119" branching_ratio="0.9794"/>
+    <reaction type="(n,gamma)" Q="6484490.0" target="Sn119_m1" branching_ratio="0.0206"/>
+  </nuclide>
+  <nuclide name="Sn119" reactions="5">
+    <reaction type="(n,2n)" Q="-6489190.0" target="Sn118"/>
+    <reaction type="(n,3n)" Q="-15820000.0" target="Sn117"/>
+    <reaction type="(n,gamma)" Q="9106590.0" target="Sn120"/>
+    <reaction type="(n,p)" Q="-1554240.0" target="In119"/>
+    <reaction type="(n,a)" Q="4305100.0" target="Cd116"/>
+  </nuclide>
+  <nuclide name="Sn119_m1" half_life="25315200.0" decay_modes="1" decay_energy="87589.18" reactions="0">
+    <decay type="IT" target="Sn119" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn120" reactions="6">
+    <reaction type="(n,2n)" Q="-9111200.0" target="Sn119"/>
+    <reaction type="(n,3n)" Q="-15600400.0" target="Sn118"/>
+    <reaction type="(n,p)" Q="-4619320.0" target="In120"/>
+    <reaction type="(n,a)" Q="968414.0" target="Cd117"/>
+    <reaction type="(n,gamma)" Q="6171390.0" target="Sn121" branching_ratio="0.9875"/>
+    <reaction type="(n,gamma)" Q="6171390.0" target="Sn121_m1" branching_ratio="0.0125"/>
+  </nuclide>
+  <nuclide name="Sn121" half_life="97308.0" decay_modes="1" decay_energy="115820.0" reactions="0">
+    <decay type="beta-" target="Sb121" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn121_m1" half_life="1385380000.0" decay_modes="2" decay_energy="37986.566" reactions="0">
+    <decay type="beta-" target="Sb121" branching_ratio="0.224"/>
+    <decay type="IT" target="Sn121" branching_ratio="0.776"/>
+  </nuclide>
+  <nuclide name="Sn122" reactions="6">
+    <reaction type="(n,2n)" Q="-8820300.0" target="Sn121"/>
+    <reaction type="(n,3n)" Q="-14996400.0" target="Sn120"/>
+    <reaction type="(n,p)" Q="-5563520.0" target="In122"/>
+    <reaction type="(n,a)" Q="-61786.3" target="Cd119"/>
+    <reaction type="(n,gamma)" Q="5946390.0" target="Sn123" branching_ratio="0.0112"/>
+    <reaction type="(n,gamma)" Q="5946390.0" target="Sn123_m1" branching_ratio="0.9888"/>
+  </nuclide>
+  <nuclide name="Sn123" half_life="11162880.0" decay_modes="1" decay_energy="530059.696" reactions="5">
+    <decay type="beta-" target="Sb123" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-5951100.0" target="Sn122"/>
+    <reaction type="(n,3n)" Q="-14771400.0" target="Sn121"/>
+    <reaction type="(n,gamma)" Q="8490390.0" target="Sn124"/>
+    <reaction type="(n,p)" Q="-3598520.0" target="In123"/>
+    <reaction type="(n,a)" Q="1814210.0" target="Cd120"/>
+  </nuclide>
+  <nuclide name="Sn123_m1" half_life="2403.6" decay_modes="1" decay_energy="621468.7" reactions="0">
+    <decay type="beta-" target="Sb123" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn124" reactions="6">
+    <reaction type="(n,2n)" Q="-8495090.0" target="Sn123"/>
+    <reaction type="(n,3n)" Q="-14446200.0" target="Sn122"/>
+    <reaction type="(n,p)" Q="-6357520.0" target="In124"/>
+    <reaction type="(n,a)" Q="-1258220.0" target="Cd121"/>
+    <reaction type="(n,gamma)" Q="5733390.0" target="Sn125" branching_ratio="0.0375"/>
+    <reaction type="(n,gamma)" Q="5733390.0" target="Sn125_m1" branching_ratio="0.9625"/>
+  </nuclide>
+  <nuclide name="Sn125" half_life="832896.0" decay_modes="1" decay_energy="1135662.1" reactions="5">
+    <decay type="beta-" target="Sb125" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-5733000.0" target="Sn124"/>
+    <reaction type="(n,3n)" Q="-14221000.0" target="Sn123"/>
+    <reaction type="(n,gamma)" Q="8193000.0" target="Sn126"/>
+    <reaction type="(n,p)" Q="0.0" target="In125"/>
+    <reaction type="(n,a)" Q="0.0" target="Cd122"/>
+  </nuclide>
+  <nuclide name="Sn125_m1" half_life="571.2" decay_modes="1" decay_energy="1150793.7999999998" reactions="0">
+    <decay type="beta-" target="Sb125" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn126" half_life="7258250000000.0" decay_modes="2" decay_energy="163854.93" reactions="6">
+    <decay type="beta-" target="Sb126_m1" branching_ratio="0.3300499"/>
+    <decay type="beta-" target="Sb126_m2" branching_ratio="0.6699501"/>
+    <reaction type="(n,2n)" Q="-8198090.0" target="Sn125"/>
+    <reaction type="(n,3n)" Q="-13936200.0" target="Sn124"/>
+    <reaction type="(n,p)" Q="-7341510.0" target="In126"/>
+    <reaction type="(n,a)" Q="-2787030.0" target="Cd123"/>
+    <reaction type="(n,gamma)" Q="5647390.0" target="Sn127" branching_ratio="0.3018"/>
+    <reaction type="(n,gamma)" Q="5647390.0" target="Sn127_m1" branching_ratio="0.6982"/>
+  </nuclide>
+  <nuclide name="Sn127" half_life="7560.0" decay_modes="1" decay_energy="2443979.5" reactions="0">
+    <decay type="beta-" target="Sb127" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sn127_m1" half_life="247.8" decay_modes="1" decay_energy="1662228.7" reactions="0">
+    <decay type="beta-" target="Sb127" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sb119" half_life="137484.0" decay_modes="1" decay_energy="46271.53999999999" reactions="0">
+    <decay type="ec/beta+" target="Sn119" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sb120" half_life="953.4" decay_modes="1" decay_energy="759914.7" reactions="0">
+    <decay type="ec/beta+" target="Sn120" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sb121" reactions="6">
+    <reaction type="(n,2n)" Q="-9239201.0" target="Sb120"/>
+    <reaction type="(n,3n)" Q="-16258000.0" target="Sb119"/>
+    <reaction type="(n,p)" Q="285442.0" target="Sn121"/>
+    <reaction type="(n,a)" Q="3287800.0" target="In118"/>
+    <reaction type="(n,gamma)" Q="6807101.0" target="Sb122" branching_ratio="0.9369"/>
+    <reaction type="(n,gamma)" Q="6807101.0" target="Sb122_m1" branching_ratio="0.0631"/>
+  </nuclide>
+  <nuclide name="Sb122" half_life="235336.3" decay_modes="2" decay_energy="1009825.2" reactions="0">
+    <decay type="beta-" target="Te122" branching_ratio="0.9759"/>
+    <decay type="ec/beta+" target="Sn122" branching_ratio="0.0241"/>
+  </nuclide>
+  <nuclide name="Sb122_m1" half_life="251.46" decay_modes="1" decay_energy="161578.62" reactions="0">
+    <decay type="IT" target="Sb122" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sb123" reactions="5">
+    <reaction type="(n,2n)" Q="-8967200.0" target="Sb122"/>
+    <reaction type="(n,3n)" Q="-15774000.0" target="Sb121"/>
+    <reaction type="(n,gamma)" Q="6467200.0" target="Sb124"/>
+    <reaction type="(n,p)" Q="-620490.0" target="Sn123"/>
+    <reaction type="(n,a)" Q="2040910.0" target="In120"/>
+  </nuclide>
+  <nuclide name="Sb124" half_life="5201280.0" decay_modes="1" decay_energy="2235130.2" reactions="5">
+    <decay type="beta-" target="Te124" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-6472000.0" target="Sb123"/>
+    <reaction type="(n,3n)" Q="-15442300.0" target="Sb122"/>
+    <reaction type="(n,gamma)" Q="8710090.0" target="Sb125"/>
+    <reaction type="(n,p)" Q="1409060.0" target="Sn124"/>
+    <reaction type="(n,a)" Q="3882800.0" target="In121"/>
+  </nuclide>
+  <nuclide name="Sb125" half_life="87053530.0" decay_modes="2" decay_energy="533517.9" reactions="5">
+    <decay type="beta-" target="Te125" branching_ratio="0.7690832"/>
+    <decay type="beta-" target="Te125_m1" branching_ratio="0.2309168"/>
+    <reaction type="(n,2n)" Q="-8714690.0" target="Sb124"/>
+    <reaction type="(n,3n)" Q="-15186700.0" target="Sb123"/>
+    <reaction type="(n,gamma)" Q="6221390.0" target="Sb126"/>
+    <reaction type="(n,p)" Q="-1567540.0" target="Sn125"/>
+    <reaction type="(n,a)" Q="1002210.0" target="In122"/>
+  </nuclide>
+  <nuclide name="Sb126" half_life="1067040.0" decay_modes="1" decay_energy="3120451.7" reactions="5">
+    <decay type="beta-" target="Te126" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-6208000.0" target="Sb125"/>
+    <reaction type="(n,3n)" Q="-14921000.0" target="Sb124"/>
+    <reaction type="(n,gamma)" Q="8382000.0" target="Sb127"/>
+    <reaction type="(n,p)" Q="0.0" target="Sn126"/>
+    <reaction type="(n,a)" Q="0.0" target="In123"/>
+  </nuclide>
+  <nuclide name="Sb126_m1" half_life="1149.0" decay_modes="2" decay_energy="2197266.0" reactions="0">
+    <decay type="beta-" target="Te126" branching_ratio="0.86"/>
+    <decay type="IT" target="Sb126" branching_ratio="0.14"/>
+  </nuclide>
+  <nuclide name="Sb126_m2" half_life="11.0" decay_modes="1" decay_energy="21401.587300000003" reactions="0">
+    <decay type="IT" target="Sb126_m1" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Sb127" half_life="332640.0" decay_modes="2" decay_energy="1005423.2" reactions="0">
+    <decay type="beta-" branching_ratio="0.8351952"/>
+    <decay type="beta-" branching_ratio="0.1648048"/>
+  </nuclide>
+  <nuclide name="Te122" reactions="6">
+    <reaction type="(n,2n)" Q="-9872090.0"/>
+    <reaction type="(n,3n)" Q="-17052200.0"/>
+    <reaction type="(n,p)" Q="-1198240.0" target="Sb122"/>
+    <reaction type="(n,a)" Q="5416900.0" target="Sn119"/>
+    <reaction type="(n,gamma)" Q="6933430.0" target="Te123" branching_ratio="0.6448"/>
+    <reaction type="(n,gamma)" Q="6933430.0" branching_ratio="0.3552"/>
+  </nuclide>
+  <nuclide name="Te123" reactions="5">
+    <reaction type="(n,2n)" Q="-6937600.0" target="Te122"/>
+    <reaction type="(n,3n)" Q="-16809700.0"/>
+    <reaction type="(n,gamma)" Q="9425420.0" target="Te124"/>
+    <reaction type="(n,p)" Q="834465.0" target="Sb123"/>
+    <reaction type="(n,a)" Q="7590490.0" target="Sn120"/>
+  </nuclide>
+  <nuclide name="Te124" reactions="6">
+    <reaction type="(n,2n)" Q="-9428890.0" target="Te123"/>
+    <reaction type="(n,3n)" Q="-16366500.0" target="Te122"/>
+    <reaction type="(n,p)" Q="-2122430.0" target="Sb124"/>
+    <reaction type="(n,a)" Q="4337700.0" target="Sn121"/>
+    <reaction type="(n,gamma)" Q="6571430.0" target="Te125" branching_ratio="0.9912"/>
+    <reaction type="(n,gamma)" Q="6571430.0" target="Te125_m1" branching_ratio="0.0088"/>
+  </nuclide>
+  <nuclide name="Te125" reactions="5">
+    <reaction type="(n,2n)" Q="-6576800.0" target="Te124"/>
+    <reaction type="(n,3n)" Q="-16005700.0" target="Te123"/>
+    <reaction type="(n,gamma)" Q="9118390.0" target="Te126"/>
+    <reaction type="(n,p)" Q="15462.9" target="Sb125"/>
+    <reaction type="(n,a)" Q="6581200.0" target="Sn122"/>
+  </nuclide>
+  <nuclide name="Te125_m1" half_life="4959360.0" decay_modes="1" decay_energy="145458.81" reactions="0">
+    <decay type="IT" target="Te125" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Te126" reactions="6">
+    <reaction type="(n,2n)" Q="-9123090.0" target="Te125"/>
+    <reaction type="(n,3n)" Q="-15699900.0" target="Te124"/>
+    <reaction type="(n,p)" Q="-2881530.0" target="Sb126"/>
+    <reaction type="(n,a)" Q="3409210.0" target="Sn123"/>
+    <reaction type="(n,gamma)" Q="6290390.0" branching_ratio="0.8689"/>
+    <reaction type="(n,gamma)" Q="6290390.0" branching_ratio="0.1311"/>
+  </nuclide>
+  <nuclide name="Ir194" half_life="69408.0" decay_modes="1" decay_energy="893868.77" reactions="0">
+    <decay type="beta-" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pt193" half_life="1577880000.0" decay_modes="1" decay_energy="8861.771999999999" reactions="0">
+    <decay type="ec/beta+" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pt195" reactions="0"/>
+  <nuclide name="Pt196" reactions="0"/>
+  <nuclide name="Pt197" half_life="71609.4" decay_modes="1" decay_energy="269849.59" reactions="0">
+    <decay type="beta-" target="Au197" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pt198" reactions="0"/>
+  <nuclide name="Pt199" half_life="1848.0" decay_modes="1" decay_energy="721869.8" reactions="0">
+    <decay type="beta-" target="Au199" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pt201" half_life="150.0" decay_modes="1" decay_energy="1773333.4" reactions="0">
+    <decay type="beta-" target="Au201" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au194" half_life="136872.0" decay_modes="1" decay_energy="1096151.73" reactions="0">
+    <decay type="ec/beta+" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au195" half_life="16078870.0" decay_modes="1" decay_energy="133844.66999999998" reactions="0">
+    <decay type="ec/beta+" target="Pt195" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au196" half_life="532820.2" decay_modes="2" decay_energy="506718.73" reactions="0">
+    <decay type="ec/beta+" target="Pt196" branching_ratio="0.93"/>
+    <decay type="beta-" target="Hg196" branching_ratio="0.07"/>
+  </nuclide>
+  <nuclide name="Au197" reactions="7">
+    <reaction type="(n,2n)" Q="-8059400.0" target="Au196"/>
+    <reaction type="(n,3n)" Q="-14721000.0" target="Au195"/>
+    <reaction type="(n,4n)" Q="-23108000.0" target="Au194"/>
+    <reaction type="(n,p)" Q="63400.0" target="Pt197"/>
+    <reaction type="(n,a)" Q="7010500.0" target="Ir194"/>
+    <reaction type="(n,gamma)" Q="6512380.0" target="Au198" branching_ratio="0.999"/>
+    <reaction type="(n,gamma)" Q="6512380.0" target="Au198_m1" branching_ratio="0.001"/>
+  </nuclide>
+  <nuclide name="Au198" half_life="232822.1" decay_modes="1" decay_energy="730623.0" reactions="0">
+    <decay type="beta-" target="Hg198" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au198_m1" half_life="196300.8" decay_modes="1" decay_energy="795028.8" reactions="0">
+    <decay type="IT" target="Au198" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au199" half_life="271209.6" decay_modes="1" decay_energy="235332.52000000002" reactions="0">
+    <decay type="beta-" target="Hg199" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au200" half_life="2904.0" decay_modes="1" decay_energy="1004073.3" reactions="0">
+    <decay type="beta-" target="Hg200" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au201" half_life="1560.0" decay_modes="1" decay_energy="840000.0" reactions="0">
+    <decay type="beta-" target="Hg201" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au202" half_life="28.4" decay_modes="1" decay_energy="1267099.4" reactions="0">
+    <decay type="beta-" target="Hg202" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Au204" half_life="39.8" decay_modes="1" decay_energy="2626666.0" reactions="0">
+    <decay type="beta-" target="Hg204" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Hg194" half_life="14011600000.0" decay_modes="1" decay_energy="9552.767" reactions="0">
+    <decay type="ec/beta+" target="Au194" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Hg195" half_life="37908.0" decay_modes="2" decay_energy="211252.43" reactions="0">
+    <decay type="ec/beta+" target="Au195" branching_ratio="0.9780718"/>
+    <decay type="ec/beta+" branching_ratio="0.0219282"/>
+  </nuclide>
+  <nuclide name="Hg196" reactions="6">
+    <reaction type="(n,2n)" Q="-8748690.0" target="Hg195"/>
+    <reaction type="(n,3n)" Q="-15806400.0" target="Hg194"/>
+    <reaction type="(n,p)" Q="98470.0" target="Au196"/>
+    <reaction type="(n,a)" Q="8247750.0" target="Pt193"/>
+    <reaction type="(n,gamma)" Q="6981000.0" target="Hg197" branching_ratio="0.966"/>
+    <reaction type="(n,gamma)" Q="6981000.0" target="Hg197_m1" branching_ratio="0.034"/>
+  </nuclide>
+  <nuclide name="Hg197" half_life="230904.0" decay_modes="1" decay_energy="141129.35" reactions="0">
+    <decay type="ec/beta+" target="Au197" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Hg197_m1" half_life="85680.0" decay_modes="2" decay_energy="272488.96" reactions="0">
+    <decay type="ec/beta+" branching_ratio="0.086"/>
+    <decay type="IT" target="Hg197" branching_ratio="0.914"/>
+  </nuclide>
+  <nuclide name="Hg198" reactions="6">
+    <reaction type="(n,2n)" Q="-8300690.0" target="Hg197"/>
+    <reaction type="(n,3n)" Q="-15281400.0" target="Hg196"/>
+    <reaction type="(n,p)" Q="-590530.0" target="Au198"/>
+    <reaction type="(n,a)" Q="7457750.0" target="Pt195"/>
+    <reaction type="(n,gamma)" Q="6649000.0" target="Hg199" branching_ratio="0.9918"/>
+    <reaction type="(n,gamma)" Q="6649000.0" target="Hg199_m1" branching_ratio="0.0082"/>
+  </nuclide>
+  <nuclide name="Hg199" reactions="5">
+    <reaction type="(n,2n)" Q="-6648690.0" target="Hg198"/>
+    <reaction type="(n,3n)" Q="-14949400.0" target="Hg197"/>
+    <reaction type="(n,gamma)" Q="8029000.0" target="Hg200"/>
+    <reaction type="(n,p)" Q="329470.0" target="Au199"/>
+    <reaction type="(n,a)" Q="8729750.0" target="Pt196"/>
+  </nuclide>
+  <nuclide name="Hg199_m1" half_life="2560.2" decay_modes="1" decay_energy="517537.80000000005" reactions="0">
+    <decay type="IT" target="Hg199" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Hg200" reactions="5">
+    <reaction type="(n,2n)" Q="-8028690.0" target="Hg199"/>
+    <reaction type="(n,3n)" Q="-14677400.0" target="Hg198"/>
+    <reaction type="(n,gamma)" Q="6225000.0" target="Hg201"/>
+    <reaction type="(n,p)" Q="-1416530.0" target="Au200"/>
+    <reaction type="(n,a)" Q="6551750.0" target="Pt197"/>
+  </nuclide>
+  <nuclide name="Hg201" reactions="5">
+    <reaction type="(n,2n)" Q="-6224690.0" target="Hg200"/>
+    <reaction type="(n,3n)" Q="-14253400.0" target="Hg199"/>
+    <reaction type="(n,gamma)" Q="7756000.0" target="Hg202"/>
+    <reaction type="(n,p)" Q="-719530.0" target="Au201"/>
+    <reaction type="(n,a)" Q="7890750.0" target="Pt198"/>
+  </nuclide>
+  <nuclide name="Hg202" reactions="5">
+    <reaction type="(n,2n)" Q="-7755690.0" target="Hg201"/>
+    <reaction type="(n,3n)" Q="-13980400.0" target="Hg200"/>
+    <reaction type="(n,gamma)" Q="5993000.0" target="Hg203"/>
+    <reaction type="(n,p)" Q="-2713530.0" target="Au202"/>
+    <reaction type="(n,a)" Q="5706750.0" target="Pt199"/>
+  </nuclide>
+  <nuclide name="Hg203" half_life="4025722.0" decay_modes="1" decay_energy="348600.30000000005" reactions="0">
+    <decay type="beta-" target="Tl203" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Hg204" reactions="5">
+    <reaction type="(n,2n)" Q="-7490690.0" target="Hg203"/>
+    <reaction type="(n,3n)" Q="-13483400.0" target="Hg202"/>
+    <reaction type="(n,gamma)" Q="5668000.0" target="Hg205"/>
+    <reaction type="(n,p)" Q="-3713530.0" target="Au204"/>
+    <reaction type="(n,a)" Q="4460750.0" target="Pt201"/>
+  </nuclide>
+  <nuclide name="Hg205" half_life="308.4" decay_modes="1" decay_energy="546175.097" reactions="0">
+    <decay type="beta-" target="Tl205" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tl200" half_life="93960.0" decay_modes="1" decay_energy="1356209.26" reactions="0">
+    <decay type="ec/beta+" target="Hg200" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tl201" half_life="262837.4" decay_modes="1" decay_energy="127778.18000000001" reactions="0">
+    <decay type="ec/beta+" target="Hg201" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tl202" half_life="1063584.0" decay_modes="1" decay_energy="487676.77" reactions="0">
+    <decay type="ec/beta+" target="Hg202" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tl203" reactions="4">
+    <reaction type="(n,2n)" Q="-7849000.0" target="Tl202"/>
+    <reaction type="(n,3n)" Q="-14721000.0" target="Tl201"/>
+    <reaction type="(n,4n)" Q="-22924000.0" target="Tl200"/>
+    <reaction type="(n,gamma)" Q="6656000.0" target="Tl204"/>
+  </nuclide>
+  <nuclide name="Tl204" half_life="119382400.0" decay_modes="2" decay_energy="238439.502" reactions="0">
+    <decay type="beta-" target="Pb204" branching_ratio="0.9708"/>
+    <decay type="ec/beta+" target="Hg204" branching_ratio="0.0292"/>
+  </nuclide>
+  <nuclide name="Tl205" reactions="4">
+    <reaction type="(n,2n)" Q="-7546000.0" target="Tl204"/>
+    <reaction type="(n,3n)" Q="-14202000.0" target="Tl203"/>
+    <reaction type="(n,4n)" Q="-22051000.0" target="Tl202"/>
+    <reaction type="(n,gamma)" Q="6503000.0" target="Tl206"/>
+  </nuclide>
+  <nuclide name="Tl206" half_life="252.12" decay_modes="1" decay_energy="539687.15" reactions="0">
+    <decay type="beta-" target="Pb206" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tl207" half_life="286.2" decay_modes="1" decay_energy="494018.681" reactions="0">
+    <decay type="beta-" target="Pb207" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Tl208" half_life="183.18" decay_modes="1" decay_energy="3976679.7" reactions="0">
+    <decay type="beta-" target="Pb208" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pb202" half_life="1656770000000.0" decay_modes="1" decay_energy="9295.282" reactions="0">
+    <decay type="ec/beta+" target="Tl202" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pb203" half_life="186912.0" decay_modes="1" decay_energy="377726.18000000005" reactions="0">
+    <decay type="ec/beta+" target="Tl203" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pb204" half_life="4.4e+24" decay_modes="1" decay_energy="1968000.0" reactions="5">
+    <decay type="alpha" target="Hg200" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-8394300.0" target="Pb203"/>
+    <reaction type="(n,3n)" Q="-15318300.0" target="Pb202"/>
+    <reaction type="(n,gamma)" Q="6731510.0" target="Pb205"/>
+    <reaction type="(n,p)" Q="18634.3" target="Tl204"/>
+    <reaction type="(n,a)" Q="8201950.0" target="Hg201"/>
+  </nuclide>
+  <nuclide name="Pb205" half_life="545946000000000.0" decay_modes="1" decay_energy="9282.68" reactions="0">
+    <decay type="ec/beta+" target="Tl205" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pb206" reactions="6">
+    <reaction type="(n,2n)" Q="-8088190.0" target="Pb205"/>
+    <reaction type="(n,3n)" Q="-14819700.0" target="Pb204"/>
+    <reaction type="(n,p)" Q="-751183.0" target="Tl206"/>
+    <reaction type="(n,a)" Q="7129260.0" target="Hg203"/>
+    <reaction type="(n,gamma)" Q="6737790.0" target="Pb207" branching_ratio="0.9783"/>
+    <reaction type="(n,gamma)" Q="6737790.0" target="Pb207_m1" branching_ratio="0.0217"/>
+  </nuclide>
+  <nuclide name="Pb207" reactions="5">
+    <reaction type="(n,2n)" Q="-6737790.0" target="Pb206"/>
+    <reaction type="(n,3n)" Q="-14826000.0" target="Pb205"/>
+    <reaction type="(n,gamma)" Q="7367820.0" target="Pb208"/>
+    <reaction type="(n,p)" Q="-640320.0" target="Tl207"/>
+    <reaction type="(n,a)" Q="7886620.0" target="Hg204"/>
+  </nuclide>
+  <nuclide name="Pb207_m1" half_life="0.806" decay_modes="1" decay_energy="1633178.9" reactions="0">
+    <decay type="IT" target="Pb207" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Pb208" reactions="6">
+    <reaction type="(n,2n)" Q="-7367880.0" target="Pb207"/>
+    <reaction type="(n,3n)" Q="-14105700.0" target="Pb206"/>
+    <reaction type="(n,4n)" Q="-22194000.0" target="Pb205"/>
+    <reaction type="(n,gamma)" Q="3937380.0" target="Pb209"/>
+    <reaction type="(n,p)" Q="-4218689.0" target="Tl208"/>
+    <reaction type="(n,a)" Q="6186494.0" target="Hg205"/>
+  </nuclide>
+  <nuclide name="Pb209" half_life="11710.8" decay_modes="1" decay_energy="197350.0" reactions="0">
+    <decay type="beta-" target="Bi209" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Bi207" half_life="995642300.0" decay_modes="1" decay_energy="1649269.4" reactions="0">
+    <decay type="ec/beta+" target="Pb207" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Bi208" half_life="11613200000000.0" decay_modes="1" decay_energy="2652348.36" reactions="0">
+    <decay type="ec/beta+" target="Pb208" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Bi209" half_life="5.99594e+26" decay_modes="1" decay_energy="3134554.0" reactions="6">
+    <decay type="alpha" target="Tl205" branching_ratio="1.0"/>
+    <reaction type="(n,2n)" Q="-7460000.0" target="Bi208"/>
+    <reaction type="(n,3n)" Q="-14351000.0" target="Bi207"/>
+    <reaction type="(n,p)" Q="138000.0" target="Pb209"/>
+    <reaction type="(n,a)" Q="9648000.0" target="Tl206"/>
+    <reaction type="(n,gamma)" Q="4600000.0" target="Bi210" branching_ratio="0.6791"/>
+    <reaction type="(n,gamma)" Q="4600000.0" target="Bi210_m1" branching_ratio="0.3209"/>
+  </nuclide>
+  <nuclide name="Bi210" half_life="433036.8" decay_modes="2" decay_energy="389226.6964003" reactions="0">
+    <decay type="alpha" target="Tl206" branching_ratio="1.32e-06"/>
+    <decay type="beta-" target="Po210" branching_ratio="0.99999868"/>
+  </nuclide>
+  <nuclide name="Bi210_m1" half_life="95935100000000.0" decay_modes="1" decay_energy="5313287.77" reactions="0">
+    <decay type="alpha" target="Tl206" branching_ratio="1.0"/>
+  </nuclide>
+  <nuclide name="Po210" half_life="11955690.0" decay_modes="1" decay_energy="5405421.35673896" reactions="0">
+    <decay type="alpha" target="Pb206" branching_ratio="1.0"/>
+  </nuclide>
+</depletion_chain>
