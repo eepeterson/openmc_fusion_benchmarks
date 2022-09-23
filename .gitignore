@@ -9,7 +9,7 @@
 *.pyc
 
 # Inputs generated from Python API
-examples/**/*.xml
+*.xml
 
 # emacs and vim backups
 *~
@@ -44,16 +44,6 @@ htmlcov
 
 # macOS
 *.DS_Store
-
-# Dynamic Library
-*.dylib
-*.lib
-*.dll
-
-# Visual Studio CMake project
-.vs/
-out/
-CMakeSettings.json
 
 # Visual Studio Code configuration files
 .vscode/
