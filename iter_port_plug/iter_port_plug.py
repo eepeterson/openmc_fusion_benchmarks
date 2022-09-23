@@ -43,11 +43,36 @@ tally_reg4 = +RCC((0, 0, z6), z7 - z6, r6) & -RCC((0, 0, z6), z7 - z6, r7)
 domain_reg = -RPP(-x0, x0, -y0, y0, z0, z7, boundary_type='vacuum') & \
     +openmc.ZCylinder(r=r7)
 
+# water, formula: H2O, density: 1.0 g/cm3
+water = openmc.Material(name='water')
+water.add_elements_from_formula('H2O')
+water.set_density('g/cm3', 1.0)
+
+# Stainless Steel 316L
+stainless_steel_316L = openmc.Material(name="stainless_steel_316L")
+stainless_steel_316L.add_element("Fe", 62.045, "wo")
+stainless_steel_316L.add_element("Cr", 18., "wo")
+stainless_steel_316L.add_element("Ni", 14., "wo")
+stainless_steel_316L.add_element("Mo", 3., "wo")
+stainless_steel_316L.add_element("Mn", 2., "wo")
+stainless_steel_316L.add_element("Si", 0.75, "wo")
+stainless_steel_316L.add_element("N", 0.1, "wo")
+stainless_steel_316L.add_element("C", 0.03, "wo")
+stainless_steel_316L.add_element("P", 0.045, "wo")
+stainless_steel_316L.add_element("S", 0.03, "wo")
+stainless_steel_316L.set_density("g/cm3", 7.93) 
+
+steel_water_mix = openmc.Material.mix_materials([steel, water],
+                                                fracs=[0.7988456, 0.2011544],
+                                                percent_type='vo')
+materials = openmc.Materials([steel, steel_water_mix])
+materials.export_to_xml()
+
 # Build cells
 source_cell = openmc.Cell(region=source_reg)
-frame_cell = openmc.Cell(region=frame_reg)
-plug_cell = openmc.Cell(region=plug_reg)
-back_plate_cell = openmc.Cell(region=back_plate_reg)
+frame_cell = openmc.Cell(region=frame_reg, fill=steel)
+plug_cell = openmc.Cell(region=plug_reg, fill=steel_water_mix)
+back_plate_cell = openmc.Cell(region=back_plate_reg, fill=steel)
 
 void_cell0 = openmc.Cell(region=void_reg0)
 void_cell1 = openmc.Cell(region=void_reg1)
@@ -78,3 +103,35 @@ for cell in cells:
 univ = openmc.Universe(cells=cells)
 geom = openmc.Geometry(root=univ)
 geom.export_to_xml(remove_surfs=True)
+
+# Settings
+settings = openmc.Settings(run_mode='fixed source',
+                           particles=int(1e5),
+                           batches=100,
+                           weight_windows_on=True)
+energy = openmc.stats.Discrete([14.08e6], [1])
+zspace = openmc.stats.Uniform([z0, z1])
+phispace = openmc.stats.Uniform([0, 2*np.pi])
+rspace = openmc.stats.PowerLaw(0, r7, n=1)
+space = openmc.stats.CylindricalIndependent(rspace, phispace, zspace)
+source = openmc.Source(space=space, energy=energy)
+settings.source = source
+settings.weight_windows = openmc.wwinp_to_wws('iter_port_plug_fwcadis.wwinp')
+settings.export_to_xml()
+
+# Build filters and tallies
+mesh = openmc.CylindricalMesh()
+mesh.r_grid = np.linspace(0, r7, 201)
+mesh.z_grid = np.linspace(z0, z7, 176)
+energy_filter = openmc.EnergyFilter.from_group_structure('VITAMIN-J-175')
+mesh_filter = openmc.MeshFilter(mesh)
+particle_filter = openmc.ParticleFilter(['neutron'])
+
+# Define flux, heating, damage, and gas production tallies
+t1 = openmc.Tally(1)
+t1.filters = [particle_filter, mesh_filter, energy_filter]
+t1.scores = ['flux']
+tallies = openmc.Tallies([t1])
+tallies.export_to_xml()
+
+openmc.run(threads=14)
