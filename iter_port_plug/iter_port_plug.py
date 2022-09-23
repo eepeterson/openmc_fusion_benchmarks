@@ -1,3 +1,4 @@
+import numpy as np
 import openmc
 from openmc.model import RightCircularCylinder as RCC
 from openmc.model import RectangularParallelepiped as RPP
@@ -24,6 +25,7 @@ z7 = 700
 x0 = 150
 y0 = 150
 
+# Build regions
 source_reg = -RCC((0, 0, z0), z1 - z0, r7)
 frame_reg = +RCC((0, 0, z2), z5 - z2, r5) & -RCC((0, 0, z2), z5 - z2, r7)
 plug_reg = +RCC((0, 0, z2), z3 - z2, r0) & -RCC((0, 0, z2), z3 - z2, r4)
@@ -41,6 +43,7 @@ tally_reg4 = +RCC((0, 0, z6), z7 - z6, r6) & -RCC((0, 0, z6), z7 - z6, r7)
 domain_reg = -RPP(-x0, x0, -y0, y0, z0, z7, boundary_type='vacuum') & \
     +openmc.ZCylinder(r=r7)
 
+# Build cells
 source_cell = openmc.Cell(region=source_reg)
 frame_cell = openmc.Cell(region=frame_reg)
 plug_cell = openmc.Cell(region=plug_reg)
@@ -65,6 +68,13 @@ domain_cell = openmc.Cell(region=domain_reg)
 cells = [source_cell, frame_cell, plug_cell, back_plate_cell]
 cells += void_cells + tally_cells + [domain_cell]
 
+# Make sure ZPlanes at z=0 and z=700 are vacuum boundaries
+for cell in cells:
+    for surf in cell.region.get_surfaces().values():
+        if isinstance(surf, openmc.ZPlane):
+            if np.isclose(surf.z0, 0) or np.isclose(surf.z0, z7):
+                surf.boundary_type = 'vacuum'
+
 univ = openmc.Universe(cells=cells)
 geom = openmc.Geometry(root=univ)
-geom.export_to_xml(path='geometry2.xml', remove_surfs=True)
+geom.export_to_xml(remove_surfs=True)
