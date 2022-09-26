@@ -106,8 +106,8 @@ geom.export_to_xml(remove_surfs=True)
 
 # Settings
 settings = openmc.Settings(run_mode='fixed source',
-                           particles=int(1e5),
-                           batches=100,
+                           particles=int(1e6),
+                           batches=1000,
                            weight_windows_on=True)
 energy = openmc.stats.Discrete([14.08e6], [1])
 zspace = openmc.stats.Uniform(z0, z1)
@@ -134,4 +134,4 @@ t1.scores = ['flux']
 tallies = openmc.Tallies([t1])
 tallies.export_to_xml()
 
-openmc.run(threads=14)
+openmc.run(threads=16)
