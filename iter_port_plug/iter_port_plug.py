@@ -116,7 +116,7 @@ rspace = openmc.stats.PowerLaw(0, r7, n=1)
 space = openmc.stats.CylindricalIndependent(rspace, phispace, zspace)
 source = openmc.Source(space=space, energy=energy)
 settings.source = source
-settings.weight_windows = openmc.wwinp_to_wws('iter_port_plug_fwcadis.wwinp')
+settings.weight_windows = openmc.wwinp_to_wws('iter_port_plug_cadis.wwinp')
 settings.export_to_xml()
 
 # Build filters and tallies
