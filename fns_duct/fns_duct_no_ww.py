@@ -493,96 +493,96 @@ external2_region = +pz_rw128 & ~(+py_osa137 & -py_osa138 & +px_rw117 & -px_osa14
 # creating cells
 
 #
-targetback_cell = openmc.Cell(cell_id=1, name='targetback_cell', fill=copper, region=targetback_region)  # target backing (Cu)
-coolwater1_cell = openmc.Cell(cell_id=2, name='coolwater1_cell', fill=cool_water, region=coolwater1_region)  # cooling water
-collimator_cell = openmc.Cell(cell_id=3, name='collimator_cell', fill=watercu_mix, region=collimator_region)  # collimator (Cu:58%,H2O:42%)
-voidduct_cell = openmc.Cell(cell_id=4, name='voidduct_cell', fill=None, region=voidduct_region)  # void inside the duct
-ductcone_cell = openmc.Cell(cell_id=5, name='ductcone_cell', fill=ss304, region=ductcone_region)  # duct cone (SS-304)
-suppstruct_cell = openmc.Cell(cell_id=6, name='suppstruct_cell', fill=aluminum, region=suppstruct_region)  # support structure (Al)
+targetback_cell = openmc.Cell(cell_id=1, fill=copper, region=targetback_region)  # target backing (Cu)
+coolwater1_cell = openmc.Cell(cell_id=2, fill=cool_water, region=coolwater1_region)  # cooling water
+collimator_cell = openmc.Cell(cell_id=3, fill=watercu_mix, region=collimator_region)  # collimator (Cu:58%,H2O:42%)
+voidduct_cell = openmc.Cell(cell_id=4, fill=None, region=voidduct_region)  # void inside the duct
+ductcone_cell = openmc.Cell(cell_id=5, fill=ss304, region=ductcone_region)  # duct cone (SS-304)
+suppstruct_cell = openmc.Cell(cell_id=6, fill=aluminum, region=suppstruct_region)  # support structure (Al)
 #
-frontcover_cell = openmc.Cell(cell_id=11, name='frontcover_cell', fill=ss304, region=frontcover_region)  # front cover (SS-304)
-rearcover_cell = openmc.Cell(cell_id=12, name='rearcover_cell', fill=ss304, region=rearcover_region)  # rear cover  (SS-304)
-latcover_cell = openmc.Cell(cell_id=13, name='latcover_cell', fill=aluminum, region=latcover_region)  # lateral cover (Al)
-flange1_cell = openmc.Cell(cell_id=14, name='flange1_cell', fill=aluminum, region=flange1_region)  # flange #1 (Al)
-flange2_cell = openmc.Cell(cell_id=15, name='flange2_cell', fill=aluminum, region=flange2_region)  # flange #2 (Al)
-latwatcoll_cell = openmc.Cell(cell_id=16, name='latwatcoll_cell', fill=cool_water, region=latwatcoll_region)  # lateral water collector
-botwatcoll_cell = openmc.Cell(cell_id=17, name='botwatcoll_cell', fill=cool_water, region=botwatcoll_region)  # bottom water collector
+frontcover_cell = openmc.Cell(cell_id=11, fill=ss304, region=frontcover_region)  # front cover (SS-304)
+rearcover_cell = openmc.Cell(cell_id=12, fill=ss304, region=rearcover_region)  # rear cover  (SS-304)
+latcover_cell = openmc.Cell(cell_id=13, fill=aluminum, region=latcover_region)  # lateral cover (Al)
+flange1_cell = openmc.Cell(cell_id=14, fill=aluminum, region=flange1_region)  # flange #1 (Al)
+flange2_cell = openmc.Cell(cell_id=15, fill=aluminum, region=flange2_region)  # flange #2 (Al)
+latwatcoll_cell = openmc.Cell(cell_id=16, fill=cool_water, region=latwatcoll_region)  # lateral water collector
+botwatcoll_cell = openmc.Cell(cell_id=17, fill=cool_water, region=botwatcoll_region)  # bottom water collector
 #
-tube_cell = openmc.Cell(cell_id=21, name='tube_cell', fill=ss304, region=tube_region)  # tube (SS-304)
-coolwater2_cell = openmc.Cell(cell_id=22, name='coolwater2_cell', fill=cool_water, region=coolwater2_region)  # cooling water
+tube_cell = openmc.Cell(cell_id=21, fill=ss304, region=tube_region)  # tube (SS-304)
+coolwater2_cell = openmc.Cell(cell_id=22, fill=cool_water, region=coolwater2_region)  # cooling water
 #
-void1_cell = openmc.Cell(cell_id=31, name='void1_cell', fill=air, region=void1_region)  # void
-void2_cell = openmc.Cell(cell_id=32, name='void2_cell', fill=air, region=void2_region)  # void
-void3_cell = openmc.Cell(cell_id=33, name='void3_cell', fill=air, region=void3_region)  # void
-void4_cell = openmc.Cell(cell_id=34, name='void4_cell', fill=air, region=void4_region)  # void
-void5_cell = openmc.Cell(cell_id=35, name='void5_cell', fill=air, region=void5_region)  # void
-void6_cell = openmc.Cell(cell_id=36, name='void6_cell', fill=air, region=void6_region)  # void
+void1_cell = openmc.Cell(cell_id=31, fill=air, region=void1_region)  # void
+void2_cell = openmc.Cell(cell_id=32, fill=air, region=void2_region)  # void
+void3_cell = openmc.Cell(cell_id=33, fill=air, region=void3_region)  # void
+void4_cell = openmc.Cell(cell_id=34, fill=air, region=void4_region)  # void
+void5_cell = openmc.Cell(cell_id=35, fill=air, region=void5_region)  # void
+void6_cell = openmc.Cell(cell_id=36, fill=air, region=void6_region)  # void
 #
-mortarwall1_cell = openmc.Cell(cell_id=101, name='mortarwall1_cell', fill=mortar, region=mortarwall1_region)  # mortar wall
-concretewall1_cell = openmc.Cell(cell_id=102, name='concretewall1_cell', fill=concrete, region=concretewall1_region)  # concrete wall
-concretewall2_cell = openmc.Cell(cell_id=103, name='concretewall2_cell', fill=concrete, region=concretewall2_region)  # concrete wall
+mortarwall1_cell = openmc.Cell(cell_id=101, fill=mortar, region=mortarwall1_region)  # mortar wall
+concretewall1_cell = openmc.Cell(cell_id=102, fill=concrete, region=concretewall1_region)  # concrete wall
+concretewall2_cell = openmc.Cell(cell_id=103, fill=concrete, region=concretewall2_region)  # concrete wall
 #
-mortarwall2e_cell = openmc.Cell(cell_id=111, name='mortarwall2e_cell', fill=mortar, region=mortarwall2e_region)  # mortar wall (east)
-concretewall3e_cell = openmc.Cell(cell_id=112, name='concretewall3e_cell', fill=concrete, region=concretewall3e_region)  # concrete wall (east)
-concretewall4e_cell = openmc.Cell(cell_id=113, name='concretewall4e_cell', fill=concrete, region=concretewall4e_region)  # concrete wall (east)
+mortarwall2e_cell = openmc.Cell(cell_id=111, fill=mortar, region=mortarwall2e_region)  # mortar wall (east)
+concretewall3e_cell = openmc.Cell(cell_id=112, fill=concrete, region=concretewall3e_region)  # concrete wall (east)
+concretewall4e_cell = openmc.Cell(cell_id=113, fill=concrete, region=concretewall4e_region)  # concrete wall (east)
 #
-ironframe_cell = openmc.Cell(cell_id=121, name='ironframe_cell', fill=iron_ass, region=ironframe_region)  # iron frame around opening
-concretewall5_cell = openmc.Cell(cell_id=122, name='concretewall5_cell', fill=concrete, region=concretewall5_region)  # concrete wall around opening
-concretewall6_cell = openmc.Cell(cell_id=123, name='concretewall6_cell', fill=concrete, region=concretewall6_region)  # concrete wall around opening
+ironframe_cell = openmc.Cell(cell_id=121, fill=iron_ass, region=ironframe_region)  # iron frame around opening
+concretewall5_cell = openmc.Cell(cell_id=122, fill=concrete, region=concretewall5_region)  # concrete wall around opening
+concretewall6_cell = openmc.Cell(cell_id=123, fill=concrete, region=concretewall6_region)  # concrete wall around opening
 #
-ironbase_cell = openmc.Cell(cell_id=131, name='ironbase_cell', fill=iron_ass, region=ironbase_region)  # iron base
-acccomp1_cell = openmc.Cell(cell_id=132, name='accomp1_cell', fill=ss304, region=acccomp1_region)  # accelerator components
-acccomp2_cell = openmc.Cell(cell_id=133, name='accomp2_cell', fill=ss304, region=acccomp2_region)   # accelerator components
-twotrvoid1_cell = openmc.Cell(cell_id=135, name='twotrvoid1_cell', fill=air, region=twotrvoid1_region)  # void inside the 2TR
-twotrvoid2_cell = openmc.Cell(cell_id=136, name='twotrvoid2_cell', fill=air, region=twotrvoid2_region)  # void inside the 2TR
+ironbase_cell = openmc.Cell(cell_id=131, fill=iron_ass, region=ironbase_region)  # iron base
+acccomp1_cell = openmc.Cell(cell_id=132, fill=ss304, region=acccomp1_region)  # accelerator components
+acccomp2_cell = openmc.Cell(cell_id=133, fill=ss304, region=acccomp2_region)   # accelerator components
+twotrvoid1_cell = openmc.Cell(cell_id=135, fill=air, region=twotrvoid1_region)  # void inside the 2TR
+twotrvoid2_cell = openmc.Cell(cell_id=136, fill=air, region=twotrvoid2_region)  # void inside the 2TR
 #
-frontassvoid1_cell = openmc.Cell(cell_id=201, name='frontassvoid1_cell', fill=air, region=frontassvoid1_region)  # void in front of the assembly
-frontassvoid2_cell = openmc.Cell(cell_id=202, name='frontassvoid2_cell', fill=air, region=frontassvoid2_region)  # void in front of the assembly
+frontassvoid1_cell = openmc.Cell(cell_id=201, fill=air, region=frontassvoid1_region)  # void in front of the assembly
+frontassvoid2_cell = openmc.Cell(cell_id=202, fill=air, region=frontassvoid2_region)  # void in front of the assembly
 #
-ironrack1_cell = openmc.Cell(cell_id=211, name='ironrack1_cell', fill=iron_ass, region=ironrack1_region)  # iron rack
-ironrack2_cell = openmc.Cell(cell_id=212, name='ironrack2_cell', fill=iron_ass, region=ironrack2_region)  # iron rack
-ironrack3_cell = openmc.Cell(cell_id=213, name='ironrack3_cell', fill=iron_ass, region=ironrack3_region)  # iron rack
-ironrack4_cell = openmc.Cell(cell_id=214, name='ironrack4_cell', fill=iron_ass, region=ironrack4_region)  # iron rack
+ironrack1_cell = openmc.Cell(cell_id=211, fill=iron_ass, region=ironrack1_region)  # iron rack
+ironrack2_cell = openmc.Cell(cell_id=212, fill=iron_ass, region=ironrack2_region)  # iron rack
+ironrack3_cell = openmc.Cell(cell_id=213, fill=iron_ass, region=ironrack3_region)  # iron rack
+ironrack4_cell = openmc.Cell(cell_id=214, fill=iron_ass, region=ironrack4_region)  # iron rack
 #
-shieldaux1_cell = openmc.Cell(cell_id=221, name='shieldaux1_cell', fill=iron_aux, region=shieldaux1_region)  # auxiliary shield (-20-0 cm)
-shieldaux2_cell = openmc.Cell(cell_id=222, name='shieldaux1_cell', fill=iron_aux, region=shieldaux2_region)  # auxiliary shield (0-30 cm)
-shieldaux3_cell = openmc.Cell(cell_id=223, name='shieldaux1_cell', fill=iron_aux, region=shieldaux3_region)  # auxiliary shield (30-65 cm)
-shieldaux4_cell = openmc.Cell(cell_id=224, name='shieldaux1_cell', fill=iron_aux, region=shieldaux4_region)  # auxiliary shield (65-130 cm)
-shieldaux5_cell = openmc.Cell(cell_id=225, name='shieldaux1_cell', fill=iron_aux, region=shieldaux5_region)  # auxiliary shield (130-180 cm)
+shieldaux1_cell = openmc.Cell(cell_id=221, fill=iron_aux, region=shieldaux1_region)  # auxiliary shield (-20-0 cm)
+shieldaux2_cell = openmc.Cell(cell_id=222, fill=iron_aux, region=shieldaux2_region)  # auxiliary shield (0-30 cm)
+shieldaux3_cell = openmc.Cell(cell_id=223, fill=iron_aux, region=shieldaux3_region)  # auxiliary shield (30-65 cm)
+shieldaux4_cell = openmc.Cell(cell_id=224, fill=iron_aux, region=shieldaux4_region)  # auxiliary shield (65-130 cm)
+shieldaux5_cell = openmc.Cell(cell_id=225, fill=iron_aux, region=shieldaux5_region)  # auxiliary shield (130-180 cm)
 #
-ironsupport1_cell = openmc.Cell(cell_id=231, name='ironsupport1_cell', fill=iron_ass, region=ironsupport1_region)  # iron support (0-30 cm)
-ironsupport2_cell = openmc.Cell(cell_id=232, name='ironsupport2_cell', fill=iron_ass, region=ironsupport2_region)  # iron support (30-65 cm)
-ironsupport3_cell = openmc.Cell(cell_id=233, name='ironsupport3_cell', fill=iron_ass, region=ironsupport3_region)  # iron support (65-130 cm)
+ironsupport1_cell = openmc.Cell(cell_id=231, fill=iron_ass, region=ironsupport1_region)  # iron support (0-30 cm)
+ironsupport2_cell = openmc.Cell(cell_id=232, fill=iron_ass, region=ironsupport2_region)  # iron support (30-65 cm)
+ironsupport3_cell = openmc.Cell(cell_id=233, fill=iron_ass, region=ironsupport3_region)  # iron support (65-130 cm)
 #
-assembly1_cell = openmc.Cell(cell_id=241, name='assembly1_cell', fill=iron_ass, region=assembly1_region)  # iron assembly (0-30 cm)
-assembly2_cell = openmc.Cell(cell_id=242, name='assembly2_cell', fill=iron_ass, region=assembly2_region)  # iron assembly (30-65 cm)
-assembly3_cell = openmc.Cell(cell_id=243, name='assembly3_cell', fill=iron_ass, region=assembly3_region)  # iron assembly (65-130 cm)
-assembly4_cell = openmc.Cell(cell_id=244, name='assembly4_cell', fill=iron_ass, region=assembly4_region)  # iron assembly (130-180 cm)
-assembly5_cell = openmc.Cell(cell_id=253, name='assembly5_cell', fill=air, region=assembly5_region)  # void around rear iron cap
+assembly1_cell = openmc.Cell(cell_id=241, fill=iron_ass, region=assembly1_region)  # iron assembly (0-30 cm)
+assembly2_cell = openmc.Cell(cell_id=242, fill=iron_ass, region=assembly2_region)  # iron assembly (30-65 cm)
+assembly3_cell = openmc.Cell(cell_id=243, fill=iron_ass, region=assembly3_region)  # iron assembly (65-130 cm)
+assembly4_cell = openmc.Cell(cell_id=244, fill=iron_ass, region=assembly4_region)  # iron assembly (130-180 cm)
+assembly5_cell = openmc.Cell(cell_id=253, fill=air, region=assembly5_region)  # void around rear iron cap
 #
-detector00_cell = openmc.Cell(cell_id=300, name='detector00_cell', fill=mixed_detector, region=detector00_region)  # tally-00
-detector01_cell = openmc.Cell(cell_id=301, name='detector00_cell', fill=mixed_detector, region=detector01_region)  # tally-01
-detector02_cell = openmc.Cell(cell_id=302, name='detector00_cell', fill=mixed_detector, region=detector02_region)  # tally-02
-detector03_cell = openmc.Cell(cell_id=303, name='detector00_cell', fill=mixed_detector, region=detector03_region)  # tally-03
-detector04_cell = openmc.Cell(cell_id=304, name='detector00_cell', fill=mixed_detector, region=detector04_region)  # tally-04
-detector05_cell = openmc.Cell(cell_id=305, name='detector00_cell', fill=mixed_detector, region=detector05_region)  # tally-05
-detector06_cell = openmc.Cell(cell_id=306, name='detector00_cell', fill=mixed_detector, region=detector06_region)  # tally-06
-detector07_cell = openmc.Cell(cell_id=307, name='detector00_cell', fill=mixed_detector, region=detector07_region)  # tally-07
-detector08_cell = openmc.Cell(cell_id=308, name='detector00_cell', fill=mixed_detector, region=detector08_region)  # tally-08
-detector09_cell = openmc.Cell(cell_id=309, name='detector00_cell', fill=mixed_detector, region=detector09_region)  # tally-09
-detector10_cell = openmc.Cell(cell_id=310, name='detector00_cell', fill=mixed_detector, region=detector10_region)  # tally-10
-detector11_cell = openmc.Cell(cell_id=311, name='detector00_cell', fill=mixed_detector, region=detector11_region)  # tally-11
+detector00_cell = openmc.Cell(cell_id=300, fill=mixed_detector, region=detector00_region)  # tally-00
+detector01_cell = openmc.Cell(cell_id=301, fill=mixed_detector, region=detector01_region)  # tally-01
+detector02_cell = openmc.Cell(cell_id=302, fill=mixed_detector, region=detector02_region)  # tally-02
+detector03_cell = openmc.Cell(cell_id=303, fill=mixed_detector, region=detector03_region)  # tally-03
+detector04_cell = openmc.Cell(cell_id=304, fill=mixed_detector, region=detector04_region)  # tally-04
+detector05_cell = openmc.Cell(cell_id=305, fill=mixed_detector, region=detector05_region)  # tally-05
+detector06_cell = openmc.Cell(cell_id=306, fill=mixed_detector, region=detector06_region)  # tally-06
+detector07_cell = openmc.Cell(cell_id=307, fill=mixed_detector, region=detector07_region)  # tally-07
+detector08_cell = openmc.Cell(cell_id=308, fill=mixed_detector, region=detector08_region)  # tally-08
+detector09_cell = openmc.Cell(cell_id=309, fill=mixed_detector, region=detector09_region)  # tally-09
+detector10_cell = openmc.Cell(cell_id=310, fill=mixed_detector, region=detector10_region)  # tally-10
+detector11_cell = openmc.Cell(cell_id=311, fill=mixed_detector, region=detector11_region)  # tally-11
 #
-duct1_cell = openmc.Cell(cell_id=401, name='duct1_cell', fill=air, region=duct1_region)  # duct (0-30 cm)
-duct2_cell = openmc.Cell(cell_id=402, name='duct1_cell', fill=air, region=duct2_region)  # duct (30-65 cm)
-duct3_cell = openmc.Cell(cell_id=403, name='duct1_cell', fill=air, region=duct3_region)  # duct (65-100 cm)
-duct4_cell = openmc.Cell(cell_id=404, name='duct1_cell', fill=air, region=duct4_region)  # duct (100-130 cm)
-duct5_cell = openmc.Cell(cell_id=405, name='duct1_cell', fill=air, region=duct5_region)  # duct (100-130 cm)
-duct6_cell = openmc.Cell(cell_id=406, name='duct1_cell', fill=air, region=duct6_region)  # duct (100-130 cm)
-duct7_cell = openmc.Cell(cell_id=407, name='duct1_cell', fill=air, region=duct7_region)  # duct (130-180 cm)
+duct1_cell = openmc.Cell(cell_id=401, fill=air, region=duct1_region)  # duct (0-30 cm)
+duct2_cell = openmc.Cell(cell_id=402, fill=air, region=duct2_region)  # duct (30-65 cm)
+duct3_cell = openmc.Cell(cell_id=403, fill=air, region=duct3_region)  # duct (65-100 cm)
+duct4_cell = openmc.Cell(cell_id=404, fill=air, region=duct4_region)  # duct (100-130 cm)
+duct5_cell = openmc.Cell(cell_id=405, fill=air, region=duct5_region)  # duct (100-130 cm)
+duct6_cell = openmc.Cell(cell_id=406, fill=air, region=duct6_region)  # duct (100-130 cm)
+duct7_cell = openmc.Cell(cell_id=407, fill=air, region=duct7_region)  # duct (130-180 cm)
 #
 # external1_cell = openmc.Cell(cell_id=501, name='external1_cell', fill=air, region=external1_region)  # external region  # cell lost in the mcnp-to-openmc process. Temporarily removed from here as well
-external2_cell = openmc.Cell(cell_id=502, name='external2_cell', fill=None, region=external2_region)  # external region
+external2_cell = openmc.Cell(cell_id=502, fill=None, region=external2_region)  # external region
 
 # creating universe
 universe = openmc.Universe(name='universe', cells=[targetback_cell, coolwater1_cell, collimator_cell,
@@ -617,18 +617,11 @@ neutron_filter = openmc.ParticleFilter('neutron')
 photon_filter = openmc.ParticleFilter('photon')
 particle_filter = openmc.ParticleFilter(['neutron', 'photon'])
 # cell filters
-detector00_filter = openmc.CellFilter(detector00_cell)
-detector01_filter = openmc.CellFilter(detector01_cell)
-detector02_filter = openmc.CellFilter(detector02_cell)
-detector03_filter = openmc.CellFilter(detector03_cell)
-detector04_filter = openmc.CellFilter(detector04_cell)
-detector05_filter = openmc.CellFilter(detector05_cell)
-detector06_filter = openmc.CellFilter(detector06_cell)
-detector07_filter = openmc.CellFilter(detector07_cell)
-detector08_filter = openmc.CellFilter(detector08_cell)
-detector09_filter = openmc.CellFilter(detector09_cell)
-detector10_filter = openmc.CellFilter(detector10_cell)
-detector11_filter = openmc.CellFilter(detector11_cell)
+# detector00 is never used and it is not part of the experiment
+detector_cell_filter = openmc.CellFilter([detector00_cell, detector01_cell, detector02_cell, detector03_cell, 
+                                        detector04_cell, detector05_cell, detector06_cell, detector07_cell, 
+                                        detector08_cell, detector09_cell, detector10_cell, detector11_cell])
+
 # energy filters
 # Neutron Spectrum in 125-Energy Bin
 neutron_energy_filter = openmc.EnergyFilter(np.array([1.0010e-11, 3.2241e-07, 5.3156e-07, 8.7640e-07, 1.4449e-06,
@@ -680,127 +673,30 @@ photon_energy_filter = openmc.EnergyFilter(np.array([0.010, 0.020, 0.030, 0.045,
 tallies_file = openmc.Tallies()
 
 # cell tallies
-# cell tally - flux at detector11
-tally = openmc.Tally(tally_id=12, name='detector11_nflux')
-tally.filters = [detector11_filter, particle_filter]
-tally.scores = ['flux']
-tallies_file.append(tally)
-#
-# cell tally - reaction rates at detector01
-tally = openmc.Tally(tally_id=101, name='detector01_rr')
-tally.filters = [detector01_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector02
-tally = openmc.Tally(tally_id=102, name='detector02_rr')
-tally.filters = [detector02_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector03
-tally = openmc.Tally(tally_id=103, name='detector03_rr')
-tally.filters = [detector03_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector04
-tally = openmc.Tally(tally_id=104, name='detector04_rr')
-tally.filters = [detector04_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector05
-tally = openmc.Tally(tally_id=105, name='detector05_rr')
-tally.filters = [detector05_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector06
-tally = openmc.Tally(tally_id=106, name='detector06_rr')
-tally.filters = [detector06_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector07
-tally = openmc.Tally(tally_id=107, name='detector07_rr')
-tally.filters = [detector07_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector08
-tally = openmc.Tally(tally_id=109, name='detector08_rr')
-tally.filters = [detector08_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector09
-tally = openmc.Tally(tally_id=110, name='detector09_rr')
-tally.filters = [detector09_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector10
-tally = openmc.Tally(tally_id=111, name='detector10_rr')
-tally.filters = [detector10_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-# cell tally - reaction rates at detector11
-tally = openmc.Tally(tally_id=112, name='detector11_rr')
-tally.filters = [detector11_filter, particle_filter]
-tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
-tally.nuclides = ['Nb93', 'In115', 'Au197']
-tallies_file.append(tally)
-
-# energy spectrum tallies
-# cell tally - neutron spectrum at detector03
-tally = openmc.Tally(tally_id=204, name='detector03_nspectrum')
-tally.filters = [detector03_filter, neutron_filter, neutron_energy_filter]
+# cell tally - flux at detector
+tally = openmc.Tally(tally_id=1, name='detector11_nflux')
+tally.filters = [detector_cell_filter, particle_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
 
-# cell tally - neutron spectrum at detector05
-tally = openmc.Tally(tally_id=206, name='detector05_nspectrum')
-tally.filters = [detector05_filter, neutron_filter, neutron_energy_filter]
+# cell tally - reaction rates at detector
+tally = openmc.Tally(tally_id=101, name='detector_reaction_rate')
+tally.filters = [detector_cell_filter, particle_filter]
+tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
+tally.nuclides = ['Nb93', 'In115', 'Au197']
+tallies_file.append(tally)
+
+# neutrons energy spectrum tallies - same energy bins as mcnp model
+# cell tally - neutron spectrum at detector
+tally = openmc.Tally(tally_id=201, name='detector_nspectrum')
+tally.filters = [detector_cell_filter, neutron_filter, neutron_energy_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
 
-# cell tally - neutron spectrum at detector07
-tally = openmc.Tally(tally_id=208, name='detector07_nspectrum')
-tally.filters = [detector07_filter, neutron_filter, neutron_energy_filter]
-tally.scores = ['flux']
-tallies_file.append(tally)
-
-# cell tally - neutron spectrum at detector09
-tally = openmc.Tally(tally_id=210, name='detector09_nspectrum')
-tally.filters = [detector09_filter, neutron_filter, neutron_energy_filter]
-tally.scores = ['flux']
-tallies_file.append(tally)
-
-# neutrons - same energy bins as measurements
-
-# cell tally - neutron spectrum at detector03
-tally = openmc.Tally(tally_id=254, name='detector03_nspectrum2')
-tally.filters = [detector03_filter, neutron_filter, neutron_energy_filter2]
-tally.scores = ['flux']
-tallies_file.append(tally)
-
-# cell tally - neutron spectrum at detector05
-tally = openmc.Tally(tally_id=256, name='detector05_nspectrum2')
-tally.filters = [detector05_filter, neutron_filter, neutron_energy_filter2]
-tally.scores = ['flux']
-tallies_file.append(tally)
-
-# cell tally - neutron spectrum at detector07
-tally = openmc.Tally(tally_id=258, name='detector07_nspectrum2')
-tally.filters = [detector07_filter, neutron_filter, neutron_energy_filter2]
-tally.scores = ['flux']
-tallies_file.append(tally)
-
-# cell tally - neutron spectrum at detector09
-tally = openmc.Tally(tally_id=260, name='detector09_nspectrum2')
-tally.filters = [detector09_filter, neutron_filter, neutron_energy_filter2]
+# neutrons energy spectrum tallies - same energy bins as measurements
+# cell tally - neutron spectrum at detector
+tally = openmc.Tally(tally_id=251, name='detector_nspectrum2')
+tally.filters = [detector_cell_filter, neutron_filter, neutron_energy_filter2]
 tally.scores = ['flux']
 tallies_file.append(tally)
 
