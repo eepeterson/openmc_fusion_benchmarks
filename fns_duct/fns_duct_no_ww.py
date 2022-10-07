@@ -674,7 +674,7 @@ tallies_file = openmc.Tallies()
 
 # cell tallies
 # cell tally - flux at detector
-tally = openmc.Tally(tally_id=1, name='detector11_nflux')
+tally = openmc.Tally(tally_id=1, name='detector_nflux')
 tally.filters = [detector_cell_filter, particle_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
