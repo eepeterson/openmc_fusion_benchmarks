@@ -1,0 +1,52 @@
+# Compiled objects and modules
+*.a
+*.o
+*.log
+*.out
+*.pkl
+
+# Compiler python objects
+*.pyc
+
+# Inputs generated from Python API
+*.xml
+
+# emacs and vim backups
+*~
+*.swp
+
+# HDF5 files
+*.h5
+
+# Images
+*.png
+*.ppm
+*.voxel
+*.vti
+
+# PyCharm project configuration files
+.idea
+.idea/*
+
+# IPython notebook checkpoints
+.ipynb_checkpoints
+
+# Cython files
+*.c
+*.html
+*.so
+
+.cache/
+.tox/
+.python-version
+.coverage
+htmlcov
+
+# macOS
+*.DS_Store
+
+# Visual Studio Code configuration files
+.vscode/
+
+# Python pickle files
+*.pkl
