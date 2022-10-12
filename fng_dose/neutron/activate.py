@@ -10,8 +10,15 @@ model = openmc.Model.from_xml()
 schedule = 'campaign1'
 
 if schedule == 'campaign1':
-    source_rates = [2.32e10, 0.0, 2.87e10, 0.0, 1.90e10, 0.0, 1.36e10, 0.0]
-    timesteps = [19440., 61680., 32940., 54840., 15720., 6360., 8940., 7*24*3600.]
+    day = 24*3600
+    source_rates = [
+        2.32e10, 0.0, 2.87e10, 0.0, 1.90e10, 0.0, 1.36e10,
+        0.0, 0.0, 0.0, 0.0, 0.0
+    ]
+    timesteps = [
+        19440., 61680., 32940., 54840., 15720., 6360., 8940.,
+        1*day, 6*day, 8*day, 15*day, 30*day
+    ]
 elif schedule == 'campaign2':
     sources = [5.31e14, 3.35e14, 0., 9.50e14, 0., 1.29e14, 0., 4.0e12]
     timesteps = [17480., 7820., 54140., 22140., 900., 3820., 420., 140.]
@@ -37,10 +44,12 @@ model.deplete(
 sources = {}
 cells = model.geometry.get_all_cells()
 results = openmc.deplete.Results('depletion_results.h5')
-for uid in dose_cell_ids:
-    mat_id = cells[uid].fill.id
-    mat = results[-1].get_material(str(mat_id))
-    sources[uid] = mat.decay_photon_source
+for i_cool, cooling_time in enumerate([1, 7, 15, 30, 60]):
+    sources[cooling_time] = {}
+    for uid in dose_cell_ids:
+        mat_id = cells[uid].fill.id
+        mat = results[8+i_cool].get_material(str(mat_id))
+        sources[cooling_time][uid] = mat.decay_photon_source
 
 with open('sources.pkl', 'wb') as fh:
     dill.dump(sources, fh)
