@@ -15,10 +15,10 @@ From the `neutron/` directory:
 
 From the `photon/` directory:
 
-1. Run `generate_sources_tallies.py` to generate photon sources based on the
-   sources.pkl file
-2. Run `apply_source_cutoff.py E` to restrict the source to only photons above a
-   certain energy.
+1. Run `generate_sources_tallies.py <time>` to generate photon sources based on
+   the sources.pkl file at the specified cooling time.
+2. Run `apply_source_cutoff.py <E>` to restrict the source to only photons above a
+   certain energy (currently using 1100 eV).
 2. Run `openmc`
 3. Run `evaluate_dose.py` to calculate the dose in Sv/h
 
