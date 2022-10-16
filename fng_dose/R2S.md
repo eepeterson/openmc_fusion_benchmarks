@@ -15,12 +15,5 @@ From the `neutron/` directory:
 
 From the `photon/` directory:
 
-1. Run `generate_sources_tallies.py <time>` to generate photon sources based on
+1. Run `run_photon_dose.py <time>` to generate photon sources based on
    the sources.pkl file at the specified cooling time.
-2. Run `apply_source_cutoff.py <E>` to restrict the source to only photons above a
-   certain energy (currently using 1100 eV).
-2. Run `openmc`
-3. Run `evaluate_dose.py` to calculate the dose in Sv/h
-
-Right now step 2 is necessary because with TTB on, the minimum photon energy is
-slightly less than 1100.0 eV. Restricting to 1100.0 eV allows OpenMC to run.
