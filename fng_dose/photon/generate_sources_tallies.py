@@ -78,7 +78,7 @@ def generate_sources(cooling_time: int, cutoff=1100.0):
             energy=energy,
             particle='photon',
             strength=energy.integral(),
-            cells=[cell]
+            domains=[cell]
         )
         sources.append(source)
 

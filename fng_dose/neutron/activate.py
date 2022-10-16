@@ -49,7 +49,7 @@ for i_cool, cooling_time in enumerate([1, 7, 15, 30, 60]):
     for uid in dose_cell_ids:
         mat_id = cells[uid].fill.id
         mat = results[8+i_cool].get_material(str(mat_id))
-        sources[cooling_time][uid] = mat.decay_photon_source
+        sources[cooling_time][uid] = mat.decay_photon_energy
 
 with open('sources.pkl', 'wb') as fh:
     dill.dump(sources, fh)
