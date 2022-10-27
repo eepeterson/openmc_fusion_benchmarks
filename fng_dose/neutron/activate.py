@@ -5,6 +5,9 @@ import numpy as np
 
 from dose_cells import dose_cell_ids
 
+# Set appropriate chain for depletion / decay source generation
+openmc.config['chain_file'] = 'chain_reduced.xml'
+
 model = openmc.Model.from_xml()
 
 schedule = 'campaign1'
@@ -36,7 +39,6 @@ model.deplete(
     method='predictor',
     final_step=False,
     operator_kwargs={
-        'chain_file': 'chain_reduced.xml',
         'normalization_mode': 'source-rate',
     }
 )
