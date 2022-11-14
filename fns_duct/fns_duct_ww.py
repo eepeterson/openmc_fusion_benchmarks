@@ -4,6 +4,8 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import openmc
+import pandas as pd
+import fng_source
 
 # %%
 # parameters
@@ -165,18 +167,18 @@ al27.set_density('g/cm3', 2.7)
 # m33 Nb-93(n,2n)Nb-92m
 nb93 = openmc.Material(material_id=33, name='nb93')
 nb93.add_nuclide('Nb93', 1.0, 'ao')
-# nb93.set_density('g/cm3', 18.57)
-nb93.set_density('g/cm3', 1.2e-3)  # air density
+# nb93.set_density('g/cm3', 8.57)
+nb93.set_density('atom/b-cm', 6.146e-6)  # air atom density
 # m34 In-115(n,n')In-115m
 in115 = openmc.Material(material_id=34, name='in115')
-in115.add_nuclide('In115', 1.0, 'ao')
+in115.add_element('In', 1.0, 'ao')
 # in115.set_density('g/cm3', 7.31)
-in115.set_density('g/cm3', 1.2e-3)
+in115.set_density('atom/b-cm', 6.146e-6)  # air atom density
 # m35 Au-197(n,g)Au-198
 au197 = openmc.Material(material_id=35, name='au197')
 au197.add_nuclide('Au197', 1.0, 'ao')
 # au197.set_density('g/cm3', 19.3)
-au197.set_density('g/cm3', 1.2e-3)
+au197.set_density('atom/b-cm', 6.146e-6)  # air atom density
 # m36 U-235(n,fission)
 u235 = openmc.Material(material_id=36, name='u235')
 u235.add_nuclide('U235', 1.0, 'ao')
@@ -196,9 +198,14 @@ cd_cover.add_nuclide('Cd113', 0.1222, 'ao')
 cd_cover.add_nuclide('Cd114', 0.2873, 'ao')
 cd_cover.add_nuclide('Cd116', 0.0749, 'ao')
 cd_cover.set_density('g/cm3', 1)
+# Xylene for the Ne213 liquid organic scintillator
+xylene = openmc.Material(material_id=40, name='xylene')
+xylene.add_element('H', 0.3333, 'ao')
+xylene.add_element('C', 0.6667, 'ao')
+xylene.set_density('g/cm3', 0.864)
 
 # Mixed activation foil detector material
-mixed_detector = openmc.Material.mix_materials([nb93, in115, au197, air], [1/3, 1/3, 1/3, 0.00], 'vo')
+mixed_detector = openmc.Material.mix_materials([nb93, in115, au197, xylene], [1/3, 1/3, 1/3, 0], 'vo')
 
 # instantiate material collection
 materials = openmc.Materials([copper, cool_water, watercu_mix, ss304, aluminum, air,  mortar, concrete,
@@ -658,8 +665,6 @@ neutron_energy_filter2 = openmc.EnergyFilter(np.array([1.0946, 1.1507, 1.2097,1.
                                             6.2989, 6.6218, 6.9613, 7.3183, 7.6935, 8.0879, 8.5026, 8.9385, 9.3968, 
                                             9.8786, 10.3850, 10.9180, 11.4770, 12.0660, 12.6840, 13.3350, 14.0180, 
                                             14.7370, 15.4930, 16.2870, 17.1220, 18.0000, ])*1e6)
-# Energy Differential Dosimetry Reaction Rate
-###  BOH
 
 # Photon Spectrum in 40-Energy Bin
 photon_energy_filter = openmc.EnergyFilter(np.array([0.010, 0.020, 0.030, 0.045, 0.060, 0.080, 0.10, 0.15, 
@@ -671,13 +676,6 @@ photon_energy_filter = openmc.EnergyFilter(np.array([0.010, 0.020, 0.030, 0.045,
 # tallies
 # instantiate a tally file
 tallies_file = openmc.Tallies()
-
-# cell tallies
-# cell tally - flux at detector
-tally = openmc.Tally(tally_id=1, name='detector_nflux')
-tally.filters = [detector_cell_filter, particle_filter]
-tally.scores = ['flux']
-tallies_file.append(tally)
 
 # cell tally - reaction rates at detector
 tally = openmc.Tally(tally_id=101, name='detector_reaction_rate')
@@ -693,12 +691,26 @@ tally.filters = [detector_cell_filter, neutron_filter, neutron_energy_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
 
+# # photons energy spectrum tallies - same energy bins as measurements
+# # cell tally - photons spectrum at detector
+# tally = openmc.Tally(tally_id=202, name='detector_gspectrum')
+# tally.filters = [detector_cell_filter, photon_filter, neutron_energy_filter]
+# tally.scores = ['flux']
+# tallies_file.append(tally)
+
 # neutrons energy spectrum tallies - same energy bins as measurements
 # cell tally - neutron spectrum at detector
 tally = openmc.Tally(tally_id=251, name='detector_nspectrum2')
 tally.filters = [detector_cell_filter, neutron_filter, neutron_energy_filter2]
 tally.scores = ['flux']
 tallies_file.append(tally)
+
+# # photons energy spectrum tallies - same energy bins as measurements
+# # cell tally - photons spectrum at detector
+# tally = openmc.Tally(tally_id=252, name='detector_gspectrum2')
+# tally.filters = [detector_cell_filter, photon_filter, neutron_energy_filter2]
+# tally.scores = ['flux']
+# tallies_file.append(tally)
 
 # export
 tallies_file.export_to_xml()
@@ -712,14 +724,25 @@ settings_file = openmc.Settings()
 # settings_file.photon_transport = True
 settings_file.run_mode = 'fixed source'
 settings_file.weight_windows = ww
+
+
 # source definition
-source = openmc.Source()
-source.particle = 'neutron'
-source.space = openmc.stats.Point([0,0,0])
-source.angle = openmc.stats.Isotropic()
-source.energy = openmc.stats.muir(14.08e6, 5, 20000)
+
+# # Muir source @ 46 keV (likely center of mass ion temperature for DT neutron source through D-accelerator)
+# source = openmc.Source()
+# source.particle = 'neutron'
+# source.space = openmc.stats.Point([0,0,0])
+# source.angle = openmc.stats.Isotropic()
+# source.energy = openmc.stats.muir(14.08e6, 5, 46000)
+# settings_file.source = source
+
+# fng source (source profile made available by the Frascati Neutron Generator facility)
+fng2fns_center = (0, 0, 0)
+fng2fns_uvw=(0, 1, 0)
+fng2fns_source = fng_source.fng_source(center=fng2fns_center, reference_uvw=fng2fns_uvw)
+settings_file.source = fng2fns_source
+
 # settings' settings
-settings_file.source = source
 settings_file.batches = 10
 settings_file.particles = 1_000_000_000
 # export to XML
@@ -727,4 +750,4 @@ settings_file.export_to_xml()
 
 # %%
 # run
-openmc.run(threads=12)
+openmc.run(threads=16)
