@@ -682,6 +682,7 @@ tally = openmc.Tally(tally_id=101, name='detector_reaction_rate')
 tally.filters = [detector_cell_filter, particle_filter]
 tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
 tally.nuclides = ['Nb93', 'In115', 'Au197']
+tally.estimator = 'collision'
 tallies_file.append(tally)
 
 # neutrons energy spectrum tallies - same energy bins as mcnp model
