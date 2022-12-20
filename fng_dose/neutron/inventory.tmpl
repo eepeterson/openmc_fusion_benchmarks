@@ -1,0 +1,28 @@
+CLOBBER
+JSON
+GETXS 1 709
+GETDECAY 0
+FISPACT
+* FNG dose benchmark, cell {{ cell_id }}
+DENSITY {{ density | round(6) }}
+FUEL {{ num_nuclides }}
+{{ atoms }}
+MIND 1e3
+HALF
+<< -----irradiation phase----- >>
+ATOMS
+{%- for flux in fluxes %}
+FLUX {{ flux | round(6) }}
+TIME {{ irradiation_times[loop.index - 1] | round(6) }} SECS
+ATOMS
+{%- endfor %}
+<< -----cooling phase----- >>
+FLUX 0.0
+ZERO
+{%- for time in cooling_times %}
+TIME {{ time | round(6) }} SECS
+ATOMS
+{%- endfor %}
+END
+* END
+/*

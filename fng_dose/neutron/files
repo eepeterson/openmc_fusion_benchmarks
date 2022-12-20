@@ -1,0 +1,33 @@
+# index of nuclides to be included
+ind_nuc /opt/fispact-ii/4.0/data/ENDFB80data/endfb80_index
+
+# Library cross section data
+xs_endf /opt/fispact-ii/4.0/data/ENDFB80data/endfb80-n/gxs-709
+
+# Library probability tables for self-shielding
+prob_tab  /opt/fispact-ii/4.0/data/TENDL2017data/tal2017-n/tp-709-294
+
+#fluxes
+fluxes  fluxes
+
+# Library decay data
+dk_endf /opt/fispact-ii/4.0/data/ENDFB80data/decay
+
+# Library fission  data
+fy_endf /opt/fispact-ii/4.0/data/ENDFB80data/endfb80-n/endfb80nfy
+sf_endf /opt/fispact-ii/4.0/data/ENDFB80data/endfb80-n/endfb80sfy
+
+# Library regulatory data
+hazards /opt/fispact-ii/4.0/data/decay/hazards_2012
+clear   /opt/fispact-ii/4.0/data/decay/clear_2012
+a2data  /opt/fispact-ii/4.0/data/decay/a2_2012
+
+# gamma attenuation data
+absorp  /opt/fispact-ii/4.0/data/decay/abs_2012
+
+# collapsed cross section data (in and out)
+collapxi  COLLAPX
+collapxo  COLLAPX
+
+# condensed decay and fission data (in and out)
+arrayx  ARRAYX
