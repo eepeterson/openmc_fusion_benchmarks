@@ -371,7 +371,7 @@
   <surface coeffs="-0.7071067811865475 6.123233995736766e-17 0.7071067811865476 -1.45" id="68" type="plane" />
   <surface coeffs="43.17" id="89" type="y-plane" />
   <surface coeffs="25.3" id="90" type="y-plane" />
-  <surface coeffs="28.17" id="91" type="y-plane" boundary="vacuum" />
+  <surface coeffs="28.17" id="91" type="y-plane" />
   <surface coeffs="-49.5" id="92" type="x-plane" boundary="vacuum" />
   <surface coeffs="49.5" id="93" type="x-plane" boundary="vacuum" />
   <surface coeffs="-49.2" id="94" type="z-plane" boundary="vacuum" />
