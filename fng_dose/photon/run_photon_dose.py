@@ -51,7 +51,7 @@ def get_dose(statepoint_file):
     """
 
 
-def generate_sources(cooling_time: int, cutoff=1100.0):
+def generate_sources(cooling_time: int):
     model = openmc.Model.from_xml()
     cells = model.geometry.get_all_cells()
     dose_cells = [cells[uid] for uid in dose_cell_ids]
@@ -67,11 +67,6 @@ def generate_sources(cooling_time: int, cutoff=1100.0):
     for cell in dose_cells:
         space = openmc.stats.Box(*cell.bounding_box)
         energy = energy_dists[cooling_time][cell.id]
-
-        # Restrict energies to > 1.1 keV
-        mask = energy.x > cutoff
-        energy.x = energy.x[mask]
-        energy.p = energy.p[mask]
 
         source = openmc.Source(
             space=space,
