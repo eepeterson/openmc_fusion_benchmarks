@@ -26,6 +26,15 @@ import openmc
 import fng_source
 
 # %%
+off_axis = False
+
+# %%
+cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/endfb80_hdf5/cross_sections.xml'
+# cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2-hdf5/cross_sections.xml'
+# cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2b-hdf5/cross_sections.xml'
+openmc.config['cross_sections'] = cross_sections_path
+
+# %%
 # parameters
 
 # rotations and translations
@@ -35,55 +44,70 @@ t1z = 0  # cm - translation along z
 r1phi = 0  # deg - rotation around x
 r1theta = 0  # deg - rotation around y
 r1psi = 45  # deg - rotation around z 45
-t2x = 0  # cm - translation along x
+t2x = 0  # cm - translation along x -     ON-AXIS
 t2y = 0.15  # cm - translation along y 0.15
 t2z = 0  # cm - translation along z
 r2phi = 0  # deg - rotation around x
 r2theta = -45  # deg - rotation around y -45
 r2psi = 0  # deg - rotation around z
+# 
+t3x = 0.  # cm - translation along x
+t3y = 0.  # cm - translation along y
+t3z = 0.  # cm - translation along z
+
+if off_axis == True:
+    # Off-axis
+    t2x = -5.3  # adjustement to translation number 2
+    #
+    t3x = -5.3  # cm - translation along x -     ON-AXIS
+    t3y = 0.  # cm - translation along y 0.15
+    t3z = 0.  # cm - translation along z
 
 # transformations
 r1 = (r1phi, r1theta, r1psi)  # for rotation matrix
 r2 = (r2phi, r2theta, r2psi)  # for rotation matrix
 t1 = (t1x, t1y, t1z)  # translation vector
 t2 = (t2x, t2y, t2z)  # translation vector
+# off axis translation
+t3 = (t3x, t3y, t3z)  # translation vector
 
 # %%
 # MATERIALS
 # materials for experimental setup
-# # m1 Stainless Steel SS (AISI-316)  # we are at 98.097 of weight composition
-# aisi316 = openmc.Material(material_id=1, name='aisi316')
-# aisi316.add_element('B', 0.00315, 'wo')
-# aisi316.add_element('C', 0.04, 'wo')
-# aisi316.add_element('Si', 0.41, 'wo')
-# aisi316.add_element('V', 0.16, 'wo')
-# aisi316.add_element('Cr', 15.194, 'wo')
-# aisi316.add_element('Mn', 1.14, 'wo')
-# aisi316.add_element('Fe', 68.11, 'wo')
-# aisi316.add_element('Co', 0.14, 'wo')
-# aisi316.add_element('Ni', 10.69, 'wo')
-# aisi316.add_element('Mo', 2.12, 'wo')
-# aisi316.add_element('Cu', 0.09, 'wo')
-# aisi316.set_density('g/cm3', 7.954)
-
-# m1 Stainless Steel SS (AISI-316)  # from the "eff-639.pdf" file, 99.7765% of weight composition
+# m1 Stainless Steel SS (AISI-316)  # we are at 98.097 of weight composition
 aisi316 = openmc.Material(material_id=1, name='aisi316')
+aisi316.add_element('B', 0.00315, 'wo')
 aisi316.add_element('C', 0.04, 'wo')
-aisi316.add_element('Si', 0.45, 'wo')
+aisi316.add_element('Si', 0.41, 'wo')
 aisi316.add_element('V', 0.16, 'wo')
-aisi316.add_element('Cr', 16.8, 'wo')
+aisi316.add_element('Cr', 15.194, 'wo')
 aisi316.add_element('Mn', 1.14, 'wo')
-aisi316.add_element('Fe', 68.1, 'wo')
+aisi316.add_element('Fe', 68.11, 'wo')
 aisi316.add_element('Co', 0.14, 'wo')
-aisi316.add_element('Ni', 10.7, 'wo')
+aisi316.add_element('Ni', 10.69, 'wo')
 aisi316.add_element('Mo', 2.12, 'wo')
 aisi316.add_element('Cu', 0.09, 'wo')
-aisi316.add_element('S', 0.006, 'wo')
-aisi316.add_element('P', 0.022, 'wo')
-aisi316.add_element('Sn', 0.004, 'wo')
-aisi316.add_element('Pb', 0.001, 'wo')
-aisi316.add_element('B', 0.0035, 'wo')
-aisi316.set_density('g/cm3', 7.89)
+aisi316.set_density('g/cm3', 7.954)
+
+# # m1 Stainless Steel SS (AISI-316)  # from the "eff-639.pdf" file, 99.7765% of weight composition
+# aisi316 = openmc.Material(material_id=1, name='aisi316')
+# aisi316.add_element('C', 0.04, 'wo')
+# aisi316.add_element('Si', 0.45, 'wo')
+# aisi316.add_element('V', 0.16, 'wo')
+# aisi316.add_element('Cr', 16.8, 'wo')
+# aisi316.add_element('Mn', 1.14, 'wo')
+# aisi316.add_element('Fe', 68.1, 'wo')
+# aisi316.add_element('Co', 0.14, 'wo')
+# aisi316.add_element('Ni', 10.7, 'wo')
+# aisi316.add_element('Mo', 2.12, 'wo')
+# aisi316.add_element('Cu', 0.09, 'wo')
+# aisi316.add_element('S', 0.006, 'wo')
+# aisi316.add_element('P', 0.022, 'wo')
+# aisi316.add_element('Sn', 0.004, 'wo')
+# aisi316.add_element('Pb', 0.001, 'wo')
+# aisi316.add_element('B', 0.0035, 'wo')
+# aisi316.set_density('g/cm3', 7.89)
+
 # m2 H2O
 water = openmc.Material(material_id=2, name='cool_water')
 water.add_element('H', 2, 'ao')
@@ -92,12 +116,12 @@ water.set_density('g/cm3', 1.0)
 # m3 Copper
 copper = openmc.Material(material_id=3, name='cu')
 copper.add_element('Cu', 1.0, 'ao')
-copper.set_density('g/cm3', 8.96)
+copper.set_density('g/cm3', 8.94)
 # m4 Air
 air = openmc.Material(material_id=4, name='air')
 air.add_element('N', .788903, 'ao')
 air.add_element('O', .211097, 'ao')
-air.set_density('g/cm3', 4.614e-5)
+air.set_density('atom/b-cm', 4.614e-5)
 # # m4 air
 # air = openmc.Material(material_id=4, name='air')
 # air.add_element('N', 0.78, 'ao')
@@ -173,15 +197,12 @@ au197.set_density('g/cm3', 19.3)
 # au197.set_density('g/cm3', 0.965)  # 
 # au197.set_density('g/cm3', 1.2e-3)  # air density
 
-act_foil = openmc.Material.mix_materials([nb93, al27, ni58, au197, air], [0, 1, 0, 0.0, 0], 'vo')
-act_foil_box = openmc.Material.mix_materials([nb93, al27, ni58, au197, air], [0, 1, 0, 0.0, 0], 'vo')
+act_foil = openmc.Material.mix_materials([nb93, al27, ni58, au197, air], [1, 0, 0, 0.0, 0], 'vo')
+act_foil_box = openmc.Material.mix_materials([nb93, al27, ni58, au197, air], [1, 0, 0, 0.0, 0], 'vo')
 
 # setting temperatures
 # instantiate material collection
 materials = openmc.Materials([aisi316, water, copper, air, perspex, ch2, act_foil, concrete, act_foil_box, al27, ni58, nb93, au197])
-# set cross section library
-# materials.cross_sections = r'/home/segantin/openmc_models/CROSS_SECTIONS/endfb80_hdf5/cross_sections.xml'
-# materials.cross_sections = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2-hdf5/cross_sections.xml'
 
 # export to XML
 materials.export_to_xml()
@@ -192,28 +213,28 @@ materials.export_to_xml()
 # SURFACES
 
 # Target surfaces
-py_1 = openmc.YPlane(y0=0.0, name='py_1')
-py_2 = openmc.YPlane(y0=0.1, name='py_2')
-py_3 = openmc.YPlane(y0=0.2, name='py_3')
-py_4 = openmc.YPlane(y0=0.35, name='py_4')
-py_5 = openmc.YPlane(y0=49.17, name='py_5')
-py_6 = openmc.YPlane(y0=-1.9, name='py_6')
-cy_7 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.5, name='cy_7')
-cy_8 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.6, name='cy_8')
-cy_9 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.7, name='cy_9')
-cy_10 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.8, name='cy_10')
-cy_11 = openmc.YCylinder(x0=0.0, z0=0.0, r=2.4, name='cy_11')
-py_12 = openmc.YPlane(y0=-13.5, name='py_12')
-py_13 = openmc.YPlane(y0=-4.0, name='py_13')
+py_1 = openmc.YPlane(y0=0.0, name='py_1').translate(t3)
+py_2 = openmc.YPlane(y0=0.1, name='py_2').translate(t3)
+py_3 = openmc.YPlane(y0=0.2, name='py_3').translate(t3)
+py_4 = openmc.YPlane(y0=0.35, name='py_4').translate(t3)
+py_5 = openmc.YPlane(y0=49.17, name='py_5').translate(t3)
+py_6 = openmc.YPlane(y0=-1.9, name='py_6').translate(t3)
+cy_7 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.5, name='cy_7').translate(t3)
+cy_8 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.6, name='cy_8').translate(t3)
+cy_9 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.7, name='cy_9').translate(t3)
+cy_10 = openmc.YCylinder(x0=0.0, z0=0.0, r=1.8, name='cy_10').translate(t3)
+cy_11 = openmc.YCylinder(x0=0.0, z0=0.0, r=2.4, name='cy_11').translate(t3)
+py_12 = openmc.YPlane(y0=-13.5, name='py_12').translate(t3)
+py_13 = openmc.YPlane(y0=-4.0, name='py_13').translate(t3)
 cx_14 = openmc.XCylinder(y0=0.0, z0=0, r=1.13, name='cx_14').rotate(r2).translate(t2)  # tr2
 cx_15 = openmc.XCylinder(y0=0.0, z0=0, r=1.4, name='cx_15').rotate(r2).translate(t2)  # tr2
 px_16 = openmc.XPlane(x0=2.0, name='px_16').rotate(r2).translate(t2)  # tr2
 px_17 = openmc.XPlane(x0=-2.0, name='px_17').rotate(r2).translate(t2)  # tr2
 
 # Planes for the pot and the exterior
-cy_19 = openmc.YCylinder(x0=0.0, z0=0.0, r=17.7, name='cy_29')
-py_20 = openmc.YPlane(y0=-8.4, name='py_20')
-py_21 = openmc.YPlane(y0=-14.1, name='py_21')
+cy_19 = openmc.YCylinder(x0=0.0, z0=0.0, r=17.7, name='cy_29').translate(t3)
+py_20 = openmc.YPlane(y0=-8.4, name='py_20').translate(t3)
+py_21 = openmc.YPlane(y0=-14.1, name='py_21').translate(t3)
 # p_22 = openmc.Plane.from_points((2.0, 0.05, 0.0), (6.15, 1.3, 0.0), (2.0, 0.05, 3.0), name='p_22').rotate(r2).translate(t2)  # tr2
 # p_23 = openmc.Plane.from_points((2.0, 0.20, 0.0), (6.15, 1.4, 0.0), (2.0, 0.20, 3.0), name='p_23').rotate(r2).translate(t2)  # tr2
 # p_24 = openmc.Plane.from_points((2.0, -0.05, 0.0), (6.15, -1.3, 0.0), (2.0, -0.05, 3.0), name='p_24').rotate(r2).translate(t2)  # tr2
@@ -222,14 +243,14 @@ py_21 = openmc.YPlane(y0=-14.1, name='py_21')
 # p_27 = openmc.Plane.from_points((-2.0, 0.20, 0.0), (-6.15, 1.4, 0.0), (-2.0, 0.20, 3.0), name='p_27').rotate(r2).translate(t2)  # tr2
 # p_28 = openmc.Plane.from_points((-2.0, -0.05, 0.0), (-6.15, -1.3, 0.0), (-2.0, -0.05, 3.0), name='p_28').rotate(r2).translate(t2)  # tr2
 # p_29 = openmc.Plane.from_points((-2.0, -0.15, 0.0), (-6.15, -1.4, 0.0), (-2.0, -0.15, 3.0), name='p_29').rotate(r2).translate(t2)  # tr2
-p_22 = openmc.Plane(2.6516504294495524, -12.450000000000001, 2.6516504294495524, 5.01, name='p_22')  # COPIED FROM XML
-p_23 = openmc.Plane(2.54558441227157, -12.450000000000001, 2.54558441227157, 2.842499999999999, name='p_23')  # COPIED FROM XML
-p_24 = openmc.Plane(2.651650429449554, 12.450000000000001, 2.651650429449554, 8.745, name='p_24')  # COPIED FROM XML
-p_25 = openmc.Plane(2.651650429449554, 12.450000000000001, 2.651650429449554, 7.5, name='p_25')  # COPIED FROM XML
-p_26 = openmc.Plane(-2.651650429449554, -12.450000000000001, -2.651650429449554, 5.01, name='p_26')  # COPIED FROM XML
-p_27 = openmc.Plane(-2.545584412271572, -12.450000000000001, -2.545584412271572, 2.842499999999999, name='p_27')  # COPIED FROM XML
-p_28 = openmc.Plane(-2.6516504294495524, 12.450000000000001, -2.6516504294495524, 8.745, name='p_28')  # COPIED FROM XML
-p_29 = openmc.Plane(-2.6516504294495524, 12.450000000000001, -2.6516504294495524, 7.5, name='p_29')  # COPIED FROM XML
+p_22 = openmc.Plane(2.6516504294495524, -12.450000000000001, 2.6516504294495524, 5.01, name='p_22').translate(t3)  # COPIED FROM XML
+p_23 = openmc.Plane(2.54558441227157, -12.450000000000001, 2.54558441227157, 2.842499999999999, name='p_23').translate(t3)  # COPIED FROM XML
+p_24 = openmc.Plane(2.651650429449554, 12.450000000000001, 2.651650429449554, 8.745, name='p_24').translate(t3)  # COPIED FROM XML
+p_25 = openmc.Plane(2.651650429449554, 12.450000000000001, 2.651650429449554, 7.5, name='p_25').translate(t3)  # COPIED FROM XML
+p_26 = openmc.Plane(-2.651650429449554, -12.450000000000001, -2.651650429449554, 5.01, name='p_26').translate(t3)  # COPIED FROM XML
+p_27 = openmc.Plane(-2.545584412271572, -12.450000000000001, -2.545584412271572, 2.842499999999999, name='p_27').translate(t3)  # COPIED FROM XML
+p_28 = openmc.Plane(-2.6516504294495524, 12.450000000000001, -2.6516504294495524, 8.745, name='p_28').translate(t3)  # COPIED FROM XML
+p_29 = openmc.Plane(-2.6516504294495524, 12.450000000000001, -2.6516504294495524, 7.5, name='p_29').translate(t3)  # COPIED FROM XML
 pz_30 = openmc.ZPlane(z0=2.0, name='pz_30').rotate(r2).translate(t2)  # tr2
 pz_31 = openmc.ZPlane(z0=1.9, name='pz_31').rotate(r2).translate(t2)  # tr2
 pz_32 = openmc.ZPlane(z0=-1.9, name='pz_32').rotate(r2).translate(t2)  # tr2
@@ -242,14 +263,14 @@ pz_33 = openmc.ZPlane(z0=-2.0, name='pz_33').rotate(r2).translate(t2)  # tr2
 # p_39 = openmc.Plane.from_points((-2.0, 0.0, 2.0), (-6.15, 0.0, 1.4), (-2.0, 3.0, 2.0), name='p_39').rotate(r2).translate(t2)  # tr2
 # p_40 = openmc.Plane.from_points((-2.0, 0.0, -1.9), (-6.15, 0.0, -1.3), (-2.0, 3.0, -1.9), name='p_40').rotate(r2).translate(t2)  # tr2
 # p_41 = openmc.Plane.from_points((-2.0, 0.0, -2.0), (-6.15, 0.0, -1.4), (-2.0, 3.0, -2.0), name='p_41').rotate(r2).translate(t2)  # tr2
-p_34 = openmc.Plane(-7.530687219636732, 0, 10.076271631908304, 27.255, name='p_34')  # COPIED FROM XML
-p_35 = openmc.Plane(-7.530687219636731, 0, 10.076271631908305, 28.500000000000004, name='p_35')  # COPIED FROM XML
-p_36 = openmc.Plane(10.076271631908302, 0, -7.530687219636734, 27.255, name='p_36')  # COPIED FROM XML
-p_37 = openmc.Plane(10.076271631908304, 0, -7.530687219636733, 28.500000000000004, name='p_37')  # COPIED FROM XML
-p_38 = openmc.Plane(-10.076271631908302, 0, 7.530687219636734, 27.255, name='p_38')  # COPIED FROM XML
-p_39 = openmc.Plane(-10.076271631908304, 0, 7.530687219636733, 28.500000000000004, name='p_39')  # COPIED FROM XML
-p_40 = openmc.Plane(7.530687219636732, 0, -10.076271631908304, 27.255, name='p_40')  # COPIED FROM XML
-p_41 = openmc.Plane(7.530687219636731, 0, -10.076271631908305, 28.500000000000004, name='p_41')  # COPIED FROM XML
+p_34 = openmc.Plane(-7.530687219636732, 0, 10.076271631908304, 27.255, name='p_34').translate(t3)  # COPIED FROM XML
+p_35 = openmc.Plane(-7.530687219636731, 0, 10.076271631908305, 28.500000000000004, name='p_35').translate(t3)  # COPIED FROM XML
+p_36 = openmc.Plane(10.076271631908302, 0, -7.530687219636734, 27.255, name='p_36').translate(t3)  # COPIED FROM XML
+p_37 = openmc.Plane(10.076271631908304, 0, -7.530687219636733, 28.500000000000004, name='p_37').translate(t3)  # COPIED FROM XML
+p_38 = openmc.Plane(-10.076271631908302, 0, 7.530687219636734, 27.255, name='p_38').translate(t3)  # COPIED FROM XML
+p_39 = openmc.Plane(-10.076271631908304, 0, 7.530687219636733, 28.500000000000004, name='p_39').translate(t3)  # COPIED FROM XML
+p_40 = openmc.Plane(7.530687219636732, 0, -10.076271631908304, 27.255, name='p_40').translate(t3)  # COPIED FROM XML
+p_41 = openmc.Plane(7.530687219636731, 0, -10.076271631908305, 28.500000000000004, name='p_41').translate(t3)  # COPIED FROM XML
 px_42 = openmc.XPlane(x0=6.15, name='px_42').rotate(r2).translate(t2)  # tr2
 px_43 = openmc.XPlane(x0=-6.15, name='px_43').rotate(r2).translate(t2)  # tr2
 
@@ -1906,26 +1927,31 @@ universe = openmc.Universe(name='universe', cells=[cell_1, cell_2, cell_3, cell_
 geometry = openmc.Geometry(universe)
 geometry.export_to_xml(remove_surfs=True)
 
-# # %%
-# # plot geometry
+# %%
+# # temporary solution for plotting
+# import os
+# os.environ['OPENMC_CROSS_SECTIONS'] = r'/home/segantin/openmc_models/CROSS_SECTIONS/endfb80_hdf5/cross_sections.xml'
 
-# universe.plot(basis='xz', width=[200, 200], origin=[0, 0, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
-# plt.grid()
-# # plt.savefig("room_xz.png", format="png", dpi=1200)
-# plt.show()
+# plot geometry
 
-# universe.plot(basis='yz', width=[20, 20], origin=[0, 45, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
-# plt.grid()
-# # plt.savefig("room_yz.png", format="png", dpi=1200)
-# plt.show()
+universe.plot(basis='xz', width=[40, 40], origin=[0, 0, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
+plt.grid()
+# plt.savefig("room_xz.png", format="png", dpi=1200)
+plt.show()
 
-# universe.plot(basis='xy', width=[20, 20], origin=[0, 45, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
-# plt.grid()
-# # plt.savefig("room_xy.png", format="png", dpi=1200)
+universe.plot(basis='yz', width=[50, 50], origin=[0, 45, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
+plt.grid()
+# plt.savefig("room_yz.png", format="png", dpi=1200)
+plt.show()
 
-# universe.plot(basis='xy', width=[20, 20], origin=[0, 0, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
-# plt.grid()
-# # plt.savefig("room_xy.png", format="png", dpi=1200)
+universe.plot(basis='xy', width=[60, 60], origin=[0, 25, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
+plt.grid()
+# plt.savefig("room_xy.png", format="png", dpi=1200)
+
+
+universe.plot(basis='xy', width=[5, 5], origin=[0, 0, 0], pixels=[200, 200], color_by='material', colors={air:'aliceblue', aisi316:'grey', copper:'brown', act_foil:'red', act_foil_box:'red'})
+plt.grid()
+# plt.savefig("room_xy.png", format="png", dpi=1200)
 
 # %%
 # TALLIES
@@ -1987,24 +2013,22 @@ settings_file = openmc.Settings()
 settings_file.photon_transport = False
 settings_file.run_mode = 'fixed source'
 # settings_file.weight_windows = ww
-# source definition
-# source = openmc.Source()
-# source.particle = 'neutron'
-# source.space = openmc.stats.Point([0,0,0])
-# source.angle = openmc.stats.Isotropic()
-# source.energy = openmc.stats.muir(14.08e6, 5, 20000)
 
 # fng source
 fng_center = (0, 0, 0)
-# fng_uvw=(.7071, .7071, 0)
-fng_uvw=(0, 1, 0)
+if off_axis == True:
+    fng_center = (-5.3, 0, 0)
+    
+fng_uvw = (-0.7071, .7071, 0)
+# fng_uvw = (0, 1, 0)
 my_fng_source = fng_source.fng_source(center=fng_center, reference_uvw=fng_uvw)
+settings_file.source = my_fng_source
 
 # settings' settings
 # settings_file.source = source
-settings_file.source = my_fng_source
+settings_file.source = fng_source
 settings_file.batches = 10
-settings_file.particles = 500_000_000
+settings_file.particles = 1_000_000_000
 
 # export to XML
 settings_file.export_to_xml()
@@ -2012,6 +2036,6 @@ settings_file.export_to_xml()
 # %%
 # run
 
-openmc.run(threads=16)
+openmc.run()
 
 
