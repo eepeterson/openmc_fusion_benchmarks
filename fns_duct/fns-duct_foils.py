@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import openmc
 import pandas as pd
 import fng_source
+import fng_source_froutine
 
 # %%
 # parameters
@@ -26,6 +27,13 @@ r1 = (r1phi, r1theta, r1psi)  # for rotation matrix
 r2 = (r2phi, r2theta, r2psi)  # for rotation matrix
 t1 = (0, t1y, 0)  # translation vector
 t2 = (0, t2y, t2z)  # translation vector
+
+# %%
+# CROSS SECTIONS
+# cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/endfb80_hdf5/cross_sections.xml'
+cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2-hdf5/cross_sections.xml'
+# cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2b-hdf5/cross_sections.xml'
+openmc.config['cross_sections'] = cross_sections_path
 
 # %%
 # MATERIALS
@@ -61,7 +69,7 @@ air = openmc.Material(material_id=6, name='air')
 air.add_element('N', 0.78, 'ao')
 air.add_element('O', 0.22, 'ao')
 air.add_element('Ar', 0.01, 'ao')
-air.set_density('g/cm3', 1.2e-3)
+air.set_density('g/cm3', 1.225e-3)
 # m7 mortar
 mortar = openmc.Material(material_id=7, name='mortar')
 mortar.add_element('H', 6.5972e-3, 'ao')
@@ -123,10 +131,10 @@ iron_aux.add_nuclide('S33', 5.2989e-08, 'ao')
 iron_aux.add_nuclide('S34', 2.9744e-07, 'ao')
 iron_aux.add_nuclide('S36', 1.4130e-09, 'ao')
 iron_aux.add_element('Mn', 5.6358e-4, 'ao')
-iron_aux.add_nuclide('Fe54', 3.8754e-03, 'ao')
-iron_aux.add_nuclide('Fe56', 6.1285e-02, 'ao')
-iron_aux.add_nuclide('Fe57', 1.4700e-003, 'ao')
-iron_aux.add_nuclide('Fe58', 1.8709e-04, 'ao')
+iron_aux.add_nuclide('Fe54', 3.8754e-3, 'ao')
+iron_aux.add_nuclide('Fe56', 6.1285e-2, 'ao')
+iron_aux.add_nuclide('Fe57', 1.4700e-3, 'ao')
+iron_aux.add_nuclide('Fe58', 1.8709e-4, 'ao')
 iron_aux.set_density('g/cm3', 6.46)
 
 # modified density materials
@@ -167,18 +175,22 @@ al27.set_density('g/cm3', 2.7)
 # m33 Nb-93(n,2n)Nb-92m
 nb93 = openmc.Material(material_id=33, name='nb93')
 nb93.add_nuclide('Nb93', 1.0, 'ao')
-# nb93.set_density('g/cm3', 8.57)
-nb93.set_density('atom/b-cm', 6.146e-6)  # air atom density
+nb93.set_density('g/cm3', 8.57)
+# nb93.set_density('g/cm3', 1.2e-3)  # air density
+# nb93.set_density('atom/b-cm', 6.146e-6)  # air atom density
 # m34 In-115(n,n')In-115m
 in115 = openmc.Material(material_id=34, name='in115')
 in115.add_element('In', 1.0, 'ao')
-# in115.set_density('g/cm3', 7.31)
-in115.set_density('atom/b-cm', 6.146e-6)  # air atom density
+in115.set_density('g/cm3', 7.31)
+# in115.set_density('g/cm3', 1.2e-3)  # air density
+# in115.set_density('atom/b-cm', 6.146e-6)  # air atom density
 # m35 Au-197(n,g)Au-198
 au197 = openmc.Material(material_id=35, name='au197')
 au197.add_nuclide('Au197', 1.0, 'ao')
-# au197.set_density('g/cm3', 19.3)
-au197.set_density('atom/b-cm', 6.146e-6)  # air atom density
+au197.set_density('g/cm3', 19.3)
+# au197.set_density('g/cm3', 0.965)  # 
+# au197.set_density('g/cm3', 1.2e-3)  # air density
+# au197.set_density('atom/b-cm', 6.146e-6)  # air atom density
 # m36 U-235(n,fission)
 u235 = openmc.Material(material_id=36, name='u235')
 u235.add_nuclide('U235', 1.0, 'ao')
@@ -202,15 +214,15 @@ cd_cover.set_density('g/cm3', 1)
 xylene = openmc.Material(material_id=40, name='xylene')
 xylene.add_element('H', 0.3333, 'ao')
 xylene.add_element('C', 0.6667, 'ao')
-xylene.set_density('g/cm3', 0.864)
+xylene.set_density('g/cm3', 0.866)
 
 # Mixed activation foil detector material
-mixed_detector = openmc.Material.mix_materials([nb93, in115, au197, xylene], [1/3, 1/3, 1/3, 0], 'vo')
+mixed_detector = openmc.Material.mix_materials([nb93, in115, au197, xylene, air], [0, 0, .00005, .99995, 0], 'vo')
 
 # instantiate material collection
 materials = openmc.Materials([copper, cool_water, watercu_mix, ss304, aluminum, air,  mortar, concrete,
                             iron_ass, iron_aux, lat_water, bot_water, ss304_acc1, ss304_acc2, b10, al27,
-                            nb93, au197, u235, u238, cd_cover, mixed_detector])
+                            nb93, in115, au197, u235, u238, cd_cover, xylene, mixed_detector])
 
 # export to XML
 materials.export_to_xml()
@@ -357,28 +369,28 @@ pz_sas251 = openmc.ZPlane(z0=200.0, name='pz_sas251').rotate(r2).translate(t2)  
 pz_sas252 = openmc.ZPlane(z0=220.0, name='pz_sas252').rotate(r2).translate(t2)  # rear surface of iron cap  ## t2+r2
 pz_sas253 = openmc.ZPlane(z0=100.0, name='pz_sas253').rotate(r2).translate(t2)  # duct surface  ## t2+r2
 #
-py_sas271 = openmc.YPlane(y0=-2.0, name='py_sas271').rotate(r2).translate(t2)  # side of cell detectors  ## t2+r2
-py_sas272 = openmc.YPlane(y0=2.0, name='py_sas272').rotate(r2).translate(t2)  # side of cell detectors  ## t2+r2
+py_sas271 = openmc.YPlane(y0=-1.0, name='py_sas271').rotate(r2).translate(t2)  # side of cell detectors  ## t2+r2
+py_sas272 = openmc.YPlane(y0=1.0, name='py_sas272').rotate(r2).translate(t2)  # side of cell detectors  ## t2+r2
 #
-px_sas281 = openmc.XPlane(x0=-62.0, name='px_sas281').rotate(r2).translate(t2)  # for cell detectors at X =-60  ## t2+r2
-px_sas282 = openmc.XPlane(x0=-58.0, name='px_sas282').rotate(r2).translate(t2)  # for cell detectors at X =-60  ## t2+r2
-px_sas283 = openmc.XPlane(x0=-32.0, name='px_sas283').rotate(r2).translate(t2)  # for cell detectors at X =-30  ## t2+r2
-px_sas284 = openmc.XPlane(x0=-28.0, name='px_sas284').rotate(r2).translate(t2)  # for cell detectors at X =-30  ## t2+r2
-px_sas285 = openmc.XPlane(x0=-2.0, name='px_sas285').rotate(r2).translate(t2)  # for cell detectors at X =  0  ## t2+r2
-px_sas286 = openmc.XPlane(x0=2.0, name='px_sas286').rotate(r2).translate(t2)  # for cell detectors at X =  0  ## t2+r2
-px_sas287 = openmc.XPlane(x0=28.0, name='px_sas287').rotate(r2).translate(t2)  # for cell detectors at X = 30  ## t2+r2
-px_sas288 = openmc.XPlane(x0=32.0, name='px_sas288').rotate(r2).translate(t2)  # for cell detectors at X = 30  ## t2+r2
-px_sas289 = openmc.XPlane(x0=58.0, name='px_sas289').rotate(r2).translate(t2)  # for cell detectors at X = 60  ## t2+r2
-px_sas290 = openmc.XPlane(x0=62.0, name='px_sas290').rotate(r2).translate(t2)  # for cell detectors at X = 60  ## t2+r2
+px_sas281 = openmc.XPlane(x0=-61.0, name='px_sas281').rotate(r2).translate(t2)  # for cell detectors at X =-60  ## t2+r2
+px_sas282 = openmc.XPlane(x0=-59.0, name='px_sas282').rotate(r2).translate(t2)  # for cell detectors at X =-60  ## t2+r2
+px_sas283 = openmc.XPlane(x0=-31.0, name='px_sas283').rotate(r2).translate(t2)  # for cell detectors at X =-30  ## t2+r2
+px_sas284 = openmc.XPlane(x0=-29.0, name='px_sas284').rotate(r2).translate(t2)  # for cell detectors at X =-30  ## t2+r2
+px_sas285 = openmc.XPlane(x0=-1.0, name='px_sas285').rotate(r2).translate(t2)  # for cell detectors at X =  0  ## t2+r2
+px_sas286 = openmc.XPlane(x0=1.0, name='px_sas286').rotate(r2).translate(t2)  # for cell detectors at X =  0  ## t2+r2
+px_sas287 = openmc.XPlane(x0=29.0, name='px_sas287').rotate(r2).translate(t2)  # for cell detectors at X = 30  ## t2+r2
+px_sas288 = openmc.XPlane(x0=31.0, name='px_sas288').rotate(r2).translate(t2)  # for cell detectors at X = 30  ## t2+r2
+px_sas289 = openmc.XPlane(x0=59.0, name='px_sas289').rotate(r2).translate(t2)  # for cell detectors at X = 60  ## t2+r2
+px_sas290 = openmc.XPlane(x0=61.0, name='px_sas290').rotate(r2).translate(t2)  # for cell detectors at X = 60  ## t2+r2
 pz_sas291 = openmc.ZPlane(z0=-19.0, name='pz_sas291').rotate(r2).translate(t2)  # for cell detectors at Z = -20  ## t2+r2
-pz_sas292 = openmc.ZPlane(z0=1.0, name='pz_sas292').rotate(r2).translate(t2)  # for cell detectors at Z = 0  ## t2+r2
-pz_sas293 = openmc.ZPlane(z0=49.5, name='pz_sas293').rotate(r2).translate(t2)  # for cell detectors at Z = 50  ## t2+r2
-pz_sas294 = openmc.ZPlane(z0=50.5, name='pz_sas294').rotate(r2).translate(t2)  # for cell detectors at Z = 50  ## t2+r2
-pz_sas295 = openmc.ZPlane(z0=114.5, name='pz_sas295').rotate(r2).translate(t2)  # for cell detectors at Z = 115  ## t2+r2
-pz_sas296 = openmc.ZPlane(z0=115.5, name='pz_sas296').rotate(r2).translate(t2)  # for cell detectors at Z = 115  ## t2+r2
-pz_sas297 = openmc.ZPlane(z0=139.5, name='pz_sas297').rotate(r2).translate(t2)  # for cell detectors at Z = 140  ## t2+r2
-pz_sas298 = openmc.ZPlane(z0=140.5, name='pz_sas298').rotate(r2).translate(t2)  # for cell detectors at Z = 140  ## t2+r2
-pz_sas299 = openmc.ZPlane(z0=181.0, name='pz_sas299').rotate(r2).translate(t2)  # for cell detectors at Z = 180  ## t2+r2
+pz_sas292 = openmc.ZPlane(z0=0.1, name='pz_sas292').rotate(r2).translate(t2)  # for cell detectors at Z = 0  ## t2+r2
+pz_sas293 = openmc.ZPlane(z0=50.0, name='pz_sas293').rotate(r2).translate(t2)  # for cell detectors at Z = 50  ## t2+r2
+pz_sas294 = openmc.ZPlane(z0=50.1, name='pz_sas294').rotate(r2).translate(t2)  # for cell detectors at Z = 50  ## t2+r2
+pz_sas295 = openmc.ZPlane(z0=115.0, name='pz_sas295').rotate(r2).translate(t2)  # for cell detectors at Z = 115  ## t2+r2
+pz_sas296 = openmc.ZPlane(z0=115.1, name='pz_sas296').rotate(r2).translate(t2)  # for cell detectors at Z = 115  ## t2+r2
+pz_sas297 = openmc.ZPlane(z0=140.0, name='pz_sas297').rotate(r2).translate(t2)  # for cell detectors at Z = 140  ## t2+r2
+pz_sas298 = openmc.ZPlane(z0=140.1, name='pz_sas298').rotate(r2).translate(t2)  # for cell detectors at Z = 140  ## t2+r2
+pz_sas299 = openmc.ZPlane(z0=180.1, name='pz_sas299').rotate(r2).translate(t2)  # for cell detectors at Z = 180  ## t2+r2
 so_sas300 = openmc.Sphere(x0=0, y0=0, z0=0, r=1000, boundary_type='vacuum', name='so_sas300')  # 
 
 
@@ -512,8 +524,8 @@ rearcover_cell = openmc.Cell(cell_id=12, fill=ss304, region=rearcover_region)  #
 latcover_cell = openmc.Cell(cell_id=13, fill=aluminum, region=latcover_region)  # lateral cover (Al)
 flange1_cell = openmc.Cell(cell_id=14, fill=aluminum, region=flange1_region)  # flange #1 (Al)
 flange2_cell = openmc.Cell(cell_id=15, fill=aluminum, region=flange2_region)  # flange #2 (Al)
-latwatcoll_cell = openmc.Cell(cell_id=16, fill=cool_water, region=latwatcoll_region)  # lateral water collector
-botwatcoll_cell = openmc.Cell(cell_id=17, fill=cool_water, region=botwatcoll_region)  # bottom water collector
+latwatcoll_cell = openmc.Cell(cell_id=16, fill=lat_water, region=latwatcoll_region)  # lateral water collector
+botwatcoll_cell = openmc.Cell(cell_id=17, fill=bot_water, region=botwatcoll_region)  # bottom water collector
 #
 tube_cell = openmc.Cell(cell_id=21, fill=ss304, region=tube_region)  # tube (SS-304)
 coolwater2_cell = openmc.Cell(cell_id=22, fill=cool_water, region=coolwater2_region)  # cooling water
@@ -538,8 +550,8 @@ concretewall5_cell = openmc.Cell(cell_id=122, fill=concrete, region=concretewall
 concretewall6_cell = openmc.Cell(cell_id=123, fill=concrete, region=concretewall6_region)  # concrete wall around opening
 #
 ironbase_cell = openmc.Cell(cell_id=131, fill=iron_ass, region=ironbase_region)  # iron base
-acccomp1_cell = openmc.Cell(cell_id=132, fill=ss304, region=acccomp1_region)  # accelerator components
-acccomp2_cell = openmc.Cell(cell_id=133, fill=ss304, region=acccomp2_region)   # accelerator components
+acccomp1_cell = openmc.Cell(cell_id=132, fill=ss304_acc1, region=acccomp1_region)  # accelerator components
+acccomp2_cell = openmc.Cell(cell_id=133, fill=ss304_acc2, region=acccomp2_region)   # accelerator components
 twotrvoid1_cell = openmc.Cell(cell_id=135, fill=air, region=twotrvoid1_region)  # void inside the 2TR
 twotrvoid2_cell = openmc.Cell(cell_id=136, fill=air, region=twotrvoid2_region)  # void inside the 2TR
 #
@@ -567,7 +579,7 @@ assembly3_cell = openmc.Cell(cell_id=243, fill=iron_ass, region=assembly3_region
 assembly4_cell = openmc.Cell(cell_id=244, fill=iron_ass, region=assembly4_region)  # iron assembly (130-180 cm)
 assembly5_cell = openmc.Cell(cell_id=253, fill=air, region=assembly5_region)  # void around rear iron cap
 #
-detector00_cell = openmc.Cell(cell_id=300, fill=mixed_detector, region=detector00_region)  # tally-00
+detector00_cell = openmc.Cell(cell_id=300, fill=air, region=detector00_region)  # tally-00
 detector01_cell = openmc.Cell(cell_id=301, fill=mixed_detector, region=detector01_region)  # tally-01
 detector02_cell = openmc.Cell(cell_id=302, fill=mixed_detector, region=detector02_region)  # tally-02
 detector03_cell = openmc.Cell(cell_id=303, fill=mixed_detector, region=detector03_region)  # tally-03
@@ -614,7 +626,24 @@ universe = openmc.Universe(name='universe', cells=[targetback_cell, coolwater1_c
 # export
 geometry = openmc.Geometry(universe)
 geometry.export_to_xml(remove_surfs=True)
+# %%
+# PLOT
+# plot geometry
 
+universe.plot(basis='xz', width=[800, 800], pixels=[200, 200], color_by='material', colors={})
+plt.grid()
+#plt.savefig("room_xy.png", format="png", dpi=1200)
+plt.show()
+
+universe.plot(basis='yz', width=[800, 800], pixels=[200, 200], color_by='material', colors={})
+plt.grid()
+#plt.savefig("room_xy.png", format="png", dpi=600)
+plt.show()
+
+universe.plot(basis='xy', width=[800, 800], pixels=[200, 200], color_by='material', colors={})
+plt.grid()
+#plt.savefig("room_xy.png", format="png", dpi=1200)
+plt.show()
 # %%
 # TALLIES
 #
@@ -672,17 +701,30 @@ photon_energy_filter = openmc.EnergyFilter(np.array([0.010, 0.020, 0.030, 0.045,
                                              1.25, 1.375, 1.50, 1.75, 2.00, 2.25, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0,
                                               5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 9.0, 10.0, 12.0, 14.0])*1e6)
 
+# # Mesh filter
+# mesh = openmc.RegularMesh()
+# mesh.dimension = [90, 130, 160]
+# mesh.lower_left = [-180, -325, -400]
+# mesh.upper_right = [270, 325, 400]
+# mesh_filter = openmc.MeshFilter(mesh)
+
 # %%
 # tallies
 # instantiate a tally file
 tallies_file = openmc.Tallies()
+
+# cell tallies
+# cell tally - flux at detector
+tally = openmc.Tally(tally_id=1, name='detector_nflux')
+tally.filters = [detector_cell_filter, particle_filter]
+tally.scores = ['flux']
+tallies_file.append(tally)
 
 # cell tally - reaction rates at detector
 tally = openmc.Tally(tally_id=101, name='detector_reaction_rate')
 tally.filters = [detector_cell_filter, particle_filter]
 tally.scores = ['(n,2n)', '(n,nc)', '(n,gamma)']
 tally.nuclides = ['Nb93', 'In115', 'Au197']
-tally.estimator = 'collision'
 tallies_file.append(tally)
 
 # neutrons energy spectrum tallies - same energy bins as mcnp model
@@ -692,12 +734,12 @@ tally.filters = [detector_cell_filter, neutron_filter, neutron_energy_filter]
 tally.scores = ['flux']
 tallies_file.append(tally)
 
-# # photons energy spectrum tallies - same energy bins as measurements
-# # cell tally - photons spectrum at detector
-# tally = openmc.Tally(tally_id=202, name='detector_gspectrum')
-# tally.filters = [detector_cell_filter, photon_filter, neutron_energy_filter]
-# tally.scores = ['flux']
-# tallies_file.append(tally)
+# photons energy spectrum tallies - same energy bins as measurements
+# cell tally - photons spectrum at detector
+tally = openmc.Tally(tally_id=202, name='detector_gspectrum')
+tally.filters = [detector_cell_filter, photon_filter, neutron_energy_filter]
+tally.scores = ['flux']
+tallies_file.append(tally)
 
 # neutrons energy spectrum tallies - same energy bins as measurements
 # cell tally - neutron spectrum at detector
@@ -706,10 +748,16 @@ tally.filters = [detector_cell_filter, neutron_filter, neutron_energy_filter2]
 tally.scores = ['flux']
 tallies_file.append(tally)
 
-# # photons energy spectrum tallies - same energy bins as measurements
-# # cell tally - photons spectrum at detector
-# tally = openmc.Tally(tally_id=252, name='detector_gspectrum2')
-# tally.filters = [detector_cell_filter, photon_filter, neutron_energy_filter2]
+# photons energy spectrum tallies - same energy bins as measurements
+# cell tally - photons spectrum at detector
+tally = openmc.Tally(tally_id=252, name='detector_gspectrum2')
+tally.filters = [detector_cell_filter, photon_filter, neutron_energy_filter2]
+tally.scores = ['flux']
+tallies_file.append(tally)
+
+# # mesh tally - neutron flux
+# tally = openmc.Tally(tally_id=501, name='mesh_nflux')
+# tally.filters = [mesh_filter, neutron_filter]
 # tally.scores = ['flux']
 # tallies_file.append(tally)
 
@@ -722,24 +770,15 @@ tallies_file.export_to_xml()
 ww = openmc.wwinp_to_wws(r'fns_duct_cadis.cadis.wwinp')
 # settings
 settings_file = openmc.Settings()
-# settings_file.photon_transport = True
+settings_file.photon_transport = False
 settings_file.run_mode = 'fixed source'
 settings_file.weight_windows = ww
 
-
 # source definition
-
-# # Muir source @ 46 keV (likely center of mass ion temperature for DT neutron source through D-accelerator)
-# source = openmc.Source()
-# source.particle = 'neutron'
-# source.space = openmc.stats.Point([0,0,0])
-# source.angle = openmc.stats.Isotropic()
-# source.energy = openmc.stats.muir(14.08e6, 5, 46000)
-# settings_file.source = source
-
-# fng source (source profile made available by the Frascati Neutron Generator facility)
+# fng source
 fng2fns_center = (0, 0, 0)
-fng2fns_uvw=(0, 1, 0)
+fng2fns_uvw = (0, 1., 0)
+
 fng2fns_source = fng_source.fng_source(center=fng2fns_center, reference_uvw=fng2fns_uvw)
 settings_file.source = fng2fns_source
 
@@ -749,6 +788,6 @@ settings_file.particles = 1_000_000_000
 # export to XML
 settings_file.export_to_xml()
 
-# %%
-# run
-openmc.run(threads=16)
+# # %%
+# # run
+openmc.run()
