@@ -1,11 +1,8 @@
 # %%
 # import section
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 import openmc
-import pandas as pd
-import fng_source
 import fng_source_froutine
 
 # %%
@@ -779,7 +776,7 @@ settings_file.weight_windows = ww
 fng2fns_center = (0, 0, 0)
 fng2fns_uvw = (0, 1., 0)
 
-fng2fns_source = fng_source.fng_source(center=fng2fns_center, reference_uvw=fng2fns_uvw)
+fng2fns_source = fng_source_froutine.fng_source(center=fng2fns_center, reference_uvw=fng2fns_uvw)
 settings_file.source = fng2fns_source
 
 # settings' settings
