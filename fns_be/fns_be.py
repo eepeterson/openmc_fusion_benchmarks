@@ -2,7 +2,6 @@
 import numpy as np
 import argparse
 
-
 import openmc
 
 
@@ -22,10 +21,7 @@ def _parse_args():
 
 
 def main():
-    ############################################################################
-    # Analysis of Beryllium Experiment
-    #
-    ############################################################################
+    """Analysis of Beryllium Experiment"""
     args = vars(_parse_args())
 
     # Instantiate Model object
@@ -147,10 +143,10 @@ def main():
     region1 = +s1 & -s2 & -s5 & +s38 & ~(+s15 & -s2 & xybox)
     region2 = +s3 & -s4 & -s5 & ~(+s3 & -s37 & xybox)
     region3 = (zcyl & -s9) | (zcyl & +s10) | (zcyl & -s13) | (zcyl & +s14)
-    region4 = (+s2 & -s3 & +s9 & -s7 & +s13 & -s14) | \
-        (+s2 & -s3 & +s8 & -s10 & +s13 & -s14) | \
-        (+s2 & -s3 & +s7 & -s8 & +s13 & -s11) | \
-        (+s2 & -s3 & +s7 & -s8 & +s12 & -s14)
+    region4 = (+s2 & -s3 & +s9 & -s7 & +s13 & -s14)
+    region4 |= (+s2 & -s3 & +s8 & -s10 & +s13 & -s14)
+    region4 |= (+s2 & -s3 & +s7 & -s8 & +s13 & -s11)
+    region4 |= (+s2 & -s3 & +s7 & -s8 & +s12 & -s14)
     region30 =  (+s39 & -s1 & -s6) | (+s1 & -s4 & -s6 & +s5) | (+s4 & -s40 & -s6)
 
     # Cells
@@ -278,7 +274,6 @@ def main():
         tally_n.scores = ['flux']
         model.tallies = openmc.Tallies([tally_n])
         cwd = 'neutron_spectrum'
-
     elif args['gamma_heating']:
         # Tallies gamma heating   
         settings.survival_biasing = True
@@ -381,7 +376,7 @@ def main():
 
     model.settings = settings
 
-    model.run(cwd=cwd, threads=args['threads'])
+    return model.run(cwd=cwd, threads=args['threads'])
 
 
 if __name__ == "__main__":
