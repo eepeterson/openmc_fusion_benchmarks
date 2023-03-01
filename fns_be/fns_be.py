@@ -1,4 +1,4 @@
-#!/usr/bin/env/ python3
+#!/usr/bin/env python3
 import numpy as np
 import argparse
 
@@ -6,23 +6,32 @@ import openmc
 
 
 def _parse_args():
-    # Create argument parser
+    """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--batches', type=int, default=100)
     parser.add_argument('-p', '--particles', type=int, default=10000)
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-n', '--neutron_spectrum', action='store_true')
-    group.add_argument('-g', '--gamma_heating', action='store_true')
-    group.add_argument('-r', '--reaction_rates', action='store_true')
     parser.add_argument('-s', '--threads', type=int)
+    parser.add_argument('-c', '--cwd', type=str)
+    group = parser.add_argument_group('tallies')
+    group.add_argument('-n', '--neutron_spectrum', action='store_true',
+                       default=False)
+    group.add_argument('-g', '--gamma_heating', action='store_true',
+                       default=False)
+    group.add_argument('-r', '--reaction_rates', action='store_true',
+                       default=False)
 
-    # Parse and return commandline arguments.
     return parser.parse_args()
 
 
 def main():
     """Analysis of Beryllium Experiment"""
-    args = vars(_parse_args())
+
+    # Parse commandline arguments
+    args = _parse_args()
+    # If neither gamma heating or rxn rate tallies are desired, default to only
+    # the neutron spectrum tallies
+    if not (args.gamma_heating or args.reaction_rates):
+        args.neutron_spectrum = True
 
     # Instantiate Model object
     model = openmc.Model()
@@ -58,7 +67,7 @@ def main():
     tube.add_nuclide('Ni62', 0.0031349384315041144, 'ao')
     tube.add_nuclide('Ni64', 0.0007982681776143339, 'ao')
 
-    if args['reaction_rates']:
+    if args.reaction_rates:
         # Add reaction rate elements to materials in small quantities
         air.add_element('Al', 1e-8, 'ao')
         air.add_element('Nb', 1e-8, 'ao')
@@ -150,42 +159,45 @@ def main():
     region30 =  (+s39 & -s1 & -s6) | (+s1 & -s4 & -s6 & +s5) | (+s4 & -s40 & -s6)
 
     # Cells
-    cell1 = openmc.Cell(region=region1, fill=air, name='cell 1')
-    cell2 = openmc.Cell(region=region2, fill=air, name='cell 2')
-    cell3 = openmc.Cell(region=region3, fill=beryllium, name='cell 3')
-    cell4 = openmc.Cell(region=region4, fill=tube, name='cell 4')
-    cell5 = openmc.Cell(region=+s15 & -s2 & xybox, fill=air, name='cell 5')
-    cell6 = openmc.Cell(region=+s2 & -s16 & xybox, fill=beryllium, name='cell 6')
-    cell7 = openmc.Cell(region=+s16 & -s17 & xybox, fill=beryllium, name='cell 7')
-    cell8 = openmc.Cell(region=+s17 & -s18 & xybox, fill=beryllium, name='cell 8')
-    cell9 = openmc.Cell(region=+s18 & -s19 & xybox, fill=beryllium, name='cell 9')
-    cell10 = openmc.Cell(region=+s19 & -s20 & xybox, fill=beryllium, name='cell 10')
-    cell11 = openmc.Cell(region=+s20 & -s21 & xybox, fill=beryllium, name='cell 11')
-    cell12 = openmc.Cell(region=+s21 & -s22 & xybox, fill=beryllium, name='cell 12')
-    cell13 = openmc.Cell(region=+s22 & -s23 & xybox, fill=beryllium, name='cell 13')
-    cell14 = openmc.Cell(region=+s23 & -s24 & xybox, fill=beryllium, name='cell 14')
-    cell15 = openmc.Cell(region=+s24 & -s25 & xybox, fill=beryllium, name='cell 15')
-    cell16 = openmc.Cell(region=+s25 & -s26 & xybox, fill=beryllium, name='cell 16')
-    cell17 = openmc.Cell(region=+s26 & -s27 & xybox, fill=beryllium, name='cell 17')
-    cell18 = openmc.Cell(region=+s27 & -s28 & xybox, fill=beryllium, name='cell 18')
-    cell19 = openmc.Cell(region=+s28 & -s29 & xybox, fill=beryllium, name='cell 19')
-    cell20 = openmc.Cell(region=+s29 & -s30 & xybox, fill=beryllium, name='cell 20')
-    cell21 = openmc.Cell(region=+s30 & -s31 & xybox, fill=beryllium, name='cell 21')
-    cell22 = openmc.Cell(region=+s31 & -s32 & xybox, fill=beryllium, name='cell 22')
-    cell23 = openmc.Cell(region=+s32 & -s33 & xybox, fill=beryllium, name='cell 23')
-    cell24 = openmc.Cell(region=+s33 & -s34 & xybox, fill=beryllium, name='cell 24')
-    cell25 = openmc.Cell(region=+s34 & -s35 & xybox, fill=beryllium, name='cell 25')
-    cell26 = openmc.Cell(region=+s35 & -s36 & xybox, fill=beryllium, name='cell 26')
-    cell27 = openmc.Cell(region=+s36 & -s3 & xybox, fill=beryllium, name='cell 27')
-    cell28 = openmc.Cell(region=+s3 & -s37 & xybox, fill=air, name='cell 28')
-    cell29 = openmc.Cell(region=-s38, fill=air, name='cell 29')
-    cell30 = openmc.Cell(region=region30, name='cell 30')
+    cell1 = openmc.Cell(region=region1, fill=air)
+    cell2 = openmc.Cell(region=region2, fill=air)
+    cell3 = openmc.Cell(region=region3, fill=beryllium)
+    cell4 = openmc.Cell(region=region4, fill=tube)
+    cell5 = openmc.Cell(region=+s15 & -s2 & xybox, fill=air)
+    cell6 = openmc.Cell(region=+s2 & -s16 & xybox, fill=beryllium)
+    cell7 = openmc.Cell(region=+s16 & -s17 & xybox, fill=beryllium)
+    cell8 = openmc.Cell(region=+s17 & -s18 & xybox, fill=beryllium)
+    cell9 = openmc.Cell(region=+s18 & -s19 & xybox, fill=beryllium)
+    cell10 = openmc.Cell(region=+s19 & -s20 & xybox, fill=beryllium)
+    cell11 = openmc.Cell(region=+s20 & -s21 & xybox, fill=beryllium)
+    cell12 = openmc.Cell(region=+s21 & -s22 & xybox, fill=beryllium)
+    cell13 = openmc.Cell(region=+s22 & -s23 & xybox, fill=beryllium)
+    cell14 = openmc.Cell(region=+s23 & -s24 & xybox, fill=beryllium)
+    cell15 = openmc.Cell(region=+s24 & -s25 & xybox, fill=beryllium)
+    cell16 = openmc.Cell(region=+s25 & -s26 & xybox, fill=beryllium)
+    cell17 = openmc.Cell(region=+s26 & -s27 & xybox, fill=beryllium)
+    cell18 = openmc.Cell(region=+s27 & -s28 & xybox, fill=beryllium)
+    cell19 = openmc.Cell(region=+s28 & -s29 & xybox, fill=beryllium)
+    cell20 = openmc.Cell(region=+s29 & -s30 & xybox, fill=beryllium)
+    cell21 = openmc.Cell(region=+s30 & -s31 & xybox, fill=beryllium)
+    cell22 = openmc.Cell(region=+s31 & -s32 & xybox, fill=beryllium)
+    cell23 = openmc.Cell(region=+s32 & -s33 & xybox, fill=beryllium)
+    cell24 = openmc.Cell(region=+s33 & -s34 & xybox, fill=beryllium)
+    cell25 = openmc.Cell(region=+s34 & -s35 & xybox, fill=beryllium)
+    cell26 = openmc.Cell(region=+s35 & -s36 & xybox, fill=beryllium)
+    cell27 = openmc.Cell(region=+s36 & -s3 & xybox, fill=beryllium)
+    cell28 = openmc.Cell(region=+s3 & -s37 & xybox, fill=air)
+    cell29 = openmc.Cell(region=-s38, fill=air)
+    cell30 = openmc.Cell(region=region30)
 
     cells = [cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10,
              cell11, cell12, cell13, cell14, cell15, cell16, cell17, cell18,
              cell19, cell20, cell21, cell22, cell23, cell24, cell25, cell26,
              cell27, cell28, cell29, cell30
              ]
+
+    for c in cells:
+        c.name = f'cell {c.id}'
 
     # Add Geometry to Model
     model.geometry = openmc.Geometry(cells)
@@ -195,8 +207,8 @@ def main():
 
     # Indicate how many particles to run
     settings = openmc.Settings(run_mode='fixed source')
-    settings.batches = args['batches']
-    settings.particles = args['particles']
+    settings.batches = args.batches
+    settings.particles = args.particles
 
     # Create source distribution 
     # upper neutron energy bins
@@ -263,19 +275,23 @@ def main():
 
     ###############################################################################
     # Build tallies based on the desired run
+    model.tallies = openmc.Tallies()
     cell_filter = openmc.CellFilter(cells[4:26])
+    usrcwd = args.cwd
+    cwd = ''
 
-    if args['neutron_spectrum']:
+    if args.neutron_spectrum:
         # neutron energy spectrum tally   
         energy_n = openmc.EnergyFilter(x)
         particle_n = openmc.ParticleFilter(['neutron'])
         tally_n = openmc.Tally(name="Neutron Spectrum")
         tally_n.filters = [cell_filter, energy_n, particle_n]
         tally_n.scores = ['flux']
-        model.tallies = openmc.Tallies([tally_n])
-        cwd = 'neutron_spectrum'
-    elif args['gamma_heating']:
-        # Tallies gamma heating   
+        model.tallies.append(tally_n)
+        cwd += 'neutron_spectrum'
+
+    if args.gamma_heating:
+        # gamma heating tally 
         settings.survival_biasing = True
         settings.photon_transport = True
         settings.electron_treatment = 'ttb'
@@ -283,100 +299,101 @@ def main():
         tally_p = openmc.Tally(name="Gamma heating")
         tally_p.filters = [cell_filter, particle_p]
         tally_p.scores = ['heating']
-        model.tallies = openmc.Tallies([tally_p])
-        cwd = 'gamma_heating'
+        model.tallies.append(tally_p)
+        cwd = cwd + '-gamma_heating' if cwd else 'gamma_heating'
 
-    elif args['reaction_rates']:
-        particle_n = openmc.ParticleFilter(['neutron'])
-
+    if args.reaction_rates:
+        # reaction rate tallies 
         tally_1 = openmc.Tally(name="Au-197 (n,gamma)")
         tally_1.nuclides = ['Au197']
-        tally_1.filters = [cell_filter, particle_n]
+        tally_1.filters = [cell_filter]
         tally_1.scores = ['(n,gamma)']
 
         tally_2 = openmc.Tally(name="In115 (n,n')")
         tally_2.nuclides = ['In115']
-        tally_2.filters = [cell_filter, particle_n]
+        tally_2.filters = [cell_filter]
         tally_2.scores = ['(n,nc)']
 
         tally_3 = openmc.Tally(name="Al-27 (n,alpha)")
         tally_3.nuclides = ['Al27']
-        tally_3.filters = [cell_filter, particle_n]
+        tally_3.filters = [cell_filter]
         tally_3.scores = ['(n,a)']
 
         tally_4 = openmc.Tally(name="Nb-93 (n,2n)")
         tally_4.nuclides = ['Nb93']
-        tally_4.filters = [cell_filter, particle_n]
+        tally_4.filters = [cell_filter]
         tally_4.scores = ['(n,2n)']
 
         tally_5 = openmc.Tally(name="Ni-58 (n,2n)")
         tally_5.nuclides = ['Ni58']
-        tally_5.filters = [cell_filter, particle_n]
+        tally_5.filters = [cell_filter]
         tally_5.scores = ['(n,2n)']
 
         tally_6 = openmc.Tally(name="Ti-48(n,p)")
         tally_6.nuclides = ['Ti48']
-        tally_6.filters = [cell_filter, particle_n]
+        tally_6.filters = [cell_filter]
         tally_6.scores = ['(n,p)']
 
         tally_7 = openmc.Tally(name="Ti-49 (n,np)")
         tally_7.nuclides = ['Ti49']
-        tally_7.filters = [cell_filter, particle_n]
+        tally_7.filters = [cell_filter]
         tally_7.scores = ['(n,np)']
 
         tally_8 = openmc.Tally(name="Ti-47 (n,p)")
         tally_8.nuclides = ['Ti47']
-        tally_8.filters = [cell_filter, particle_n]
+        tally_8.filters = [cell_filter]
         tally_8.scores = ['(n,p)']
 
         tally_9 = openmc.Tally(name="Ti-48 (n,np)")
         tally_9.nuclides = ['Ti48']
-        tally_9.filters = [cell_filter, particle_n]
+        tally_9.filters = [cell_filter]
         tally_9.scores = ['(n,np)']
 
         tally_10 = openmc.Tally(name="Fe-56 (n,p)")
         tally_10.nuclides = ['Fe56']
-        tally_10.filters = [cell_filter, particle_n]
+        tally_10.filters = [cell_filter]
         tally_10.scores = ['(n,p)']
 
         tally_11 = openmc.Tally(name="Zr-90 (n,2n)")
         tally_11.nuclides = ['Zr90']
-        tally_11.filters = [cell_filter, particle_n]
+        tally_11.filters = [cell_filter]
         tally_11.scores = ['(n,2n)']
 
         tally_12 = openmc.Tally(name="Ni-58 (n,p)")
         tally_12.nuclides = ['Ni58']
-        tally_12.filters = [cell_filter, particle_n]
+        tally_12.filters = [cell_filter]
         tally_12.scores = ['(n,p)']
 
         tally_13 = openmc.Tally(name="Li-6 (n,tritium)")
         tally_13.nuclides = ['Li6']
-        tally_13.filters = [cell_filter, particle_n]
+        tally_13.filters = [cell_filter]
         tally_13.scores = ['(n,Xt)']
 
         tally_14 = openmc.Tally(name="Tritium production")
-        tally_14.filters = [cell_filter, particle_n]
+        tally_14.filters = [cell_filter]
         tally_14.scores = ['H3-production']
 
         tally_15 = openmc.Tally(name="U-235 (n,f)")
         tally_15.nuclides = ['U235']
-        tally_15.filters = [cell_filter, particle_n]
+        tally_15.filters = [cell_filter]
         tally_15.scores = ['fission']
 
         tally_16 = openmc.Tally(name="Be-9 (n,tritium)")
         tally_16.nuclides = ['Be9']
-        tally_16.filters = [cell_filter, particle_n]
+        tally_16.filters = [cell_filter]
         tally_16.scores = ['(n,Xt)']
 
-        model.tallies = openmc.Tallies([tally_1, tally_2, tally_3, tally_4,
-                                        tally_5, tally_6, tally_7, tally_8,
-                                        tally_9, tally_10, tally_11, tally_12,
-                                        tally_13, tally_14, tally_15, tally_16])
-        cwd = 'reaction_rates'
+        model.tallies.extend([tally_1, tally_2, tally_3, tally_4, tally_5,
+                              tally_6, tally_7, tally_8, tally_9, tally_10,
+                              tally_11, tally_12, tally_13, tally_14, tally_15,
+                              tally_16])
 
+        cwd = cwd + '-rxn_rates' if cwd else 'rxn_rates'
+
+    cwd = usrcwd if usrcwd is not None else cwd
     model.settings = settings
 
-    return model.run(cwd=cwd, threads=args['threads'])
+    return model.run(cwd=cwd, threads=args.threads)
 
 
 if __name__ == "__main__":
