@@ -28,8 +28,8 @@ t2 = (0, t2y, t2z)  # translation vector
 # %%
 # CROSS SECTIONS
 # cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/endfb80_hdf5/cross_sections.xml'
-# cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2-hdf5/cross_sections.xml'
-cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2b-hdf5/cross_sections.xml'
+cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2-hdf5/cross_sections.xml'
+# cross_sections_path = r'/home/segantin/openmc_models/CROSS_SECTIONS/fendl-3.2b-hdf5/cross_sections.xml'
 openmc.config['cross_sections'] = cross_sections_path
 
 # %%
@@ -214,7 +214,7 @@ xylene.add_element('C', 0.6667, 'ao')
 xylene.set_density('g/cm3', 0.866)
 
 # Mixed activation foil detector material
-mixed_detector = openmc.Material.mix_materials([nb93, in115, au197, xylene, air], [0, 0, .00005, .99995, 0], 'vo')
+mixed_detector = openmc.Material.mix_materials([nb93, in115, au197, xylene, air], [1, 0, .0000, .0, 0], 'vo')
 
 # instantiate material collection
 materials = openmc.Materials([copper, cool_water, watercu_mix, ss304, aluminum, air,  mortar, concrete,
@@ -787,4 +787,4 @@ settings_file.export_to_xml()
 
 # # %%
 # # run
-openmc.run()
+openmc.run(threads=8)
