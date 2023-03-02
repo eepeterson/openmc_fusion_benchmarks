@@ -20,7 +20,14 @@ def _parse_args():
     group.add_argument('-r', '--reaction_rates', action='store_true',
                        default=False)
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    # If neither gamma heating or rxn rate tallies are desired, default to only
+    # the neutron spectrum tallies
+    if not (args.gamma_heating or args.reaction_rates):
+        args.neutron_spectrum = True
+
+    return args
 
 
 def main():
@@ -28,10 +35,6 @@ def main():
 
     # Parse commandline arguments
     args = _parse_args()
-    # If neither gamma heating or rxn rate tallies are desired, default to only
-    # the neutron spectrum tallies
-    if not (args.gamma_heating or args.reaction_rates):
-        args.neutron_spectrum = True
 
     # Instantiate Model object
     model = openmc.Model()
