@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import openmc
 import fng_source_froutine
-
 # %%
 # parameters
 
