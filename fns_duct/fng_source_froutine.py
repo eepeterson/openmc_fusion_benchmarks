@@ -40,7 +40,7 @@ def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1)):
     all_sources = []
     for i,angle in enumerate(pbins[:-1]):
 
-        mu = openmc.stats.Uniform(a=pbins[i], b=pbins[i+1])
+        mu = openmc.stats.Uniform(a=pbins[i+1], b=pbins[i])
 
         space = openmc.stats.Point(center)
         angle = openmc.stats.PolarAzimuthal(mu=mu, phi=phi, reference_uvw=reference_uvw)
