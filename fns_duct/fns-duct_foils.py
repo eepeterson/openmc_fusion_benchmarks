@@ -473,7 +473,7 @@ pz_osa152 = openmc.ZPlane(z0=450.0, name="pz_osa152").rotate(
     r2
 )  # rear end of base iron plate  ## r2
 #
-pz_155 = openmc.ZPlane(z0=500.0, name="pz_osa152", boundary_type="vacuum").rotate(r2)
+pz_155 = openmc.ZPlane(z0=500.0, name="pz_osa155", boundary_type="vacuum").rotate(r2)
 #
 py_osa160 = openmc.YPlane(y0=-50.0, name="py_osa160")  # for accelerator components
 py_osa161 = openmc.YPlane(y0=100.0, name="py_osa161")  # for accelerator components
@@ -589,7 +589,7 @@ py_sas271 = (
 py_sas272 = (
     openmc.YPlane(y0=2.0, name="py_sas272").rotate(r2).translate(t2)
 )  # side of cell detectors  ## t2+r2
-#
+
 px_sas281 = (
     openmc.XPlane(x0=-62.0, name="px_sas281").rotate(r2).translate(t2)
 )  # for cell detectors at X =-60  ## t2+r2
@@ -651,6 +651,67 @@ so_sas300 = openmc.Sphere(
     x0=0, y0=0, z0=0, r=1000, boundary_type="vacuum", name="so_sas300"
 )  #
 
+
+# px_sas281 = (
+#     openmc.XPlane(x0=-61.0, name="px_sas281").rotate(r2).translate(t2)
+# )  # for cell detectors at X =-60  ## t2+r2
+# px_sas282 = (
+#     openmc.XPlane(x0=-59.0, name="px_sas282").rotate(r2).translate(t2)
+# )  # for cell detectors at X =-60  ## t2+r2
+# px_sas283 = (
+#     openmc.XPlane(x0=-31.0, name="px_sas283").rotate(r2).translate(t2)
+# )  # for cell detectors at X =-30  ## t2+r2
+# px_sas284 = (
+#     openmc.XPlane(x0=-29.0, name="px_sas284").rotate(r2).translate(t2)
+# )  # for cell detectors at X =-30  ## t2+r2
+# px_sas285 = (
+#     openmc.XPlane(x0=-1.0, name="px_sas285").rotate(r2).translate(t2)
+# )  # for cell detectors at X =  0  ## t2+r2
+# px_sas286 = (
+#     openmc.XPlane(x0=1.0, name="px_sas286").rotate(r2).translate(t2)
+# )  # for cell detectors at X =  0  ## t2+r2
+# px_sas287 = (
+#     openmc.XPlane(x0=29.0, name="px_sas287").rotate(r2).translate(t2)
+# )  # for cell detectors at X = 30  ## t2+r2
+# px_sas288 = (
+#     openmc.XPlane(x0=31.0, name="px_sas288").rotate(r2).translate(t2)
+# )  # for cell detectors at X = 30  ## t2+r2
+# px_sas289 = (
+#     openmc.XPlane(x0=59.0, name="px_sas289").rotate(r2).translate(t2)
+# )  # for cell detectors at X = 60  ## t2+r2
+# px_sas290 = (
+#     openmc.XPlane(x0=61.0, name="px_sas290").rotate(r2).translate(t2)
+# )  # for cell detectors at X = 60  ## t2+r2
+# pz_sas291 = (
+#     openmc.ZPlane(z0=-19.0, name="pz_sas291").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = -20  ## t2+r2
+# pz_sas292 = (
+#     openmc.ZPlane(z0=0.1, name="pz_sas292").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 0  ## t2+r2
+# pz_sas293 = (
+#     openmc.ZPlane(z0=50.0, name="pz_sas293").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 50  ## t2+r2
+# pz_sas294 = (
+#     openmc.ZPlane(z0=50.1, name="pz_sas294").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 50  ## t2+r2
+# pz_sas295 = (
+#     openmc.ZPlane(z0=115.0, name="pz_sas295").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 115  ## t2+r2
+# pz_sas296 = (
+#     openmc.ZPlane(z0=115.1, name="pz_sas296").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 115  ## t2+r2
+# pz_sas297 = (
+#     openmc.ZPlane(z0=140.0, name="pz_sas297").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 140  ## t2+r2
+# pz_sas298 = (
+#     openmc.ZPlane(z0=140.1, name="pz_sas298").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 140  ## t2+r2
+# pz_sas299 = (
+#     openmc.ZPlane(z0=180.1, name="pz_sas299").rotate(r2).translate(t2)
+# )  # for cell detectors at Z = 180  ## t2+r2
+# so_sas300 = openmc.Sphere(
+#     x0=0, y0=0, z0=0, r=1000, boundary_type="vacuum", name="so_sas300"
+# )  #
 
 # %%
 # GEOMETRY
@@ -1680,7 +1741,7 @@ tally.nuclides = ["Nb93", "In115", "Au197"]
 tallies_file.append(tally)
 
 # dosimetry tallies from IRDFF-II nuclear data library
-irdff_path = r"/home/segantin/openmc_models/CROSS_SECTIONS/IRDFF-II_ACE/IRDFF-II/"
+irdff_path = r"../IRDFF2_xs/"
 
 # Nb93 (n,2n) Nb92m
 tally = openmc.Tally(tally_id=102, name="nb93_irdff_rr")
@@ -1690,6 +1751,7 @@ nb93_n2n_irdff = irdff.cross_section(nb93_n2n_acef, mt)
 multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(nb93_n2n_irdff[mt])
 tally.filters = [detector_cell_filter, particle_filter, multiplier]
 tally.scores = ["flux"]
+tally.estimator = "collision"
 tallies_file.append(tally)
 
 # In115 (n,n') In115m
@@ -1700,6 +1762,7 @@ in115_nn_irdff = irdff.cross_section(in115_nn_acef, mt)
 multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(in115_nn_irdff[mt])
 tally.filters = [detector_cell_filter, particle_filter, multiplier]
 tally.scores = ["flux"]
+tally.estimator = "collision"
 tallies_file.append(tally)
 
 # # Au197 (n,gamma) Au198
@@ -1781,7 +1844,7 @@ settings_file.source = source
 
 # settings' settings
 settings_file.batches = 100
-settings_file.particles = int(1e7)
+settings_file.particles = int(1e6)
 # export to XML
 settings_file.export_to_xml()
 
