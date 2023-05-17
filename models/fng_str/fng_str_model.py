@@ -18,7 +18,7 @@ def _parse_args():
                        default=False)
     group.add_argument('-o', '--reaction_rates_offaxis', action='store_true',
                        default=False)
-    group.add_argument('-h', '--heating', action='store_true',
+    group.add_argument('-d', '--heating', action='store_true',
                        default=False)
 
     args = parser.parse_args()
@@ -116,11 +116,8 @@ def main():
     else:
         detector = openmc.Material.mix_materials(
             [air, aisi316], [1., 0.], 'vo')
+        
 
-    # setting temperatures
-    # instantiate material collection
-    model.Materials([aisi316, water, copper, air, perspex, ch2,
-                                detector, concrete, al27, ni58, nb93, au197])
     
     ############################################################################
     # Build Geometry
@@ -144,7 +141,6 @@ def main():
     t3z = 0.  # cm - translation along z
 
     if args.reaction_rates_offaxis:
-        # Off-axis
         t2x = -5.3  # adjustement to translation number 2
         #
         t3x = -5.3  # cm - translation along x -     ON-AXIS
@@ -2181,7 +2177,8 @@ def main():
     settings.particles = args.particles
     settings.weight_windows = ww
     settings.source = fng_source
-    if args.reaction_rates_offaxis:
+    if args.heating:
+        settings.survival_biasing = True
         settings.photon_transport = True
         settings.electron_treatment = 'ttb'
     settings.output = {'tallies': False}
@@ -2219,7 +2216,6 @@ def main():
 
         # Nb93 (n,2n) Nb92m from IRDFF-II
         tally101 = openmc.Tally(tally_id=101, name="nb93_irdff_rr")
-        nb93_n2n_acef = irdff_path + "dos-irdff2-4125.acef"
         nb93_n2n_irdff = irdff.cross_section(nb93_n2n_acef, 11016)
         multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(nb93_n2n_irdff[11016])
         tally101.filters = [detector_cell_filter, particle_filter, multiplier]
@@ -2243,7 +2239,7 @@ def main():
         tally104.filters = [detector_cell_filter, particle_filter, multiplier]
         tally104.scores = ["flux"]
 
-        model.tallies.append([tally101, tally102, tally103, tally104])
+        model.tallies.extend([tally101, tally102, tally103, tally104])
 
     # define the folder names for storing the statepoints
     if args.reaction_rates_onaxis:
