@@ -6,7 +6,7 @@ import os
 import openmc
 
 # data necessary for postprocessing
-_sim_types = ['onaxis', 'offaxis', 'heating']
+_sim_types = ['reaction_rates_onaxis', 'reaction_rates_offaxis', 'heating']
 # reaction rate simulations
 # possible group types for the reaction rate simulation types
 _groups = ['onaxis_group1', 'onaxis_group2', 'offaxis']
