@@ -194,7 +194,7 @@ class VisualizeResults:
                               barsabove=True, zorder=9, color=color, ls='none', label='_label')
             self.ax1.legend(frameon=True, fontsize=12)
         except:
-            None
+            pass
 
 
 def get_openmc_tally(simulation_type: str, statepoint_file: str, tally_name: str):
@@ -226,7 +226,7 @@ def get_openmc_tally(simulation_type: str, statepoint_file: str, tally_name: str
         os.chdir('..')
         return tally
     except FileNotFoundError:
-        None
+        pass
 
 
 def postprocess_openmc_foils(tally_dataframe, foil_group: str):
