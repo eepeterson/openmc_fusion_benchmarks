@@ -112,10 +112,10 @@ def main():
 
     if args.heating:
         detector = openmc.Material.mix_materials(
-            [air, aisi316], [0., 1.], 'vo')
+            [air, au197, aisi316], [0., 0., 1.], 'vo')
     else:
         detector = openmc.Material.mix_materials(
-            [air, aisi316], [1., 0.], 'vo')
+            [air, au197, aisi316], [.95, 0.05, 0.], 'vo')
         
 
     
