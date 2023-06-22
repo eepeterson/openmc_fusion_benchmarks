@@ -15,9 +15,6 @@
 *~
 *.swp
 
-# HDF5 files
-*.h5
-
 # Images
 *.png
 *.ppm

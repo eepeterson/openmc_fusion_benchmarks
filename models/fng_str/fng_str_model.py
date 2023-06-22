@@ -25,6 +25,7 @@ def _parse_args():
 
     return args
 
+
 def main():
     """Analysis of FNG-ITER Streaming experiment"""
 
@@ -116,9 +117,7 @@ def main():
     else:
         detector = openmc.Material.mix_materials(
             [air, au197, aisi316], [.95, 0.05, 0.], 'vo')
-        
 
-    
     ############################################################################
     # Build Geometry
 
@@ -176,11 +175,14 @@ def main():
     cx_15 = openmc.XCylinder(y0=0.0, z0=0, r=1.4, name='cx_15').rotate(
         r2).translate(t2)  # tr2
     px_16 = openmc.XPlane(x0=2.0, name='px_16').rotate(r2).translate(t2)  # tr2
-    px_17 = openmc.XPlane(x0=-2.0, name='px_17').rotate(r2).translate(t2)  # tr2
+    px_17 = openmc.XPlane(
+        x0=-2.0, name='px_17').rotate(r2).translate(t2)  # tr2
     # Planes for the pot and the exterior
-    cy_19 = openmc.YCylinder(x0=0.0, z0=0.0, r=17.7, name='cy_29').translate(t3)
+    cy_19 = openmc.YCylinder(x0=0.0, z0=0.0, r=17.7,
+                             name='cy_29').translate(t3)
     py_20 = openmc.YPlane(y0=-8.4, name='py_20').translate(t3)
-    py_21 = openmc.YPlane(y0=-14.1, name='py_21').translate(t3)
+    py_21 = openmc.YPlane(y0=-14.1, boundary_type='vacuum',
+                          name='py_21').translate(t3)
     p_22 = openmc.Plane(2.6516504294495524, -12.450000000000001,
                         2.6516504294495524, 5.01, name='p_22').translate(t3)  # COPIED FROM XML
     p_23 = openmc.Plane(2.54558441227157, -12.450000000000001, 2.54558441227157,
@@ -199,8 +201,10 @@ def main():
                         2.6516504294495524, 7.5, name='p_29').translate(t3)  # COPIED FROM XML
     pz_30 = openmc.ZPlane(z0=2.0, name='pz_30').rotate(r2).translate(t2)  # tr2
     pz_31 = openmc.ZPlane(z0=1.9, name='pz_31').rotate(r2).translate(t2)  # tr2
-    pz_32 = openmc.ZPlane(z0=-1.9, name='pz_32').rotate(r2).translate(t2)  # tr2
-    pz_33 = openmc.ZPlane(z0=-2.0, name='pz_33').rotate(r2).translate(t2)  # tr2
+    pz_32 = openmc.ZPlane(
+        z0=-1.9, name='pz_32').rotate(r2).translate(t2)  # tr2
+    pz_33 = openmc.ZPlane(
+        z0=-2.0, name='pz_33').rotate(r2).translate(t2)  # tr2
     p_34 = openmc.Plane(-7.530687219636732, 0, 10.076271631908304,
                         27.255, name='p_34').translate(t3)  # COPIED FROM XML
     p_35 = openmc.Plane(-7.530687219636731, 0, 10.076271631908305,
@@ -217,48 +221,67 @@ def main():
                         27.255, name='p_40').translate(t3)  # COPIED FROM XML
     p_41 = openmc.Plane(7.530687219636731, 0, -10.076271631908305,
                         28.500000000000004, name='p_41').translate(t3)  # COPIED FROM XML
-    px_42 = openmc.XPlane(x0=6.15, name='px_42').rotate(r2).translate(t2)  # tr2
-    px_43 = openmc.XPlane(x0=-6.15, name='px_43').rotate(r2).translate(t2)  # tr2
+    px_42 = openmc.XPlane(x0=6.15, name='px_42').rotate(
+        r2).translate(t2)  # tr2
+    px_43 = openmc.XPlane(
+        x0=-6.15, name='px_43').rotate(r2).translate(t2)  # tr2
     # Surfaces for the water junctions
-    px_44 = openmc.XPlane(x0=7.45, name='px_44').rotate(r2).translate(t2)  # tr2
-    px_45 = openmc.XPlane(x0=-7.45, name='px_45').rotate(r2).translate(t2)  # tr2
-    px_46 = openmc.XPlane(x0=10.05, name='px_46').rotate(r2).translate(t2)  # tr2
-    px_47 = openmc.XPlane(x0=-10.05, name='px_47').rotate(r2).translate(t2)  # tr2
-    px_48 = openmc.XPlane(x0=11.45, name='px_48').rotate(r2).translate(t2)  # tr2
-    px_49 = openmc.XPlane(x0=-11.45, name='px_49').rotate(r2).translate(t2)  # tr2
+    px_44 = openmc.XPlane(x0=7.45, name='px_44').rotate(
+        r2).translate(t2)  # tr2
+    px_45 = openmc.XPlane(
+        x0=-7.45, name='px_45').rotate(r2).translate(t2)  # tr2
+    px_46 = openmc.XPlane(x0=10.05, name='px_46').rotate(
+        r2).translate(t2)  # tr2
+    px_47 = openmc.XPlane(
+        x0=-10.05, name='px_47').rotate(r2).translate(t2)  # tr2
+    px_48 = openmc.XPlane(x0=11.45, name='px_48').rotate(
+        r2).translate(t2)  # tr2
+    px_49 = openmc.XPlane(
+        x0=-11.45, name='px_49').rotate(r2).translate(t2)  # tr2
     coy_50 = openmc.YCylinder(x0=13.0, z0=0.0, r=1.4,
-                            name='coy_50').rotate(r2).translate(t2)  # tr2
+                              name='coy_50').rotate(r2).translate(t2)  # tr2
     coy_51 = openmc.YCylinder(x0=13.0, z0=0.0, r=1.5,
-                            name='coy_51').rotate(r2).translate(t2)  # tr2
+                              name='coy_51').rotate(r2).translate(t2)  # tr2
     coy_53 = openmc.YCylinder(x0=13.0, z0=0.0, r=2.1,
-                            name='coy_53').rotate(r2).translate(t2)  # tr2
+                              name='coy_53').rotate(r2).translate(t2)  # tr2
     coy_54 = openmc.YCylinder(x0=-13.0, z0=0.0, r=1.4,
-                            name='coy_54').rotate(r2).translate(t2)  # tr2
+                              name='coy_54').rotate(r2).translate(t2)  # tr2
     coy_55 = openmc.YCylinder(x0=-13.0, z0=0.0, r=1.5,
-                            name='coy_55').rotate(r2).translate(t2)  # tr2
+                              name='coy_55').rotate(r2).translate(t2)  # tr2
     coy_56 = openmc.YCylinder(x0=-13.0, z0=0.0, r=2.1,
-                            name='coy_56').rotate(r2).translate(t2)  # tr2
+                              name='coy_56').rotate(r2).translate(t2)  # tr2
     cx_57 = openmc.XCylinder(y0=0.0, z0=0.0, r=1.75,
-                            name='cx_57').rotate(r2).translate(t2)  # tr2
-    px_58 = openmc.XPlane(x0=14.35, name='px_58').rotate(r2).translate(t2)  # tr2
-    px_59 = openmc.XPlane(x0=-14.35, name='px_59').rotate(r2).translate(t2)  # tr2
-    px_60 = openmc.XPlane(x0=14.15, name='px_60').rotate(r2).translate(t2)  # tr2
-    px_61 = openmc.XPlane(x0=-14.15, name='px_61').rotate(r2).translate(t2)  # tr2
-    py_62 = openmc.YPlane(y0=1.45, name='py_62').rotate(r2).translate(t2)  # tr2
-    py_63 = openmc.YPlane(y0=1.25, name='py_63').rotate(r2).translate(t2)  # tr2
-    py_64 = openmc.YPlane(y0=-1.45, name='py_64').rotate(r2).translate(t2)  # tr2
-    pz_65 = openmc.ZPlane(z0=1.45, name='pz_65').rotate(r2).translate(t2)  # tr2
-    pz_66 = openmc.ZPlane(z0=1.25, name='pz_66').rotate(r2).translate(t2)  # tr2
-    pz_67 = openmc.ZPlane(z0=-1.25, name='pz_67').rotate(r2).translate(t2)  # tr2
-    pz_68 = openmc.ZPlane(z0=-1.45, name='pz_68').rotate(r2).translate(t2)  # tr2
+                             name='cx_57').rotate(r2).translate(t2)  # tr2
+    px_58 = openmc.XPlane(x0=14.35, name='px_58').rotate(
+        r2).translate(t2)  # tr2
+    px_59 = openmc.XPlane(
+        x0=-14.35, name='px_59').rotate(r2).translate(t2)  # tr2
+    px_60 = openmc.XPlane(x0=14.15, name='px_60').rotate(
+        r2).translate(t2)  # tr2
+    px_61 = openmc.XPlane(
+        x0=-14.15, name='px_61').rotate(r2).translate(t2)  # tr2
+    py_62 = openmc.YPlane(y0=1.45, name='py_62').rotate(
+        r2).translate(t2)  # tr2
+    py_63 = openmc.YPlane(y0=1.25, name='py_63').rotate(
+        r2).translate(t2)  # tr2
+    py_64 = openmc.YPlane(
+        y0=-1.45, name='py_64').rotate(r2).translate(t2)  # tr2
+    pz_65 = openmc.ZPlane(z0=1.45, name='pz_65').rotate(
+        r2).translate(t2)  # tr2
+    pz_66 = openmc.ZPlane(z0=1.25, name='pz_66').rotate(
+        r2).translate(t2)  # tr2
+    pz_67 = openmc.ZPlane(
+        z0=-1.25, name='pz_67').rotate(r2).translate(t2)  # tr2
+    pz_68 = openmc.ZPlane(
+        z0=-1.45, name='pz_68').rotate(r2).translate(t2)  # tr2
     # Polyethilene block
-    px_70 = openmc.XPlane(x0=-63.5, name='px_70')
-    px_71 = openmc.XPlane(x0=63.5, name='px_71')
+    px_70 = openmc.XPlane(x0=-63.5, boundary_type='vacuum', name='px_70')
+    px_71 = openmc.XPlane(x0=63.5, boundary_type='vacuum', name='px_71')
     py_72 = openmc.YPlane(y0=66.56, name='py_72')
-    pz_73 = openmc.ZPlane(z0=-59.5, name='pz_73')
+    pz_73 = openmc.ZPlane(z0=-59.5, boundary_type='vacuum', name='pz_73')
     pz_74 = openmc.ZPlane(z0=59.5, name='pz_74')
-    pz_75 = openmc.ZPlane(z0=67.5, name='pz_75')
-    py_76 = openmc.YPlane(y0=151.56, name='py_76')
+    pz_75 = openmc.ZPlane(z0=67.5, boundary_type='vacuum', name='pz_75')
+    py_76 = openmc.YPlane(y0=151.56, boundary_type='vacuum', name='py_76')
     pz_77 = openmc.ZPlane(z0=-28.5, name='pz_77')
     pz_78 = openmc.ZPlane(z0=28.5, name='pz_78')
     pz_79 = openmc.ZPlane(z0=-38.5, name='pz_79')
@@ -399,67 +422,6 @@ def main():
     pz_357 = openmc.ZPlane(z0=2.5, name='pz_357')
     pz_358 = openmc.ZPlane(z0=-2.5, name='pz_358')
 
-    # Wall surfaces
-    px_400 = openmc.XPlane(x0=-570, name='px_400').rotate(r1).translate(t1)  # tr1
-    px_401 = openmc.XPlane(x0=570, name='px_401').rotate(r1).translate(t1)  # tr1
-    py_402 = openmc.YPlane(y0=-760, name='py_402').rotate(r1).translate(t1)  # tr1
-    py_403 = openmc.YPlane(y0=480, name='py_403').rotate(r1).translate(t1)  # tr1
-    pz_404 = openmc.ZPlane(z0=-406, name='pz_404')
-    pz_405 = openmc.ZPlane(z0=530, name='pz_405')
-
-    px_410 = openmc.XPlane(x0=-572, name='px_410').rotate(r1).translate(t1)  # tr1
-    px_411 = openmc.XPlane(x0=572, name='px_411').rotate(r1).translate(t1)  # tr1
-    py_412 = openmc.YPlane(y0=-762, name='py_412').rotate(r1).translate(t1)  # tr1
-    py_413 = openmc.YPlane(y0=482, name='py_413').rotate(r1).translate(t1)  # tr1
-    pz_414 = openmc.ZPlane(z0=-408, name='pz_414')
-    pz_415 = openmc.ZPlane(z0=532, name='pz_415')
-
-    px_420 = openmc.XPlane(x0=-576, name='px_420').rotate(r1).translate(t1)  # tr1
-    px_421 = openmc.XPlane(x0=576, name='px_421').rotate(r1).translate(t1)  # tr1
-    py_422 = openmc.YPlane(y0=-766, name='py_422').rotate(r1).translate(t1)  # tr1
-    py_423 = openmc.YPlane(y0=486, name='py_423').rotate(r1).translate(t1)  # tr1
-    pz_424 = openmc.ZPlane(z0=-412, name='pz_424')
-    pz_425 = openmc.ZPlane(z0=536, name='pz_425')
-
-    px_430 = openmc.XPlane(x0=-582, name='px_430').rotate(r1).translate(t1)  # tr1
-    px_431 = openmc.XPlane(x0=582, name='px_431').rotate(r1).translate(t1)  # tr1
-    py_432 = openmc.YPlane(y0=-772, name='py_432').rotate(r1).translate(t1)  # tr1
-    py_433 = openmc.YPlane(y0=492, name='py_403').rotate(r1).translate(t1)  # tr1
-    pz_434 = openmc.ZPlane(z0=-418, name='pz_434')
-    pz_435 = openmc.ZPlane(z0=542, name='pz_435')
-
-    px_440 = openmc.XPlane(x0=-590, name='px_440').rotate(r1).translate(t1)  # tr1
-    px_441 = openmc.XPlane(x0=590, name='px_441').rotate(r1).translate(t1)  # tr1
-    py_442 = openmc.YPlane(y0=-780, name='py_442').rotate(r1).translate(t1)  # tr1
-    py_443 = openmc.YPlane(y0=500, name='py_443').rotate(r1).translate(t1)  # tr1
-    pz_444 = openmc.ZPlane(z0=-426, name='pz_444')
-    pz_445 = openmc.ZPlane(z0=550, name='pz_445')
-
-    px_450 = openmc.XPlane(x0=-600, name='px_450').rotate(r1).translate(t1)  # tr1
-    px_451 = openmc.XPlane(x0=600, name='px_451').rotate(r1).translate(t1)  # tr1
-    py_452 = openmc.YPlane(y0=-790, name='py_452').rotate(r1).translate(t1)  # tr1
-    py_453 = openmc.YPlane(y0=510, name='py_453').rotate(r1).translate(t1)  # tr1
-    pz_454 = openmc.ZPlane(z0=-436, name='pz_454')
-    pz_455 = openmc.ZPlane(z0=560, name='pz_455')
-
-    px_460 = openmc.XPlane(x0=-610, name='px_460').rotate(r1).translate(t1)  # tr1
-    px_461 = openmc.XPlane(x0=610, name='px_461').rotate(r1).translate(t1)  # tr1
-    py_462 = openmc.YPlane(y0=-800, name='py_462').rotate(r1).translate(t1)  # tr1
-    py_463 = openmc.YPlane(y0=520, name='py_463').rotate(r1).translate(t1)  # tr1
-    pz_464 = openmc.ZPlane(z0=-446, name='pz_464')
-    pz_465 = openmc.ZPlane(z0=570, name='pz_465')
-
-    px_470 = openmc.XPlane(x0=-620, boundary_type='vacuum',
-                        name='px_470').rotate(r1).translate(t1)  # tr1
-    px_471 = openmc.XPlane(x0=620, boundary_type='vacuum',
-                        name='px_471').rotate(r1).translate(t1)  # tr1
-    py_472 = openmc.YPlane(y0=-810, boundary_type='vacuum',
-                        name='py_472').rotate(r1).translate(t1)  # tr1
-    py_473 = openmc.YPlane(y0=530, boundary_type='vacuum',
-                        name='py_473').rotate(r1).translate(t1)  # tr1
-    pz_474 = openmc.ZPlane(z0=-456, boundary_type='vacuum', name='pz_474')
-    pz_475 = openmc.ZPlane(z0=580, boundary_type='vacuum', name='pz_475')
-
     # regions
     # Cu cup
     region_1 = +py_6 & (+py_1 | +cy_7) & -py_2 & -cy_8
@@ -503,7 +465,8 @@ def main():
     region_20 = +py_6 & -py_101 & - \
         cy_19 & (+px_42 | -px_43 | +pz_30 | -pz_33) & -px_48 & +px_49 & +cx_57
     # Air for the region right and left to the taped tubes, upper part
-    region_21 = -px_42 & +px_16 & -pz_30 & +pz_33 & (+p_35 | +p_37) & +p_23 & +p_25
+    region_21 = -px_42 & +px_16 & -pz_30 & + \
+        pz_33 & (+p_35 | +p_37) & +p_23 & +p_25
     # --------- Upper pipe regions
     region_22 = +px_42 & -px_44 & -cx_15 & +cx_14
     region_23 = +px_42 & -px_44 & -cx_14
@@ -545,10 +508,8 @@ def main():
     # Exterior air
     region_51 = +px_92 & -px_93 & -py_101 & +py_21 & +pz_94 & -pz_95 & +cy_19
     # Air for the region right and left to the taped tubes, lower part
-    region_52 = -px_17 & +px_43 & -pz_30 & +pz_33 & (+p_39 | +p_41) & +p_27 & +p_29
-    # Air in the bunker
-    region_654 = +py_402 & -py_403 & +px_400 & -px_401 & +pz_404 & - \
-        pz_405 & (+py_76 | -px_70 | +px_71 | -pz_73 | +pz_75 | -py_21)
+    region_52 = -px_17 & +px_43 & -pz_30 & + \
+        pz_33 & (+p_39 | +p_41) & +p_27 & +p_29
     # polyethilene
     region_53 = +px_89 & -px_90 & +py_72 & -py_127 & +pz_81 & -pz_94
     region_54 = +px_89 & -px_90 & +py_72 & -py_127 & +pz_95 & -pz_82
@@ -1053,1103 +1014,1143 @@ def main():
     region_610 = -coz_351 & +pz_357 & -pz_303  # detector
     region_611 = -coz_352 & +pz_304 & -pz_358  # detector
     region_612 = -coz_352 & +pz_357 & -pz_303  # detector
-    # Walls
-    region_655 = (-py_402 | +py_403 | -px_400 | +px_401 | -pz_404 | +
-                pz_405) & +py_412 & -py_413 & +px_410 & -px_411 & +pz_414 & -pz_415
-    region_656 = (-py_412 | +py_413 | -px_410 | +px_411 | -pz_414 | +
-                pz_415) & +py_422 & -py_423 & +px_420 & -px_421 & +pz_424 & -pz_425
-    region_657 = (-py_422 | +py_423 | -px_420 | +px_421 | -pz_424 | +
-                pz_425) & +py_432 & -py_433 & +px_430 & -px_431 & +pz_434 & -pz_435
-    region_658 = (-py_432 | +py_433 | -px_430 | +px_431 | -pz_434 | +
-                pz_435) & +py_442 & -py_443 & +px_440 & -px_441 & +pz_444 & -pz_445
-    region_659 = (-py_442 | +py_443 | -px_440 | +px_441 | -pz_444 | +
-                pz_445) & +py_452 & -py_453 & +px_450 & -px_451 & +pz_454 & -pz_455
-    region_660 = (-py_452 | +py_453 | -px_450 | +px_451 | -pz_454 | +
-                pz_455) & +py_462 & -py_463 & +px_460 & -px_461 & +pz_464 & -pz_465
-    region_661 = (-py_462 | +py_463 | -px_460 | +px_461 | -pz_464 | +
-                pz_465) & +py_472 & -py_473 & +px_470 & -px_471 & +pz_474 & -pz_475
-    # External vacuum
-    region_600 = -py_472 | +py_473 | -px_470 | +px_471 | -pz_474 | +pz_475
 
     # cells
     # Cu cup
-    cell_1 = openmc.Cell(cell_id=1, name='cell_1', fill=copper, region=region_1)
+    cell_1 = openmc.Cell(cell_id=1, name='cell_1',
+                         fill=copper, region=region_1)
     # Cylindrical water gap
     cell_2 = openmc.Cell(cell_id=2, name='cell_2', fill=water, region=region_2)
     # Steel pieces
-    cell_3 = openmc.Cell(cell_id=3, name='cell_3', fill=aisi316, region=region_3)
-    cell_4 = openmc.Cell(cell_id=4, name='cell_4', fill=aisi316, region=region_4)
+    cell_3 = openmc.Cell(cell_id=3, name='cell_3',
+                         fill=aisi316, region=region_3)
+    cell_4 = openmc.Cell(cell_id=4, name='cell_4',
+                         fill=aisi316, region=region_4)
     # Front water gap
     cell_5 = openmc.Cell(cell_id=5, name='cell_5', fill=water, region=region_5)
     # Walls around front water gap
-    cell_6 = openmc.Cell(cell_id=6, name='cell_6', fill=aisi316, region=region_6)
-    cell_7 = openmc.Cell(cell_id=7, name='cell_7', fill=aisi316, region=region_7)
-    cell_8 = openmc.Cell(cell_id=8, name='cell_8', fill=aisi316, region=region_8)
+    cell_6 = openmc.Cell(cell_id=6, name='cell_6',
+                         fill=aisi316, region=region_6)
+    cell_7 = openmc.Cell(cell_id=7, name='cell_7',
+                         fill=aisi316, region=region_7)
+    cell_8 = openmc.Cell(cell_id=8, name='cell_8',
+                         fill=aisi316, region=region_8)
     # Drift tube
-    cell_9 = openmc.Cell(cell_id=9, name='cell_9', fill=aisi316, region=region_9)
+    cell_9 = openmc.Cell(cell_id=9, name='cell_9',
+                         fill=aisi316, region=region_9)
     # Drift tube vacuum
-    cell_10 = openmc.Cell(cell_id=10, name='cell_10', fill=None, region=region_10)
+    cell_10 = openmc.Cell(cell_id=10, name='cell_10',
+                          fill=None, region=region_10)
     # Flange
     cell_11 = openmc.Cell(cell_id=11, name='cell_11',
-                        fill=aisi316, region=region_11)
+                          fill=aisi316, region=region_11)
     # Upper taped tube water
-    cell_12 = openmc.Cell(cell_id=12, name='cell_12', fill=water, region=region_12)
+    cell_12 = openmc.Cell(cell_id=12, name='cell_12',
+                          fill=water, region=region_12)
 
     # Upper taped tube wall
     cell_13 = openmc.Cell(cell_id=13, name='cell_13',
-                        fill=aisi316, region=region_13)
+                          fill=aisi316, region=region_13)
     # Lower taped tube water
-    cell_14 = openmc.Cell(cell_id=14, name='cell_14', fill=water, region=region_14)
+    cell_14 = openmc.Cell(cell_id=14, name='cell_14',
+                          fill=water, region=region_14)
     # Lower taped tube wall
     cell_15 = openmc.Cell(cell_id=15, name='cell_15',
-                        fill=aisi316, region=region_15)
+                          fill=aisi316, region=region_15)
     # Air between target and pot
-    cell_16 = openmc.Cell(cell_id=16, name='cell_16', fill=air, region=region_16)
+    cell_16 = openmc.Cell(cell_id=16, name='cell_16',
+                          fill=air, region=region_16)
     # Air between block and target
-    cell_17 = openmc.Cell(cell_id=17, name='cell_17', fill=air, region=region_17)
+    cell_17 = openmc.Cell(cell_id=17, name='cell_17',
+                          fill=air, region=region_17)
     # Air around drift tube
-    cell_18 = openmc.Cell(cell_id=18, name='cell_18', fill=air, region=region_18)
+    cell_18 = openmc.Cell(cell_id=18, name='cell_18',
+                          fill=air, region=region_18)
     # Back region air
-    cell_19 = openmc.Cell(cell_id=19, name='cell_19', fill=air, region=region_19)
+    cell_19 = openmc.Cell(cell_id=19, name='cell_19',
+                          fill=air, region=region_19)
     # Front region air
-    cell_20 = openmc.Cell(cell_id=20, name='cell_20', fill=air, region=region_20)
+    cell_20 = openmc.Cell(cell_id=20, name='cell_20',
+                          fill=air, region=region_20)
     # Air for the region right and left to the taped tubes, upper part
-    cell_21 = openmc.Cell(cell_id=21, name='cell_21', fill=air, region=region_21)
+    cell_21 = openmc.Cell(cell_id=21, name='cell_21',
+                          fill=air, region=region_21)
     # --------- Upper pipe regions
     cell_22 = openmc.Cell(cell_id=22, name='cell_22',
-                        fill=aisi316, region=region_22)
-    cell_23 = openmc.Cell(cell_id=23, name='cell_23', fill=water, region=region_23)
-    cell_24 = openmc.Cell(cell_id=24, name='cell_24', fill=water, region=region_24)
-    cell_25 = openmc.Cell(cell_id=25, name='cell_25', fill=water, region=region_25)
+                          fill=aisi316, region=region_22)
+    cell_23 = openmc.Cell(cell_id=23, name='cell_23',
+                          fill=water, region=region_23)
+    cell_24 = openmc.Cell(cell_id=24, name='cell_24',
+                          fill=water, region=region_24)
+    cell_25 = openmc.Cell(cell_id=25, name='cell_25',
+                          fill=water, region=region_25)
     cell_26 = openmc.Cell(cell_id=26, name='cell_26',
-                        fill=aisi316, region=region_26)
-    cell_27 = openmc.Cell(cell_id=27, name='cell_27', fill=water, region=region_27)
-    cell_28 = openmc.Cell(cell_id=28, name='cell_28', fill=water, region=region_28)
+                          fill=aisi316, region=region_26)
+    cell_27 = openmc.Cell(cell_id=27, name='cell_27',
+                          fill=water, region=region_27)
+    cell_28 = openmc.Cell(cell_id=28, name='cell_28',
+                          fill=water, region=region_28)
     cell_29 = openmc.Cell(cell_id=29, name='cell_29',
-                        fill=aisi316, region=region_29)
-    cell_30 = openmc.Cell(cell_id=30, name='cell_30', fill=water, region=region_30)
-    cell_31 = openmc.Cell(cell_id=31, name='cell_31', fill=water, region=region_31)
+                          fill=aisi316, region=region_29)
+    cell_30 = openmc.Cell(cell_id=30, name='cell_30',
+                          fill=water, region=region_30)
+    cell_31 = openmc.Cell(cell_id=31, name='cell_31',
+                          fill=water, region=region_31)
     cell_32 = openmc.Cell(cell_id=32, name='cell_32',
-                        fill=aisi316, region=region_32)
+                          fill=aisi316, region=region_32)
     cell_33 = openmc.Cell(cell_id=33, name='cell_33',
-                        fill=aisi316, region=region_33)
+                          fill=aisi316, region=region_33)
     # --------- Lower pipe regions
     cell_34 = openmc.Cell(cell_id=34, name='cell_34',
-                        fill=aisi316, region=region_34)
-    cell_35 = openmc.Cell(cell_id=35, name='cell_35', fill=water, region=region_35)
-    cell_36 = openmc.Cell(cell_id=36, name='cell_36', fill=water, region=region_36)
-    cell_37 = openmc.Cell(cell_id=37, name='cell_37', fill=water, region=region_37)
+                          fill=aisi316, region=region_34)
+    cell_35 = openmc.Cell(cell_id=35, name='cell_35',
+                          fill=water, region=region_35)
+    cell_36 = openmc.Cell(cell_id=36, name='cell_36',
+                          fill=water, region=region_36)
+    cell_37 = openmc.Cell(cell_id=37, name='cell_37',
+                          fill=water, region=region_37)
     cell_38 = openmc.Cell(cell_id=38, name='cell_38',
-                        fill=aisi316, region=region_38)
-    cell_39 = openmc.Cell(cell_id=39, name='cell_39', fill=water, region=region_39)
-    cell_40 = openmc.Cell(cell_id=40, name='cell_40', fill=water, region=region_40)
+                          fill=aisi316, region=region_38)
+    cell_39 = openmc.Cell(cell_id=39, name='cell_39',
+                          fill=water, region=region_39)
+    cell_40 = openmc.Cell(cell_id=40, name='cell_40',
+                          fill=water, region=region_40)
     cell_41 = openmc.Cell(cell_id=41, name='cell_41',
-                        fill=aisi316, region=region_41)
-    cell_42 = openmc.Cell(cell_id=42, name='cell_42', fill=water, region=region_42)
-    cell_43 = openmc.Cell(cell_id=43, name='cell_43', fill=water, region=region_43)
+                          fill=aisi316, region=region_41)
+    cell_42 = openmc.Cell(cell_id=42, name='cell_42',
+                          fill=water, region=region_42)
+    cell_43 = openmc.Cell(cell_id=43, name='cell_43',
+                          fill=water, region=region_43)
     cell_44 = openmc.Cell(cell_id=44, name='cell_44',
-                        fill=aisi316, region=region_44)
+                          fill=aisi316, region=region_44)
     cell_45 = openmc.Cell(cell_id=45, name='cell_45',
-                        fill=aisi316, region=region_45)
-    cell_46 = openmc.Cell(cell_id=46, name='cell_46', fill=air, region=region_46)
-    cell_47 = openmc.Cell(cell_id=47, name='cell_47', fill=air, region=region_47)
-    cell_48 = openmc.Cell(cell_id=48, name='cell_48', fill=air, region=region_48)
-    cell_49 = openmc.Cell(cell_id=49, name='cell_49', fill=air, region=region_49)
+                          fill=aisi316, region=region_45)
+    cell_46 = openmc.Cell(cell_id=46, name='cell_46',
+                          fill=air, region=region_46)
+    cell_47 = openmc.Cell(cell_id=47, name='cell_47',
+                          fill=air, region=region_47)
+    cell_48 = openmc.Cell(cell_id=48, name='cell_48',
+                          fill=air, region=region_48)
+    cell_49 = openmc.Cell(cell_id=49, name='cell_49',
+                          fill=air, region=region_49)
     # Back flange
     cell_50 = openmc.Cell(cell_id=50, name='cell_50',
-                        fill=aisi316, region=region_50)
+                          fill=aisi316, region=region_50)
     # Exterior air
-    cell_51 = openmc.Cell(cell_id=51, name='cell_51', fill=air, region=region_51)
+    cell_51 = openmc.Cell(cell_id=51, name='cell_51',
+                          fill=air, region=region_51)
     # Air for the region right and left to the taped tubes, lower part
-    cell_52 = openmc.Cell(cell_id=52, name='cell_52', fill=air, region=region_52)
-    # Air in the bunker
-    cell_654 = openmc.Cell(cell_id=654, name='cell_654',
-                        fill=None, region=region_654)
+    cell_52 = openmc.Cell(cell_id=52, name='cell_52',
+                          fill=air, region=region_52)
     # polyethilene
-    cell_53 = openmc.Cell(cell_id=53, name='cell_53', fill=ch2, region=region_53)
-    cell_54 = openmc.Cell(cell_id=54, name='cell_54', fill=ch2, region=region_54)
-    cell_55 = openmc.Cell(cell_id=55, name='cell_55', fill=ch2, region=region_55)
-    cell_56 = openmc.Cell(cell_id=56, name='cell_56', fill=ch2, region=region_56)
-    cell_57 = openmc.Cell(cell_id=57, name='cell_57', fill=ch2, region=region_57)
-    cell_58 = openmc.Cell(cell_id=58, name='cell_58', fill=ch2, region=region_58)
-    cell_59 = openmc.Cell(cell_id=59, name='cell_59', fill=ch2, region=region_59)
-    cell_60 = openmc.Cell(cell_id=60, name='cell_60', fill=ch2, region=region_60)
-    cell_61 = openmc.Cell(cell_id=61, name='cell_61', fill=ch2, region=region_61)
-    cell_62 = openmc.Cell(cell_id=62, name='cell_62', fill=ch2, region=region_62)
-    cell_63 = openmc.Cell(cell_id=63, name='cell_63', fill=ch2, region=region_63)
-    cell_64 = openmc.Cell(cell_id=64, name='cell_64', fill=ch2, region=region_64)
-    cell_65 = openmc.Cell(cell_id=65, name='cell_65', fill=ch2, region=region_65)
-    cell_66 = openmc.Cell(cell_id=66, name='cell_66', fill=ch2, region=region_66)
-    cell_67 = openmc.Cell(cell_id=67, name='cell_67', fill=ch2, region=region_67)
-    cell_68 = openmc.Cell(cell_id=68, name='cell_68', fill=ch2, region=region_68)
-    cell_69 = openmc.Cell(cell_id=69, name='cell_69', fill=ch2, region=region_69)
-    cell_70 = openmc.Cell(cell_id=70, name='cell_70', fill=ch2, region=region_70)
-    cell_71 = openmc.Cell(cell_id=71, name='cell_71', fill=ch2, region=region_71)
-    cell_72 = openmc.Cell(cell_id=72, name='cell_72', fill=ch2, region=region_72)
-    cell_73 = openmc.Cell(cell_id=73, name='cell_73', fill=ch2, region=region_73)
-    cell_74 = openmc.Cell(cell_id=74, name='cell_74', fill=ch2, region=region_74)
-    cell_75 = openmc.Cell(cell_id=75, name='cell_75', fill=ch2, region=region_75)
-    cell_76 = openmc.Cell(cell_id=76, name='cell_76', fill=ch2, region=region_76)
-    cell_77 = openmc.Cell(cell_id=77, name='cell_77', fill=ch2, region=region_77)
-    cell_78 = openmc.Cell(cell_id=78, name='cell_78', fill=ch2, region=region_78)
-    cell_79 = openmc.Cell(cell_id=79, name='cell_79', fill=ch2, region=region_79)
-    cell_80 = openmc.Cell(cell_id=80, name='cell_80', fill=ch2, region=region_80)
-    cell_81 = openmc.Cell(cell_id=81, name='cell_81', fill=ch2, region=region_81)
-    cell_82 = openmc.Cell(cell_id=82, name='cell_82', fill=ch2, region=region_82)
-    cell_83 = openmc.Cell(cell_id=83, name='cell_83', fill=ch2, region=region_83)
-    cell_84 = openmc.Cell(cell_id=84, name='cell_84', fill=ch2, region=region_84)
-    cell_85 = openmc.Cell(cell_id=85, name='cell_85', fill=ch2, region=region_85)
-    cell_86 = openmc.Cell(cell_id=86, name='cell_86', fill=ch2, region=region_86)
-    cell_87 = openmc.Cell(cell_id=87, name='cell_87', fill=ch2, region=region_87)
-    cell_88 = openmc.Cell(cell_id=88, name='cell_88', fill=ch2, region=region_88)
-    cell_89 = openmc.Cell(cell_id=89, name='cell_89', fill=ch2, region=region_89)
-    cell_90 = openmc.Cell(cell_id=90, name='cell_90', fill=ch2, region=region_90)
-    cell_91 = openmc.Cell(cell_id=91, name='cell_91', fill=ch2, region=region_91)
+    cell_53 = openmc.Cell(cell_id=53, name='cell_53',
+                          fill=ch2, region=region_53)
+    cell_54 = openmc.Cell(cell_id=54, name='cell_54',
+                          fill=ch2, region=region_54)
+    cell_55 = openmc.Cell(cell_id=55, name='cell_55',
+                          fill=ch2, region=region_55)
+    cell_56 = openmc.Cell(cell_id=56, name='cell_56',
+                          fill=ch2, region=region_56)
+    cell_57 = openmc.Cell(cell_id=57, name='cell_57',
+                          fill=ch2, region=region_57)
+    cell_58 = openmc.Cell(cell_id=58, name='cell_58',
+                          fill=ch2, region=region_58)
+    cell_59 = openmc.Cell(cell_id=59, name='cell_59',
+                          fill=ch2, region=region_59)
+    cell_60 = openmc.Cell(cell_id=60, name='cell_60',
+                          fill=ch2, region=region_60)
+    cell_61 = openmc.Cell(cell_id=61, name='cell_61',
+                          fill=ch2, region=region_61)
+    cell_62 = openmc.Cell(cell_id=62, name='cell_62',
+                          fill=ch2, region=region_62)
+    cell_63 = openmc.Cell(cell_id=63, name='cell_63',
+                          fill=ch2, region=region_63)
+    cell_64 = openmc.Cell(cell_id=64, name='cell_64',
+                          fill=ch2, region=region_64)
+    cell_65 = openmc.Cell(cell_id=65, name='cell_65',
+                          fill=ch2, region=region_65)
+    cell_66 = openmc.Cell(cell_id=66, name='cell_66',
+                          fill=ch2, region=region_66)
+    cell_67 = openmc.Cell(cell_id=67, name='cell_67',
+                          fill=ch2, region=region_67)
+    cell_68 = openmc.Cell(cell_id=68, name='cell_68',
+                          fill=ch2, region=region_68)
+    cell_69 = openmc.Cell(cell_id=69, name='cell_69',
+                          fill=ch2, region=region_69)
+    cell_70 = openmc.Cell(cell_id=70, name='cell_70',
+                          fill=ch2, region=region_70)
+    cell_71 = openmc.Cell(cell_id=71, name='cell_71',
+                          fill=ch2, region=region_71)
+    cell_72 = openmc.Cell(cell_id=72, name='cell_72',
+                          fill=ch2, region=region_72)
+    cell_73 = openmc.Cell(cell_id=73, name='cell_73',
+                          fill=ch2, region=region_73)
+    cell_74 = openmc.Cell(cell_id=74, name='cell_74',
+                          fill=ch2, region=region_74)
+    cell_75 = openmc.Cell(cell_id=75, name='cell_75',
+                          fill=ch2, region=region_75)
+    cell_76 = openmc.Cell(cell_id=76, name='cell_76',
+                          fill=ch2, region=region_76)
+    cell_77 = openmc.Cell(cell_id=77, name='cell_77',
+                          fill=ch2, region=region_77)
+    cell_78 = openmc.Cell(cell_id=78, name='cell_78',
+                          fill=ch2, region=region_78)
+    cell_79 = openmc.Cell(cell_id=79, name='cell_79',
+                          fill=ch2, region=region_79)
+    cell_80 = openmc.Cell(cell_id=80, name='cell_80',
+                          fill=ch2, region=region_80)
+    cell_81 = openmc.Cell(cell_id=81, name='cell_81',
+                          fill=ch2, region=region_81)
+    cell_82 = openmc.Cell(cell_id=82, name='cell_82',
+                          fill=ch2, region=region_82)
+    cell_83 = openmc.Cell(cell_id=83, name='cell_83',
+                          fill=ch2, region=region_83)
+    cell_84 = openmc.Cell(cell_id=84, name='cell_84',
+                          fill=ch2, region=region_84)
+    cell_85 = openmc.Cell(cell_id=85, name='cell_85',
+                          fill=ch2, region=region_85)
+    cell_86 = openmc.Cell(cell_id=86, name='cell_86',
+                          fill=ch2, region=region_86)
+    cell_87 = openmc.Cell(cell_id=87, name='cell_87',
+                          fill=ch2, region=region_87)
+    cell_88 = openmc.Cell(cell_id=88, name='cell_88',
+                          fill=ch2, region=region_88)
+    cell_89 = openmc.Cell(cell_id=89, name='cell_89',
+                          fill=ch2, region=region_89)
+    cell_90 = openmc.Cell(cell_id=90, name='cell_90',
+                          fill=ch2, region=region_90)
+    cell_91 = openmc.Cell(cell_id=91, name='cell_91',
+                          fill=ch2, region=region_91)
     # Air around block
-    cell_92 = openmc.Cell(cell_id=92, name='cell_92', fill=air, region=region_92)
-    cell_93 = openmc.Cell(cell_id=93, name='cell_93', fill=air, region=region_93)
-    cell_94 = openmc.Cell(cell_id=94, name='cell_94', fill=air, region=region_94)
-    cell_95 = openmc.Cell(cell_id=95, name='cell_95', fill=air, region=region_95)
-    cell_96 = openmc.Cell(cell_id=96, name='cell_96', fill=air, region=region_96)
+    cell_92 = openmc.Cell(cell_id=92, name='cell_92',
+                          fill=air, region=region_92)
+    cell_93 = openmc.Cell(cell_id=93, name='cell_93',
+                          fill=air, region=region_93)
+    cell_94 = openmc.Cell(cell_id=94, name='cell_94',
+                          fill=air, region=region_94)
+    cell_95 = openmc.Cell(cell_id=95, name='cell_95',
+                          fill=air, region=region_95)
+    cell_96 = openmc.Cell(cell_id=96, name='cell_96',
+                          fill=air, region=region_96)
     # Mock-up and detectors
     # 1 Cu layer
     cell_101 = openmc.Cell(cell_id=101, name='cell_101',
-                        fill=air, region=region_101)
+                           fill=air, region=region_101)
     cell_102 = openmc.Cell(cell_id=102, name='cell_102',
-                        fill=copper, region=region_102)
+                           fill=copper, region=region_102)
     cell_103 = openmc.Cell(cell_id=103, name='cell_103',
-                        fill=copper, region=region_103)
+                           fill=copper, region=region_103)
     cell_104 = openmc.Cell(cell_id=104, name='cell_104',
-                        fill=copper, region=region_104)
+                           fill=copper, region=region_104)
     cell_105 = openmc.Cell(cell_id=105, name='cell_105',
-                        fill=copper, region=region_105)
+                           fill=copper, region=region_105)
     cell_106 = openmc.Cell(cell_id=106, name='cell_106',
-                        fill=copper, region=region_106)
+                           fill=copper, region=region_106)
     cell_107 = openmc.Cell(cell_id=107, name='cell_107',
-                        fill=copper, region=region_107)
+                           fill=copper, region=region_107)
     cell_108 = openmc.Cell(cell_id=108, name='cell_108',
-                        fill=copper, region=region_108)
+                           fill=copper, region=region_108)
     cell_109 = openmc.Cell(cell_id=109, name='cell_109',
-                        fill=copper, region=region_109)
+                           fill=copper, region=region_109)
     cell_110 = openmc.Cell(cell_id=110, name='cell_110',
-                        fill=copper, region=region_110)
+                           fill=copper, region=region_110)
     cell_111 = openmc.Cell(cell_id=111, name='cell_111',
-                        fill=copper, region=region_111)
+                           fill=copper, region=region_111)
     # 2 SS layer 14 -
     cell_112 = openmc.Cell(cell_id=112, name='cell_112',
-                        fill=aisi316, region=region_112)
+                           fill=aisi316, region=region_112)
     cell_113 = openmc.Cell(cell_id=113, name='cell_113',
-                        fill=air, region=region_113)
+                           fill=air, region=region_113)
     cell_114 = openmc.Cell(cell_id=114, name='cell_114',
-                        fill=aisi316, region=region_114)
+                           fill=aisi316, region=region_114)
     cell_115 = openmc.Cell(cell_id=115, name='cell_115',
-                        fill=aisi316, region=region_115)
+                           fill=aisi316, region=region_115)
     cell_116 = openmc.Cell(cell_id=116, name='cell_116',
-                        fill=aisi316, region=region_116)
+                           fill=aisi316, region=region_116)
     cell_117 = openmc.Cell(cell_id=117, name='cell_117',
-                        fill=aisi316, region=region_117)
+                           fill=aisi316, region=region_117)
     cell_118 = openmc.Cell(cell_id=118, name='cell_118',
-                        fill=aisi316, region=region_118)
+                           fill=aisi316, region=region_118)
     cell_119 = openmc.Cell(cell_id=119, name='cell_119',
-                        fill=aisi316, region=region_119)
+                           fill=aisi316, region=region_119)
     cell_120 = openmc.Cell(cell_id=120, name='cell_120',
-                        fill=aisi316, region=region_120)
+                           fill=aisi316, region=region_120)
     cell_121 = openmc.Cell(cell_id=121, name='cell_121',
-                        fill=aisi316, region=region_121)
+                           fill=aisi316, region=region_121)
     cell_122 = openmc.Cell(cell_id=122, name='cell_122',
-                        fill=aisi316, region=region_122)
+                           fill=aisi316, region=region_122)
     cell_123 = openmc.Cell(cell_id=123, name='cell_123',
-                        fill=aisi316, region=region_123)
+                           fill=aisi316, region=region_123)
     # 3 Perspex layer 13
     cell_124 = openmc.Cell(cell_id=124, name='cell_124',
-                        fill=air, region=region_124)
+                           fill=air, region=region_124)
     cell_125 = openmc.Cell(cell_id=125, name='cell_125',
-                        fill=perspex, region=region_125)
+                           fill=perspex, region=region_125)
     cell_126 = openmc.Cell(cell_id=126, name='cell_126',
-                        fill=perspex, region=region_126)
+                           fill=perspex, region=region_126)
     cell_127 = openmc.Cell(cell_id=127, name='cell_127',
-                        fill=perspex, region=region_127)
+                           fill=perspex, region=region_127)
     cell_128 = openmc.Cell(cell_id=128, name='cell_128',
-                        fill=perspex, region=region_128)
+                           fill=perspex, region=region_128)
     cell_129 = openmc.Cell(cell_id=129, name='cell_129',
-                        fill=perspex, region=region_129)
+                           fill=perspex, region=region_129)
     cell_130 = openmc.Cell(cell_id=130, name='cell_130',
-                        fill=perspex, region=region_130)
+                           fill=perspex, region=region_130)
     cell_131 = openmc.Cell(cell_id=131, name='cell_131',
-                        fill=perspex, region=region_131)
+                           fill=perspex, region=region_131)
     cell_132 = openmc.Cell(cell_id=132, name='cell_132',
-                        fill=perspex, region=region_132)
+                           fill=perspex, region=region_132)
     cell_133 = openmc.Cell(cell_id=133, name='cell_133',
-                        fill=perspex, region=region_133)
+                           fill=perspex, region=region_133)
     cell_134 = openmc.Cell(cell_id=134, name='cell_134',
-                        fill=perspex, region=region_134)
+                           fill=perspex, region=region_134)
     # 4 SS layer 13
     cell_135 = openmc.Cell(cell_id=135, name='cell_135',
-                        fill=detector, region=region_135)  # detector
+                           fill=detector, region=region_135)  # detector
     cell_136 = openmc.Cell(cell_id=136, name='cell_136',
-                        fill=air, region=region_136)
+                           fill=air, region=region_136)
     cell_137 = openmc.Cell(cell_id=137, name='cell_137',
-                        fill=aisi316, region=region_137)
+                           fill=aisi316, region=region_137)
     cell_138 = openmc.Cell(cell_id=138, name='cell_138',
-                        fill=aisi316, region=region_138)
+                           fill=aisi316, region=region_138)
     cell_139 = openmc.Cell(cell_id=139, name='cell_139',
-                        fill=aisi316, region=region_139)
+                           fill=aisi316, region=region_139)
     cell_140 = openmc.Cell(cell_id=140, name='cell_140',
-                        fill=aisi316, region=region_140)
+                           fill=aisi316, region=region_140)
     cell_141 = openmc.Cell(cell_id=141, name='cell_141',
-                        fill=aisi316, region=region_141)
+                           fill=aisi316, region=region_141)
     cell_142 = openmc.Cell(cell_id=142, name='cell_142',
-                        fill=aisi316, region=region_142)
+                           fill=aisi316, region=region_142)
     cell_143 = openmc.Cell(cell_id=143, name='cell_143',
-                        fill=aisi316, region=region_143)
+                           fill=aisi316, region=region_143)
     cell_144 = openmc.Cell(cell_id=144, name='cell_144',
-                        fill=aisi316, region=region_144)
+                           fill=aisi316, region=region_144)
     cell_145 = openmc.Cell(cell_id=145, name='cell_145',
-                        fill=aisi316, region=region_145)
+                           fill=aisi316, region=region_145)
     cell_146 = openmc.Cell(cell_id=146, name='cell_146',
-                        fill=aisi316, region=region_146)
+                           fill=aisi316, region=region_146)
     # 5  Perspex layer 12
     cell_147 = openmc.Cell(cell_id=147, name='cell_147',
-                        fill=air, region=region_147)
+                           fill=air, region=region_147)
     cell_148 = openmc.Cell(cell_id=148, name='cell_148',
-                        fill=perspex, region=region_148)
+                           fill=perspex, region=region_148)
     cell_149 = openmc.Cell(cell_id=149, name='cell_149',
-                        fill=perspex, region=region_149)
+                           fill=perspex, region=region_149)
     cell_150 = openmc.Cell(cell_id=150, name='cell_150',
-                        fill=perspex, region=region_150)
+                           fill=perspex, region=region_150)
     cell_151 = openmc.Cell(cell_id=151, name='cell_151',
-                        fill=perspex, region=region_151)
+                           fill=perspex, region=region_151)
     cell_152 = openmc.Cell(cell_id=152, name='cell_152',
-                        fill=perspex, region=region_152)
+                           fill=perspex, region=region_152)
     cell_153 = openmc.Cell(cell_id=153, name='cell_153',
-                        fill=perspex, region=region_153)
+                           fill=perspex, region=region_153)
     cell_154 = openmc.Cell(cell_id=154, name='cell_154',
-                        fill=perspex, region=region_154)
+                           fill=perspex, region=region_154)
     cell_155 = openmc.Cell(cell_id=155, name='cell_155',
-                        fill=perspex, region=region_155)
+                           fill=perspex, region=region_155)
     cell_156 = openmc.Cell(cell_id=156, name='cell_156',
-                        fill=perspex, region=region_156)
+                           fill=perspex, region=region_156)
     cell_157 = openmc.Cell(cell_id=157, name='cell_157',
-                        fill=perspex, region=region_157)
+                           fill=perspex, region=region_157)
     # 6 SS layer 12
     cell_158 = openmc.Cell(cell_id=158, name='cell_158',
-                        fill=detector, region=region_158)  # detector
+                           fill=detector, region=region_158)  # detector
     cell_159 = openmc.Cell(cell_id=159, name='cell_159',
-                        fill=air, region=region_159)
+                           fill=air, region=region_159)
     cell_160 = openmc.Cell(cell_id=160, name='cell_160',
-                        fill=aisi316, region=region_160)
+                           fill=aisi316, region=region_160)
     cell_161 = openmc.Cell(cell_id=161, name='cell_161',
-                        fill=aisi316, region=region_161)
+                           fill=aisi316, region=region_161)
     cell_162 = openmc.Cell(cell_id=162, name='cell_162',
-                        fill=aisi316, region=region_162)
+                           fill=aisi316, region=region_162)
     cell_163 = openmc.Cell(cell_id=163, name='cell_163',
-                        fill=aisi316, region=region_163)
+                           fill=aisi316, region=region_163)
     cell_164 = openmc.Cell(cell_id=164, name='cell_164',
-                        fill=aisi316, region=region_164)
+                           fill=aisi316, region=region_164)
     cell_165 = openmc.Cell(cell_id=165, name='cell_165',
-                        fill=aisi316, region=region_165)
+                           fill=aisi316, region=region_165)
     cell_166 = openmc.Cell(cell_id=166, name='cell_166',
-                        fill=aisi316, region=region_166)
+                           fill=aisi316, region=region_166)
     cell_167 = openmc.Cell(cell_id=167, name='cell_167',
-                        fill=aisi316, region=region_167)
+                           fill=aisi316, region=region_167)
     cell_168 = openmc.Cell(cell_id=168, name='cell_168',
-                        fill=aisi316, region=region_168)
+                           fill=aisi316, region=region_168)
     cell_169 = openmc.Cell(cell_id=169, name='cell_169',
-                        fill=aisi316, region=region_169)
+                           fill=aisi316, region=region_169)
     # 7 Perspex layer 11
     cell_170 = openmc.Cell(cell_id=170, name='cell_170',
-                        fill=air, region=region_170)
+                           fill=air, region=region_170)
     cell_171 = openmc.Cell(cell_id=171, name='cell_171',
-                        fill=perspex, region=region_171)
+                           fill=perspex, region=region_171)
     cell_172 = openmc.Cell(cell_id=172, name='cell_172',
-                        fill=perspex, region=region_172)
+                           fill=perspex, region=region_172)
     cell_173 = openmc.Cell(cell_id=173, name='cell_173',
-                        fill=perspex, region=region_173)
+                           fill=perspex, region=region_173)
     cell_174 = openmc.Cell(cell_id=174, name='cell_174',
-                        fill=perspex, region=region_174)
+                           fill=perspex, region=region_174)
     cell_175 = openmc.Cell(cell_id=175, name='cell_175',
-                        fill=perspex, region=region_175)
+                           fill=perspex, region=region_175)
     cell_176 = openmc.Cell(cell_id=176, name='cell_176',
-                        fill=perspex, region=region_176)
+                           fill=perspex, region=region_176)
     cell_177 = openmc.Cell(cell_id=177, name='cell_177',
-                        fill=perspex, region=region_177)
+                           fill=perspex, region=region_177)
     cell_178 = openmc.Cell(cell_id=178, name='cell_178',
-                        fill=perspex, region=region_178)
+                           fill=perspex, region=region_178)
     cell_179 = openmc.Cell(cell_id=179, name='cell_179',
-                        fill=perspex, region=region_179)
+                           fill=perspex, region=region_179)
     cell_180 = openmc.Cell(cell_id=180, name='cell_180',
-                        fill=perspex, region=region_180)
+                           fill=perspex, region=region_180)
     # 8 SS layer 11
     cell_181 = openmc.Cell(cell_id=181, name='cell_181',
-                        fill=detector, region=region_181)  # detector
+                           fill=detector, region=region_181)  # detector
     cell_182 = openmc.Cell(cell_id=182, name='cell_182',
-                        fill=air, region=region_182)
+                           fill=air, region=region_182)
     cell_183 = openmc.Cell(cell_id=183, name='cell_183',
-                        fill=aisi316, region=region_183)
+                           fill=aisi316, region=region_183)
     cell_184 = openmc.Cell(cell_id=184, name='cell_184',
-                        fill=aisi316, region=region_184)
+                           fill=aisi316, region=region_184)
     cell_185 = openmc.Cell(cell_id=185, name='cell_185',
-                        fill=aisi316, region=region_185)
+                           fill=aisi316, region=region_185)
     cell_186 = openmc.Cell(cell_id=186, name='cell_186',
-                        fill=aisi316, region=region_186)
+                           fill=aisi316, region=region_186)
     cell_187 = openmc.Cell(cell_id=187, name='cell_187',
-                        fill=aisi316, region=region_187)
+                           fill=aisi316, region=region_187)
     cell_188 = openmc.Cell(cell_id=188, name='cell_188',
-                        fill=aisi316, region=region_188)
+                           fill=aisi316, region=region_188)
     cell_189 = openmc.Cell(cell_id=189, name='cell_189',
-                        fill=aisi316, region=region_189)
+                           fill=aisi316, region=region_189)
     cell_190 = openmc.Cell(cell_id=190, name='cell_190',
-                        fill=aisi316, region=region_190)
+                           fill=aisi316, region=region_190)
     cell_191 = openmc.Cell(cell_id=191, name='cell_191',
-                        fill=aisi316, region=region_191)
+                           fill=aisi316, region=region_191)
     cell_192 = openmc.Cell(cell_id=192, name='cell_192',
-                        fill=aisi316, region=region_192)
+                           fill=aisi316, region=region_192)
     # 9 Perspex layer 10
     cell_193 = openmc.Cell(cell_id=193, name='cell_193',
-                        fill=air, region=region_193)
+                           fill=air, region=region_193)
     cell_194 = openmc.Cell(cell_id=194, name='cell_194',
-                        fill=perspex, region=region_194)
+                           fill=perspex, region=region_194)
     cell_195 = openmc.Cell(cell_id=195, name='cell_195',
-                        fill=perspex, region=region_195)
+                           fill=perspex, region=region_195)
     cell_196 = openmc.Cell(cell_id=196, name='cell_196',
-                        fill=perspex, region=region_196)
+                           fill=perspex, region=region_196)
     cell_197 = openmc.Cell(cell_id=197, name='cell_197',
-                        fill=perspex, region=region_197)
+                           fill=perspex, region=region_197)
     cell_198 = openmc.Cell(cell_id=198, name='cell_198',
-                        fill=perspex, region=region_198)
+                           fill=perspex, region=region_198)
     cell_199 = openmc.Cell(cell_id=199, name='cell_199',
-                        fill=perspex, region=region_199)
+                           fill=perspex, region=region_199)
     cell_200 = openmc.Cell(cell_id=200, name='cell_200',
-                        fill=perspex, region=region_200)
+                           fill=perspex, region=region_200)
     cell_201 = openmc.Cell(cell_id=201, name='cell_201',
-                        fill=perspex, region=region_201)
+                           fill=perspex, region=region_201)
     cell_202 = openmc.Cell(cell_id=202, name='cell_202',
-                        fill=perspex, region=region_202)
+                           fill=perspex, region=region_202)
     cell_203 = openmc.Cell(cell_id=203, name='cell_203',
-                        fill=perspex, region=region_203)
+                           fill=perspex, region=region_203)
     # 10 SS layer 10
     cell_204 = openmc.Cell(cell_id=204, name='cell_204',
-                        fill=detector, region=region_204)  # detector
+                           fill=detector, region=region_204)  # detector
     cell_205 = openmc.Cell(cell_id=205, name='cell_205',
-                        fill=air, region=region_205)
+                           fill=air, region=region_205)
     cell_206 = openmc.Cell(cell_id=206, name='cell_206',
-                        fill=aisi316, region=region_206)
+                           fill=aisi316, region=region_206)
     cell_207 = openmc.Cell(cell_id=207, name='cell_207',
-                        fill=aisi316, region=region_207)
+                           fill=aisi316, region=region_207)
     cell_208 = openmc.Cell(cell_id=208, name='cell_208',
-                        fill=aisi316, region=region_208)
+                           fill=aisi316, region=region_208)
     cell_209 = openmc.Cell(cell_id=209, name='cell_209',
-                        fill=aisi316, region=region_209)
+                           fill=aisi316, region=region_209)
     cell_210 = openmc.Cell(cell_id=210, name='cell_210',
-                        fill=aisi316, region=region_210)
+                           fill=aisi316, region=region_210)
     cell_211 = openmc.Cell(cell_id=211, name='cell_211',
-                        fill=aisi316, region=region_211)
+                           fill=aisi316, region=region_211)
     cell_212 = openmc.Cell(cell_id=212, name='cell_212',
-                        fill=aisi316, region=region_212)
+                           fill=aisi316, region=region_212)
     cell_213 = openmc.Cell(cell_id=213, name='cell_213',
-                        fill=aisi316, region=region_213)
+                           fill=aisi316, region=region_213)
     cell_214 = openmc.Cell(cell_id=214, name='cell_214',
-                        fill=aisi316, region=region_214)
+                           fill=aisi316, region=region_214)
     cell_215 = openmc.Cell(cell_id=215, name='cell_215',
-                        fill=aisi316, region=region_215)
+                           fill=aisi316, region=region_215)
     # 11 Perspex layer 9-8-7
     cell_216 = openmc.Cell(cell_id=216, name='cell_216',
-                        fill=air, region=region_216)
+                           fill=air, region=region_216)
     cell_217 = openmc.Cell(cell_id=217, name='cell_217',
-                        fill=perspex, region=region_217)
+                           fill=perspex, region=region_217)
     cell_218 = openmc.Cell(cell_id=218, name='cell_218',
-                        fill=perspex, region=region_218)
+                           fill=perspex, region=region_218)
     cell_219 = openmc.Cell(cell_id=219, name='cell_219',
-                        fill=perspex, region=region_219)
+                           fill=perspex, region=region_219)
     cell_220 = openmc.Cell(cell_id=220, name='cell_220',
-                        fill=perspex, region=region_220)
+                           fill=perspex, region=region_220)
     cell_221 = openmc.Cell(cell_id=221, name='cell_221',
-                        fill=perspex, region=region_221)
+                           fill=perspex, region=region_221)
     cell_222 = openmc.Cell(cell_id=222, name='cell_222',
-                        fill=perspex, region=region_222)
+                           fill=perspex, region=region_222)
     cell_223 = openmc.Cell(cell_id=223, name='cell_223',
-                        fill=perspex, region=region_223)
+                           fill=perspex, region=region_223)
     cell_224 = openmc.Cell(cell_id=224, name='cell_224',
-                        fill=perspex, region=region_224)
+                           fill=perspex, region=region_224)
     cell_225 = openmc.Cell(cell_id=225, name='cell_225',
-                        fill=perspex, region=region_225)
+                           fill=perspex, region=region_225)
     cell_226 = openmc.Cell(cell_id=226, name='cell_226',
-                        fill=perspex, region=region_226)
+                           fill=perspex, region=region_226)
     # 12 SS layer 7
     cell_227 = openmc.Cell(cell_id=227, name='cell_227',
-                        fill=air, region=region_227)
+                           fill=air, region=region_227)
     cell_228 = openmc.Cell(cell_id=228, name='cell_228',
-                        fill=aisi316, region=region_228)
+                           fill=aisi316, region=region_228)
     cell_229 = openmc.Cell(cell_id=229, name='cell_229',
-                        fill=aisi316, region=region_229)
+                           fill=aisi316, region=region_229)
     cell_230 = openmc.Cell(cell_id=230, name='cell_230',
-                        fill=aisi316, region=region_230)
+                           fill=aisi316, region=region_230)
     cell_231 = openmc.Cell(cell_id=231, name='cell_231',
-                        fill=aisi316, region=region_231)
+                           fill=aisi316, region=region_231)
     cell_232 = openmc.Cell(cell_id=232, name='cell_232',
-                        fill=aisi316, region=region_232)
+                           fill=aisi316, region=region_232)
     cell_233 = openmc.Cell(cell_id=233, name='cell_233',
-                        fill=aisi316, region=region_233)
+                           fill=aisi316, region=region_233)
     cell_234 = openmc.Cell(cell_id=234, name='cell_234',
-                        fill=aisi316, region=region_234)
+                           fill=aisi316, region=region_234)
     cell_235 = openmc.Cell(cell_id=235, name='cell_235',
-                        fill=aisi316, region=region_235)
+                           fill=aisi316, region=region_235)
     cell_236 = openmc.Cell(cell_id=236, name='cell_236',
-                        fill=aisi316, region=region_236)
+                           fill=aisi316, region=region_236)
     cell_237 = openmc.Cell(cell_id=237, name='cell_237',
-                        fill=aisi316, region=region_237)
+                           fill=aisi316, region=region_237)
     cell_238 = openmc.Cell(cell_id=238, name='cell_238',
-                        fill=aisi316, region=region_238)
+                           fill=aisi316, region=region_238)
     # 13 SS layer 9
     cell_239 = openmc.Cell(cell_id=239, name='cell_239',
-                        fill=detector, region=region_239)  # detector
+                           fill=detector, region=region_239)  # detector
     cell_240 = openmc.Cell(cell_id=240, name='cell_240',
-                        fill=aisi316, region=region_240)
+                           fill=aisi316, region=region_240)
     cell_241 = openmc.Cell(cell_id=241, name='cell_241',
-                        fill=aisi316, region=region_241)
+                           fill=aisi316, region=region_241)
     cell_242 = openmc.Cell(cell_id=242, name='cell_242',
-                        fill=aisi316, region=region_242)
+                           fill=aisi316, region=region_242)
     cell_243 = openmc.Cell(cell_id=243, name='cell_243',
-                        fill=aisi316, region=region_243)
+                           fill=aisi316, region=region_243)
     cell_244 = openmc.Cell(cell_id=244, name='cell_244',
-                        fill=aisi316, region=region_244)
+                           fill=aisi316, region=region_244)
     cell_245 = openmc.Cell(cell_id=245, name='cell_245',
-                        fill=aisi316, region=region_245)
+                           fill=aisi316, region=region_245)
     cell_246 = openmc.Cell(cell_id=246, name='cell_246',
-                        fill=aisi316, region=region_246)
+                           fill=aisi316, region=region_246)
     cell_247 = openmc.Cell(cell_id=247, name='cell_247',
-                        fill=aisi316, region=region_247)
+                           fill=aisi316, region=region_247)
     cell_248 = openmc.Cell(cell_id=248, name='cell_248',
-                        fill=aisi316, region=region_248)
+                           fill=aisi316, region=region_248)
     cell_249 = openmc.Cell(cell_id=249, name='cell_249',
-                        fill=aisi316, region=region_249)
+                           fill=aisi316, region=region_249)
     cell_250 = openmc.Cell(cell_id=250, name='cell_250',
-                        fill=aisi316, region=region_250)
+                           fill=aisi316, region=region_250)
     # 14 Perspex layer 6
     cell_251 = openmc.Cell(cell_id=251, name='cell_251',
-                        fill=perspex, region=region_251)
+                           fill=perspex, region=region_251)
     cell_252 = openmc.Cell(cell_id=252, name='cell_252',
-                        fill=perspex, region=region_252)
+                           fill=perspex, region=region_252)
     cell_253 = openmc.Cell(cell_id=253, name='cell_253',
-                        fill=perspex, region=region_253)
+                           fill=perspex, region=region_253)
     cell_254 = openmc.Cell(cell_id=254, name='cell_254',
-                        fill=perspex, region=region_254)
+                           fill=perspex, region=region_254)
     cell_255 = openmc.Cell(cell_id=255, name='cell_255',
-                        fill=perspex, region=region_255)
+                           fill=perspex, region=region_255)
     cell_256 = openmc.Cell(cell_id=256, name='cell_256',
-                        fill=perspex, region=region_256)
+                           fill=perspex, region=region_256)
     cell_257 = openmc.Cell(cell_id=257, name='cell_257',
-                        fill=perspex, region=region_257)
+                           fill=perspex, region=region_257)
     cell_258 = openmc.Cell(cell_id=258, name='cell_258',
-                        fill=perspex, region=region_258)
+                           fill=perspex, region=region_258)
     cell_259 = openmc.Cell(cell_id=259, name='cell_259',
-                        fill=perspex, region=region_259)
+                           fill=perspex, region=region_259)
     cell_260 = openmc.Cell(cell_id=260, name='cell_260',
-                        fill=perspex, region=region_260)
+                           fill=perspex, region=region_260)
     cell_261 = openmc.Cell(cell_id=261, name='cell_261',
-                        fill=perspex, region=region_261)
+                           fill=perspex, region=region_261)
     # 15 SS layer 8
     cell_262 = openmc.Cell(cell_id=262, name='cell_262',
-                        fill=detector, region=region_262)  # detector
+                           fill=detector, region=region_262)  # detector
     cell_263 = openmc.Cell(cell_id=263, name='cell_263',
-                        fill=aisi316, region=region_263)
+                           fill=aisi316, region=region_263)
     cell_264 = openmc.Cell(cell_id=264, name='cell_264',
-                        fill=aisi316, region=region_264)
+                           fill=aisi316, region=region_264)
     cell_265 = openmc.Cell(cell_id=265, name='cell_265',
-                        fill=aisi316, region=region_265)
+                           fill=aisi316, region=region_265)
     cell_266 = openmc.Cell(cell_id=266, name='cell_266',
-                        fill=aisi316, region=region_266)
+                           fill=aisi316, region=region_266)
     cell_267 = openmc.Cell(cell_id=267, name='cell_267',
-                        fill=aisi316, region=region_267)
+                           fill=aisi316, region=region_267)
     cell_268 = openmc.Cell(cell_id=268, name='cell_268',
-                        fill=aisi316, region=region_268)
+                           fill=aisi316, region=region_268)
     cell_269 = openmc.Cell(cell_id=269, name='cell_269',
-                        fill=aisi316, region=region_269)
+                           fill=aisi316, region=region_269)
     cell_270 = openmc.Cell(cell_id=270, name='cell_270',
-                        fill=aisi316, region=region_270)
+                           fill=aisi316, region=region_270)
     cell_271 = openmc.Cell(cell_id=271, name='cell_271',
-                        fill=aisi316, region=region_271)
+                           fill=aisi316, region=region_271)
     cell_272 = openmc.Cell(cell_id=272, name='cell_272',
-                        fill=aisi316, region=region_272)
+                           fill=aisi316, region=region_272)
     cell_273 = openmc.Cell(cell_id=273, name='cell_273',
-                        fill=aisi316, region=region_273)
+                           fill=aisi316, region=region_273)
     # 16 Perspex layer 5
     cell_274 = openmc.Cell(cell_id=274, name='cell_274',
-                        fill=perspex, region=region_274)
+                           fill=perspex, region=region_274)
     cell_275 = openmc.Cell(cell_id=275, name='cell_275',
-                        fill=perspex, region=region_275)
+                           fill=perspex, region=region_275)
     cell_276 = openmc.Cell(cell_id=276, name='cell_276',
-                        fill=perspex, region=region_276)
+                           fill=perspex, region=region_276)
     cell_277 = openmc.Cell(cell_id=277, name='cell_277',
-                        fill=perspex, region=region_277)
+                           fill=perspex, region=region_277)
     cell_278 = openmc.Cell(cell_id=278, name='cell_278',
-                        fill=perspex, region=region_278)
+                           fill=perspex, region=region_278)
     cell_279 = openmc.Cell(cell_id=279, name='cell_279',
-                        fill=perspex, region=region_279)
+                           fill=perspex, region=region_279)
     cell_280 = openmc.Cell(cell_id=280, name='cell_280',
-                        fill=perspex, region=region_280)
+                           fill=perspex, region=region_280)
     cell_281 = openmc.Cell(cell_id=281, name='cell_281',
-                        fill=perspex, region=region_281)
+                           fill=perspex, region=region_281)
     cell_282 = openmc.Cell(cell_id=282, name='cell_282',
-                        fill=perspex, region=region_282)
+                           fill=perspex, region=region_282)
     cell_283 = openmc.Cell(cell_id=283, name='cell_283',
-                        fill=perspex, region=region_283)
+                           fill=perspex, region=region_283)
     cell_284 = openmc.Cell(cell_id=284, name='cell_284',
-                        fill=perspex, region=region_284)
+                           fill=perspex, region=region_284)
     # 17 SS layer 6
     cell_285 = openmc.Cell(cell_id=285, name='cell_285',
-                        fill=detector, region=region_285)  # detector
+                           fill=detector, region=region_285)  # detector
     cell_286 = openmc.Cell(cell_id=286, name='cell_286',
-                        fill=aisi316, region=region_286)
+                           fill=aisi316, region=region_286)
     cell_287 = openmc.Cell(cell_id=287, name='cell_287',
-                        fill=aisi316, region=region_287)
+                           fill=aisi316, region=region_287)
     cell_288 = openmc.Cell(cell_id=288, name='cell_288',
-                        fill=aisi316, region=region_288)
+                           fill=aisi316, region=region_288)
     cell_289 = openmc.Cell(cell_id=289, name='cell_289',
-                        fill=aisi316, region=region_289)
+                           fill=aisi316, region=region_289)
     cell_290 = openmc.Cell(cell_id=290, name='cell_290',
-                        fill=aisi316, region=region_290)
+                           fill=aisi316, region=region_290)
     cell_291 = openmc.Cell(cell_id=291, name='cell_291',
-                        fill=aisi316, region=region_291)
+                           fill=aisi316, region=region_291)
     cell_292 = openmc.Cell(cell_id=292, name='cell_292',
-                        fill=aisi316, region=region_292)
+                           fill=aisi316, region=region_292)
     cell_293 = openmc.Cell(cell_id=293, name='cell_293',
-                        fill=aisi316, region=region_293)
+                           fill=aisi316, region=region_293)
     cell_294 = openmc.Cell(cell_id=294, name='cell_294',
-                        fill=aisi316, region=region_294)
+                           fill=aisi316, region=region_294)
     cell_295 = openmc.Cell(cell_id=295, name='cell_295',
-                        fill=aisi316, region=region_295)
+                           fill=aisi316, region=region_295)
     cell_296 = openmc.Cell(cell_id=296, name='cell_296',
-                        fill=aisi316, region=region_296)
+                           fill=aisi316, region=region_296)
     # 18 Perspex layer 4
     cell_297 = openmc.Cell(cell_id=297, name='cell_297',
-                        fill=perspex, region=region_297)
+                           fill=perspex, region=region_297)
     cell_298 = openmc.Cell(cell_id=298, name='cell_298',
-                        fill=perspex, region=region_298)
+                           fill=perspex, region=region_298)
     cell_299 = openmc.Cell(cell_id=299, name='cell_299',
-                        fill=perspex, region=region_299)
+                           fill=perspex, region=region_299)
     cell_300 = openmc.Cell(cell_id=300, name='cell_300',
-                        fill=perspex, region=region_300)
+                           fill=perspex, region=region_300)
     cell_301 = openmc.Cell(cell_id=301, name='cell_301',
-                        fill=perspex, region=region_301)
+                           fill=perspex, region=region_301)
     cell_302 = openmc.Cell(cell_id=302, name='cell_302',
-                        fill=perspex, region=region_302)
+                           fill=perspex, region=region_302)
     cell_303 = openmc.Cell(cell_id=303, name='cell_303',
-                        fill=perspex, region=region_303)
+                           fill=perspex, region=region_303)
     cell_304 = openmc.Cell(cell_id=304, name='cell_304',
-                        fill=perspex, region=region_304)
+                           fill=perspex, region=region_304)
     cell_305 = openmc.Cell(cell_id=305, name='cell_305',
-                        fill=perspex, region=region_305)
+                           fill=perspex, region=region_305)
     cell_306 = openmc.Cell(cell_id=306, name='cell_306',
-                        fill=perspex, region=region_306)
+                           fill=perspex, region=region_306)
     cell_307 = openmc.Cell(cell_id=307, name='cell_307',
-                        fill=perspex, region=region_307)
+                           fill=perspex, region=region_307)
     # 19 SS layer 5
     cell_308 = openmc.Cell(cell_id=308, name='cell_308',
-                        fill=detector, region=region_308)  # detector
+                           fill=detector, region=region_308)  # detector
     cell_309 = openmc.Cell(cell_id=309, name='cell_309',
-                        fill=aisi316, region=region_309)
+                           fill=aisi316, region=region_309)
     cell_310 = openmc.Cell(cell_id=310, name='cell_310',
-                        fill=aisi316, region=region_310)
+                           fill=aisi316, region=region_310)
     cell_311 = openmc.Cell(cell_id=311, name='cell_311',
-                        fill=aisi316, region=region_311)
+                           fill=aisi316, region=region_311)
     cell_312 = openmc.Cell(cell_id=312, name='cell_312',
-                        fill=aisi316, region=region_312)
+                           fill=aisi316, region=region_312)
     cell_313 = openmc.Cell(cell_id=313, name='cell_313',
-                        fill=aisi316, region=region_313)
+                           fill=aisi316, region=region_313)
     cell_314 = openmc.Cell(cell_id=314, name='cell_314',
-                        fill=aisi316, region=region_314)
+                           fill=aisi316, region=region_314)
     cell_315 = openmc.Cell(cell_id=315, name='cell_315',
-                        fill=aisi316, region=region_315)
+                           fill=aisi316, region=region_315)
     cell_316 = openmc.Cell(cell_id=316, name='cell_316',
-                        fill=aisi316, region=region_316)
+                           fill=aisi316, region=region_316)
     cell_317 = openmc.Cell(cell_id=317, name='cell_317',
-                        fill=aisi316, region=region_317)
+                           fill=aisi316, region=region_317)
     cell_318 = openmc.Cell(cell_id=318, name='cell_318',
-                        fill=aisi316, region=region_318)
+                           fill=aisi316, region=region_318)
     cell_319 = openmc.Cell(cell_id=319, name='cell_319',
-                        fill=aisi316, region=region_319)
+                           fill=aisi316, region=region_319)
     # 20 Perspex layer 3
     cell_320 = openmc.Cell(cell_id=320, name='cell_320',
-                        fill=perspex, region=region_320)
+                           fill=perspex, region=region_320)
     cell_321 = openmc.Cell(cell_id=321, name='cell_321',
-                        fill=perspex, region=region_321)
+                           fill=perspex, region=region_321)
     cell_322 = openmc.Cell(cell_id=322, name='cell_322',
-                        fill=perspex, region=region_322)
+                           fill=perspex, region=region_322)
     cell_323 = openmc.Cell(cell_id=323, name='cell_323',
-                        fill=perspex, region=region_323)
+                           fill=perspex, region=region_323)
     cell_324 = openmc.Cell(cell_id=324, name='cell_324',
-                        fill=perspex, region=region_324)
+                           fill=perspex, region=region_324)
     cell_325 = openmc.Cell(cell_id=325, name='cell_325',
-                        fill=perspex, region=region_325)
+                           fill=perspex, region=region_325)
     cell_326 = openmc.Cell(cell_id=326, name='cell_326',
-                        fill=perspex, region=region_326)
+                           fill=perspex, region=region_326)
     cell_327 = openmc.Cell(cell_id=327, name='cell_327',
-                        fill=perspex, region=region_327)
+                           fill=perspex, region=region_327)
     cell_328 = openmc.Cell(cell_id=328, name='cell_328',
-                        fill=perspex, region=region_328)
+                           fill=perspex, region=region_328)
     cell_329 = openmc.Cell(cell_id=329, name='cell_329',
-                        fill=perspex, region=region_329)
+                           fill=perspex, region=region_329)
     cell_330 = openmc.Cell(cell_id=330, name='cell_330',
-                        fill=perspex, region=region_330)
+                           fill=perspex, region=region_330)
     # 21 SS layer 4
     cell_331 = openmc.Cell(cell_id=331, name='cell_331',
-                        fill=detector, region=region_331)  # detector
+                           fill=detector, region=region_331)  # detector
     cell_332 = openmc.Cell(cell_id=332, name='cell_332',
-                        fill=aisi316, region=region_332)
+                           fill=aisi316, region=region_332)
     cell_333 = openmc.Cell(cell_id=333, name='cell_333',
-                        fill=aisi316, region=region_333)
+                           fill=aisi316, region=region_333)
     cell_334 = openmc.Cell(cell_id=334, name='cell_334',
-                        fill=aisi316, region=region_334)
+                           fill=aisi316, region=region_334)
     cell_335 = openmc.Cell(cell_id=335, name='cell_335',
-                        fill=aisi316, region=region_335)
+                           fill=aisi316, region=region_335)
     cell_336 = openmc.Cell(cell_id=336, name='cell_336',
-                        fill=aisi316, region=region_336)
+                           fill=aisi316, region=region_336)
     cell_337 = openmc.Cell(cell_id=337, name='cell_337',
-                        fill=aisi316, region=region_337)
+                           fill=aisi316, region=region_337)
     cell_338 = openmc.Cell(cell_id=338, name='cell_338',
-                        fill=aisi316, region=region_338)
+                           fill=aisi316, region=region_338)
     cell_339 = openmc.Cell(cell_id=339, name='cell_339',
-                        fill=aisi316, region=region_339)
+                           fill=aisi316, region=region_339)
     cell_340 = openmc.Cell(cell_id=340, name='cell_340',
-                        fill=aisi316, region=region_340)
+                           fill=aisi316, region=region_340)
     cell_341 = openmc.Cell(cell_id=341, name='cell_341',
-                        fill=aisi316, region=region_341)
+                           fill=aisi316, region=region_341)
     cell_342 = openmc.Cell(cell_id=342, name='cell_342',
-                        fill=aisi316, region=region_342)
+                           fill=aisi316, region=region_342)
     # 22 Perspex layer 2
     cell_352 = openmc.Cell(cell_id=352, name='cell_352',
-                        fill=perspex, region=region_352)
+                           fill=perspex, region=region_352)
     cell_353 = openmc.Cell(cell_id=353, name='cell_353',
-                        fill=perspex, region=region_353)
+                           fill=perspex, region=region_353)
     cell_354 = openmc.Cell(cell_id=354, name='cell_354',
-                        fill=perspex, region=region_354)
+                           fill=perspex, region=region_354)
     cell_355 = openmc.Cell(cell_id=355, name='cell_355',
-                        fill=perspex, region=region_355)
+                           fill=perspex, region=region_355)
     cell_356 = openmc.Cell(cell_id=356, name='cell_356',
-                        fill=perspex, region=region_356)
+                           fill=perspex, region=region_356)
     cell_357 = openmc.Cell(cell_id=357, name='cell_357',
-                        fill=perspex, region=region_357)
+                           fill=perspex, region=region_357)
     cell_358 = openmc.Cell(cell_id=358, name='cell_358',
-                        fill=perspex, region=region_358)
+                           fill=perspex, region=region_358)
     cell_359 = openmc.Cell(cell_id=359, name='cell_359',
-                        fill=perspex, region=region_359)
+                           fill=perspex, region=region_359)
     cell_360 = openmc.Cell(cell_id=360, name='cell_360',
-                        fill=perspex, region=region_360)
+                           fill=perspex, region=region_360)
     cell_361 = openmc.Cell(cell_id=361, name='cell_361',
-                        fill=perspex, region=region_361)
+                           fill=perspex, region=region_361)
     cell_362 = openmc.Cell(cell_id=362, name='cell_362',
-                        fill=perspex, region=region_362)
+                           fill=perspex, region=region_362)
     # 23 SS layer 2
     cell_363 = openmc.Cell(cell_id=363, name='cell_363',
-                        fill=detector, region=region_363)  # detector
+                           fill=detector, region=region_363)  # detector
     cell_364 = openmc.Cell(cell_id=364, name='cell_364',
-                        fill=aisi316, region=region_364)
+                           fill=aisi316, region=region_364)
     cell_365 = openmc.Cell(cell_id=365, name='cell_365',
-                        fill=aisi316, region=region_365)
+                           fill=aisi316, region=region_365)
     cell_366 = openmc.Cell(cell_id=366, name='cell_366',
-                        fill=aisi316, region=region_366)
+                           fill=aisi316, region=region_366)
     cell_367 = openmc.Cell(cell_id=367, name='cell_367',
-                        fill=aisi316, region=region_367)
+                           fill=aisi316, region=region_367)
     cell_368 = openmc.Cell(cell_id=368, name='cell_368',
-                        fill=aisi316, region=region_368)
+                           fill=aisi316, region=region_368)
     cell_369 = openmc.Cell(cell_id=369, name='cell_369',
-                        fill=aisi316, region=region_369)
+                           fill=aisi316, region=region_369)
     cell_370 = openmc.Cell(cell_id=370, name='cell_370',
-                        fill=aisi316, region=region_370)
+                           fill=aisi316, region=region_370)
     cell_371 = openmc.Cell(cell_id=371, name='cell_371',
-                        fill=aisi316, region=region_371)
+                           fill=aisi316, region=region_371)
     cell_372 = openmc.Cell(cell_id=372, name='cell_372',
-                        fill=aisi316, region=region_372)
+                           fill=aisi316, region=region_372)
     cell_373 = openmc.Cell(cell_id=373, name='cell_373',
-                        fill=aisi316, region=region_373)
+                           fill=aisi316, region=region_373)
     cell_374 = openmc.Cell(cell_id=374, name='cell_374',
-                        fill=aisi316, region=region_374)
+                           fill=aisi316, region=region_374)
     # 24 Perspex layer 1
     cell_375 = openmc.Cell(cell_id=375, name='cell_375',
-                        fill=perspex, region=region_375)
+                           fill=perspex, region=region_375)
     cell_376 = openmc.Cell(cell_id=376, name='cell_376',
-                        fill=perspex, region=region_376)
+                           fill=perspex, region=region_376)
     cell_377 = openmc.Cell(cell_id=377, name='cell_377',
-                        fill=perspex, region=region_377)
+                           fill=perspex, region=region_377)
     cell_378 = openmc.Cell(cell_id=378, name='cell_378',
-                        fill=perspex, region=region_378)
+                           fill=perspex, region=region_378)
     cell_379 = openmc.Cell(cell_id=379, name='cell_379',
-                        fill=perspex, region=region_379)
+                           fill=perspex, region=region_379)
     cell_380 = openmc.Cell(cell_id=380, name='cell_380',
-                        fill=perspex, region=region_380)
+                           fill=perspex, region=region_380)
     cell_381 = openmc.Cell(cell_id=381, name='cell_381',
-                        fill=perspex, region=region_381)
+                           fill=perspex, region=region_381)
     cell_382 = openmc.Cell(cell_id=382, name='cell_382',
-                        fill=perspex, region=region_382)
+                           fill=perspex, region=region_382)
     cell_383 = openmc.Cell(cell_id=383, name='cell_383',
-                        fill=perspex, region=region_383)
+                           fill=perspex, region=region_383)
     cell_384 = openmc.Cell(cell_id=384, name='cell_384',
-                        fill=perspex, region=region_384)
+                           fill=perspex, region=region_384)
     cell_385 = openmc.Cell(cell_id=385, name='cell_385',
-                        fill=perspex, region=region_385)
+                           fill=perspex, region=region_385)
     # 25 SS layer 3
     cell_386 = openmc.Cell(cell_id=386, name='cell_386',
-                        fill=detector, region=region_386)  # detector
+                           fill=detector, region=region_386)  # detector
     cell_387 = openmc.Cell(cell_id=387, name='cell_387',
-                        fill=aisi316, region=region_387)
+                           fill=aisi316, region=region_387)
     cell_388 = openmc.Cell(cell_id=388, name='cell_388',
-                        fill=aisi316, region=region_388)
+                           fill=aisi316, region=region_388)
     cell_389 = openmc.Cell(cell_id=389, name='cell_389',
-                        fill=aisi316, region=region_389)
+                           fill=aisi316, region=region_389)
     cell_390 = openmc.Cell(cell_id=390, name='cell_390',
-                        fill=aisi316, region=region_390)
+                           fill=aisi316, region=region_390)
     cell_391 = openmc.Cell(cell_id=391, name='cell_391',
-                        fill=aisi316, region=region_391)
+                           fill=aisi316, region=region_391)
     cell_392 = openmc.Cell(cell_id=392, name='cell_392',
-                        fill=aisi316, region=region_392)
+                           fill=aisi316, region=region_392)
     cell_393 = openmc.Cell(cell_id=393, name='cell_393',
-                        fill=aisi316, region=region_393)
+                           fill=aisi316, region=region_393)
     cell_394 = openmc.Cell(cell_id=394, name='cell_394',
-                        fill=aisi316, region=region_394)
+                           fill=aisi316, region=region_394)
     cell_395 = openmc.Cell(cell_id=395, name='cell_395',
-                        fill=aisi316, region=region_395)
+                           fill=aisi316, region=region_395)
     cell_396 = openmc.Cell(cell_id=396, name='cell_396',
-                        fill=aisi316, region=region_396)
+                           fill=aisi316, region=region_396)
     cell_397 = openmc.Cell(cell_id=397, name='cell_397',
-                        fill=aisi316, region=region_397)
+                           fill=aisi316, region=region_397)
     # 26 SS layer 1
     cell_398 = openmc.Cell(cell_id=398, name='cell_398',
-                        fill=detector, region=region_398)
+                           fill=detector, region=region_398)
     cell_399 = openmc.Cell(cell_id=399, name='cell_399',
-                        fill=aisi316, region=region_399)
+                           fill=aisi316, region=region_399)
     cell_400 = openmc.Cell(cell_id=400, name='cell_400',
-                        fill=aisi316, region=region_400)
+                           fill=aisi316, region=region_400)
     cell_401 = openmc.Cell(cell_id=401, name='cell_401',
-                        fill=aisi316, region=region_401)
+                           fill=aisi316, region=region_401)
     cell_402 = openmc.Cell(cell_id=402, name='cell_402',
-                        fill=aisi316, region=region_402)
+                           fill=aisi316, region=region_402)
     cell_403 = openmc.Cell(cell_id=403, name='cell_403',
-                        fill=aisi316, region=region_403)
+                           fill=aisi316, region=region_403)
     cell_404 = openmc.Cell(cell_id=404, name='cell_404',
-                        fill=aisi316, region=region_404)
+                           fill=aisi316, region=region_404)
     cell_405 = openmc.Cell(cell_id=405, name='cell_405',
-                        fill=aisi316, region=region_405)
+                           fill=aisi316, region=region_405)
     cell_406 = openmc.Cell(cell_id=406, name='cell_406',
-                        fill=aisi316, region=region_406)
+                           fill=aisi316, region=region_406)
     cell_407 = openmc.Cell(cell_id=407, name='cell_407',
-                        fill=aisi316, region=region_407)
+                           fill=aisi316, region=region_407)
     cell_408 = openmc.Cell(cell_id=408, name='cell_408',
-                        fill=aisi316, region=region_408)
+                           fill=aisi316, region=region_408)
     cell_409 = openmc.Cell(cell_id=409, name='cell_409',
-                        fill=aisi316, region=region_409)
+                           fill=aisi316, region=region_409)
     # SS-Cu block
     # 1 SS layer
     cell_500 = openmc.Cell(cell_id=500, name='cell_500',
-                        fill=aisi316, region=region_500)  # heat detector
+                           fill=aisi316, region=region_500)  # heat detector
     cell_501 = openmc.Cell(cell_id=501, name='cell_501',
-                        fill=aisi316, region=region_501)
+                           fill=aisi316, region=region_501)
     cell_502 = openmc.Cell(cell_id=502, name='cell_502',
-                        fill=aisi316, region=region_502)
+                           fill=aisi316, region=region_502)
     cell_503 = openmc.Cell(cell_id=503, name='cell_503',
-                        fill=aisi316, region=region_503)
+                           fill=aisi316, region=region_503)
     cell_504 = openmc.Cell(cell_id=504, name='cell_504',
-                        fill=aisi316, region=region_504)
+                           fill=aisi316, region=region_504)
     cell_505 = openmc.Cell(cell_id=505, name='cell_505',
-                        fill=aisi316, region=region_505)
+                           fill=aisi316, region=region_505)
     cell_506 = openmc.Cell(cell_id=506, name='cell_506',
-                        fill=aisi316, region=region_506)
+                           fill=aisi316, region=region_506)
     # 2 Cu layer
     cell_507 = openmc.Cell(cell_id=507, name='cell_507',
-                        fill=copper, region=region_507)  # heat detector
+                           fill=copper, region=region_507)  # heat detector
     cell_508 = openmc.Cell(cell_id=508, name='cell_508',
-                        fill=copper, region=region_508)
+                           fill=copper, region=region_508)
     cell_509 = openmc.Cell(cell_id=509, name='cell_509',
-                        fill=copper, region=region_509)
+                           fill=copper, region=region_509)
     cell_510 = openmc.Cell(cell_id=510, name='cell_510',
-                        fill=copper, region=region_510)
+                           fill=copper, region=region_510)
     cell_511 = openmc.Cell(cell_id=511, name='cell_511',
-                        fill=copper, region=region_511)
+                           fill=copper, region=region_511)
     cell_512 = openmc.Cell(cell_id=512, name='cell_512',
-                        fill=copper, region=region_512)
+                           fill=copper, region=region_512)
     cell_513 = openmc.Cell(cell_id=513, name='cell_513',
-                        fill=copper, region=region_513)
+                           fill=copper, region=region_513)
     # 3 SS layer
     cell_514 = openmc.Cell(cell_id=514, name='cell_514',
-                        fill=aisi316, region=region_514)  # heat detector
+                           fill=aisi316, region=region_514)  # heat detector
     cell_515 = openmc.Cell(cell_id=515, name='cell_515',
-                        fill=aisi316, region=region_515)
+                           fill=aisi316, region=region_515)
     cell_516 = openmc.Cell(cell_id=516, name='cell_516',
-                        fill=aisi316, region=region_516)
+                           fill=aisi316, region=region_516)
     cell_517 = openmc.Cell(cell_id=517, name='cell_517',
-                        fill=aisi316, region=region_517)
+                           fill=aisi316, region=region_517)
     cell_518 = openmc.Cell(cell_id=518, name='cell_518',
-                        fill=aisi316, region=region_518)
+                           fill=aisi316, region=region_518)
     cell_519 = openmc.Cell(cell_id=519, name='cell_519',
-                        fill=aisi316, region=region_519)
+                           fill=aisi316, region=region_519)
     cell_520 = openmc.Cell(cell_id=520, name='cell_520',
-                        fill=aisi316, region=region_520)
+                           fill=aisi316, region=region_520)
     # 4 Cu layer
     cell_521 = openmc.Cell(cell_id=521, name='cell_521',
-                        fill=copper, region=region_521)
+                           fill=copper, region=region_521)
     cell_522 = openmc.Cell(cell_id=522, name='cell_522',
-                        fill=copper, region=region_522)
+                           fill=copper, region=region_522)
     cell_523 = openmc.Cell(cell_id=523, name='cell_523',
-                        fill=copper, region=region_523)
+                           fill=copper, region=region_523)
     cell_524 = openmc.Cell(cell_id=524, name='cell_524',
-                        fill=copper, region=region_524)
+                           fill=copper, region=region_524)
     cell_525 = openmc.Cell(cell_id=525, name='cell_525',
-                        fill=copper, region=region_525)
+                           fill=copper, region=region_525)
     cell_526 = openmc.Cell(cell_id=526, name='cell_526',
-                        fill=copper, region=region_526)
+                           fill=copper, region=region_526)
     cell_527 = openmc.Cell(cell_id=527, name='cell_527',
-                        fill=copper, region=region_527)
+                           fill=copper, region=region_527)
     # 5 SS layer
     cell_528 = openmc.Cell(cell_id=528, name='cell_528',
-                        fill=aisi316, region=region_528)
+                           fill=aisi316, region=region_528)
     cell_529 = openmc.Cell(cell_id=529, name='cell_529',
-                        fill=aisi316, region=region_529)
+                           fill=aisi316, region=region_529)
     cell_530 = openmc.Cell(cell_id=530, name='cell_530',
-                        fill=aisi316, region=region_530)
+                           fill=aisi316, region=region_530)
     cell_531 = openmc.Cell(cell_id=531, name='cell_531',
-                        fill=aisi316, region=region_531)
+                           fill=aisi316, region=region_531)
     cell_532 = openmc.Cell(cell_id=532, name='cell_532',
-                        fill=aisi316, region=region_532)
+                           fill=aisi316, region=region_532)
     cell_533 = openmc.Cell(cell_id=533, name='cell_533',
-                        fill=aisi316, region=region_533)
+                           fill=aisi316, region=region_533)
     cell_534 = openmc.Cell(cell_id=534, name='cell_534',
-                        fill=aisi316, region=region_534)
+                           fill=aisi316, region=region_534)
     # 6 Cu layer
     cell_535 = openmc.Cell(cell_id=535, name='cell_535',
-                        fill=copper, region=region_535)
+                           fill=copper, region=region_535)
     cell_536 = openmc.Cell(cell_id=536, name='cell_536',
-                        fill=copper, region=region_536)
+                           fill=copper, region=region_536)
     cell_537 = openmc.Cell(cell_id=537, name='cell_537',
-                        fill=copper, region=region_537)
+                           fill=copper, region=region_537)
     cell_538 = openmc.Cell(cell_id=538, name='cell_538',
-                        fill=copper, region=region_538)
+                           fill=copper, region=region_538)
     cell_539 = openmc.Cell(cell_id=539, name='cell_539',
-                        fill=copper, region=region_539)
+                           fill=copper, region=region_539)
     cell_540 = openmc.Cell(cell_id=540, name='cell_540',
-                        fill=copper, region=region_540)
+                           fill=copper, region=region_540)
     cell_541 = openmc.Cell(cell_id=541, name='cell_541',
-                        fill=copper, region=region_541)
+                           fill=copper, region=region_541)
     # 7 SS layer
     cell_542 = openmc.Cell(cell_id=542, name='cell_542',
-                        fill=aisi316, region=region_542)
+                           fill=aisi316, region=region_542)
     cell_543 = openmc.Cell(cell_id=543, name='cell_543',
-                        fill=aisi316, region=region_543)
+                           fill=aisi316, region=region_543)
     cell_544 = openmc.Cell(cell_id=544, name='cell_544',
-                        fill=aisi316, region=region_544)
+                           fill=aisi316, region=region_544)
     cell_545 = openmc.Cell(cell_id=545, name='cell_545',
-                        fill=aisi316, region=region_545)
+                           fill=aisi316, region=region_545)
     cell_546 = openmc.Cell(cell_id=546, name='cell_546',
-                        fill=aisi316, region=region_546)
+                           fill=aisi316, region=region_546)
     cell_547 = openmc.Cell(cell_id=547, name='cell_547',
-                        fill=aisi316, region=region_547)
+                           fill=aisi316, region=region_547)
     cell_548 = openmc.Cell(cell_id=548, name='cell_548',
-                        fill=aisi316, region=region_548)
+                           fill=aisi316, region=region_548)
     # 8 Cu layer
     cell_549 = openmc.Cell(cell_id=549, name='cell_549',
-                        fill=copper, region=region_549)
+                           fill=copper, region=region_549)
     cell_550 = openmc.Cell(cell_id=550, name='cell_550',
-                        fill=copper, region=region_550)
+                           fill=copper, region=region_550)
     cell_551 = openmc.Cell(cell_id=551, name='cell_551',
-                        fill=copper, region=region_551)
+                           fill=copper, region=region_551)
     cell_552 = openmc.Cell(cell_id=552, name='cell_552',
-                        fill=copper, region=region_552)
+                           fill=copper, region=region_552)
     cell_553 = openmc.Cell(cell_id=553, name='cell_553',
-                        fill=copper, region=region_553)
+                           fill=copper, region=region_553)
     cell_554 = openmc.Cell(cell_id=554, name='cell_554',
-                        fill=copper, region=region_554)
+                           fill=copper, region=region_554)
     cell_555 = openmc.Cell(cell_id=555, name='cell_555',
-                        fill=copper, region=region_555)
+                           fill=copper, region=region_555)
     # 9 SS layer
     cell_556 = openmc.Cell(cell_id=556, name='cell_556',
-                        fill=aisi316, region=region_556)
+                           fill=aisi316, region=region_556)
     cell_557 = openmc.Cell(cell_id=557, name='cell_557',
-                        fill=aisi316, region=region_557)
+                           fill=aisi316, region=region_557)
     cell_558 = openmc.Cell(cell_id=558, name='cell_558',
-                        fill=aisi316, region=region_558)
+                           fill=aisi316, region=region_558)
     cell_559 = openmc.Cell(cell_id=559, name='cell_559',
-                        fill=aisi316, region=region_559)
+                           fill=aisi316, region=region_559)
     cell_560 = openmc.Cell(cell_id=560, name='cell_560',
-                        fill=aisi316, region=region_560)
+                           fill=aisi316, region=region_560)
     cell_561 = openmc.Cell(cell_id=561, name='cell_561',
-                        fill=aisi316, region=region_561)
+                           fill=aisi316, region=region_561)
     cell_562 = openmc.Cell(cell_id=562, name='cell_562',
-                        fill=aisi316, region=region_562)
+                           fill=aisi316, region=region_562)
     #  10 Cu layer
     cell_563 = openmc.Cell(cell_id=563, name='cell_563',
-                        fill=copper, region=region_563)
+                           fill=copper, region=region_563)
     cell_564 = openmc.Cell(cell_id=564, name='cell_564',
-                        fill=copper, region=region_564)
+                           fill=copper, region=region_564)
     cell_565 = openmc.Cell(cell_id=565, name='cell_565',
-                        fill=copper, region=region_565)
+                           fill=copper, region=region_565)
     cell_566 = openmc.Cell(cell_id=566, name='cell_566',
-                        fill=copper, region=region_566)
+                           fill=copper, region=region_566)
     cell_567 = openmc.Cell(cell_id=567, name='cell_567',
-                        fill=copper, region=region_567)
+                           fill=copper, region=region_567)
     cell_568 = openmc.Cell(cell_id=568, name='cell_568',
-                        fill=copper, region=region_568)
+                           fill=copper, region=region_568)
     cell_569 = openmc.Cell(cell_id=569, name='cell_569',
-                        fill=copper, region=region_569)
+                           fill=copper, region=region_569)
     # 11 SS layer
     cell_570 = openmc.Cell(cell_id=570, name='cell_570',
-                        fill=aisi316, region=region_570)
+                           fill=aisi316, region=region_570)
     cell_571 = openmc.Cell(cell_id=571, name='cell_571',
-                        fill=aisi316, region=region_571)
+                           fill=aisi316, region=region_571)
     cell_572 = openmc.Cell(cell_id=572, name='cell_572',
-                        fill=aisi316, region=region_572)
+                           fill=aisi316, region=region_572)
     cell_573 = openmc.Cell(cell_id=573, name='cell_573',
-                        fill=aisi316, region=region_573)
+                           fill=aisi316, region=region_573)
     cell_574 = openmc.Cell(cell_id=574, name='cell_574',
-                        fill=aisi316, region=region_574)
+                           fill=aisi316, region=region_574)
     cell_575 = openmc.Cell(cell_id=575, name='cell_575',
-                        fill=aisi316, region=region_575)
+                           fill=aisi316, region=region_575)
     cell_576 = openmc.Cell(cell_id=576, name='cell_576',
-                        fill=aisi316, region=region_576)
+                           fill=aisi316, region=region_576)
     # 12 Cu layer
     cell_577 = openmc.Cell(cell_id=577, name='cell_577',
-                        fill=copper, region=region_577)
+                           fill=copper, region=region_577)
     cell_578 = openmc.Cell(cell_id=578, name='cell_578',
-                        fill=copper, region=region_578)
+                           fill=copper, region=region_578)
     cell_579 = openmc.Cell(cell_id=579, name='cell_579',
-                        fill=copper, region=region_579)
+                           fill=copper, region=region_579)
     cell_580 = openmc.Cell(cell_id=580, name='cell_580',
-                        fill=copper, region=region_580)
+                           fill=copper, region=region_580)
     cell_581 = openmc.Cell(cell_id=581, name='cell_581',
-                        fill=copper, region=region_581)
+                           fill=copper, region=region_581)
     cell_582 = openmc.Cell(cell_id=582, name='cell_582',
-                        fill=copper, region=region_582)
+                           fill=copper, region=region_582)
     cell_583 = openmc.Cell(cell_id=583, name='cell_583',
-                        fill=copper, region=region_583)
+                           fill=copper, region=region_583)
     # 13 SS layer
     cell_584 = openmc.Cell(cell_id=584, name='cell_584',
-                        fill=aisi316, region=region_584)
+                           fill=aisi316, region=region_584)
     cell_585 = openmc.Cell(cell_id=585, name='cell_585',
-                        fill=aisi316, region=region_585)
+                           fill=aisi316, region=region_585)
     cell_586 = openmc.Cell(cell_id=586, name='cell_586',
-                        fill=aisi316, region=region_586)
+                           fill=aisi316, region=region_586)
     cell_587 = openmc.Cell(cell_id=587, name='cell_587',
-                        fill=aisi316, region=region_587)
+                           fill=aisi316, region=region_587)
     cell_588 = openmc.Cell(cell_id=588, name='cell_588',
-                        fill=aisi316, region=region_588)
+                           fill=aisi316, region=region_588)
     cell_589 = openmc.Cell(cell_id=589, name='cell_589',
-                        fill=aisi316, region=region_589)
+                           fill=aisi316, region=region_589)
     cell_590 = openmc.Cell(cell_id=590, name='cell_590 ',
-                        fill=aisi316, region=region_590)
+                           fill=aisi316, region=region_590)
     # 14 Cu layer
     cell_591 = openmc.Cell(cell_id=591, name='cell_591',
-                        fill=copper, region=region_591)
+                           fill=copper, region=region_591)
     cell_592 = openmc.Cell(cell_id=592, name='cell_592',
-                        fill=copper, region=region_592)
+                           fill=copper, region=region_592)
     cell_593 = openmc.Cell(cell_id=593, name='cell_593',
-                        fill=copper, region=region_593)
+                           fill=copper, region=region_593)
     cell_594 = openmc.Cell(cell_id=594, name='cell_594',
-                        fill=copper, region=region_594)
+                           fill=copper, region=region_594)
     cell_595 = openmc.Cell(cell_id=595, name='cell_595',
-                        fill=copper, region=region_595)
+                           fill=copper, region=region_595)
     cell_596 = openmc.Cell(cell_id=596, name='cell_596',
-                        fill=copper, region=region_596)
+                           fill=copper, region=region_596)
     cell_597 = openmc.Cell(cell_id=597, name='cell_597',
-                        fill=copper, region=region_597)
+                           fill=copper, region=region_597)
     # Regions for dening foils and inner box walls
     cell_601 = openmc.Cell(cell_id=601, name='cell_601',
-                        fill=aisi316, region=region_601)
+                           fill=aisi316, region=region_601)
     cell_602 = openmc.Cell(cell_id=602, name='cell_602',
-                        fill=detector, region=region_602)  # detector
+                           fill=detector, region=region_602)  # detector
     cell_603 = openmc.Cell(cell_id=603, name='cell_603',
-                        fill=detector, region=region_603)  # detector
+                           fill=detector, region=region_603)  # detector
     cell_604 = openmc.Cell(cell_id=604, name='cell_604',
-                        fill=detector, region=region_604)  # detector
+                           fill=detector, region=region_604)  # detector
     cell_605 = openmc.Cell(cell_id=605, name='cell_605',
-                        fill=detector, region=region_605)  # detector
+                           fill=detector, region=region_605)  # detector
     cell_606 = openmc.Cell(cell_id=606, name='cell_606',
-                        fill=detector, region=region_606)  # detector
+                           fill=detector, region=region_606)  # detector
     cell_607 = openmc.Cell(cell_id=607, name='cell_607',
-                        fill=detector, region=region_607)  # detector
+                           fill=detector, region=region_607)  # detector
     cell_608 = openmc.Cell(cell_id=608, name='cell_608',
-                        fill=detector, region=region_608)  # detector
+                           fill=detector, region=region_608)  # detector
     cell_609 = openmc.Cell(cell_id=609, name='cell_609',
-                        fill=detector, region=region_609)  # detector
+                           fill=detector, region=region_609)  # detector
     cell_610 = openmc.Cell(cell_id=610, name='cell_610',
-                        fill=detector, region=region_610)  # detector
+                           fill=detector, region=region_610)  # detector
     cell_611 = openmc.Cell(cell_id=611, name='cell_611',
-                        fill=detector, region=region_611)  # detector
+                           fill=detector, region=region_611)  # detector
     cell_612 = openmc.Cell(cell_id=612, name='cell_612',
-                        fill=detector, region=region_612)  # detector
-    # Walls
-    cell_655 = openmc.Cell(cell_id=655, name='cell_655',
-                        fill=concrete, region=region_655)
-    cell_656 = openmc.Cell(cell_id=656, name='cell_656',
-                        fill=concrete, region=region_656)
-    cell_657 = openmc.Cell(cell_id=657, name='cell_657',
-                        fill=concrete, region=region_657)
-    cell_658 = openmc.Cell(cell_id=658, name='cell_658',
-                        fill=concrete, region=region_658)
-    cell_659 = openmc.Cell(cell_id=659, name='cell_659',
-                        fill=concrete, region=region_659)
-    cell_660 = openmc.Cell(cell_id=660, name='cell_660',
-                        fill=concrete, region=region_660)
-    cell_661 = openmc.Cell(cell_id=661, name='cell_661',
-                        fill=concrete, region=region_661)
-    # External vacuum
-    cell_600 = openmc.Cell(cell_id=600, name='cell_600',
-                        fill=None, region=region_600)
+                           fill=detector, region=region_612)  # detector
 
     # creating universe
-    cells=[cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8, cell_9, cell_10,
-        cell_11, cell_12, cell_13, cell_14, cell_15, cell_16, cell_17, cell_18, cell_19, cell_20,
-        cell_21, cell_22, cell_23, cell_24, cell_25, cell_26, cell_27, cell_28, cell_29, cell_30,
-        cell_31, cell_32, cell_33, cell_34, cell_35, cell_36, cell_37, cell_38, cell_39, cell_40,
-        cell_41, cell_42, cell_43, cell_44, cell_45, cell_46, cell_47, cell_48, cell_49, cell_50,
-        cell_51, cell_52, cell_654, cell_53, cell_54, cell_55, cell_56, cell_57, cell_58, cell_59, cell_60,
-        cell_61, cell_62, cell_63, cell_64, cell_65, cell_66, cell_67, cell_68, cell_69, cell_70,
-        cell_71, cell_72, cell_73, cell_74, cell_75, cell_76, cell_77, cell_78, cell_79, cell_80,
-        cell_81, cell_82, cell_83, cell_84, cell_85, cell_86, cell_87, cell_88, cell_89, cell_90,
-        cell_91, cell_92, cell_93, cell_94, cell_95, cell_96,
-        cell_101, cell_102, cell_103, cell_104, cell_105, cell_106, cell_107, cell_108, cell_109, cell_110,
-        cell_111, cell_112, cell_113, cell_114, cell_115, cell_116, cell_117, cell_118, cell_119, cell_120,
-        cell_121, cell_122, cell_123, cell_124, cell_125, cell_126, cell_127, cell_128, cell_129, cell_130,
-        cell_131, cell_132, cell_133, cell_134, cell_135, cell_136, cell_137, cell_138, cell_139, cell_140,
-        cell_141, cell_142, cell_143, cell_144, cell_145, cell_146, cell_147, cell_148, cell_149, cell_150,
-        cell_151, cell_152, cell_153, cell_154, cell_155, cell_156, cell_157, cell_158, cell_159, cell_160,
-        cell_161, cell_162, cell_163, cell_164, cell_165, cell_166, cell_167, cell_168, cell_169, cell_170,
-        cell_171, cell_172, cell_173, cell_174, cell_175, cell_176, cell_177, cell_178, cell_179, cell_180,
-        cell_181, cell_182, cell_183, cell_184, cell_185, cell_186, cell_187, cell_188, cell_189, cell_190,
-        cell_191, cell_192, cell_193, cell_194, cell_195, cell_196, cell_197, cell_198, cell_199, cell_200,
-        cell_201, cell_202, cell_203, cell_204, cell_205, cell_206, cell_207, cell_208, cell_209, cell_210,
-        cell_211, cell_212, cell_213, cell_214, cell_215, cell_216, cell_217, cell_218, cell_219, cell_220,
-        cell_221, cell_222, cell_223, cell_224, cell_225, cell_226, cell_227, cell_228, cell_229, cell_230,
-        cell_231, cell_232, cell_233, cell_234, cell_235, cell_236, cell_237, cell_238, cell_239, cell_240,
-        cell_241, cell_242, cell_243, cell_244, cell_245, cell_246, cell_247, cell_248, cell_249, cell_250,
-        cell_251, cell_252, cell_253, cell_254, cell_255, cell_256, cell_257, cell_258, cell_259, cell_260,
-        cell_261, cell_262, cell_263, cell_264, cell_265, cell_266, cell_267, cell_268, cell_269, cell_270,
-        cell_271, cell_272, cell_273, cell_274, cell_275, cell_276, cell_277, cell_278, cell_279, cell_280,
-        cell_281, cell_282, cell_283, cell_284, cell_285, cell_286, cell_287, cell_288, cell_289, cell_290,
-        cell_291, cell_292, cell_293, cell_294, cell_295, cell_296, cell_297, cell_298, cell_299, cell_300,
-        cell_301, cell_302, cell_303, cell_304, cell_305, cell_306, cell_307, cell_308, cell_309, cell_310,
-        cell_311, cell_312, cell_313, cell_314, cell_315, cell_316, cell_317, cell_318, cell_319, cell_320,
-        cell_321, cell_322, cell_323, cell_324, cell_325, cell_326, cell_327, cell_328, cell_329, cell_330,
-        cell_331, cell_332, cell_333, cell_334, cell_335, cell_336, cell_337, cell_338, cell_339, cell_340,
-        cell_341, cell_342,
-        cell_352, cell_353, cell_354, cell_355, cell_356, cell_357, cell_358, cell_359, cell_360,
-        cell_361, cell_362, cell_363, cell_364, cell_365, cell_366, cell_367, cell_368, cell_369, cell_370,
-        cell_371, cell_372, cell_373, cell_374, cell_375, cell_376, cell_377, cell_378, cell_379, cell_380,
-        cell_381, cell_382, cell_383, cell_384, cell_385, cell_386, cell_387, cell_388, cell_389, cell_390,
-        cell_391, cell_392, cell_393, cell_394, cell_395, cell_396, cell_397, cell_398, cell_399, cell_400,
-        cell_401, cell_402, cell_403, cell_404, cell_405, cell_406, cell_407, cell_408, cell_409,
-        cell_500,
-        cell_501, cell_502, cell_503, cell_504, cell_505, cell_506, cell_507, cell_508, cell_509, cell_510,
-        cell_511, cell_512, cell_513, cell_514, cell_515, cell_516, cell_517, cell_518, cell_519, cell_520,
-        cell_521, cell_522, cell_523, cell_524, cell_525, cell_526, cell_527, cell_528, cell_529, cell_530,
-        cell_531, cell_532, cell_533, cell_534, cell_535, cell_536, cell_537, cell_538, cell_539, cell_540,
-        cell_541, cell_542, cell_543, cell_544, cell_545, cell_546, cell_547, cell_548, cell_549, cell_550,
-        cell_551, cell_552, cell_553, cell_554, cell_555, cell_556, cell_557, cell_558, cell_559, cell_560,
-        cell_561, cell_562, cell_563, cell_564, cell_565, cell_566, cell_567, cell_568, cell_569, cell_570,
-        cell_571, cell_572, cell_573, cell_574, cell_575, cell_576, cell_577, cell_578, cell_579, cell_580,
-        cell_581, cell_582, cell_583, cell_584, cell_585, cell_586, cell_587, cell_588, cell_589, cell_590,
-        cell_591, cell_592, cell_593, cell_594, cell_595, cell_596, cell_597,
-        cell_601, cell_602, cell_603, cell_604, cell_605, cell_606, cell_607, cell_608, cell_609, cell_610,
-        cell_611, cell_612,
-        cell_655, cell_656, cell_657, cell_658, cell_659, cell_660,
-        cell_661, cell_600]
+    cells = [cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8, cell_9, cell_10,
+             cell_11, cell_12, cell_13, cell_14, cell_15, cell_16, cell_17, cell_18, cell_19, cell_20,
+             cell_21, cell_22, cell_23, cell_24, cell_25, cell_26, cell_27, cell_28, cell_29, cell_30,
+             cell_31, cell_32, cell_33, cell_34, cell_35, cell_36, cell_37, cell_38, cell_39, cell_40,
+             cell_41, cell_42, cell_43, cell_44, cell_45, cell_46, cell_47, cell_48, cell_49, cell_50,
+             cell_51, cell_52, cell_53, cell_54, cell_55, cell_56, cell_57, cell_58, cell_59, cell_60,
+             cell_61, cell_62, cell_63, cell_64, cell_65, cell_66, cell_67, cell_68, cell_69, cell_70,
+             cell_71, cell_72, cell_73, cell_74, cell_75, cell_76, cell_77, cell_78, cell_79, cell_80,
+             cell_81, cell_82, cell_83, cell_84, cell_85, cell_86, cell_87, cell_88, cell_89, cell_90,
+             cell_91, cell_92, cell_93, cell_94, cell_95, cell_96,
+             cell_101, cell_102, cell_103, cell_104, cell_105, cell_106, cell_107, cell_108, cell_109, cell_110,
+             cell_111, cell_112, cell_113, cell_114, cell_115, cell_116, cell_117, cell_118, cell_119, cell_120,
+             cell_121, cell_122, cell_123, cell_124, cell_125, cell_126, cell_127, cell_128, cell_129, cell_130,
+             cell_131, cell_132, cell_133, cell_134, cell_135, cell_136, cell_137, cell_138, cell_139, cell_140,
+             cell_141, cell_142, cell_143, cell_144, cell_145, cell_146, cell_147, cell_148, cell_149, cell_150,
+             cell_151, cell_152, cell_153, cell_154, cell_155, cell_156, cell_157, cell_158, cell_159, cell_160,
+             cell_161, cell_162, cell_163, cell_164, cell_165, cell_166, cell_167, cell_168, cell_169, cell_170,
+             cell_171, cell_172, cell_173, cell_174, cell_175, cell_176, cell_177, cell_178, cell_179, cell_180,
+             cell_181, cell_182, cell_183, cell_184, cell_185, cell_186, cell_187, cell_188, cell_189, cell_190,
+             cell_191, cell_192, cell_193, cell_194, cell_195, cell_196, cell_197, cell_198, cell_199, cell_200,
+             cell_201, cell_202, cell_203, cell_204, cell_205, cell_206, cell_207, cell_208, cell_209, cell_210,
+             cell_211, cell_212, cell_213, cell_214, cell_215, cell_216, cell_217, cell_218, cell_219, cell_220,
+             cell_221, cell_222, cell_223, cell_224, cell_225, cell_226, cell_227, cell_228, cell_229, cell_230,
+             cell_231, cell_232, cell_233, cell_234, cell_235, cell_236, cell_237, cell_238, cell_239, cell_240,
+             cell_241, cell_242, cell_243, cell_244, cell_245, cell_246, cell_247, cell_248, cell_249, cell_250,
+             cell_251, cell_252, cell_253, cell_254, cell_255, cell_256, cell_257, cell_258, cell_259, cell_260,
+             cell_261, cell_262, cell_263, cell_264, cell_265, cell_266, cell_267, cell_268, cell_269, cell_270,
+             cell_271, cell_272, cell_273, cell_274, cell_275, cell_276, cell_277, cell_278, cell_279, cell_280,
+             cell_281, cell_282, cell_283, cell_284, cell_285, cell_286, cell_287, cell_288, cell_289, cell_290,
+             cell_291, cell_292, cell_293, cell_294, cell_295, cell_296, cell_297, cell_298, cell_299, cell_300,
+             cell_301, cell_302, cell_303, cell_304, cell_305, cell_306, cell_307, cell_308, cell_309, cell_310,
+             cell_311, cell_312, cell_313, cell_314, cell_315, cell_316, cell_317, cell_318, cell_319, cell_320,
+             cell_321, cell_322, cell_323, cell_324, cell_325, cell_326, cell_327, cell_328, cell_329, cell_330,
+             cell_331, cell_332, cell_333, cell_334, cell_335, cell_336, cell_337, cell_338, cell_339, cell_340,
+             cell_341, cell_342,
+             cell_352, cell_353, cell_354, cell_355, cell_356, cell_357, cell_358, cell_359, cell_360,
+             cell_361, cell_362, cell_363, cell_364, cell_365, cell_366, cell_367, cell_368, cell_369, cell_370,
+             cell_371, cell_372, cell_373, cell_374, cell_375, cell_376, cell_377, cell_378, cell_379, cell_380,
+             cell_381, cell_382, cell_383, cell_384, cell_385, cell_386, cell_387, cell_388, cell_389, cell_390,
+             cell_391, cell_392, cell_393, cell_394, cell_395, cell_396, cell_397, cell_398, cell_399, cell_400,
+             cell_401, cell_402, cell_403, cell_404, cell_405, cell_406, cell_407, cell_408, cell_409,
+             cell_500,
+             cell_501, cell_502, cell_503, cell_504, cell_505, cell_506, cell_507, cell_508, cell_509, cell_510,
+             cell_511, cell_512, cell_513, cell_514, cell_515, cell_516, cell_517, cell_518, cell_519, cell_520,
+             cell_521, cell_522, cell_523, cell_524, cell_525, cell_526, cell_527, cell_528, cell_529, cell_530,
+             cell_531, cell_532, cell_533, cell_534, cell_535, cell_536, cell_537, cell_538, cell_539, cell_540,
+             cell_541, cell_542, cell_543, cell_544, cell_545, cell_546, cell_547, cell_548, cell_549, cell_550,
+             cell_551, cell_552, cell_553, cell_554, cell_555, cell_556, cell_557, cell_558, cell_559, cell_560,
+             cell_561, cell_562, cell_563, cell_564, cell_565, cell_566, cell_567, cell_568, cell_569, cell_570,
+             cell_571, cell_572, cell_573, cell_574, cell_575, cell_576, cell_577, cell_578, cell_579, cell_580,
+             cell_581, cell_582, cell_583, cell_584, cell_585, cell_586, cell_587, cell_588, cell_589, cell_590,
+             cell_591, cell_592, cell_593, cell_594, cell_595, cell_596, cell_597,
+             cell_601, cell_602, cell_603, cell_604, cell_605, cell_606, cell_607, cell_608, cell_609, cell_610,
+             cell_611, cell_612,]
     # export
     model.geometry = openmc.Geometry(cells)
     model.geometry.merge_surfaces = True
@@ -2195,10 +2196,10 @@ def main():
 
     # cell filters
     detector_cell_filter = openmc.CellFilter([cell_135, cell_158, cell_181, cell_204, cell_605, cell_606, cell_607, cell_608,
-                                            cell_609, cell_610, cell_611, cell_612, cell_602, cell_603, cell_604, cell_239,
-                                            cell_262, cell_285, cell_308, cell_331, cell_363, cell_386, cell_398])
+                                              cell_609, cell_610, cell_611, cell_612, cell_602, cell_603, cell_604, cell_239,
+                                              cell_262, cell_285, cell_308, cell_331, cell_363, cell_386, cell_398])
     heatdetector_cell_filter = openmc.CellFilter([cell_239, cell_262, cell_285, cell_308, cell_331, cell_363, cell_386, cell_398,
-                                                cell_500, cell_507, cell_514, cell_521])
+                                                  cell_500, cell_507, cell_514, cell_521])
 
     if args.heating:
         tally_h = openmc.Tally(tally_id=1, name='heating_dose')
@@ -2217,25 +2218,29 @@ def main():
         # Nb93 (n,2n) Nb92m from IRDFF-II
         tally101 = openmc.Tally(tally_id=101, name="nb93_irdff_rr")
         nb93_n2n_irdff = irdff.cross_section(nb93_n2n_acef, 11016)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(nb93_n2n_irdff[11016])
+        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+            nb93_n2n_irdff[11016])
         tally101.filters = [detector_cell_filter, particle_filter, multiplier]
         tally101.scores = ["flux"]
         # Al27 (n,a) Na23 from IRDFF-II
         tally102 = openmc.Tally(tally_id=102, name="al27_irdff_rr")
         al27_na_irdff = irdff.cross_section(al27_na_acef, 107)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(al27_na_irdff[107])
+        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+            al27_na_irdff[107])
         tally102.filters = [detector_cell_filter, particle_filter, multiplier]
         tally102.scores = ["flux"]
         # Ni58 (n,p) Co58 from IRDFF-II
         tally103 = openmc.Tally(tally_id=103, name="ni58_irdff_rr")
         ni58_np_irdff = irdff.cross_section(ni58_np_acef, 103)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(ni58_np_irdff[103])
+        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+            ni58_np_irdff[103])
         tally103.filters = [detector_cell_filter, particle_filter, multiplier]
         tally103.scores = ["flux"]
         # Au197 (n,gamma) Au198 from IRDFF-II
         tally104 = openmc.Tally(tally_id=104, name="au197_irdff_rr")
         au197_ng_irdff = irdff.cross_section(au197_ng_acef, 102)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(au197_ng_irdff[102])
+        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+            au197_ng_irdff[102])
         tally104.filters = [detector_cell_filter, particle_filter, multiplier]
         tally104.scores = ["flux"]
 
