@@ -40,7 +40,7 @@ for i, (mu_high, mu_low) in enumerate(zip(cos_theta[:-1], cos_theta[1:])):
     energy_dist = yields[i]
 
     # Create sources so that strengths add up to 1
-    source = openmc.Source(
+    source = openmc.IndependentSource(
         angle=angle_dist,
         energy=energy_dist,
         strength=relative_intensity[i] / relative_intensity.sum()
