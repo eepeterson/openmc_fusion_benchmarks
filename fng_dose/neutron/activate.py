@@ -33,15 +33,9 @@ elif schedule == 'eff726':
 else:
     raise ValueError("Invalid schedule")
 
-model.deplete(
-    timesteps,
-    source_rates=source_rates,
-    method='predictor',
-    final_step=False,
-    operator_kwargs={
-        'normalization_mode': 'source-rate',
-    }
-)
+op = openmc.deplete.CoupledOperator(model, normalization_mode='source-rate')
+predictor = openmc.deplete.PredictorIntegrator(op, timesteps, source_rates=source_rates)
+predictor.integrate(final_step=False)
 
 sources = {}
 cells = model.geometry.get_all_cells()
