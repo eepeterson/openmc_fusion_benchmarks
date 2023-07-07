@@ -32,17 +32,36 @@ elif schedule == 'eff726':
 else:
     raise ValueError("Invalid schedule")
 
-op = openmc.deplete.CoupledOperator(model, normalization_mode='source-rate')
+# TODO: Provide toggle for switching between CoupledOperator and IndependentOperator
+
+# Get list of cells for activation
+all_cells = model.geometry.get_all_cells()
+cells = [all_cells[uid] for uid in dose_cell_ids]
+
+# Get fluxes and micros based on cells
+fluxes, micros = openmc.deplete.get_microxs_and_flux(model, cells)
+
+# Create material copies for activation
+activation_mats = openmc.Materials()
+activation_mat_by_id = {}
+for cell in cells:
+    mat = cell.fill.clone()
+    mat.name = f'Cell {cell.id}'
+    mat.depletable = True
+    mat.volume = cell.volume
+    activation_mats.append(mat)
+    activation_mat_by_id[cell.id] = mat
+
+op = openmc.deplete.IndependentOperator(activation_mats, fluxes, micros, normalization_mode='source-rate')
 predictor = openmc.deplete.PredictorIntegrator(op, timesteps, source_rates=source_rates)
 predictor.integrate(final_step=False)
 
 sources = {}
-cells = model.geometry.get_all_cells()
 results = openmc.deplete.Results('depletion_results.h5')
 for i_cool, cooling_time in enumerate([1, 7, 15, 30, 60]):
     sources[cooling_time] = {}
     for uid in dose_cell_ids:
-        mat_id = cells[uid].fill.id
+        mat_id = activation_mat_by_id[all_cells[uid].id].id
         mat = results[8+i_cool].get_material(str(mat_id))
         sources[cooling_time][uid] = mat.decay_photon_energy
 
