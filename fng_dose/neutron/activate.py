@@ -4,9 +4,8 @@ import dill
 import numpy as np
 
 from dose_cells import dose_cell_ids
+import data_config
 
-# Set appropriate chain for depletion / decay source generation
-openmc.config['chain_file'] = 'chain_reduced.xml'
 
 model = openmc.Model.from_xml()
 

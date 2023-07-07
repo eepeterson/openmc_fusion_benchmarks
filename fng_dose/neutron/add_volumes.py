@@ -1,5 +1,8 @@
 import openmc
+
 from dose_cells import dose_cell_ids
+import data_config
+
 
 model = openmc.Model.from_xml()
 model.materials.clear()

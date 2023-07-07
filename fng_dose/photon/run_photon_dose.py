@@ -8,6 +8,7 @@ import dill
 from uncertainties import ufloat
 
 from dose_cells import dose_cell_ids, inner_cell_ids, next_cell_ids, front_cell_ids
+import data_config
 
 
 def main(cooling_time, dose_function: str):
@@ -67,7 +68,7 @@ def generate_sources(cooling_time: int):
         space = openmc.stats.Box(*cell.bounding_box)
         energy = energy_dists[cooling_time][cell.id]
 
-        source = openmc.Source(
+        source = openmc.IndependentSource(
             space=space,
             energy=energy,
             particle='photon',
