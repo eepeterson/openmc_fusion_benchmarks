@@ -1,29 +1,69 @@
-import openmc
+import argparse
+import json
 
-from dose_cells import dose_cell_ids
+import openmc
+import numpy as np
+
 import data_config
 
 
-model = openmc.Model.from_xml()
-model.materials.clear()
-cells = model.geometry.get_all_cells()
-dose_cells = [cells[uid] for uid in dose_cell_ids]
+with open('activation_cells.json', 'r') as fh:
+    dose_cell_ids = json.load(fh)
+with open('bounding_boxes.json', 'r') as fh:
+    bounding_boxes = json.load(fh)
 
-dose_materials = []
-for cell in dose_cells:
-    cell.fill = cell.fill.clone()
-    cell.fill.depletable = True
-    dose_materials.append(cell.fill)
 
-# Determine bounding box for volume calcuation
-combined_region = openmc.Union([cell.region for cell in dose_cells])
-lower_left, upper_right = combined_region.bounding_box
+def calculate_volumes(cell_ids):
+    model = openmc.Model.from_xml()
+    cells = model.geometry.get_all_cells()
+    dose_cells = [cells[uid] for uid in cell_ids]
 
-# Run a volume calculation
-vol_calc = openmc.VolumeCalculation(dose_materials, 10_000_000, lower_left, upper_right)
-model.settings.volume_calculations = [vol_calc]
-model.calculate_volumes()
+    # Run a volume calculation
+    vol_calcs = []
+    for cell in dose_cells:
+        lower_left, upper_right = bounding_boxes[str(cell.id)]
+        if np.isinf(lower_left).any() or np.isinf(upper_right).any():
+            raise ValueError(f'Cell {cell.id} has an infinite bounding box')
+        vol_calcs.append(openmc.VolumeCalculation([cell], 1_000_000, lower_left, upper_right))
 
-# Export new model
-model.materials.clear()  # Make sure new materials in geometry get exported
-model.export_to_xml()
+    model.settings.volume_calculations = vol_calcs
+    model.calculate_volumes()
+
+    volumes = {cell.id: cell.volume for cell in dose_cells}
+    with open('cell_volumes.json', 'w') as fh:
+        json.dump(volumes, fh)
+
+
+def apply_volumes(filename, material=False):
+    # Read volumes from JSON
+    with open(filename, 'r') as fh:
+        volumes = json.load(fh)
+
+    # Add volumes to cells/materials
+    model = openmc.Model.from_xml()
+    cells = model.geometry.get_all_cells()
+    for uid, volume in volumes.items():
+        cell = cells[int(uid)]
+        if material:
+            cell.fill = cell.fill.clone()
+            cell.fill.depletable = True
+            cell.fill.volume = volume
+        else:
+            cell.volume = volume
+
+    # Make sure new materials in geometry get exported
+    if material:
+        model.materials.clear()
+
+    # Re-export model
+    model.export_to_xml()
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--calculate', action='store_true')
+parser.add_argument('-m', '--material', action='store_true')
+args = parser.parse_args()
+
+if args.calculate:
+    calculate_volumes(dose_cell_ids)
+apply_volumes('cell_volumes.json', material=args.material)
