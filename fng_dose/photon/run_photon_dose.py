@@ -1,4 +1,5 @@
 import argparse
+import json
 from math import pi
 
 import openmc
@@ -56,8 +57,14 @@ def generate_sources(cooling_time: int):
     cells = model.geometry.get_all_cells()
     dose_cells = [cells[uid] for uid in dose_cell_ids]
 
+    # Load photon energy distributions from activation calculation
     with open('../neutron/sources.pkl', 'rb') as fh:
         energy_dists = dill.load(fh)
+
+    # Load bounding box information
+    with open('../neutron/bounding_boxes.json', 'r') as fh:
+        bounding_boxes = json.load(fh)
+
 
     # Create sources for each depletable region
     sources = []
@@ -65,7 +72,7 @@ def generate_sources(cooling_time: int):
     intensity_next = 0.0
     intensity_front = 0.0
     for cell in dose_cells:
-        space = openmc.stats.Box(*cell.bounding_box)
+        space = openmc.stats.Box(*bounding_boxes[str(cell.id)])
         energy = energy_dists[cooling_time][cell.id]
 
         source = openmc.IndependentSource(
