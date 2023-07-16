@@ -1,6 +1,7 @@
 import argparse
 import json
 from math import pi
+from pathlib import Path
 
 import openmc
 import openmc.data
@@ -12,12 +13,13 @@ from dose_cells import dose_cell_ids, inner_cell_ids, next_cell_ids, front_cell_
 import data_config
 
 
-def main(cooling_time, dose_function: str):
-    generate_sources(cooling_time)
-    generate_tallies(dose_function)
+def main(path_model, cooling_time, dose_function: str):
+    model = openmc.Model.from_model_xml(path_model)
+    generate_sources(model, cooling_time)
+    generate_tallies(model, dose_function)
     print('Running OpenMC...')
-    openmc.run(output=False)
-    Sv_per_h = get_dose('statepoint.40.h5')
+    sp_filename = model.run(output=False, cwd='photon_dose')
+    Sv_per_h = get_dose(sp_filename)
     print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
 
 
@@ -52,8 +54,7 @@ def get_dose(statepoint_file):
     """
 
 
-def generate_sources(cooling_time: int):
-    model = openmc.Model.from_xml()
+def generate_sources(model, cooling_time: int):
     cells = model.geometry.get_all_cells()
     dose_cells = [cells[uid] for uid in dose_cell_ids]
 
@@ -91,14 +92,13 @@ def generate_sources(cooling_time: int):
         elif cell.id in front_cell_ids:
             intensity_front += source.strength
     model.settings.source = sources
-    model.settings.export_to_xml()
 
     print(f'Source (inner) = {intensity_inner} γ/s')
     print(f'Source (next)  = {intensity_next} γ/s')
     print(f'Source (front) = {intensity_front} γ/s')
 
 
-def generate_tallies(dose_function: str):
+def generate_tallies(model, dose_function: str):
     # Set dose function
     if dose_function == 'ethan':
         energies = 1e6*np.array([
@@ -149,14 +149,14 @@ def generate_tallies(dose_function: str):
     heating_tally.filters = [cell_filter]
     heating_tally.scores = ['heating']
 
-    tallies = openmc.Tallies([flux_tally, heating_tally])
-    tallies.export_to_xml()
+    model.tallies = openmc.Tallies([flux_tally, heating_tally])
 
 
 if __name__ == '__main__':
     cooling_times = [1, 7, 15, 30, 60]
     parser = argparse.ArgumentParser()
     parser.add_argument('cooling_time', type=int, choices=cooling_times)
+    parser.add_argument('-m', '--model', type=Path, default='fng_photon.xml')
     parser.add_argument('-f', '--function', type=str, choices=('ans1977', 'icrp74', 'icrp116', 'ethan'), default='ans1977')
     args = parser.parse_args()
-    main(args.cooling_time, args.function)
+    main(args.model, args.cooling_time, args.function)
