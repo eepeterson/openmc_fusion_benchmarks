@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 
 import openmc.deplete
 import openmc
@@ -11,10 +12,11 @@ import data_config
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument('-m', '--model', type=Path, default='fng_neutron.xml')
 parser.add_argument('-o', '--operator', choices=('coupled', 'independent'), default='independent')
 args = parser.parse_args()
 
-model = openmc.Model.from_xml()
+model = openmc.Model.from_model_xml(args.model)
 
 schedule = 'campaign1'
 
@@ -47,7 +49,6 @@ if args.operator == 'independent':
     # Apply volumes to cells
     apply_volumes(model, material=False)
 
-
     # Get fluxes and micros based on cells
     fluxes, micros = openmc.deplete.get_microxs_and_flux(model, cells)
 
@@ -76,12 +77,15 @@ else:
     # Create transport operator
     op = openmc.deplete.CoupledOperator(model, normalization_mode='source-rate')
 
+# Change output directory
+op.output_dir = 'activation'
+
 # Run depletion
 predictor = openmc.deplete.PredictorIntegrator(op, timesteps, source_rates=source_rates)
 predictor.integrate(final_step=False)
 
 sources = {}
-results = openmc.deplete.Results('depletion_results.h5')
+results = openmc.deplete.Results(op.output_dir / 'depletion_results.h5')
 for i_cool, cooling_time in enumerate([1, 7, 15, 30, 60]):
     sources[cooling_time] = {}
     for uid in dose_cell_ids:
@@ -89,5 +93,5 @@ for i_cool, cooling_time in enumerate([1, 7, 15, 30, 60]):
         mat = results[8+i_cool].get_material(str(mat_id))
         sources[cooling_time][uid] = mat.decay_photon_energy
 
-with open('sources.pkl', 'wb') as fh:
+with open('activation/sources.pkl', 'wb') as fh:
     dill.dump(sources, fh)

@@ -53,9 +53,6 @@ def apply_volumes(model, filename='cell_volumes.json', material=False):
     if material:
         model.materials.clear()
 
-    # Re-export model
-    model.export_to_xml()
-
 
 if __name__ == '__main__':
     calculate_volumes(dose_cell_ids)
