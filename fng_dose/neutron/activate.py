@@ -6,7 +6,7 @@ import dill
 import numpy as np
 
 from dose_cells import dose_cell_ids
-from add_volumes import apply_volumes
+from volumes import apply_volumes
 import data_config
 
 
