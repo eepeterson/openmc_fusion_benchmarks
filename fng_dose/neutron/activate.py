@@ -1,11 +1,18 @@
+import argparse
+
 import openmc.deplete
 import openmc
 import dill
 import numpy as np
 
 from dose_cells import dose_cell_ids
+from add_volumes import apply_volumes
 import data_config
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-o', '--operator', choices=('coupled', 'independent'), default='independent')
+args = parser.parse_args()
 
 model = openmc.Model.from_xml()
 
@@ -32,27 +39,44 @@ elif schedule == 'eff726':
 else:
     raise ValueError("Invalid schedule")
 
-# TODO: Provide toggle for switching between CoupledOperator and IndependentOperator
-
 # Get list of cells for activation
 all_cells = model.geometry.get_all_cells()
 cells = [all_cells[uid] for uid in dose_cell_ids]
 
-# Get fluxes and micros based on cells
-fluxes, micros = openmc.deplete.get_microxs_and_flux(model, cells)
+if args.operator == 'independent':
+    # Apply volumes to cells
+    apply_volumes(model, material=False)
 
-# Create material copies for activation
-activation_mats = openmc.Materials()
-activation_mat_by_id = {}
-for cell in cells:
-    mat = cell.fill.clone()
-    mat.name = f'Cell {cell.id}'
-    mat.depletable = True
-    mat.volume = cell.volume
-    activation_mats.append(mat)
-    activation_mat_by_id[cell.id] = mat
 
-op = openmc.deplete.IndependentOperator(activation_mats, fluxes, micros, normalization_mode='source-rate')
+    # Get fluxes and micros based on cells
+    fluxes, micros = openmc.deplete.get_microxs_and_flux(model, cells)
+
+    # Create material copies for activation
+    activation_mats = openmc.Materials()
+    activation_mat_by_id = {}
+    for cell in cells:
+        mat = cell.fill.clone()
+        mat.name = f'Cell {cell.id}'
+        mat.depletable = True
+        mat.volume = cell.volume
+        activation_mats.append(mat)
+        activation_mat_by_id[cell.id] = mat
+
+    # Create transport operator
+    op = openmc.deplete.IndependentOperator(
+        activation_mats, fluxes, micros, normalization_mode='source-rate')
+
+else:
+    # Apply volumes to materials
+    apply_volumes(model, material=True)
+
+    # Get dictionary of materials
+    activation_mat_by_id = {c.id: c.fill for c in cells}
+
+    # Create transport operator
+    op = openmc.deplete.CoupledOperator(model, normalization_mode='source-rate')
+
+# Run depletion
 predictor = openmc.deplete.PredictorIntegrator(op, timesteps, source_rates=source_rates)
 predictor.integrate(final_step=False)
 

@@ -1,4 +1,3 @@
-import argparse
 import json
 
 import openmc
@@ -34,13 +33,12 @@ def calculate_volumes(cell_ids):
         json.dump(volumes, fh)
 
 
-def apply_volumes(filename, material=False):
+def apply_volumes(model, filename='cell_volumes.json', material=False):
     # Read volumes from JSON
     with open(filename, 'r') as fh:
         volumes = json.load(fh)
 
     # Add volumes to cells/materials
-    model = openmc.Model.from_xml()
     cells = model.geometry.get_all_cells()
     for uid, volume in volumes.items():
         cell = cells[int(uid)]
@@ -59,11 +57,5 @@ def apply_volumes(filename, material=False):
     model.export_to_xml()
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-c', '--calculate', action='store_true')
-parser.add_argument('-m', '--material', action='store_true')
-args = parser.parse_args()
-
-if args.calculate:
+if __name__ == '__main__':
     calculate_volumes(dose_cell_ids)
-apply_volumes('cell_volumes.json', material=args.material)
