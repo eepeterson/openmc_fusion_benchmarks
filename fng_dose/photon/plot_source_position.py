@@ -2,7 +2,9 @@ import matplotlib.pyplot as plt
 import openmc.lib
 import numpy as np
 
-openmc.lib.init()
+import data_config
+
+openmc.lib.init(['photon_dose/model.xml'])
 source = openmc.lib.sample_external_source(10000)
 
 x = np.array([p.r[0] for p in source])
