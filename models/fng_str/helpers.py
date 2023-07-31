@@ -185,7 +185,7 @@ class VisualizeResults:
             ce = mean_ratio(dataset['mean'], self.measured_data['mean'])
 
             floor, ceiling = _get_floor_ceiling(
-                [self.measured_data['mean'], dataset['mean']])
+                [self.measured_data['mean'], np.array(dataset['mean'])])
 
             self.ax1.set_ylim([floor, ceiling])
             self.ax1.plot(self.tickers, dataset['mean'], marker=marker,
