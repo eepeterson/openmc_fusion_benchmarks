@@ -39,8 +39,8 @@ def _get_floor_ceiling(values):
         float, float: global minimum and global maximum values present in the input array
     """
 
-    min_value = min([np.nanmin(i) for i in values])
-    max_value = max([np.nanmax(i) for i in values])
+    min_value = min([np.nanmin(i[np.nonzero(i)]) for i in values])
+    max_value = max([np.nanmax(i[np.nonzero(i)]) for i in values])
     min_oom = math.floor(math.log(min_value, 10))
     max_oom = math.floor(math.log(max_value, 10))
     return 10**(min_oom),  10**(max_oom+1)
