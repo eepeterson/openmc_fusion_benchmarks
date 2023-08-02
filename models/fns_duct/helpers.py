@@ -289,29 +289,3 @@ def postprocess_openmc_spectrum(tally_dataframe, cell):
     df['std. dev.'] = df['std. dev.'] / _detector_volume
 
     return df
-
-
-def get_openmc_tally(statepoint_file: str, tally_name: str):
-    """Read automatically every openmc tally from a give statepoint file for a given simulation type
-
-    Args:
-        statepoint_file (str): name of the statepoint file to read
-        tally_name (str): string with the exact name for the tally defined in the openmc model
-
-    Raises:
-        ValueError: the name of the simulation_type is not one of the acceptable ones
-
-    Returns:
-        dataframe: dataframe of the read tally
-        None: if there was no result from openmc for the given simulation type
-    """
-
-    # enter the right folder according to the simulation type, read the openmc statepoint file and convert to dataframe
-    try:
-        # os.chdir('reaction_rates_and_spectra')
-        sp = openmc.StatePoint(statepoint_file)
-        tally = sp.get_tally(name=tally_name).get_pandas_dataframe()
-        # os.chdir('..')
-        return tally
-    except FileNotFoundError:
-        pass
