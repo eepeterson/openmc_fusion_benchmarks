@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<model>
+  <materials>
+    <material id="1">
+      <density units="g/cm3" value="7.954"/>
+      <nuclide name="B10" wo="0.000693"/>
+      <nuclide name="B11" wo="0.002807"/>
+      <nuclide name="C12" wo="0.039520273803427465"/>
+      <nuclide name="C13" wo="0.000479726196572539"/>
+      <nuclide name="Si28" wo="0.47"/>
+      <nuclide name="V50" wo="0.0003921925373160739"/>
+      <nuclide name="V51" wo="0.15960780746268394"/>
+      <nuclide name="Cr50" wo="0.73"/>
+      <nuclide name="Cr52" wo="14.07"/>
+      <nuclide name="Cr53" wo="1.6"/>
+      <nuclide name="Cr54" wo="0.4"/>
+      <nuclide name="Mn55" wo="1.14"/>
+      <nuclide name="Fe54" wo="3.95"/>
+      <nuclide name="Fe56" wo="62.51"/>
+      <nuclide name="Fe57" wo="1.46"/>
+      <nuclide name="Fe58" wo="0.2"/>
+      <nuclide name="Co59" wo="0.14"/>
+      <nuclide name="Ni58" wo="7.31"/>
+      <nuclide name="Ni60" wo="2.79"/>
+      <nuclide name="Ni61" wo="0.12"/>
+      <nuclide name="Ni62" wo="0.38"/>
+      <nuclide name="Ni64" wo="0.1"/>
+      <nuclide name="Mo100" wo="0.21509565865577795"/>
+      <nuclide name="Mo92" wo="0.2974760972643644"/>
+      <nuclide name="Mo94" wo="0.1906159496693566"/>
+      <nuclide name="Mo95" wo="0.33284984504744625"/>
+      <nuclide name="Mo96" wo="0.3533051306488447"/>
+      <nuclide name="Mo97" wo="0.20516502475964524"/>
+      <nuclide name="Mo98" wo="0.5254922939545649"/>
+      <nuclide name="Cu63" wo="0.06"/>
+      <nuclide name="Cu65" wo="0.03"/>
+    </material>
+    <material id="2">
+      <density units="g/cm3" value="1.0"/>
+      <nuclide ao="0.666" name="H1"/>
+      <nuclide ao="0.334" name="O16"/>
+    </material>
+  </materials>
+  <geometry>
+    <cell id="4" material="1" region="1 -2 9 -16 17 -30 33" universe="0" volume="0.6921935999999999"/>
+    <cell id="5" material="2" region="2 -3 -16 17 -31 32" universe="0"/>
+    <cell id="6" material="1" region="2 -3 -16 17 -30 31" universe="0" volume="0.04012473991680002"/>
+    <cell id="7" material="1" region="2 -3 -16 17 -32 33" universe="0" volume="0.040261344076800015"/>
+    <cell id="229" material="1" region="107 -113 -202 (303 | -304)" universe="0"/>
+    <cell id="241" material="1" region="113 -114 201 -202 (303 | -304)" universe="0"/>
+    <surface coeffs="0.0" id="1" type="y-plane"/>
+    <surface coeffs="0.1" id="2" type="y-plane"/>
+    <surface coeffs="0.2" id="3" type="y-plane"/>
+    <surface coeffs="0.0 0.0 1.7" id="9" type="y-cylinder"/>
+    <surface coeffs="0.7071067811865476 6.123233995736766e-17 0.7071067811865476 2.0" id="16" type="plane"/>
+    <surface coeffs="0.7071067811865476 6.123233995736766e-17 0.7071067811865476 -2.0" id="17" type="plane"/>
+    <surface coeffs="-0.7071067811865475 6.123233995736766e-17 0.7071067811865476 2.0" id="30" type="plane"/>
+    <surface coeffs="-0.7071067811865475 6.123233995736766e-17 0.7071067811865476 1.9" id="31" type="plane"/>
+    <surface coeffs="-0.7071067811865475 6.123233995736766e-17 0.7071067811865476 -1.9" id="32" type="plane"/>
+    <surface coeffs="-0.7071067811865475 6.123233995736766e-17 0.7071067811865476 -2.0" id="33" type="plane"/>
+    <surface coeffs="26.97" id="107" type="y-plane"/>
+    <surface coeffs="35.67" id="113" type="y-plane"/>
+    <surface coeffs="41.57" id="114" type="y-plane"/>
+    <surface coeffs="0.0 0.0 1.5" id="201" type="y-cylinder"/>
+    <surface coeffs="0.0 0.0 5.5" id="202" type="y-cylinder"/>
+    <surface coeffs="5.99" id="303" type="z-plane"/>
+    <surface coeffs="-5.99" id="304" type="z-plane"/>
+  </geometry>
+  <settings>
+    <run_mode>fixed source</run_mode>
+    <particles>10000</particles>
+    <batches>100</batches>
+  </settings>
+  </model>

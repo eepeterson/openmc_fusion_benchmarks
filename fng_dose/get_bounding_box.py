@@ -20,7 +20,8 @@ plot.h_res = res
 plot.v_res = res
 plot.basis = 'xy'
 
-with open('activation_cells.json', 'r') as fh:
+#with open('activation_cells.json', 'r') as fh:
+with open('valid_cells.json', 'r') as fh:
     dose_cell_ids = json.load(fh)
 
 
@@ -67,7 +68,7 @@ for uid in dose_cell_ids:
     print(uid, ll, ur)
     bounding_boxes[uid] = (tuple(ll), tuple(ur))
 
-with open('bounding_boxes.json', 'w') as fh:
+with open('bounding_boxes2.json', 'w') as fh:
     json.dump(bounding_boxes, fh)
 
 openmc.lib.finalize()
