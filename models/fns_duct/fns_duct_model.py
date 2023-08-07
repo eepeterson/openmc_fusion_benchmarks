@@ -89,7 +89,7 @@ def main():
     mat_6.add_nuclide("Ar40", 0.00996035, "ao")
     # mortar
     mat_7 = openmc.Material(material_id=7, name="mortar")
-    mat_7.set_density("atom/b-cm", 2.1023627049432485)
+    mat_7.set_density("g/cm3", 2.1023627049432485)
     mat_7.add_nuclide("H1", 0.006596172552072, "ao")
     mat_7.add_nuclide("H2", 1.027447928e-06, "ao")
     mat_7.add_nuclide("C12", 0.00073473937834, "ao")
@@ -120,7 +120,7 @@ def main():
     mat_7.add_nuclide("Fe58", 1.92042e-06, "ao")
     # concrete
     mat_8 = openmc.Material(material_id=8, name="concrete")
-    mat_8.set_density("atom/b-cm", 2.3563125502648763)
+    mat_8.set_density("g/cm3", 2.3563125502648763)
     mat_8.add_nuclide("H1", 0.005580930690468, "ao")
     mat_8.add_nuclide("H2", 8.693095319999999e-07, "ao")
     mat_8.add_nuclide("C12", 0.0005349079097999999, "ao")
@@ -1923,7 +1923,7 @@ def main():
     # cell tally - neutron spectrum at detector
     tally201 = openmc.Tally(tally_id=201, name="detector_nspectrum")
     tally201.filters = [detector_cell_filter,
-                         neutron_filter, neutron_energy_filter]
+                        neutron_filter, neutron_energy_filter]
     tally201.scores = ["flux"]
 
     model.tallies.extend([tally101, tally102, tally103, tally104, tally201])
