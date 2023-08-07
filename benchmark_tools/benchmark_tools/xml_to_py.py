@@ -26,7 +26,7 @@ def materials_to_py(
         for m in materials:
             # store material id, density etc.
             m_id = str(m.id)
-            m_d = str(m.get_mass_density())
+            m_d = str(m.density)
             m_du = str(m.density_units)
             m_nuc = m.get_nuclide_densities()
             matname = "mat_" + m_id
@@ -42,7 +42,8 @@ def materials_to_py(
                 p = str(m_nuc[k].percent)
                 pt = str(m_nuc[k].percent_type)
                 fh.write(
-                    matname + ".add_nuclide('" + k + "', " + p + ", '" + pt + "')\n"
+                    matname + ".add_nuclide('" + k +
+                    "', " + p + ", '" + pt + "')\n"
                 )
             if m.volume:
                 m_v = str(m.volume)
@@ -147,9 +148,11 @@ def geometry_to_py(
 
             # reconstruct csg commands
             reg_surf_ids = re.findall(r"\b\d+\b", c_region)
-            c_region = re.sub(r"\b\d+\b", "+surf_{}", c_region).format(*reg_surf_ids)
+            c_region = re.sub(r"\b\d+\b", "+surf_{}",
+                              c_region).format(*reg_surf_ids)
             c_region = (
-                c_region.replace("-+", "-").replace(" ", " & ").replace("& | &", "|")
+                c_region.replace("-+", "-").replace(" ",
+                                                    " & ").replace("& | &", "|")
             )
 
             line = "region_" + c_id
