@@ -8,14 +8,10 @@
    this shouldn't be necessary but right now the `reduce_chain` argument doesn't
    work when C0 is present)
 
-## Neutron transport + activation
+## Full R2S calculation
 
-Run `activate.py` to run the activation calculation and create
-`activation/sources.pkl`. This script has an `--operator` command-line argument
-that can be set to "coupled" or "independent", controlling which transport
-operator is used in the calculation.
-
-## Photon transport
-
-Run `run_photon_dose.py <time>` to generate photon sources based on the
-`activation/sources.pkl` file at the specified cooling time.
+Run `r2s.py <cooling_time>` to run the neutron transport, activation, and photon
+transport calculation. An intermediate `activation/sources.pkl` file is create
+with the generate decay photon source. This script has an `--operator`
+command-line argument that can be set to "coupled" or "independent", controlling
+which transport operator is used in the calculation.
