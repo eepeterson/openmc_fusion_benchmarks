@@ -59,11 +59,11 @@ def generate_sources(model, cooling_time: int):
     dose_cells = [cells[uid] for uid in dose_cell_ids]
 
     # Load photon energy distributions from activation calculation
-    with open('../neutron/activation/sources.pkl', 'rb') as fh:
+    with open('activation/sources.pkl', 'rb') as fh:
         energy_dists = dill.load(fh)
 
     # Load bounding box information
-    with open('../neutron/bounding_boxes.json', 'r') as fh:
+    with open('bounding_boxes.json', 'r') as fh:
         bounding_boxes = json.load(fh)
 
 
