@@ -10,7 +10,6 @@ import dill
 import numpy as np
 from uncertainties import ufloat
 
-from volumes import apply_volumes
 import data_config
 
 
@@ -27,6 +26,52 @@ front_cell_ids = [
     164, 182, 233, 245
 ]
 dose_cell_ids = inner_cell_ids + next_cell_ids + front_cell_ids
+
+
+def calculate_volumes(cell_ids):
+    model = openmc.Model.from_xml()
+    cells = model.geometry.get_all_cells()
+    dose_cells = [cells[uid] for uid in cell_ids]
+
+    # Get bounding boxes
+    with open('bounding_boxes.json', 'r') as fh:
+        bounding_boxes = json.load(fh)
+
+    # Run a volume calculation
+    vol_calcs = []
+    for cell in dose_cells:
+        lower_left, upper_right = bounding_boxes[str(cell.id)]
+        if np.isinf(lower_left).any() or np.isinf(upper_right).any():
+            raise ValueError(f'Cell {cell.id} has an infinite bounding box')
+        vol_calcs.append(openmc.VolumeCalculation([cell], 1_000_000, lower_left, upper_right))
+
+    model.settings.volume_calculations = vol_calcs
+    model.calculate_volumes()
+
+    volumes = {cell.id: cell.volume for cell in dose_cells}
+    with open('cell_volumes.json', 'w') as fh:
+        json.dump(volumes, fh)
+
+
+def apply_volumes(model, filename='cell_volumes.json', material=False):
+    # Read volumes from JSON
+    with open(filename, 'r') as fh:
+        volumes = json.load(fh)
+
+    # Add volumes to cells/materials
+    cells = model.geometry.get_all_cells()
+    for uid, volume in volumes.items():
+        cell = cells[int(uid)]
+        if material:
+            cell.fill = cell.fill.clone()
+            cell.fill.depletable = True
+            cell.fill.volume = volume
+        else:
+            cell.volume = volume
+
+    # Make sure new materials in geometry get exported
+    if material:
+        model.materials.clear()
 
 
 def activation(model: Path, operator_type: str):
@@ -258,23 +303,39 @@ def generate_dose_tallies(model: openmc.Model, dose_function: str):
 if __name__ == '__main__':
     cooling_times = [1, 7, 15, 30, 60]
 
+    # General configuration
     parser = argparse.ArgumentParser()
     parser.add_argument('-n', '--model-neutron', type=Path, default='fng_neutron.xml')
     parser.add_argument('-p', '--model-photon', type=Path, default='fng_photon.xml')
     parser.add_argument('-o', '--operator', choices=('coupled', 'independent'), default='independent')
     parser.add_argument('-d', '--dose-function', type=str, choices=('ans1977', 'icrp74', 'icrp116', 'ethan'), default='ans1977')
-    parser.add_argument('--activation', action='store_true')
-    parser.add_argument('--no-activation', dest='activation', action='store_false')
     parser.add_argument('cooling_times', type=int, nargs='*', default=cooling_times)
-    parser.set_defaults(activation=True)
+
+    # Execution options
+    parser.add_argument('--run-volume-calc', action='store_true')
+    parser.add_argument('--no-run-volume-calc', action='store_false', dest='run_volume_calc')
+    parser.add_argument('--run-activation', action='store_true')
+    parser.add_argument('--no-run-activation', action='store_false', dest='run_activation')
+    parser.add_argument('--run-photon', action='store_true')
+    parser.add_argument('--no-run-photon', action='store_false', dest='run_photon')
+    parser.set_defaults(run_volume_calc=False)
+    parser.set_defaults(run_activation=True)
+    parser.set_defaults(run_photon=True)
     args = parser.parse_args()
 
+    # Preprocessing step: calculate volumes
+    if args.run_volume_calc:
+        with open('activation_cells.json', 'r') as fh:
+            dose_cell_ids = json.load(fh)
+        calculate_volumes(dose_cell_ids)
+
     # Step 1: Run neutron transport and activation
-    if args.activation:
+    if args.run_activation:
         activation(args.model_neutron, args.operator)
 
     # Step 2: Run photon transport for dose
-    for time in args.cooling_times:
-        if time not in cooling_times:
-            raise ValueError(f"Invalid cooling time: {time}")
-        photon_calculation(args.model_photon, time, args.dose_function)
+    if args.run_photon:
+        for time in args.cooling_times:
+            if time not in cooling_times:
+                raise ValueError(f"Invalid cooling time: {time}")
+            photon_calculation(args.model_photon, time, args.dose_function)
