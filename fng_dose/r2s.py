@@ -2,6 +2,7 @@ import argparse
 import json
 from math import pi
 from pathlib import Path
+import warnings
 
 import openmc.deplete
 import openmc
@@ -98,13 +99,15 @@ def activation(model: Path, operator_type: str):
 
 def photon_calculation(path_model: Path, cooling_time, dose_function: str):
     # Get Model object and add source and tallies
-    model = openmc.Model.from_model_xml(path_model)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", openmc.IDWarning)
+        model = openmc.Model.from_model_xml(path_model)
     generate_photon_sources(model, cooling_time)
     generate_dose_tallies(model, dose_function)
 
     # Run OpenMC and compute dose
-    print('Running OpenMC...')
-    sp_filename = model.run(output=False, cwd='photon_dose')
+    print(f'Running OpenMC photon transport calculaton at {cooling_time} d...')
+    sp_filename = model.run(output=False, cwd=f'photon_{cooling_time}d')
     Sv_per_h = get_dose(sp_filename)
     print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
 
@@ -248,7 +251,7 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--dose-function', type=str, choices=('ans1977', 'icrp74', 'icrp116', 'ethan'), default='ans1977')
     parser.add_argument('--activation', action='store_true')
     parser.add_argument('--no-activation', dest='activation', action='store_false')
-    parser.add_argument('cooling_time', type=int, choices=cooling_times)
+    parser.add_argument('cooling_times', type=int, nargs='*', default=cooling_times)
     parser.set_defaults(activation=True)
     args = parser.parse_args()
 
@@ -257,5 +260,7 @@ if __name__ == '__main__':
         activation(args.model_neutron, args.operator)
 
     # Step 2: Run photon transport for dose
-    # TODO: Allow multiple cooling times
-    photon_calculation(args.model_photon, args.cooling_time, args.dose_function)
+    for time in args.cooling_times:
+        if time not in cooling_times:
+            raise ValueError(f"Invalid cooling time: {time}")
+        photon_calculation(args.model_photon, time, args.dose_function)
