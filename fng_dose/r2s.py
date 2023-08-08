@@ -10,9 +10,23 @@ import dill
 import numpy as np
 from uncertainties import ufloat
 
-from dose_cells import dose_cell_ids, inner_cell_ids, next_cell_ids, front_cell_ids
 from volumes import apply_volumes
 import data_config
+
+
+inner_cell_ids = [
+    160, 161, 173, 174, 175, 176, 177, 178, 179, 226, 228, 230, 239, 240, 242,
+    251, 252, 253, 601, 620, 621, 622, 624, 625, 627, 628
+]
+next_cell_ids = [
+    137, 138, 139, 140, 162, 163, 180, 181, 231, 232, 243, 244, 254, 255, 256,
+    274, 275, 276, 277, 278
+]
+front_cell_ids = [
+    102, 103, 104, 105, 106, 107, 119, 142, 165, 114, 115, 116, 117, 118, 141,
+    164, 182, 233, 245
+]
+dose_cell_ids = inner_cell_ids + next_cell_ids + front_cell_ids
 
 
 def activation(model: Path, operator_type: str):
