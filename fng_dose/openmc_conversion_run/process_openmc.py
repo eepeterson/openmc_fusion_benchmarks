@@ -25,10 +25,12 @@ for i, uid in enumerate(cell_ids):
     flux_map[uid] = flux[i, :]
     flux_error_map[uid] = rel_err[i, :]
 
-with h5py.File('flux_spectrum_results.h5', 'a') as fh:
-    openmc_grp = fh.create_group('openmc')
-    openmc_grp.create_dataset('ebin_edges', data=ebins)
+with h5py.File('flux_spectrum_results.h5', 'r+') as fh:
+    #openmc_grp = fh.create_group('openmc')
+    #openmc_grp.create_dataset('ebin_edges', data=ebins)
     for cell_id in flux_map.keys():
-        tmp_grp = openmc_grp.create_group(f"cell_{cell_id}")
-        tmp_grp.create_dataset('flux', data=flux_map[cell_id])
-        tmp_grp.create_dataset('rel_err', data=flux_error_map[cell_id])
+        #tmp_grp = openmc_grp.create_group(f"cell_{cell_id}")
+        #tmp_grp.create_dataset('flux', data=flux_map[cell_id])
+        #tmp_grp.create_dataset('rel_err', data=flux_error_map[cell_id])
+        fh[f"openmc/cell_{cell_id}/flux"][...] = flux_map[cell_id]
+        fh[f"openmc/cell_{cell_id}/rel_err"][...] = flux_error_map[cell_id]
