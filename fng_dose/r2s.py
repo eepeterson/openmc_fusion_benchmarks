@@ -10,9 +10,14 @@ import dill
 import numpy as np
 from uncertainties import ufloat
 
-import data_config
 
+# Set cross sections
+openmc.config['cross_sections'] = '/opt/data/hdf5/endfb-viii.0-hdf5/cross_sections.xml'
 
+# Set chain for depletion / decay source generation
+openmc.config['chain_file'] = 'chain_reduced.xml'
+
+# TODO: Replace with activation_cells.json?
 inner_cell_ids = [
     160, 161, 173, 174, 175, 176, 177, 178, 179, 226, 228, 230, 239, 240, 242,
     251, 252, 253, 601, 620, 621, 622, 624, 625, 627, 628
