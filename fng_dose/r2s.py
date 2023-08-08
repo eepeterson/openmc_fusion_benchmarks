@@ -170,7 +170,8 @@ def photon_calculation(path_model: Path, cooling_time, dose_function: str):
     generate_dose_tallies(model, dose_function)
 
     # Run OpenMC and compute dose
-    print(f'Running OpenMC photon transport calculaton at {cooling_time} d...')
+    intensity = sum(s.strength for s in model.settings.source)
+    print(f'Photon transport calculation at {cooling_time} d, source = {intensity:.3e} γ/s ...')
     sp_filename = model.run(output=False, cwd=f'photon_{cooling_time}d')
     Sv_per_h = get_dose(sp_filename)
     print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
@@ -219,12 +220,8 @@ def generate_photon_sources(model, cooling_time: int):
     with open('bounding_boxes.json', 'r') as fh:
         bounding_boxes = json.load(fh)
 
-
     # Create sources for each depletable region
     sources = []
-    intensity_inner = 0.0
-    intensity_next = 0.0
-    intensity_front = 0.0
     for cell in dose_cells:
         space = openmc.stats.Box(*bounding_boxes[str(cell.id)])
         energy = energy_dists[cooling_time][cell.id]
@@ -238,17 +235,7 @@ def generate_photon_sources(model, cooling_time: int):
         )
         sources.append(source)
 
-        if cell.id in inner_cell_ids:
-            intensity_inner += source.strength
-        elif cell.id in next_cell_ids:
-            intensity_next += source.strength
-        elif cell.id in front_cell_ids:
-            intensity_front += source.strength
     model.settings.source = sources
-
-    print(f'Source (inner) = {intensity_inner} γ/s')
-    print(f'Source (next)  = {intensity_next} γ/s')
-    print(f'Source (front) = {intensity_front} γ/s')
 
 
 def generate_dose_tallies(model: openmc.Model, dose_function: str):
