@@ -14,6 +14,9 @@ with open('bounding_boxes.json', 'r') as fh:
 
 print(len(bounding_boxes))
 
+g_lower_left = np.array([-60.0, -15., -55.])
+g_upper_right = np.array([60.0, 80., 55.])
+
 
 def calculate_volumes(cell_ids):
     model = openmc.Model.from_model_xml()
@@ -24,6 +27,11 @@ def calculate_volumes(cell_ids):
     vol_calcs = []
     for cell in dose_cells:
         lower_left, upper_right = bounding_boxes[str(cell.id)]
+        if cell.id in [179, 182, 230, 233, 242, 245]:
+            lower_left = g_lower_left
+            upper_right = g_upper_right
+        else:
+            continue
         vcalc = openmc.VolumeCalculation([cell], 1_000_000, lower_left, upper_right)
         vcalc.set_trigger(1e-3, 'rel_err')
         vol_calcs.append(vcalc)
@@ -33,7 +41,7 @@ def calculate_volumes(cell_ids):
     model.calculate_volumes()
 
     volumes = {cell.id: cell.volume for cell in dose_cells}
-    with open('cell_volumes.json', 'w') as fh:
+    with open('cell_volumes_extra.json', 'w') as fh:
         json.dump(volumes, fh)
 
 
