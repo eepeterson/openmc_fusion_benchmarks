@@ -57,8 +57,8 @@ fig, ax = plt.subplots()
 ax.hist(hist_vals, bins=30)
 plt.show()
 
-plot_cells = [160, 228, 367]
-#plot_cells = openmc_fluxes.keys()
+#plot_cells = [160, 228, 367]
+plot_cells = openmc_fluxes.keys()
 
 for cell_id in plot_cells:
     f1 = openmc_fluxes[cell_id][0]
@@ -95,7 +95,7 @@ for cell_id in plot_cells:
     #ax1.text(1e0, 1e4, f'Total Flux: {np.sum(fluxes):1.2e}\nFast Flux (>100keV): {np.sum(fluxes[idx100:]):1.2e}', bbox=dict(boxstyle='round', fc='w'))
     #ax1.grid(True, linestyle='--', linewidth=0.5, alpha=0.3, color='k')
     fig.tight_layout()
-    plt.show()
-    #print(title)
-    #fig.savefig(f'neutron_spectrum_figures/{title}.png', dpi=150)
-    #plt.close()
+    #plt.show()
+    print(title)
+    fig.savefig(f'neutron_spectrum_figures/{title}.png', dpi=150)
+    plt.close()
