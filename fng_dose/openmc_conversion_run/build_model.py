@@ -5,8 +5,8 @@ model = openmc.Model.from_model_xml('converted_model.xml')
 model.geometry.merge_surfaces = True
 
 settings = openmc.Settings(run_mode='fixed source',
-                           particles=1_000_000,
-                           batches=50,
+                           particles=10_000_000,
+                           batches=100,
                            output={'tallies':False})
 
 source = openmc.IndependentSource()

@@ -4,7 +4,7 @@ import h5py
 
 import openmc
 
-sp = openmc.StatePoint('statepoint.50.h5')
+sp = openmc.StatePoint('statepoint.100.h5')
 flux_tally = sp.get_tally(name='flux_tally')
 cell_ids = flux_tally.find_filter(openmc.CellFilter).bins
 ebins = flux_tally.find_filter(openmc.EnergyFilter).values
