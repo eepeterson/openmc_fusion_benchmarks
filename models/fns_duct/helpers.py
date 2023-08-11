@@ -245,14 +245,14 @@ def get_openmc_tally(statepoint_file: str, tally_name: str):
     """
 
     # enter the right folder according to the simulation type, read the openmc statepoint file and convert to dataframe
-    # try:
-    os.chdir('results')
-    sp = openmc.StatePoint(statepoint_file)
-    tally = sp.get_tally(name=tally_name).get_pandas_dataframe()
-    os.chdir('..')
-    return tally
-    # except FileNotFoundError:
-    #     pass
+    try:
+        os.chdir('results')
+        sp = openmc.StatePoint(statepoint_file)
+        tally = sp.get_tally(name=tally_name).get_pandas_dataframe()
+        os.chdir('..')
+        return tally
+    except FileNotFoundError:
+        pass
 
 
 def postprocess_openmc_foils(tally_dataframe):
