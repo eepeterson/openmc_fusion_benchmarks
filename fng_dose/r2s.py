@@ -79,7 +79,7 @@ def apply_volumes(model, filename='cell_volumes.json', material=False):
         model.materials.clear()
 
 
-def activation(model: Path, operator_type: str):
+def activation(model: Path, operator_type: str, output_dir: Path):
     model = openmc.Model.from_model_xml(model)
 
     schedule = 'campaign1'
@@ -116,6 +116,11 @@ def activation(model: Path, operator_type: str):
         # Get fluxes and micros based on cells
         fluxes, micros = openmc.deplete.get_microxs_and_flux(model, cells)
 
+        output_dir.mkdir(exist_ok=True)
+        np.save(output_dir / 'fluxes.npy', fluxes)
+        with open(output_dir / 'micros.pkl', 'wb') as fh:
+            dill.dump(micros, fh)
+
         # Create material copies for activation
         activation_mats = openmc.Materials()
         activation_mat_by_id = {}
@@ -142,7 +147,7 @@ def activation(model: Path, operator_type: str):
         op = openmc.deplete.CoupledOperator(model, normalization_mode='source-rate')
 
     # Change output directory
-    op.output_dir = 'activation'
+    op.output_dir = output_dir
 
     # Run depletion
     predictor = openmc.deplete.PredictorIntegrator(op, timesteps, source_rates=source_rates)
@@ -161,18 +166,18 @@ def activation(model: Path, operator_type: str):
         dill.dump(sources, fh)
 
 
-def photon_calculation(path_model: Path, cooling_time, dose_function: str):
+def photon_calculation(path_model: Path, cooling_time, dose_function: str, output_dir: Path):
     # Get Model object and add source and tallies
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", openmc.IDWarning)
         model = openmc.Model.from_model_xml(path_model)
-    generate_photon_sources(model, cooling_time)
+    generate_photon_sources(model, cooling_time, output_dir)
     generate_dose_tallies(model, dose_function)
 
     # Run OpenMC and compute dose
     intensity = sum(s.strength for s in model.settings.source)
     print(f'Photon transport calculation at {cooling_time} d, source = {intensity:.3e} γ/s ...')
-    sp_filename = model.run(output=False, cwd=f'photon_{cooling_time}d')
+    sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}d')
     Sv_per_h = get_dose(sp_filename)
     print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
 
@@ -208,12 +213,12 @@ def get_dose(statepoint_file):
     """
 
 
-def generate_photon_sources(model, cooling_time: int):
+def generate_photon_sources(model, cooling_time: int, output_dir: Path):
     cells = model.geometry.get_all_cells()
     dose_cells = [cells[uid] for uid in dose_cell_ids]
 
     # Load photon energy distributions from activation calculation
-    with open('activation/sources.pkl', 'rb') as fh:
+    with open(output_dir / 'sources.pkl', 'rb') as fh:
         energy_dists = dill.load(fh)
 
     # Load bounding box information
@@ -300,7 +305,8 @@ if __name__ == '__main__':
     parser.add_argument('-n', '--model-neutron', type=Path, default='fng_neutron.xml')
     parser.add_argument('-p', '--model-photon', type=Path, default='fng_photon.xml')
     parser.add_argument('-o', '--operator', choices=('coupled', 'independent'), default='independent')
-    parser.add_argument('-d', '--dose-function', type=str, choices=('ans1977', 'icrp74', 'icrp116', 'ethan'), default='ans1977')
+    parser.add_argument('-f', '--dose-function', type=str, choices=('ans1977', 'icrp74', 'icrp116', 'ethan'), default='ans1977')
+    parser.add_argument('-d', '--directory', type=Path, default=Path('results'))
     parser.add_argument('cooling_times', type=int, nargs='*', default=cooling_times)
 
     # Execution options
@@ -323,11 +329,11 @@ if __name__ == '__main__':
 
     # Step 1: Run neutron transport and activation
     if args.run_activation:
-        activation(args.model_neutron, args.operator)
+        activation(args.model_neutron, args.operator, args.directory)
 
     # Step 2: Run photon transport for dose
     if args.run_photon:
         for time in args.cooling_times:
             if time not in cooling_times:
                 raise ValueError(f"Invalid cooling time: {time}")
-            photon_calculation(args.model_photon, time, args.dose_function)
+            photon_calculation(args.model_photon, time, args.dose_function, args.directory)
