@@ -2,7 +2,6 @@
 
 ## Preprocessing steps
 
-- Run `generate_settings.py` to produce neutron source in settings.xml
 - Run `r2s.py --run-volume-calc` to calculate volume for each activation cell
   (written to cell_volumes.json)
 - Run `reduce_chain.py` to create a reduced depletion chain (in the future,

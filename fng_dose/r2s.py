@@ -4,6 +4,7 @@ from math import pi
 from pathlib import Path
 import warnings
 
+import h5py
 import openmc.deplete
 import openmc
 import dill
@@ -79,8 +80,51 @@ def apply_volumes(model, filename='cell_volumes.json', material=False):
         model.materials.clear()
 
 
-def activation(model: Path, operator_type: str, output_dir: Path):
-    model = openmc.Model.from_model_xml(model)
+def fng_tabulated_source():
+    # Load tabulated source data generated from compiled source
+    with h5py.File('source_data.h5') as fh:
+        energies = fh['energy_bins'][()]  # (3001,)
+        thetas = fh['theta_bins'][()]     # (361,)
+        yield_data = fh['yields'][()]     # (360, 3000)
+
+    # Compute mu = cos(theta)
+    cos_theta = np.cos(thetas)
+
+    # Yield corresponding to each angle (summed over energies)
+    intensity = yield_data.sum(axis=1)
+
+    yields = []
+    for i in range(intensity.size):
+        yield_i = np.concatenate([yield_data[i], [0.0]])
+        yields.append(openmc.stats.Tabular(energies, yield_i))
+
+    sources = []
+    for i, (mu_high, mu_low) in enumerate(zip(cos_theta[:-1], cos_theta[1:])):
+        mu_dist = openmc.stats.Uniform(mu_low, mu_high)
+        phi_dist = openmc.stats.Uniform(0., 2*pi)
+        angle_dist = openmc.stats.PolarAzimuthal(
+            mu_dist,
+            phi_dist,
+            reference_uvw=(0.0, 1.0, 0.0),
+        )
+        energy_dist = yields[i]
+
+        # Create source for each angle
+        source = openmc.IndependentSource(
+            angle=angle_dist,
+            energy=energy_dist,
+            strength=intensity[i]
+        )
+        sources.append(source)
+
+    return sources
+
+
+def activation(path_model: Path, operator_type: str, output_dir: Path):
+    model = openmc.Model.from_model_xml(path_model)
+
+    # Apply FNG source
+    model.settings.source = fng_tabulated_source()
 
     schedule = 'campaign1'
 
