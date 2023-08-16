@@ -30,7 +30,7 @@ def main():
     # Instantiate Model object
     model = openmc.Model()
 
-    # define materials
+    # Define materials
 
     # cu
     mat_1 = openmc.Material(material_id=1, name="cu")
