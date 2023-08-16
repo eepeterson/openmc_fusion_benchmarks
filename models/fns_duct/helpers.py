@@ -5,7 +5,7 @@ import os
 
 import openmc
 
-# data necessary for postprocessing
+# Data necessary for postprocessing
 # reaction rate simulations
 # openmc model foil cell id per group
 _foil_cells = [301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311]
