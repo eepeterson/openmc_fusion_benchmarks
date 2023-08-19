@@ -14,9 +14,9 @@ source.energy = openmc.stats.Discrete([14.1e6], [1])
 source.space = openmc.stats.Point((0, 0.001, 0))
 settings.source = source
 
-wws = openmc.wwinp_to_wws('fng_dose.fwcadis.wwinp')
-settings.weight_windows = wws
-settings.weight_windows_on = True
+#wws = openmc.wwinp_to_wws('fng_dose.fwcadis.wwinp')
+#settings.weight_windows = wws
+#settings.weight_windows_on = True
 
 model.settings = settings
 
