@@ -236,8 +236,7 @@ def get_dose(statepoint_file):
     kg = g_per_cm3*cm3 * 1e-3
 
     with openmc.StatePoint(statepoint_file) as sp:
-        tallies = list(sp.tallies.values())
-        flux_tally, heating_tally = tallies
+        flux_tally = list(sp.tallies.values())[0]
 
     # Calculate dose using flux-to-dose conversion factor
     mean = flux_tally.mean.ravel()[0]
@@ -246,17 +245,6 @@ def get_dose(statepoint_file):
     pSv_per_sec = pSv_cm3_per_sec / cm3
     Sv_per_h = pSv_per_sec * 1e-12 * 3600.
     return Sv_per_h
-
-    """
-    # Calculate dose using energy deposition directly
-    mean = heating_tally.mean.ravel()[0]
-    stdev = heating_tally.std_dev.ravel()[0]
-    eV_per_sec = ufloat(mean, stdev)
-    J_per_eV = 1.602176634e-19
-    J_per_kg_per_sec = eV_per_sec / kg * J_per_eV
-    Sv_per_h_energy = J_per_kg_per_sec * 3600.
-    print(f'Dose rate (Edep) = {Sv_per_h_energy} Sv/h')
-    """
 
 
 def generate_photon_sources(model, cooling_time: int, output_dir: Path):
@@ -291,18 +279,7 @@ def generate_photon_sources(model, cooling_time: int, output_dir: Path):
 
 def generate_dose_tallies(model: openmc.Model, dose_function: str):
     # Set dose function
-    if dose_function == 'ethan':
-        energies = 1e6*np.array([
-            0.001, 0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.08, 0.1, 0.15, 0.2, 0.3,
-            0.4, 0.5, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0
-        ])
-        # Values are mrem-cm²
-        pSv_cm2 = 1e12 * 1e-5 * np.array([
-            7.43e-07, 3.12e-07,1.68e-07,7.21e-08,4.29e-08,3.23e-08,2.89e-08,3.07e-08,
-            3.71e-08,5.99e-08,8.56e-08, 1.38e-07,1.893e-07,2.38e-07,2.84e-07,3.69e-07,4.47e-07,
-            6.14e-07,7.55e-07,9.96e-07,1.21e-06,1.41e-06,1.61e-06,2.01e-06,2.4e-06,2.4e-06
-        ])
-    elif dose_function == 'ans1977':
+    if dose_function == 'ans1977':
         energies = 1e6*np.array([
             0.01, 0.03, 0.05, 0.07, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5,
             0.55, 0.6, 0.65, 0.7, 0.8, 1.0, 1.4, 1.8, 2.2, 2.6, 2.8, 3.25, 3.75, 4.25,
@@ -335,12 +312,7 @@ def generate_dose_tallies(model: openmc.Model, dose_function: str):
     flux_tally.filters = [cell_filter, dose_filter, particle_filter]
     flux_tally.scores = ['flux']
 
-    # Dose based on energy deposition
-    heating_tally = openmc.Tally()
-    heating_tally.filters = [cell_filter]
-    heating_tally.scores = ['heating']
-
-    model.tallies = openmc.Tallies([flux_tally, heating_tally])
+    model.tallies = openmc.Tallies([flux_tally])
 
 
 if __name__ == '__main__':
@@ -350,7 +322,7 @@ if __name__ == '__main__':
     parser.add_argument('-n', '--model-neutron', type=Path, default='fng_neutron.xml')
     parser.add_argument('-p', '--model-photon', type=Path, default='fng_photon.xml')
     parser.add_argument('-o', '--operator', choices=('coupled', 'independent'), default='independent')
-    parser.add_argument('-f', '--dose-function', type=str, choices=('ans1977', 'icrp74', 'icrp116', 'ethan'), default='ans1977')
+    parser.add_argument('-f', '--dose-function', type=str, choices=('ans1977', 'icrp74', 'icrp116'), default='ans1977')
     parser.add_argument('-d', '--directory', type=Path, default=Path('results'))
 
     # Execution options
