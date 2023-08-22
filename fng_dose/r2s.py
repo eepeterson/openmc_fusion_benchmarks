@@ -9,7 +9,7 @@ import openmc.deplete
 import openmc
 import dill
 import numpy as np
-from uncertainties import ufloat
+from uncertainties import ufloat, UFloat
 
 
 # Set cross sections
@@ -215,23 +215,31 @@ def activation(path_model: Path, campaign: str, operator_type: str, output_dir: 
         dill.dump(sources, fh)
 
 
-def photon_calculation(path_model: Path, cooling_time, dose_function: str, output_dir: Path):
+def photon_calculation(path_model: Path, campaign: str, dose_function: str, output_dir: Path):
     # Get Model object and add source and tallies
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", openmc.IDWarning)
         model = openmc.Model.from_model_xml(path_model)
-    generate_photon_sources(model, cooling_time, output_dir)
-    generate_dose_tallies(model, dose_function)
 
-    # Run OpenMC and compute dose
-    intensity = sum(s.strength for s in model.settings.source)
-    print(f'Photon transport calculation ({cooling_time}), source = {intensity:.3e} γ/s ...')
-    sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}')
-    Sv_per_h = get_dose(sp_filename)
-    print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
+    num_cooling_times = 17 if campaign == 1 else 19
+    dose_values = []
+    for cooling_time in range(num_cooling_times):
+        generate_photon_sources(model, cooling_time, output_dir)
+        generate_dose_tallies(model, dose_function)
+
+        # Run OpenMC and compute dose
+        intensity = sum(s.strength for s in model.settings.source)
+        print(f'Photon transport calculation ({cooling_time}), source = {intensity:.3e} γ/s ...')
+        sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}')
+        Sv_per_h = get_dose(sp_filename)
+        print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
+        dose_values.append((Sv_per_h.nominal_value, Sv_per_h.std_dev))
+
+    # Save dose values to numpy file
+    np.save(output_dir / 'dose.npy', dose_values)
 
 
-def get_dose(statepoint_file):
+def get_dose(statepoint_file) -> UFloat:
     # Get volume of cell 651 (radius of 1.9 cm)
     r = 1.9
     cm3 = 4/3 * pi * r**3
@@ -352,7 +360,4 @@ if __name__ == '__main__':
 
     # Step 2: Run photon transport for dose
     if args.run_photon:
-        num_cooling_times = 17 if args.campaign == 1 else 19
-
-        for time in range(num_cooling_times):
-            photon_calculation(args.model_photon, time, args.dose_function, args.directory)
+        photon_calculation(args.model_photon, args.campaign, args.dose_function, args.directory)
