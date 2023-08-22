@@ -178,6 +178,9 @@ def activation(path_model: Path, campaign: str, operator_type: str, output_dir: 
             activation_mats.append(mat)
             activation_mat_by_id[cell.id] = mat
 
+        # Save a copy of activation model
+        model.export_to_model_xml(output_dir / 'activation_model.xml')
+
         # Create transport operator
         op = openmc.deplete.IndependentOperator(
             activation_mats, fluxes, micros, normalization_mode='source-rate')
@@ -223,7 +226,7 @@ def photon_calculation(path_model: Path, cooling_time, dose_function: str, outpu
     # Run OpenMC and compute dose
     intensity = sum(s.strength for s in model.settings.source)
     print(f'Photon transport calculation ({cooling_time}), source = {intensity:.3e} γ/s ...')
-    sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}d')
+    sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}')
     Sv_per_h = get_dose(sp_filename)
     print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
 
