@@ -120,34 +120,36 @@ def fng_tabulated_source():
     return sources
 
 
-def activation(path_model: Path, operator_type: str, output_dir: Path):
+def activation(path_model: Path, campaign: str, operator_type: str, output_dir: Path):
     model = openmc.Model.from_model_xml(path_model)
 
     # Apply FNG source
     model.settings.source = fng_tabulated_source()
 
-    schedule = 'campaign1'
-
-    if schedule == 'campaign1':
-        day = 24*3600
-        source_rates = [
-            2.32e10, 0.0, 2.87e10, 0.0, 1.90e10, 0.0, 1.36e10,
-            0.0, 0.0, 0.0, 0.0, 0.0
+    if campaign == 1:
+        hour = 3600.0
+        day = 24*hour
+        source_rates = [2.32e10, 0.0, 2.87e10, 0.0, 1.90e10, 0.0, 1.36e10]
+        source_times = [19440., 61680., 32940., 54840., 15720., 6360., 8940.]
+        cooling_times_cumulative = [
+            1*hour, 12*hour, 16*hour, 20*hour, 1*day, 2*day, 3*day, 4*day,
+            5*day, 7*day, 9*day, 12*day, 15*day, 18*day, 21*day, 30*day, 60*day
         ]
-        timesteps = [
-            19440., 61680., 32940., 54840., 15720., 6360., 8940.,
-            1*day, 6*day, 8*day, 15*day, 30*day
-        ]
-    elif schedule == 'campaign2':
+    elif campaign == 2:
         sources = [5.31e14, 3.35e14, 0., 9.50e14, 0., 1.29e14, 0., 4.0e12]
-        timesteps = [17480., 7820., 54140., 22140., 900., 3820., 420., 140.]
-        source_rates = np.array(sources) / np.array(timesteps)
-    elif schedule == 'eff726':
-        # Cooling time of 1 min
-        source_rates = [1.0e11, 0.0]
-        timesteps = [1e4, 60.0]
+        source_times = [17480., 7820., 54140., 22140., 900., 3820., 420., 140.]
+        source_rates = [s/t for s, t in zip(sources, source_times)]
+        cooling_times_cumulative = [
+            4380., 6180., 7488., 11580., 17280., 24480., 34080., 45780., 57240.,
+            72550., 90720., 132000., 212400., 345600., 479300., 708500.,
+            1050000., 1670000., 1710000.
+        ]
     else:
-        raise ValueError("Invalid schedule")
+        raise ValueError("Invalid FNG irradiation campaign")
+
+    source_rates.extend([0.0]*len(cooling_times_cumulative))
+    cooling_times = list(np.diff(cooling_times_cumulative, prepend=0.0))
+    timesteps = source_times + cooling_times
 
     # Get list of cells for activation
     all_cells = model.geometry.get_all_cells()
@@ -199,12 +201,12 @@ def activation(path_model: Path, operator_type: str, output_dir: Path):
 
     sources = {}
     results = openmc.deplete.Results(op.output_dir / 'depletion_results.h5')
-    for i_cool, cooling_time in enumerate([1, 7, 15, 30, 60]):
-        sources[cooling_time] = {}
+    for i_cool, time in enumerate(cooling_times):
+        sources[i_cool] = {}
         for uid in dose_cell_ids:
             mat_id = activation_mat_by_id[all_cells[uid].id].id
             mat = results[8+i_cool].get_material(str(mat_id))
-            sources[cooling_time][uid] = mat.decay_photon_energy
+            sources[i_cool][uid] = mat.decay_photon_energy
 
     with open(op.output_dir / 'sources.pkl', 'wb') as fh:
         dill.dump(sources, fh)
@@ -220,7 +222,7 @@ def photon_calculation(path_model: Path, cooling_time, dose_function: str, outpu
 
     # Run OpenMC and compute dose
     intensity = sum(s.strength for s in model.settings.source)
-    print(f'Photon transport calculation at {cooling_time} d, source = {intensity:.3e} γ/s ...')
+    print(f'Photon transport calculation ({cooling_time}), source = {intensity:.3e} γ/s ...')
     sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}d')
     Sv_per_h = get_dose(sp_filename)
     print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
@@ -342,16 +344,14 @@ def generate_dose_tallies(model: openmc.Model, dose_function: str):
 
 
 if __name__ == '__main__':
-    cooling_times = [1, 7, 15, 30, 60]
-
     # General configuration
     parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--campaign', type=int, choices=(1, 2), default=1)
     parser.add_argument('-n', '--model-neutron', type=Path, default='fng_neutron.xml')
     parser.add_argument('-p', '--model-photon', type=Path, default='fng_photon.xml')
     parser.add_argument('-o', '--operator', choices=('coupled', 'independent'), default='independent')
     parser.add_argument('-f', '--dose-function', type=str, choices=('ans1977', 'icrp74', 'icrp116', 'ethan'), default='ans1977')
     parser.add_argument('-d', '--directory', type=Path, default=Path('results'))
-    parser.add_argument('cooling_times', type=int, nargs='*', default=cooling_times)
 
     # Execution options
     parser.add_argument('--run-volume-calc', action='store_true')
@@ -373,11 +373,11 @@ if __name__ == '__main__':
 
     # Step 1: Run neutron transport and activation
     if args.run_activation:
-        activation(args.model_neutron, args.operator, args.directory)
+        activation(args.model_neutron, args.campaign, args.operator, args.directory)
 
     # Step 2: Run photon transport for dose
     if args.run_photon:
-        for time in args.cooling_times:
-            if time not in cooling_times:
-                raise ValueError(f"Invalid cooling time: {time}")
+        num_cooling_times = 17 if args.campaign == 1 else 19
+
+        for time in range(num_cooling_times):
             photon_calculation(args.model_photon, time, args.dose_function, args.directory)
