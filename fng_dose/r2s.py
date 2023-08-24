@@ -18,6 +18,13 @@ openmc.config['cross_sections'] = '/opt/data/hdf5/endfb-viii.0-hdf5/cross_sectio
 # Set chain for depletion / decay source generation
 openmc.config['chain_file'] = 'chain_reduced.xml'
 
+# Run arguments
+nodes = 8
+run_kwargs = {
+    #'mpi_args': ['srun', '-N', f'{nodes}', '-n', f'{nodes*2}', '--cpu-bind=socket']
+}
+
+
 # TODO: Replace with activation_cells.json?
 inner_cell_ids = [
     160, 161, 173, 174, 175, 176, 177, 178, 179, 226, 228, 230, 239, 240, 242,
@@ -158,7 +165,8 @@ def activation(model: openmc.Model, campaign: str, operator_type: str, output_di
         apply_volumes(model, material=False)
 
         # Get fluxes and micros based on cells
-        fluxes, micros = openmc.deplete.get_microxs_and_flux(model, cells)
+        fluxes, micros = openmc.deplete.get_microxs_and_flux(
+            model, cells, run_kwargs=run_kwargs)
 
         output_dir.mkdir(exist_ok=True)
         np.save(output_dir / 'fluxes.npy', fluxes)
@@ -223,7 +231,7 @@ def get_nickel_foil_rr(model: openmc.Model, output_dir: Path):
     nickel_foil_tally.multiply_density = False
 
     model.tallies = [nickel_foil_tally]
-    model.run(cwd=output_dir / 'nickel_foil_rr')
+    model.run(cwd=output_dir / 'nickel_foil_rr', **run_kwargs)
 
 
 def photon_calculation(path_model: Path, campaign: str, dose_function: str, output_dir: Path):
@@ -241,7 +249,8 @@ def photon_calculation(path_model: Path, campaign: str, dose_function: str, outp
         # Run OpenMC and compute dose
         intensity = sum(s.strength for s in model.settings.source)
         print(f'Photon transport calculation ({cooling_time}), source = {intensity:.3e} γ/s ...')
-        sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}')
+        sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}',
+                                **run_kwargs)
         Sv_per_h = get_dose(sp_filename)
         print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
         dose_values.append((Sv_per_h.nominal_value, Sv_per_h.std_dev))
