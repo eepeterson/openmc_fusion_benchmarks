@@ -120,9 +120,7 @@ def fng_tabulated_source():
     return sources
 
 
-def activation(path_model: Path, campaign: str, operator_type: str, output_dir: Path):
-    model = openmc.Model.from_model_xml(path_model)
-
+def activation(model: openmc.Model, campaign: str, operator_type: str, output_dir: Path):
     # Apply FNG source
     model.settings.source = fng_tabulated_source()
 
@@ -213,6 +211,19 @@ def activation(path_model: Path, campaign: str, operator_type: str, output_dir: 
 
     with open(op.output_dir / 'sources.pkl', 'wb') as fh:
         dill.dump(sources, fh)
+
+
+def get_nickel_foil_rr(model: openmc.Model, output_dir: Path):
+    # Add reaction rates in Ni58
+    nickel_foil_tally = openmc.Tally()
+    foil_cells = [602, 604, 608, 606, 605, 603]
+    nickel_foil_tally.filters = [openmc.CellFilter(foil_cells)]
+    nickel_foil_tally.nuclides = ['Ni58']
+    nickel_foil_tally.scores = ['(n,2n)', '(n,p)']
+    nickel_foil_tally.multiply_density = False
+
+    model.tallies = [nickel_foil_tally]
+    model.run(cwd=output_dir / 'nickel_foil_rr')
 
 
 def photon_calculation(path_model: Path, campaign: str, dose_function: str, output_dir: Path):
@@ -356,7 +367,11 @@ if __name__ == '__main__':
 
     # Step 1: Run neutron transport and activation
     if args.run_activation:
-        activation(args.model_neutron, args.campaign, args.operator, args.directory)
+        neutron_model = openmc.Model.from_model_xml(args.model_neutron)
+        activation(neutron_model, args.campaign, args.operator, args.directory)
+
+        # Run second calculation to reaction rates in Ni foils
+        get_nickel_foil_rr(neutron_model, args.directory)
 
     # Step 2: Run photon transport for dose
     if args.run_photon:
