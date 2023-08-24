@@ -137,7 +137,7 @@ def activation(model: openmc.Model, campaign: str, operator_type: str, output_di
         source_rates = [2.32e10, 0.0, 2.87e10, 0.0, 1.90e10, 0.0, 1.36e10]
         source_times = [19440., 61680., 32940., 54840., 15720., 6360., 8940.]
         cooling_times_cumulative = [
-            1*hour, 12*hour, 16*hour, 20*hour, 1*day, 2*day, 3*day, 4*day,
+            1*hour, 6*hour, 12*hour, 16*hour, 20*hour, 1*day, 2*day, 3*day, 4*day,
             5*day, 7*day, 9*day, 12*day, 15*day, 18*day, 21*day, 30*day, 60*day
         ]
     elif campaign == 2:
@@ -240,7 +240,7 @@ def photon_calculation(path_model: Path, campaign: str, dose_function: str, outp
         warnings.simplefilter("ignore", openmc.IDWarning)
         model = openmc.Model.from_model_xml(path_model)
 
-    num_cooling_times = 17 if campaign == 1 else 19
+    num_cooling_times = 18 if campaign == 1 else 19
     dose_values = []
     for cooling_time in range(num_cooling_times):
         generate_photon_sources(model, cooling_time, output_dir)
