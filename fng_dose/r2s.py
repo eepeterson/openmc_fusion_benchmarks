@@ -325,6 +325,7 @@ def generate_dose_tallies(model: openmc.Model, dose_function: str):
             7.11e-6, 7.66e-6, 8.77e-6, 1.03e-5, 1.18e-5, 1.33e-5
         ])
     elif dose_function == 'icrp74':
+        # From Table A.21
         energies = 1e6*np.array([
             0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.08, 0.1, 0.15, 0.2,
             0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0
