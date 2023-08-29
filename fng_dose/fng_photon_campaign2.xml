@@ -63,6 +63,12 @@
       <nuclide ao="0.4713202252" name="C12"/>
       <nuclide ao="0.0052797747999999995" name="C13"/>
     </material>
+    <material id="7" name="Liquid scintillator">
+      <density units="g/cm3" value="0.874"/>
+      <nuclide ao="0.548" name="H1"/>
+      <nuclide ao="0.446992744" name="C12"/>
+      <nuclide ao="0.005007256" name="C13"/>
+    </material>
     <material id="9">
       <density units="g/cm3" value="7.954"/>
       <nuclide name="B10" wo="0.0004"/>
@@ -309,7 +315,7 @@
     <cell id="181" material="10" region="96 -113 204 -205 (303 | -304 | 306)" universe="0"/>
     <cell id="182" material="10" region="96 -113 205 -206 (303 | -304 | 306)" universe="0"/>
     <cell id="226" material="1" region="126 -114 -201" universe="0"/>
-    <cell id="227" material="4" region="91 -5 -127 128 -129 306 (499 | -500 | 501) (302 | -353 | 5) (348 | -353 | 5) (349 | -353 | 5) (348 | 354 | -91) (349 | 354 | -91) (350 | -355 | 129)" universe="0"/>
+    <cell id="227" material="4" region="91 -5 -127 128 -129 306 (499 | -500 | 501) (502 | -503 | 504) (302 | -353 | 5) (348 | -353 | 5) (349 | -353 | 5) (348 | 354 | -91) (349 | 354 | -91) (350 | -355 | 129)" universe="0"/>
     <cell id="228" material="1" region="126 201 -114 -303 304 -305 306" universe="0"/>
     <cell id="229" material="1" region="107 -113 -202 (303 | -304)" universe="0"/>
     <cell id="230" material="10" region="91 -96 306 -203 200 (303 | -304 | 305)" universe="0"/>
@@ -478,6 +484,7 @@
     <cell id="649" material="4" region="113 -5 209 -210 -306 304 -303" universe="0"/>
     <cell id="650" material="4" region="113 -5 210 304 -303 92 -306 94 -95" universe="0"/>
     <cell id="651" material="6" region="-499 500 -501" universe="0"/>
+    <cell id="652" material="7" region="-502 503 -504" universe="0"/>
     <surface coeffs="0.0" id="1" type="y-plane"/>
     <surface coeffs="0.1" id="2" type="y-plane"/>
     <surface coeffs="0.2" id="3" type="y-plane"/>
@@ -599,9 +606,12 @@
     <surface coeffs="40.17" id="353" type="y-plane"/>
     <surface coeffs="28.37" id="354" type="y-plane"/>
     <surface coeffs="7.1" id="355" type="x-plane"/>
-    <surface coeffs="-0.25 34.27 2.3" id="499" type="z-cylinder"/>
-    <surface coeffs="-2.3" id="500" type="z-plane"/>
-    <surface coeffs="2.3" id="501" type="z-plane"/>
+    <surface coeffs="34.27 -2.6 2.3" id="499" type="x-cylinder"/>
+    <surface coeffs="-2.3" id="500" type="x-plane"/>
+    <surface coeffs="2.3" id="501" type="x-plane"/>
+    <surface coeffs="34.27 2.6 1.9" id="502" type="x-cylinder"/>
+    <surface coeffs="-1.9" id="503" type="x-plane"/>
+    <surface coeffs="1.9" id="504" type="x-plane"/>
   </geometry>
   <settings>
     <run_mode>fixed source</run_mode>

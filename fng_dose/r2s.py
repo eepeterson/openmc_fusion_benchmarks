@@ -127,7 +127,7 @@ def fng_tabulated_source():
     return sources
 
 
-def activation(model: openmc.Model, campaign: str, operator_type: str, output_dir: Path):
+def activation(model: openmc.Model, campaign: int, operator_type: str, output_dir: Path):
     # Apply FNG source
     model.settings.source = fng_tabulated_source()
 
@@ -234,7 +234,7 @@ def get_nickel_foil_rr(model: openmc.Model, output_dir: Path):
     model.run(cwd=output_dir / 'nickel_foil_rr', **run_kwargs)
 
 
-def photon_calculation(path_model: Path, campaign: str, dose_function: str, output_dir: Path):
+def photon_calculation(path_model: Path, campaign: int, dose_function: str, output_dir: Path):
     # Get Model object and add source and tallies
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", openmc.IDWarning)
@@ -251,7 +251,7 @@ def photon_calculation(path_model: Path, campaign: str, dose_function: str, outp
         print(f'Photon transport calculation ({cooling_time}), source = {intensity:.3e} γ/s ...')
         sp_filename = model.run(output=False, cwd=output_dir / f'photon_{cooling_time}',
                                 **run_kwargs)
-        Sv_per_h = get_dose(sp_filename)
+        Sv_per_h = get_dose(sp_filename, campaign)
         print(f'Dose rate (flux) = {Sv_per_h} Sv/h')
         dose_values.append((Sv_per_h.nominal_value, Sv_per_h.std_dev))
 
@@ -259,12 +259,15 @@ def photon_calculation(path_model: Path, campaign: str, dose_function: str, outp
     np.save(output_dir / 'dose.npy', dose_values)
 
 
-def get_dose(statepoint_file) -> UFloat:
-    # Get volume of cell 651 (radius of 1.9 cm)
-    r = 1.9
-    cm3 = 4/3 * pi * r**3
-    g_per_cm3 = 0.0011050927231898923
-    kg = g_per_cm3*cm3 * 1e-3
+def get_dose(statepoint_file, campaign: int) -> UFloat:
+    if campaign == 1:
+        # Get volume of G-M dose meter (radius of 1.9 cm)
+        r = 1.9
+        cm3 = 4/3 * pi * r**3
+    else:
+        # Get volume of tissue-equivalent scintillator
+        d = h = 4.6
+        cm3 = pi * (d/2)**2 * h
 
     with openmc.StatePoint(statepoint_file) as sp:
         flux_tally = list(sp.tallies.values())[0]
