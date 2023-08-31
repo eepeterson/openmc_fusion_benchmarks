@@ -606,12 +606,12 @@
     <surface coeffs="40.17" id="353" type="y-plane"/>
     <surface coeffs="28.37" id="354" type="y-plane"/>
     <surface coeffs="7.1" id="355" type="x-plane"/>
-    <surface coeffs="34.27 -2.6 2.3" id="499" type="x-cylinder"/>
-    <surface coeffs="-2.3" id="500" type="x-plane"/>
-    <surface coeffs="2.3" id="501" type="x-plane"/>
-    <surface coeffs="34.27 2.6 1.9" id="502" type="x-cylinder"/>
-    <surface coeffs="-1.9" id="503" type="x-plane"/>
-    <surface coeffs="1.9" id="504" type="x-plane"/>
+    <surface coeffs="34.27 -2.705 2.3" id="499" type="x-cylinder"/>
+    <surface coeffs="-2.55" id="500" type="x-plane"/>
+    <surface coeffs="2.05" id="501" type="x-plane"/>
+    <surface coeffs="34.27 2.705 1.9" id="502" type="x-cylinder"/>
+    <surface coeffs="-2.15" id="503" type="x-plane"/>
+    <surface coeffs="1.65" id="504" type="x-plane"/>
   </geometry>
   <settings>
     <run_mode>fixed source</run_mode>
