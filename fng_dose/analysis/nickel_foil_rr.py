@@ -9,12 +9,11 @@ import openmc
 from prettytable import PrettyTable
 from uncertainties import ufloat
 
-mpl.rcParams['axes.labelsize'] = 'large'
 mpl.rcParams['axes.axisbelow'] = True
 mpl.rcParams['font.family'] = 'serif'
-mpl.rcParams['pdf.use14corefonts'] = True
-mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['font.size'] = 12.0
+mpl.rcParams['pdf.fonttype'] = 42
+mpl.rcParams['savefig.bbox'] = 'tight'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('statepoint')
