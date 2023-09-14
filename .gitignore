@@ -5,7 +5,7 @@
 *.out
 *.pkl
 summary.*
-statepoint*
+statepoint.*
 
 # Compiler python objects
 *.pyc
