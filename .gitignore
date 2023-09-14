@@ -4,6 +4,8 @@
 *.log
 *.out
 *.pkl
+summary.*
+statepoint*
 
 # Compiler python objects
 *.pyc
