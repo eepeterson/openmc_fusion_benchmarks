@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openmc_fusion_benchmark"
+version = "0.0.1"
+authors = [
+  { name="Stefano Segantin", email="segantin@psfc.mit.edu" }
+]
+description = "V&V of openmc for nuclear fusion applications"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "openmc",
+    "numpy"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/eepeterson/openmc_sinbad_benchmarks"
+"Bug Tracker" = "https://github.com/eepeterson/openmc_sinbad_benchmarks/issues"

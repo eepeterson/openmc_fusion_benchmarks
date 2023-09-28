@@ -1,7 +1,7 @@
 import openmc
 
 
-def cross_section(irdff_file_path, mt):
+def cross_section(irdff_file_path: str):
     """Generates cross section data from IRDFF-II files
     from this discussion ad related notebook:
     https://openmc.discourse.group/t/using-irdff-ii-cross-section-data-in-openmc/1950
@@ -19,8 +19,8 @@ def cross_section(irdff_file_path, mt):
     lmt = jxs[3]
     nmt = nxs[4]
     lxs = jxs[6]
-    mts = xss[lmt : lmt + nmt].astype(int)
-    locators = xss[lxs : lxs + nmt].astype(int)
+    mts = xss[lmt: lmt + nmt].astype(int)
+    locators = xss[lxs: lxs + nmt].astype(int)
 
     # Create dictionary mapping MT to Tabulated1D object
     cross_sections = {}
@@ -31,16 +31,17 @@ def cross_section(irdff_file_path, mt):
             breakpoints = None
             interpolation = None
         else:
-            breakpoints = xss[jxs[7] + loca : jxs[7] + loca + nr].astype(int)
-            interpolation = xss[jxs[7] + loca + nr : jxs[7] + loca + 2 * nr].astype(int)
+            breakpoints = xss[jxs[7] + loca: jxs[7] + loca + nr].astype(int)
+            interpolation = xss[jxs[7] + loca +
+                                nr: jxs[7] + loca + 2 * nr].astype(int)
 
         # Determine number of energies in reaction
         ne = int(xss[jxs[7] + loca + 2 * nr])
 
         # Read reaction cross section
         start = jxs[7] + loca + 1 + 2 * nr
-        energy = xss[start : start + ne] * 1e6
-        xs = xss[start + ne : start + 2 * ne]
+        energy = xss[start: start + ne] * 1e6
+        xs = xss[start + ne: start + 2 * ne]
 
         cross_sections[mt] = openmc.data.Tabulated1D(
             energy, xs, breakpoints, interpolation
