@@ -3,8 +3,8 @@ import numpy as np
 import argparse
 
 import openmc
-from benchmark_tools import from_irdff as irdff
-from benchmark_tools import fng_source_froutine
+from openmc_sinbad_benchmarks import from_irdff as irdff
+from openmc_sinbad_benchmarks.neutrons_sources import fng_source
 
 
 def _parse_args():

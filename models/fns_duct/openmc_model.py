@@ -3,8 +3,8 @@ import numpy as np
 import argparse
 
 import openmc
-from benchmark_tools import from_irdff as irdff
-from benchmark_tools import fng_source_froutine
+from openmc_sinbad_benchmarks import from_irdff as irdff
+from openmc_sinbad_benchmarks.neutrons_sources import fng_source
 
 
 def _parse_args():
@@ -1653,8 +1653,7 @@ def main():
     settings.batches = args.batches
     settings.particles = args.particles
     # fng source
-    fng2fns_source = fng_source_froutine.fng_source(
-        center=(0, 0, 0), reference_uvw=(0, 1, 0))
+    fng2fns_source = fng_source(center=(0, 0, 0), reference_uvw=(0, 1, 0))
     settings.source = fng2fns_source
     settings.weight_windows = ww
     settings.output = {'tallies': False}
