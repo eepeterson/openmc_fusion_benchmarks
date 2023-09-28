@@ -2166,7 +2166,8 @@ def main():
 
     fng_uvw = (0., 1., 0)
 
-    fng_source = fng_source(center=fng_center, reference_uvw=fng_uvw)  # from routine
+    fng_source = fng_source(
+        center=fng_center, reference_uvw=fng_uvw)  # from routine
 
     # weight windows from wwinps
     ww = openmc.wwinp_to_wws(r"weight_windows.cadis.wwinp")
@@ -2208,7 +2209,7 @@ def main():
 
     else:
         # dosimetry tallies from IRDFF-II nuclear data library
-        irdff_path = r"../../IRDFF2_xs/"
+        irdff_path = r"../../src/data/irdff2_xs/"
         nb93_n2n_acef = irdff_path + "dos-irdff2-4125.acef"
         al27_na_acef = irdff_path + "dos-irdff2-1325.acef"
         ni58_np_acef = irdff_path + "dos-irdff2-2825_modified.acef"
