@@ -2170,7 +2170,7 @@ def main():
         center=fng_center, reference_uvw=fng_uvw)  # from routine
 
     # weight windows from wwinps
-    ww = openmc.wwinp_to_wws(r"fng_str_cadis.cadis.wwinp")
+    ww = openmc.wwinp_to_wws(r"weight_windows.cadis.wwinp")
 
     # settings
     settings = openmc.Settings(run_mode='fixed source')
