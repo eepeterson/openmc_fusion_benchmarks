@@ -2217,28 +2217,28 @@ def main():
 
         # Nb93 (n,2n) Nb92m from IRDFF-II
         tally101 = openmc.Tally(tally_id=101, name="nb93_irdff_rr")
-        nb93_n2n_irdff = irdff.cross_section(nb93_n2n_acef, 11016)
+        nb93_n2n_irdff = irdff.cross_section(nb93_n2n_acef)
         multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
             nb93_n2n_irdff[11016])
         tally101.filters = [detector_cell_filter, particle_filter, multiplier]
         tally101.scores = ["flux"]
         # Al27 (n,a) Na23 from IRDFF-II
         tally102 = openmc.Tally(tally_id=102, name="al27_irdff_rr")
-        al27_na_irdff = irdff.cross_section(al27_na_acef, 107)
+        al27_na_irdff = irdff.cross_section(al27_na_acef)
         multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
             al27_na_irdff[107])
         tally102.filters = [detector_cell_filter, particle_filter, multiplier]
         tally102.scores = ["flux"]
         # Ni58 (n,p) Co58 from IRDFF-II
         tally103 = openmc.Tally(tally_id=103, name="ni58_irdff_rr")
-        ni58_np_irdff = irdff.cross_section(ni58_np_acef, 103)
+        ni58_np_irdff = irdff.cross_section(ni58_np_acef)
         multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
             ni58_np_irdff[103])
         tally103.filters = [detector_cell_filter, particle_filter, multiplier]
         tally103.scores = ["flux"]
         # Au197 (n,gamma) Au198 from IRDFF-II
         tally104 = openmc.Tally(tally_id=104, name="au197_irdff_rr")
-        au197_ng_irdff = irdff.cross_section(au197_ng_acef, 102)
+        au197_ng_irdff = irdff.cross_section(au197_ng_acef)
         multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
             au197_ng_irdff[102])
         tally104.filters = [detector_cell_filter, particle_filter, multiplier]

@@ -10,7 +10,7 @@ from pathlib import Path
 def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1)):
     '''method for building the Frascati Neutron Generator source in OpenMC
     with data tabulated from the fortran->C++ routine
-    
+
     Parameters
     ----------
     center : coordinate position of the source (it is a point source)
@@ -22,7 +22,7 @@ def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1)):
     '''
 
     # read tabulated data
-    filename = str(Path(__file__).parent) + "/fng_from_routine.csv"
+    filename = str(Path(__file__).parent) + "/fng_characteristics.csv"
     fng_source_fr = np.loadtxt(filename, delimiter=",")
 
     # angular bins in [0, pi)
@@ -40,24 +40,23 @@ def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1)):
     phi = openmc.stats.Uniform(a=0, b=2*np.pi)
 
     all_sources = []
-    for i,angle in enumerate(pbins[:-1]):
+    for i, angle in enumerate(pbins[:-1]):
 
         mu = openmc.stats.Uniform(a=pbins[i+1], b=pbins[i])
 
         space = openmc.stats.Point(center)
-        angle = openmc.stats.PolarAzimuthal(mu=mu, phi=phi, reference_uvw=reference_uvw)
-        energy = openmc.stats.Tabular(evalues, fvalues[i], interpolation='linear-linear')
+        angle = openmc.stats.PolarAzimuthal(
+            mu=mu, phi=phi, reference_uvw=reference_uvw)
+        energy = openmc.stats.Tabular(
+            evalues, fvalues[i], interpolation='linear-linear')
         strength = yields[i]
 
-        my_source = openmc.Source(space=space, angle=angle, energy=energy, strength=strength, particle='neutron')
+        my_source = openmc.Source(
+            space=space, angle=angle, energy=energy, strength=strength, particle='neutron')
 
         all_sources.append(my_source)
 
-    
     return all_sources
 
 
 # %%
-
-
-
