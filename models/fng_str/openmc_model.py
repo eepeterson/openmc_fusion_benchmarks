@@ -2166,8 +2166,7 @@ def main():
 
     fng_uvw = (0., 1., 0)
 
-    fng_source = fng_source_froutine.fng_source(
-        center=fng_center, reference_uvw=fng_uvw)  # from routine
+    fng_source = fng_source(center=fng_center, reference_uvw=fng_uvw)  # from routine
 
     # weight windows from wwinps
     ww = openmc.wwinp_to_wws(r"weight_windows.cadis.wwinp")
