@@ -1883,7 +1883,7 @@ def main():
     )
 
     # dosimetry tallies from IRDFF-II nuclear data library
-    irdff_path = r"../../IRDFF2_xs/"
+    irdff_path = r"../../src/data/irdff2_xs/"
     nb93_n2n_acef = irdff_path + "dos-irdff2-4125.acef"
     in115_nn_acef = irdff_path + "dos-irdff2-4931.acef"
     au197_ng_acef = irdff_path + "dos-irdff2-7925_modified.acef"
