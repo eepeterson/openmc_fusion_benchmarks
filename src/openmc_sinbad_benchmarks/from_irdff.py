@@ -8,8 +8,7 @@ def cross_section(irdff_file_path: str):
 
     irdff_file_path: takes in a string with the path and the name of the .acef file
     specific for the nuclide in IRDFF-II nuclear data library
-
-    mt: reaction id of interest"""
+    """
     ace_table = openmc.data.ace.get_table(irdff_file_path)
     nxs = ace_table.nxs
     jxs = ace_table.jxs

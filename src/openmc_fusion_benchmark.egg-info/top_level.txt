@@ -1,5 +1,0 @@
-__init__
-data
-from_irdff
-neutron_sources
-xml_to_py

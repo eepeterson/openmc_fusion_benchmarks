@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "openmc_fusion_benchmark"
+name = "openmc_sinbad_benchmarks"
 version = "0.0.1"
 authors = [
   { name="Stefano Segantin", email="segantin@psfc.mit.edu" }
@@ -20,7 +20,6 @@ classifiers = [
 dependencies = [
     "openmc",
     "numpy",
-    "math",
     "pandas"
 ]
 

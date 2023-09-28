@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: openmc-fusion-benchmark
+Name: openmc-sinbad-benchmarks
 Version: 0.0.1
 Summary: V&V of openmc for nuclear fusion applications
 Author-email: Stefano Segantin <segantin@psfc.mit.edu>
@@ -13,6 +13,7 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: openmc
 Requires-Dist: numpy
+Requires-Dist: pandas
 
 # openmc_sinbad_benchmarks
 
