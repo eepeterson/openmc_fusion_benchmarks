@@ -4,3 +4,11 @@
 - add "result_database" folder in every model
 - write a "to h5"/"to database" for openmc results
 - from statepoint object one can get openmc version, n_particles, n_batches but NOT xs library
+
+## test
+
+## notebooks
+
+- how to navigate the .h5 files
+- how to generate a new .h5 
+- how to get code version/nuclear data file, where, when and DOI of experiment
