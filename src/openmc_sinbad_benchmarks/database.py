@@ -34,27 +34,42 @@ class ResultFromDatabase:
     @property
     def literature_info(self):
         with h5py.File(self.filename) as f:
-            return f.attrs['literature']
+            try:
+                return f.attrs['literature']
+            except KeyError:
+                return 'n/a'
 
     @property
     def when(self):
         with h5py.File(self.filename) as f:
-            return f.attrs['when']
+            try:
+                return f.attrs['when']
+            except KeyError:
+                return 'n/a'
 
     @property
     def where(self):
         with h5py.File(self.filename) as f:
-            return f.attrs['where']
+            try:
+                return f.attrs['where']
+            except KeyError:
+                return 'n/a'
 
     @property
     def code_version(self):
         with h5py.File(self.filename) as f:
-            return f.attrs['code_version']
+            try:
+                return f.attrs['code_version']
+            except KeyError:
+                return 'n/a'
 
     @property
     def xs_library(self):
         with h5py.File(self.filename) as f:
-            return f.attrs['xs_library']
+            try:
+                return f.attrs['xs_library']
+            except KeyError:
+                return 'n/a'
 
     @property
     def print_code_info(self):
