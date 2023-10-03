@@ -11,7 +11,7 @@ def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--batches", type=int, default=100)
-    parser.add_argument("-p", "--particles", type=int, default=10000)
+    parser.add_argument("-p", "--particles", type=int, default=int(1e7))
     parser.add_argument("-s", "--threads", type=int)
     group = parser.add_argument_group("tallies")
     group.add_argument('-r', '--reaction_rates_onaxis', action='store_true',
@@ -2195,56 +2195,58 @@ def main():
         ['neutron', 'photon', 'electron', 'positron'])
 
     # cell filters
-    detector_cell_filter = openmc.CellFilter([cell_135, cell_158, cell_181, cell_204, cell_605, cell_606, cell_607, cell_608,
-                                              cell_609, cell_610, cell_611, cell_612, cell_602, cell_603, cell_604, cell_239,
-                                              cell_262, cell_285, cell_308, cell_331, cell_363, cell_386, cell_398])
+    onaxis1_cell_filter = openmc.CellFilter([cell_135, cell_158, cell_181, cell_204, cell_602,
+                                            cell_239, cell_262, cell_285, cell_308, cell_331, cell_363, cell_386, cell_398])
+    onaxis2_cell_filter = openmc.CellFilter([cell_605, cell_606, cell_607, cell_608, cell_609,
+                                            cell_610, cell_611, cell_612, cell_602, cell_603, cell_604])
+    offaxis_cell_filter = openmc.CellFilter([cell_135, cell_158, cell_181, cell_204, cell_605, cell_606,
+                                            cell_607, cell_608, cell_609, cell_610, cell_611, cell_612, cell_602, cell_603, cell_604])
+
     heatdetector_cell_filter = openmc.CellFilter([cell_239, cell_262, cell_285, cell_308, cell_331, cell_363, cell_386, cell_398,
                                                   cell_500, cell_507, cell_514, cell_521])
 
-    if args.heating:
-        tally_h = openmc.Tally(tally_id=1, name='heating_dose')
-        tally_h.filters = [heatdetector_cell_filter, particle_filter]
-        tally_h.scores = ['heating']
-        model.tallies.append(tally_h)
+    nuclides = ['nb93', 'al27', 'ni58', 'au197']
 
-    else:
-        # dosimetry tallies from IRDFF-II nuclear data library
-        irdff_path = r"../../src/data/irdff2_xs/"
-        nb93_n2n_acef = irdff_path + "dos-irdff2-4125.acef"
-        al27_na_acef = irdff_path + "dos-irdff2-1325.acef"
-        ni58_np_acef = irdff_path + "dos-irdff2-2825_modified.acef"
-        au197_ng_acef = irdff_path + "dos-irdff2-7925_modified.acef"
+    # dosimetry tallies from IRDFF-II nuclear data library
+    nb93_n2n_acef = irdff.path + "dos-irdff2-4125.acef"
+    al27_na_acef = irdff.path + "dos-irdff2-1325.acef"
+    ni58_np_acef = irdff.path + "dos-irdff2-2825_modified.acef"
+    au197_ng_acef = irdff.path + "dos-irdff2-7925_modified.acef"
+    irdff_xs = [nb93_n2n_acef, al27_na_acef, ni58_np_acef, au197_ng_acef]
+    reactions = [11016, 107, 103, 102]
 
-        # Nb93 (n,2n) Nb92m from IRDFF-II
-        tally101 = openmc.Tally(tally_id=101, name="nb93_irdff_rr")
-        nb93_n2n_irdff = irdff.cross_section(nb93_n2n_acef)
+    # define tallies according to simulation type
+    if args.reaction_rates_onaxis:
+        for n, r, x in zip(nuclides, reactions, irdff_xs):
+            # onaxis1 tally
+            tally1 = openmc.Tally(name=f"rr_onaxis1_{n}")
+            nb93_n2n_irdff = irdff.cross_section(x)
+            multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+                nb93_n2n_irdff[r])
+            tally1.filters = [onaxis1_cell_filter, particle_filter, multiplier]
+            tally1.scores = ["flux"]
+            # onaxis2 tally
+            tally2 = openmc.Tally(name=f"rr_onaxis2_{n}")
+            nb93_n2n_irdff = irdff.cross_section(x)
+            multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+                nb93_n2n_irdff[r])
+            tally2.filters = [onaxis2_cell_filter, particle_filter, multiplier]
+            tally2.scores = ["flux"]
+            model.tallies.extend([tally1, tally2])
+    elif args.reaction_rates_offaxis:
+        # offaxis tally
+        tally = openmc.Tally(name=f"rr_offaxis_{n}")
+        nb93_n2n_irdff = irdff.cross_section(x)
         multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-            nb93_n2n_irdff[11016])
-        tally101.filters = [detector_cell_filter, particle_filter, multiplier]
-        tally101.scores = ["flux"]
-        # Al27 (n,a) Na23 from IRDFF-II
-        tally102 = openmc.Tally(tally_id=102, name="al27_irdff_rr")
-        al27_na_irdff = irdff.cross_section(al27_na_acef)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-            al27_na_irdff[107])
-        tally102.filters = [detector_cell_filter, particle_filter, multiplier]
-        tally102.scores = ["flux"]
-        # Ni58 (n,p) Co58 from IRDFF-II
-        tally103 = openmc.Tally(tally_id=103, name="ni58_irdff_rr")
-        ni58_np_irdff = irdff.cross_section(ni58_np_acef)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-            ni58_np_irdff[103])
-        tally103.filters = [detector_cell_filter, particle_filter, multiplier]
-        tally103.scores = ["flux"]
-        # Au197 (n,gamma) Au198 from IRDFF-II
-        tally104 = openmc.Tally(tally_id=104, name="au197_irdff_rr")
-        au197_ng_irdff = irdff.cross_section(au197_ng_acef)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-            au197_ng_irdff[102])
-        tally104.filters = [detector_cell_filter, particle_filter, multiplier]
-        tally104.scores = ["flux"]
-
-        model.tallies.extend([tally101, tally102, tally103, tally104])
+            nb93_n2n_irdff[r])
+        tally.filters = [offaxis_cell_filter, particle_filter, multiplier]
+        tally.scores = ["flux"]
+        model.tallies.append(tally)
+    elif args.heating:
+        tally = openmc.Tally(tally_id=1, name='nuclear_heating')
+        tally.filters = [heatdetector_cell_filter, particle_filter]
+        tally.scores = ['heating']
+        model.tallies.append(tally)
 
     # define the folder names for storing the statepoints
     if args.reaction_rates_onaxis:

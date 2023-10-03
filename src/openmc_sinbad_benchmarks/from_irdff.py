@@ -1,6 +1,9 @@
 import openmc
 
 
+path = r"../../src/data/irdff2_xs/"
+
+
 def cross_section(irdff_file_path: str):
     """Generates cross section data from IRDFF-II files
     from this discussion ad related notebook:
