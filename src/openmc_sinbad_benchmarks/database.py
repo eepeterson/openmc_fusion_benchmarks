@@ -71,7 +71,7 @@ class ResultFromDatabase:
             except KeyError:
                 return 'n/a'
 
-    @property
+    @staticmethod
     def print_code_info(self):
         print(f'Code version:{self.code_version} \n',
               f'XS library: {self.xs_library} \n')
