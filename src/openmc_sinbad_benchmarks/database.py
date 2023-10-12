@@ -18,7 +18,7 @@ class TallyFromDatabase:
         return self.tally.attrs['x_axis']
 
 
-class ResultFromDatabase:
+class ResultsFromDatabase:
 
     def __init__(self, filename: str):
 
