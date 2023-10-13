@@ -11,4 +11,4 @@ class ResultsFromOpenmc:
         self.myfile = source_folder / filename
 
     def get_tally_dataframe(self, tally_name):
-        pass
+        return openmc.Statepoint(self.myfile).get_tally(tally_name).get_pandas_dataframe()
