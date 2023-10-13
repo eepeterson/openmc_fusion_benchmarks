@@ -74,3 +74,15 @@ class ResultsFromDatabase:
               f'Code version:{self.code_version} \n',
               f'XS library: {self.xs_library} \n'
               f'Literature: {self.literature_info} \n')
+
+
+class ResultsFromOpenmc:
+
+    def __init__(self, filename: str, path: str):
+
+        self.filename = filename
+        source_folder = Path(path)
+        self.myfile = source_folder / filename
+
+    def get_tally_dataframe(self, tally_name):
+        return openmc.StatePoint(self.myfile).get_tally(tally_name).get_pandas_dataframe()
