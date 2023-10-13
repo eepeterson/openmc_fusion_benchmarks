@@ -39,8 +39,8 @@ def _get_floor_ceiling(values):
         float, float: global minimum and global maximum values present in the input array
     """
 
-    min_value = min([np.nanmin(i[np.nonzero(i)]) for i in values])
-    max_value = max([np.nanmax(i[np.nonzero(i)]) for i in values])
+    min_value = np.nanmin([np.nanmin(i) for i in values])
+    max_value = np.nanmax([np.nanmax(i) for i in values])
     min_oom = math.floor(math.log(min_value, 10))
     max_oom = math.floor(math.log(max_value, 10))
     return 10**(min_oom),  10**(max_oom+1)
@@ -117,7 +117,7 @@ class VisualizeResults:
         self.ax1 = ax1
         self.ax2 = ax2
 
-    def add_measured_data(self, measured_data, ylabel: str, dtype_label=''):
+    def add_measured_data(self, measured_data, xlabel, ylabel: str, dtype_label=''):
         """Includes measured data in the already existing plot generated in the class initialization
 
         Args:
@@ -132,11 +132,13 @@ class VisualizeResults:
         # get all values in plot-friendly format
         measured_rstd = rel_std_dev(measured_data)
 
-        # some data are already strings other have to be decoded
-        try:
-            my_xlabels = [el.decode() for el in measured_data['y(cm)']]
-        except AttributeError:
-            my_xlabels = measured_data['y(cm)']
+        # # some data are already strings other have to be decoded
+        # try:
+        #     my_xlabels = [el.decode() for el in measured_data['y(cm)']]
+        # except AttributeError:
+        #     my_xlabels = measured_data['y(cm)']
+
+        my_xlabels = [el.decode() for el in measured_data[xlabel]]
 
         # get data floor and ceiling for plot framing
         floor, ceiling = _get_floor_ceiling([measured_data['mean']])

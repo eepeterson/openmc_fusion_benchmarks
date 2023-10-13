@@ -1,35 +1,39 @@
 import h5py
 import pandas as pd
+from pathlib import Path
 
 
 class TallyFromDatabase:
-    def __init__(self, filename: str, tally_name: str):
+    def __init__(self, filename, tally_name: str):
         self.filename = filename
         self.tally_name = tally_name
 
         with h5py.File(self.filename) as f:
-            self.tally = f[tally_name+'/table']
+            self._tally_x = f[tally_name+'/table'].attrs['x_axis']
+            self._tally_ds = f[tally_name+'/table'][()]
 
     def get_pandas_dataframe(self):
-        return pd.DataFrame(self.tally[()])
 
-    @property
+        return pd.DataFrame(self._tally_ds)
+
     def get_xaxis_label(self):
-        return self.tally.attrs['x_axis']
+        return self._tally_x
 
 
 class ResultsFromDatabase:
 
-    def __init__(self, filename: str):
+    def __init__(self, filename: str, path: str = 'results_database'):
 
         self.filename = filename
+        source_folder = Path(path)
+        self.myfile = source_folder / filename
 
     def list_tallies(self):
         with h5py.File(self.filename) as f:
             print(f.keys())
 
     def get_tally(self, tally_name: str):
-        return TallyFromDatabase(self.filename, tally_name)
+        return TallyFromDatabase(self.myfile, tally_name)
 
     @property
     def literature_info(self):
