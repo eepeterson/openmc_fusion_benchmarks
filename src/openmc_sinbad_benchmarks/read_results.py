@@ -1,5 +1,5 @@
 import h5py
-import pandas as pd
+import openmc
 from pathlib import Path
 
 
@@ -83,6 +83,19 @@ class ResultsFromOpenmc:
         self.filename = filename
         source_folder = Path(path)
         self.myfile = source_folder / filename
+        self.statepoint = openmc.StatePoint(self.myfile)
 
     def get_tally_dataframe(self, tally_name):
-        return openmc.StatePoint(self.myfile).get_tally(tally_name).get_pandas_dataframe()
+        return self.statepoint.get_tally(tally_name).get_pandas_dataframe()
+
+    # @property
+    def get_openmc_version(self, as_str=False):
+        return self.statepoint.version
+
+    @property
+    def get_particles_per_batch(self):
+        return format(self.statepoint.n_particles, '.2e')
+
+    @property
+    def get_batches(self):
+        return self.statepoint.n_batches

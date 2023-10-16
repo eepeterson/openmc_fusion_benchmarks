@@ -1,4 +1,4 @@
-from database import ResultsFromDatabase
+from src.openmc_sinbad_benchmarks.read_results import ResultsFromDatabase
 
 
 class VisualizeResults:
