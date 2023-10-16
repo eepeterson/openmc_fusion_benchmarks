@@ -89,7 +89,7 @@ class ResultsFromOpenmc:
         return self.statepoint.get_tally(tally_name).get_pandas_dataframe()
 
     # @property
-    def get_openmc_version(self, as_str=False):
+    def get_openmc_version(self):
         return self.statepoint.version
 
     @property
