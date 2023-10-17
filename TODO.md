@@ -1,6 +1,5 @@
 # to do
-- write a "to h5"/"to database" for openmc results
-- from statepoint object one can get openmc version, n_particles, n_batches but NOT xs library
+- ease the plot
 
 ## test
 
