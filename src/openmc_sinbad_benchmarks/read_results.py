@@ -89,6 +89,13 @@ class ResultsFromOpenmc:
     def get_tally_dataframe(self, tally_name: str):
         return self.statepoint.get_tally(tally_name).get_pandas_dataframe()
 
+    def normalize_tally(tally_dataframe, divide_by: Iterable(float)):
+
+        tally_dataframe['mean'] = tally_dataframe['mean'] / divide_by
+        tally_dataframe['std. dev.'] = tally_dataframe['std. dev.'] / divide_by
+
+        return tally_dataframe
+
     @property
     def get_openmc_version(self):
         return self.statepoint.version
@@ -101,12 +108,14 @@ class ResultsFromOpenmc:
     def get_batches(self):
         return self.statepoint.n_batches
 
-    def tally_to_hdf(self, filename: str, tally_name: str, xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
+    def tally_to_hdf(self, filename: str, tally_name: str, divide_by: Iterable(float), xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
 
         path = Path(path_to_database)
         path = path / filename
 
         tally_df = self.get_tally_dataframe(tally_name)
+        tally_df = self.normalize_tally(tally_df, divide_by)
+
         tally_df.to_hdf(filename, tally_name, mode='a',
                         format='table', data_columns=True, index=False)
 

@@ -1,5 +1,7 @@
 # to do
 - ease the plot
+- divide by volume
+- get relative std dev
 
 ## test
 
