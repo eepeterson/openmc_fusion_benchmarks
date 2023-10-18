@@ -86,7 +86,7 @@ class ResultsFromOpenmc:
         self.myfile = source_folder / filename
         self.statepoint = openmc.StatePoint(self.myfile)
 
-    def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable(float) = None):
+    def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None):
 
         tally_dataframe = self.statepoint.get_tally(
             tally_name).get_pandas_dataframe()
@@ -110,7 +110,7 @@ class ResultsFromOpenmc:
     def get_batches(self):
         return self.statepoint.n_batches
 
-    def tally_to_hdf(self, filename: str, tally_name: str, normalize_over: Iterable(float), xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
+    def tally_to_hdf(self, filename: str, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
 
         path = Path(path_to_database)
         path = path / filename
