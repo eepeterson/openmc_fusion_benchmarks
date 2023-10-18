@@ -7,6 +7,10 @@
 summary.*
 statepoint.*
 
+# attempt/sketch files 
+DELETE*
+delete*
+
 # Compiler python objects
 *.pyc
 

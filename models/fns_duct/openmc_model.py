@@ -1646,7 +1646,7 @@ def main():
     # Define problem settings
 
     # weight windows from wwinps
-    ww = openmc.wwinp_to_wws(r"weight_windows.cadis.wwinp")
+    ww = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
 
     # Indicate how many particles to run
     settings = openmc.Settings(run_mode='fixed source')

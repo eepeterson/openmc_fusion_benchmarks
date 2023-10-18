@@ -86,13 +86,15 @@ class ResultsFromOpenmc:
         self.myfile = source_folder / filename
         self.statepoint = openmc.StatePoint(self.myfile)
 
-    def get_tally_dataframe(self, tally_name: str):
-        return self.statepoint.get_tally(tally_name).get_pandas_dataframe()
+    def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable(float) = None):
 
-    def normalize_tally(tally_dataframe, divide_by: Iterable(float)):
+        tally_dataframe = self.statepoint.get_tally(
+            tally_name).get_pandas_dataframe()
 
-        tally_dataframe['mean'] = tally_dataframe['mean'] / divide_by
-        tally_dataframe['std. dev.'] = tally_dataframe['std. dev.'] / divide_by
+        if normalize_over:
+            tally_dataframe['mean'] = tally_dataframe['mean'] / normalize_over
+            tally_dataframe['std. dev.'] = tally_dataframe['std. dev.'] / \
+                normalize_over
 
         return tally_dataframe
 
@@ -108,13 +110,13 @@ class ResultsFromOpenmc:
     def get_batches(self):
         return self.statepoint.n_batches
 
-    def tally_to_hdf(self, filename: str, tally_name: str, divide_by: Iterable(float), xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
+    def tally_to_hdf(self, filename: str, tally_name: str, normalize_over: Iterable(float), xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
 
         path = Path(path_to_database)
         path = path / filename
 
-        tally_df = self.get_tally_dataframe(tally_name)
-        tally_df = self.normalize_tally(tally_df, divide_by)
+        tally_df = self.get_tally_dataframe(
+            tally_name, normalize_over=normalize_over)
 
         tally_df.to_hdf(filename, tally_name, mode='a',
                         format='table', data_columns=True, index=False)
