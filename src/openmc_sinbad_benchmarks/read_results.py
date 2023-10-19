@@ -91,7 +91,7 @@ class ResultsFromOpenmc:
         tally_dataframe = self.statepoint.get_tally(
             tally_name).get_pandas_dataframe()
 
-        if normalize_over:
+        if normalize_over is not None:
             tally_dataframe['mean'] = tally_dataframe['mean'] / normalize_over
             tally_dataframe['std. dev.'] = tally_dataframe['std. dev.'] / \
                 normalize_over
