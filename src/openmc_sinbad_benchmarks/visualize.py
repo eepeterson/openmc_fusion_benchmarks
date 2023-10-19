@@ -10,15 +10,26 @@ def get_floor_ceiling(values: Iterable, scale: str = 'lin', gap: float = 0.):
         msg = f"Wrong scale argument. It must be either 'lin' or 'log'"
         raise NameError(msg)
 
-    min_value = np.nanmin([np.nanmin(i) for i in values])
-    max_value = np.nanmax([np.nanmax(i) for i in values])
+    # min_value = np.nanmin([np.nanmin(i) for i in values])
+    # max_value = np.nanmax([np.nanmax(i) for i in values])
+
+    min_value = min([np.nanmin(i[np.nonzero(i)]) for i in values])
+    max_value = max([np.nanmax(i[np.nonzero(i)]) for i in values])
 
     if scale == 'lin':
 
         return min_value - gap, max_value + gap
 
     elif scale == 'log':
+
+        # if min_value == 0.:
+        #     min_oom = 0.
+        # else:
         min_oom = math.floor(math.log(min_value, 10))
+
+        # if max_value == 0.:
+        #     max_oom = 0.
+        # else:
         max_oom = math.floor(math.log(max_value, 10))
 
         return 10**(min_oom-gap),  10**(max_oom+gap)
