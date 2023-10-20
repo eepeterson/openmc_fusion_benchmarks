@@ -5,27 +5,83 @@ from typing import Iterable
 
 
 class ResultsFromDatabase:
+    """This class takes in a hdf file and its path and generates a generic
+    object by reading it. It is specifically designed for hdf files present
+    in the "results_database" folders of the benchmark models in order to be
+    able to read, postprocess and plot the results from previous simulations
+    that have been stored there
+    """
 
     def __init__(self, filename: str, path: str = 'results_database'):
+        """ResultsFromDatabase class constructor
+
+        Parameters
+        ----------
+        filename : str
+            Name of the hdf file present in the results_database folder
+        path : str, optional
+            path to the hdf file, by default 'results_database'
+        """
 
         self.filename = filename
         source_folder = Path(path)
         self.myfile = source_folder / filename
 
     def list_tallies(self):
+        """Prints the names of all the tallies available in the hdf file
+        """
         with h5py.File(self.myfile) as f:
             print(f.keys())
 
     def get_tally_dataframe(self, tally_name: str):
+        """Retrieves the results of a given tally in a Pandas DataFrame format.
+        It relies on the openmc.Statepoint().get_tally().get_pandas_dataframe()
+        method
+
+        Parameters
+        ----------
+        tally_name : str
+            Exact name of the tally in the hdf file 
+
+        Returns
+        -------
+        pandas.DataFrame
+            DataFrame with tally results
+        """
         with h5py.File(self.myfile) as f:
             return f[tally_name+'/table'][()]
 
     def get_tally_xaxis(self, tally_name: str):
+        """Retrieves the string with the exact name associated to the tally
+        x-axis. It is necessary because each result of each benchmark has a
+        different data classification that can vary from depth in the shield,
+        energy bin, distance from source, detector position etc. Retrieving this
+        string allows to directly use it as string to get the column with that lists
+        the data classification (x-axis for plotting purposes)
+
+        Parameters
+        ----------
+        tally_name : str
+            Exact name of the tally in the hdf file 
+
+        Returns
+        -------
+        str
+            Name used for the dataframe column with the x-axis info
+        """
         with h5py.File(self.myfile) as f:
             return f[tally_name+'/table'].attrs['x_axis']
 
     @property
     def literature_info(self):
+        """Retrieves the peer reviewed publication(s) associated with the data
+        provided in the hdf file
+
+        Returns
+        -------
+        str
+            DOI or link to the publication
+        """
         with h5py.File(self.myfile) as f:
             try:
                 return f.attrs['literature']
@@ -34,6 +90,13 @@ class ResultsFromDatabase:
 
     @property
     def when(self):
+        """Retrieves the experiment or simulation place if provided
+
+        Returns
+        -------
+        str
+            Experiment or simulation execution year
+        """
         with h5py.File(self.myfile) as f:
             try:
                 return f.attrs['when']
@@ -42,6 +105,13 @@ class ResultsFromDatabase:
 
     @property
     def where(self):
+        """Retrieves the experiment or simulation place if provided
+
+        Returns
+        -------
+        str
+            Experiment or simulation execution place
+        """
         with h5py.File(self.myfile) as f:
             try:
                 return f.attrs['where']
@@ -50,6 +120,14 @@ class ResultsFromDatabase:
 
     @property
     def code_version(self):
+        """Retrieves the code version if the hdf file refers to a simulation's
+        results and the info was provided
+
+        Returns
+        -------
+        str
+            Code version
+        """
         with h5py.File(self.myfile) as f:
             try:
                 return f.attrs['code_version']
@@ -58,6 +136,14 @@ class ResultsFromDatabase:
 
     @property
     def xs_library(self):
+        """Retrieves the nuclear data library used if the hdf file refers
+        to a simulation's results and the info was provided
+
+        Returns
+        -------
+        str
+            Nuclear data library name
+        """
         with h5py.File(self.myfile) as f:
             try:
                 return f.attrs['xs_library']
@@ -66,10 +152,14 @@ class ResultsFromDatabase:
 
     @staticmethod
     def print_code_info(self):
+        """Prints all the code info available
+        """
         print(f'Code version:{self.code_version} \n',
               f'XS library: {self.xs_library} \n')
 
     def print_all_info(self):
+        """Prints all info available
+        """
         print(f'When: {self.when} \n',
               f'Where: {self.where} \n',
               f'Code version:{self.code_version} \n',
@@ -78,15 +168,46 @@ class ResultsFromDatabase:
 
 
 class ResultsFromOpenmc:
+    """Similarly to ResultsFromDatabase, this class creates an object
+    containing the results of a fresh new openmc simulation. It extracts
+    from an openmc statepoint.h5 file.
+    If openmc results have already been stored in an hdf file in the
+    results_database folder it is necessary to use ResultsFromDatabase class
+    """
 
-    def __init__(self, statepoint_file: str, path: str):
+    def __init__(self, statepoint_file: str = 'statepoint.100.h5', path: str = 'results'):
+        """ResultsFromOpenmc class constructor
 
+        Parameters
+        ----------
+        statepoint_file : str, optional
+            name of the statepoint.h5 file, by default 'statepoint.100.h5'
+        path : str, optional
+            path to the statepoint file, by default 'results'
+        """
         self.statepoint_file = statepoint_file
         source_folder = Path(path)
         self.myfile = source_folder / statepoint_file
         self.statepoint = openmc.StatePoint(self.myfile)
 
     def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None):
+        """Retrieves the results of a given tally in a Pandas DataFrame format.
+        It relies on the openmc.Statepoint().get_tally().get_pandas_dataframe()
+        method
+
+        Parameters
+        ----------
+        tally_name : str
+            Exact name of the tally as defined in the openmc model
+        normalize_over : Iterable, optional
+            Some openmc tallies (e.g. cell tally, surface tally) need to be normalized 
+            by their filter dimension (e.g cell volume, surface area), by default None
+
+        Returns
+        -------
+        pandas.DataFrame
+            DataFrame with tally results
+        """
 
         tally_dataframe = self.statepoint.get_tally(
             tally_name).get_pandas_dataframe()
@@ -100,17 +221,61 @@ class ResultsFromOpenmc:
 
     @property
     def get_openmc_version(self):
+        """Retrieves openmc's version used in the simulation
+
+        Returns
+        -------
+        tuple
+            openmc version
+        """
         return self.statepoint.version
 
     @property
     def get_particles_per_batch(self):
+        """Retrieves the number of particles per batch defined in the simulation
+
+        Returns
+        -------
+        float
+            Number of particle per batch
+        """
         return format(self.statepoint.n_particles, '.2e')
 
     @property
     def get_batches(self):
+        """Retrieves the number of batches defined in the simulation
+
+        Returns
+        -------
+        int
+            Number of batches
+        """
         return self.statepoint.n_batches
 
     def tally_to_hdf(self, hdf_file: str, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
+        """Stores the openmc tally in a hdf file for the results_database folder
+
+        Parameters
+        ----------
+        hdf_file : str
+            Name of the hdf file to store in the results_database folder. it should be
+            something 'like oepnmc_X.h5' where X is the nuclear data library used for
+            the simulation 
+        tally_name : str
+            Exact name of the tally to store in the hdf file. It should be the
+            same as the openmc tally
+        normalize_over : Iterable
+            Some openmc tallies (e.g. cell tally, surface tally) need to be normalized 
+            by their filter dimension (e.g cell volume, surface area), by default None
+        xs_library : str
+            Name of the nuclear data library used for the simulation
+        x_axis : str, optional
+            name of the x_axis to store in order to be retrieved with the
+            ResultsFromDatabase.get_tally_xaxis method, by default None
+        path_to_database : str, optional
+            path to the results_database folder for storing the new hdf file,
+            by default '../results_database'
+        """
 
         path = Path(path_to_database)
         path = path / hdf_file
