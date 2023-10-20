@@ -1,6 +1,6 @@
 import numpy as np
 from typing import Iterable
-import math.floor
+import math
 import matplotlib.axes
 
 

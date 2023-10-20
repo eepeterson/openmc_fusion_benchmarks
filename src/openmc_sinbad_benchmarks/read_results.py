@@ -25,12 +25,12 @@ class ResultsFromDatabase:
 
         self.filename = filename
         source_folder = Path(path)
-        self.myfile = source_folder / filename
+        self._myfile = source_folder / filename
 
     def list_tallies(self):
         """Prints the names of all the tallies available in the hdf file
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             print(f.keys())
 
     def get_tally_dataframe(self, tally_name: str):
@@ -48,7 +48,7 @@ class ResultsFromDatabase:
         pandas.DataFrame
             DataFrame with tally results
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             return f[tally_name+'/table'][()]
 
     def get_tally_xaxis(self, tally_name: str):
@@ -69,7 +69,7 @@ class ResultsFromDatabase:
         str
             Name used for the dataframe column with the x-axis info
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             return f[tally_name+'/table'].attrs['x_axis']
 
     @property
@@ -82,7 +82,7 @@ class ResultsFromDatabase:
         str
             DOI or link to the publication
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             try:
                 return f.attrs['literature']
             except KeyError:
@@ -97,7 +97,7 @@ class ResultsFromDatabase:
         str
             Experiment or simulation execution year
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             try:
                 return f.attrs['when']
             except KeyError:
@@ -112,7 +112,7 @@ class ResultsFromDatabase:
         str
             Experiment or simulation execution place
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             try:
                 return f.attrs['where']
             except KeyError:
@@ -128,7 +128,7 @@ class ResultsFromDatabase:
         str
             Code version
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             try:
                 return f.attrs['code_version']
             except KeyError:
@@ -144,7 +144,7 @@ class ResultsFromDatabase:
         str
             Nuclear data library name
         """
-        with h5py.File(self.myfile) as f:
+        with h5py.File(self._myfile) as f:
             try:
                 return f.attrs['xs_library']
             except KeyError:
@@ -187,8 +187,8 @@ class ResultsFromOpenmc:
         """
         self.statepoint_file = statepoint_file
         source_folder = Path(path)
-        self.myfile = source_folder / statepoint_file
-        self.statepoint = openmc.StatePoint(self.myfile)
+        self._myfile = source_folder / statepoint_file
+        self.statepoint = openmc.StatePoint(self._myfile)
 
     def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None):
         """Retrieves the results of a given tally in a Pandas DataFrame format.
