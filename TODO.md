@@ -2,6 +2,7 @@
 - ease the plot
 - divide by volume
 - get relative std dev
+- the to_hdf method should be revised: one should be able to provide the "when" and "where" and a default hdf_file name should be added, think about the xaxis thing as well (?)
 
 ## test
 
