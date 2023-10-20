@@ -79,11 +79,11 @@ class ResultsFromDatabase:
 
 class ResultsFromOpenmc:
 
-    def __init__(self, filename: str, path: str):
+    def __init__(self, statepoint_file: str, path: str):
 
-        self.filename = filename
+        self.statepoint_file = statepoint_file
         source_folder = Path(path)
-        self.myfile = source_folder / filename
+        self.myfile = source_folder / statepoint_file
         self.statepoint = openmc.StatePoint(self.myfile)
 
     def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None):
@@ -110,20 +110,20 @@ class ResultsFromOpenmc:
     def get_batches(self):
         return self.statepoint.n_batches
 
-    def tally_to_hdf(self, filename: str, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
+    def tally_to_hdf(self, hdf_file: str, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
 
         path = Path(path_to_database)
-        path = path / filename
+        path = path / hdf_file
 
         tally_df = self.get_tally_dataframe(
             tally_name, normalize_over=normalize_over)
 
-        tally_df.to_hdf(filename, tally_name, mode='a',
+        tally_df.to_hdf(hdf_file, tally_name, mode='a',
                         format='table', data_columns=True, index=False)
 
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
-        with h5py.File(filename, 'a') as f:
+        with h5py.File(hdf_file, 'a') as f:
             f[tally_name + '/table'].attrs['x_axis'] = x_axis
             f.attrs['code_version'] = code_version
             f.attrs['xs_library'] = xs_library
