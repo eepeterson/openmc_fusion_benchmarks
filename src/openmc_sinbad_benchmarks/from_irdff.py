@@ -1,7 +1,4 @@
-import openmc
-
-
-path = r"../../src/data/irdff2_xs/"
+import openmc.data
 
 
 def cross_section(irdff_file_path: str):
@@ -9,8 +6,17 @@ def cross_section(irdff_file_path: str):
     from this discussion ad related notebook:
     https://openmc.discourse.group/t/using-irdff-ii-cross-section-data-in-openmc/1950
 
-    irdff_file_path: takes in a string with the path and the name of the .acef file
-    specific for the nuclide in IRDFF-II nuclear data library
+    Parameters
+    ----------
+    irdff_file_path : str
+        takes in a string with the path and the name of the .acef file
+        specific for the nuclide in IRDFF-II nuclear data library
+
+    Returns
+    -------
+    openmc.data.Tabulated1D
+        IRDFF-II tabulated cross section data for a given nuclide
+        and reaction
     """
     ace_table = openmc.data.ace.get_table(irdff_file_path)
     nxs = ace_table.nxs
