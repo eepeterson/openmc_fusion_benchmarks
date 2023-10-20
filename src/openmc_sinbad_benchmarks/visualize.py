@@ -31,7 +31,6 @@ def get_floor_ceiling(values: Iterable, scale: str = 'lin', gap: float = 0.):
         10**(X-gap), 10**(Y+gap) where X is min's order of magnitude and Y is max's order of magnitude
         if scale='log'
     """
-
     if scale not in ['lin', 'log']:
         msg = f"Wrong scale argument. It must be either 'lin' or 'log'"
         raise NameError(msg)
@@ -69,7 +68,6 @@ def plot_stddev_area(ax: matplotlib.axes, ticks: Iterable, mean: Iterable, std_d
     Raises:
         ValueError: if the uncertainty_deg arg is not 1, 2 or 3 raises a ValueError.
     """
-
     if uncertainty_deg not in [1, 2, 3]:
         msg = f'Value {uncertainty_deg} is not valid. It has to be an integer in [1, 2, 3]'
         raise ValueError(msg)
