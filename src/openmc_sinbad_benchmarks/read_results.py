@@ -252,7 +252,8 @@ class ResultsFromOpenmc:
         """
         return self.statepoint.n_batches
 
-    def tally_to_hdf(self, hdf_file: str, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None, path_to_database: str = '../results_database'):
+    def tally_to_hdf(self, hdf_file: str, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None,
+                     path_to_database: str = '../results_database', when: str = None, where: str = None):
         """Stores the openmc tally in a hdf file for the results_database folder
 
         Parameters
@@ -275,6 +276,12 @@ class ResultsFromOpenmc:
         path_to_database : str, optional
             path to the results_database folder for storing the new hdf file,
             by default '../results_database'
+        when : str, optional
+            Can be the year (YYYY) or the month and year (Month, YYYY) of the model run
+        where : str, optional
+            Name of the institution that run the simulation
+
+
         """
 
         path = Path(path_to_database)
@@ -294,3 +301,5 @@ class ResultsFromOpenmc:
             f.attrs['xs_library'] = xs_library
             f.attrs['batches'] = self.get_batches
             f.attrs['particles_per_batch'] = self.get_particles_per_batches
+            f.attrs['when'] = str(when)
+            f.attrs['where'] = where
