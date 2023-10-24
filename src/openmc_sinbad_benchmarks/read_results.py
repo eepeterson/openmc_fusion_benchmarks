@@ -277,7 +277,7 @@ class ResultsFromOpenmc:
             path to the results_database folder for storing the new hdf file,
             by default '../results_database'
         when : str, optional
-            Can be the year (YYYY) or the month and year (Month, YYYY) of the model run
+            Can be the year(s) (YYYY-YYYY) or the month and year (Month, YYYY) of the model run
         where : str, optional
             Name of the institution that run the simulation
 
@@ -301,5 +301,8 @@ class ResultsFromOpenmc:
             f.attrs['xs_library'] = xs_library
             f.attrs['batches'] = self.get_batches
             f.attrs['particles_per_batch'] = self.get_particles_per_batches
-            f.attrs['when'] = str(when)
+
+            if when is not None:
+                f.attrs['when'] = str(when)
+            if where is not None:
             f.attrs['where'] = where
