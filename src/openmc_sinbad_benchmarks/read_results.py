@@ -25,6 +25,8 @@ class ResultsFromDatabase:
 
         self.filename = filename
         source_folder = Path(path)
+
+        # merge path to the file
         self._myfile = source_folder / filename
 
     def list_tallies(self):
@@ -187,7 +189,9 @@ class ResultsFromOpenmc:
         """
         self.statepoint_file = statepoint_file
         source_folder = Path(path)
+        # merge path to statepoint file
         self._myfile = source_folder / statepoint_file
+        # open statepoint file with openmc
         self.statepoint = openmc.StatePoint(self._myfile)
 
     def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None):
@@ -208,10 +212,11 @@ class ResultsFromOpenmc:
         pandas.DataFrame
             DataFrame with tally results
         """
-
+        # extract tally in dataframe format from statepoint file
         tally_dataframe = self.statepoint.get_tally(
             tally_name).get_pandas_dataframe()
 
+        # normalize tally over tally filter dimension (e.g. cell volume, surface area etc.)
         if normalize_over is not None:
             tally_dataframe['mean'] = tally_dataframe['mean'] / normalize_over
             tally_dataframe['std. dev.'] = tally_dataframe['std. dev.'] / \
@@ -283,25 +288,25 @@ class ResultsFromOpenmc:
 
 
         """
-
         path = Path(path_to_database)
+        # merge path to hdf file
         path = path / hdf_file
 
+        # extract tally in dataframe format from statepoint file
         tally_df = self.get_tally_dataframe(
             tally_name, normalize_over=normalize_over)
-
+        # write the tally in the hdf file
         tally_df.to_hdf(hdf_file, tally_name, mode='a',
                         format='table', data_columns=True, index=False)
-
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
+        # write attributes to the hdf file
         with h5py.File(hdf_file, 'a') as f:
             f[tally_name + '/table'].attrs['x_axis'] = x_axis
             f.attrs['code_version'] = code_version
             f.attrs['xs_library'] = xs_library
             f.attrs['batches'] = self.get_batches
             f.attrs['particles_per_batch'] = self.get_particles_per_batches
-
             if when is not None:
                 f.attrs['when'] = str(when)
             if where is not None:
