@@ -38,13 +38,16 @@ def get_floor_ceiling(values: Iterable, scale: str = 'lin', gap: float = 0.):
     NameError
         If scale is neither "lin" or "log" raises a NameError
     """
+    # check scale argument is right
     if scale not in ['lin', 'log']:
         msg = f"Wrong scale argument. It must be either 'lin' or 'log'"
         raise NameError(msg)
 
+    # get global min ang max values
     min_value = min([np.nanmin(i[np.nonzero(i)]) for i in values])
     max_value = max([np.nanmax(i[np.nonzero(i)]) for i in values])
 
+    # return ylim([min, max]) in either linear or logarithmic form
     if scale == 'lin':
 
         return min_value - gap, max_value + gap
@@ -84,10 +87,12 @@ def plot_stddev_area(ax: matplotlib.axes, ticks: Iterable, mean: Iterable, std_d
     ValueError
         if the uncertainty_deg arg is not 1, 2 or 3 raises a ValueError
     """
+    # raise error if uncertainty required is not between 1 and 3 sigma
     if uncertainty_deg not in [1, 2, 3]:
         msg = f'Value {uncertainty_deg} is not valid. It has to be an integer in [1, 2, 3]'
         raise ValueError(msg)
 
+    # fill between for generating the shaded areas
     ax.fill_between(ticks, mean - std_dev, mean +
                     std_dev, color=color, alpha=alpha)
     if uncertainty_deg > 1:
