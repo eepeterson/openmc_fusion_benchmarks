@@ -152,7 +152,6 @@ class ResultsFromDatabase:
             except KeyError:
                 return 'n/a'
 
-    @staticmethod
     def print_code_info(self):
         """Prints all the code info available
         """
@@ -307,5 +306,5 @@ class ResultsFromOpenmc:
             f.attrs['xs_library'] = xs_library
             f.attrs['batches'] = self.get_batches
             f.attrs['particles_per_batch'] = self.get_particles_per_batches
-                f.attrs['when'] = str(when)
+            f.attrs['when'] = str(when)
             f.attrs['where'] = where
