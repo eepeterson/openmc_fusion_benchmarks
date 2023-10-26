@@ -4,7 +4,7 @@ import math
 import matplotlib.axes
 
 
-def get_floor_ceiling(values: Iterable, scale: str = 'lin', gap: float = 0.):
+def add_floor_ceiling(ax: matplotlib.axes, values: Iterable, scale: str = 'lin', gap: float = 0.):
     """This function computes the minimum and maximum values of a set of different arrays
     collected in a single list. It gets useful for finding the y_limits of a plot when all
     the values plotted are not known a priori
@@ -44,19 +44,23 @@ def get_floor_ceiling(values: Iterable, scale: str = 'lin', gap: float = 0.):
         raise NameError(msg)
 
     # get global min ang max values
-    min_value = min([np.nanmin(i[np.nonzero(i)]) for i in values])
-    max_value = max([np.nanmax(i[np.nonzero(i)]) for i in values])
+    if isinstance(values, list):
+        min_value = min([np.nanmin(i[np.nonzero(i)]) for i in values])
+        max_value = max([np.nanmax(i[np.nonzero(i)]) for i in values])
+    else:
+        min_value = np.nanmin(values[np.nonzero(values)])
+        max_value = np.nanmax(values[np.nonzero(values)])
 
     # return ylim([min, max]) in either linear or logarithmic form
     if scale == 'lin':
 
-        return min_value - gap, max_value + gap
+        ax.set_ylim(min_value - gap, max_value + gap)
 
     elif scale == 'log':
         min_oom = math.floor(math.log(min_value, 10))
         max_oom = math.floor(math.log(max_value, 10))
 
-        return 10**(min_oom-gap),  10**(max_oom+gap)
+        ax.set_ylim(10**(min_oom-gap),  10**(max_oom+1+gap))
 
 
 def plot_stddev_area(ax: matplotlib.axes, ticks: Iterable, mean: Iterable, std_dev: Iterable,
