@@ -35,7 +35,7 @@ void_reg1 = +RCC((0, 0, z2), z5 - z2, r4) & -RCC((0, 0, z2), z5 - z2, r5)
 void_reg2 = -RCC((0, 0, z2), z3 - z2, r0)
 void_reg3 = -RCC((0, 0, z3), z4 - z3, r4)
 void_reg4 = -RCC((0, 0, z5), z6 - z5, r7)
-tally_reg0 = -RCC((0, 0, z6), z7 - z6, r1) 
+tally_reg0 = -RCC((0, 0, z6), z7 - z6, r1)
 tally_reg1 = +RCC((0, 0, z6), z7 - z6, r1) & -RCC((0, 0, z6), z7 - z6, r2)
 tally_reg2 = +RCC((0, 0, z6), z7 - z6, r2) & -RCC((0, 0, z6), z7 - z6, r3)
 tally_reg3 = +RCC((0, 0, z6), z7 - z6, r3) & -RCC((0, 0, z6), z7 - z6, r6)
@@ -65,8 +65,6 @@ steel.set_density("g/cm3", 7.93)
 steel_water_mix = openmc.Material.mix_materials([steel, water],
                                                 fracs=[0.7988456, 0.2011544],
                                                 percent_type='vo')
-materials = openmc.Materials([steel, steel_water_mix])
-materials.export_to_xml()
 
 # Build cells
 source_cell = openmc.Cell(region=source_reg)
@@ -101,8 +99,8 @@ for cell in cells:
                 surf.boundary_type = 'vacuum'
 
 univ = openmc.Universe(cells=cells)
-geom = openmc.Geometry(root=univ)
-geom.export_to_xml(remove_surfs=True)
+geometry = openmc.Geometry(root=univ)
+geometry.merge_surfaces = True
 
 # Settings
 settings = openmc.Settings(run_mode='fixed source',
@@ -114,24 +112,23 @@ zspace = openmc.stats.Uniform(z0, z1)
 phispace = openmc.stats.Uniform(0, 2*np.pi)
 rspace = openmc.stats.PowerLaw(0, r7, n=1)
 space = openmc.stats.CylindricalIndependent(rspace, phispace, zspace)
-source = openmc.Source(space=space, energy=energy)
+source = openmc.IndependentSource(space=space, energy=energy)
 settings.source = source
 settings.weight_windows = openmc.wwinp_to_wws('iter_port_plug_cadis.wwinp')
-settings.export_to_xml()
 
 # Build filters and tallies
-mesh = openmc.CylindricalMesh()
-mesh.r_grid = np.linspace(0, r7, 201)
-mesh.z_grid = np.linspace(z0, z7, 176)
+mesh = openmc.CylindricalMesh(r_grid=np.linspace(0, r7, 201),
+                              z_grid=np.linspace(z0, z7, 176))
 energy_filter = openmc.EnergyFilter.from_group_structure('VITAMIN-J-175')
 mesh_filter = openmc.MeshFilter(mesh)
 particle_filter = openmc.ParticleFilter(['neutron'])
 
-# Define flux, heating, damage, and gas production tallies
-t1 = openmc.Tally(1)
+t1 = openmc.Tally()
 t1.filters = [particle_filter, mesh_filter, energy_filter]
 t1.scores = ['flux']
 tallies = openmc.Tallies([t1])
-tallies.export_to_xml()
 
-openmc.run(threads=16)
+model = openmc.model.Model(geometry=geometry,
+                           settings=settings,
+                           tallies=tallies)
+model.run()
