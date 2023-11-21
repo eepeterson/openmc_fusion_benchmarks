@@ -4,7 +4,7 @@ import argparse
 
 import openmc
 from openmc_sinbad_benchmarks import from_irdff as irdff
-from openmc_sinbad_benchmarks.neutrons_sources import fng_source
+from openmc_sinbad_benchmarks.neutron_sources import fng_source
 
 
 def _parse_args():
@@ -2166,8 +2166,8 @@ def main():
 
     fng_uvw = (0., 1., 0)
 
-    fng_source = fng_source(
-        center=fng_center, reference_uvw=fng_uvw)  # from routine
+    source = fng_source(center=fng_center,
+                        reference_uvw=fng_uvw)
 
     # weight windows from wwinps
     ww = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
@@ -2177,7 +2177,7 @@ def main():
     settings.batches = args.batches
     settings.particles = args.particles
     settings.weight_windows = ww
-    settings.source = fng_source
+    settings.source = source
     if args.heating:
         settings.survival_biasing = True
         settings.photon_transport = True

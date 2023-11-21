@@ -1,5 +1,7 @@
 import openmc.data
 
+path = "../../src/openmc_sinbad_benchmarks/data/irdff2_xs/"
+
 
 def cross_section(irdff_file_path: str):
     """Generates cross section data from IRDFF-II files
