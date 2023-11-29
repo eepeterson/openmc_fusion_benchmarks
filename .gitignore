@@ -7,6 +7,9 @@
 summary.*
 statepoint.*
 
+# temporary files for notebooks
+my_openmc_results.h5
+
 # attempt/sketch files 
 DELETE*
 delete*

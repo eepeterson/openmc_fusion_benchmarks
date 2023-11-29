@@ -213,7 +213,7 @@ class ResultsFromOpenmc:
         """
         # extract tally in dataframe format from statepoint file
         tally_dataframe = self.statepoint.get_tally(
-            tally_name).get_pandas_dataframe()
+            name=tally_name).get_pandas_dataframe()
 
         # normalize tally over tally filter dimension (e.g. cell volume, surface area etc.)
         if normalize_over is not None:
@@ -289,22 +289,22 @@ class ResultsFromOpenmc:
         """
         path = Path(path_to_database)
         # merge path to hdf file
-        path = path / hdf_file
+        path_to_file = path / hdf_file
 
         # extract tally in dataframe format from statepoint file
         tally_df = self.get_tally_dataframe(
             tally_name, normalize_over=normalize_over)
         # write the tally in the hdf file
-        tally_df.to_hdf(hdf_file, tally_name, mode='a',
+        tally_df.to_hdf(path_to_file, tally_name, mode='a',
                         format='table', data_columns=True, index=False)
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
         # write attributes to the hdf file
-        with h5py.File(hdf_file, 'a') as f:
+        with h5py.File(path_to_file, 'a') as f:
             f[tally_name + '/table'].attrs['x_axis'] = x_axis
             f.attrs['code_version'] = code_version
             f.attrs['xs_library'] = xs_library
             f.attrs['batches'] = self.get_batches
-            f.attrs['particles_per_batch'] = self.get_particles_per_batches
+            f.attrs['particles_per_batch'] = self.get_particles_per_batch
             f.attrs['when'] = str(when)
             f.attrs['where'] = where

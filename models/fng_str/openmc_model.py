@@ -2191,6 +2191,7 @@ def main():
 
     # filters
     # particle filters
+    neutron_filter = openmc.ParticleFilter(['neutron'])
     particle_filter = openmc.ParticleFilter(
         ['neutron', 'photon', 'electron', 'positron'])
 
@@ -2223,14 +2224,14 @@ def main():
             nb93_n2n_irdff = irdff.cross_section(x)
             multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
                 nb93_n2n_irdff[r])
-            tally1.filters = [onaxis1_cell_filter, particle_filter, multiplier]
+            tally1.filters = [onaxis1_cell_filter, neutron_filter, multiplier]
             tally1.scores = ["flux"]
             # onaxis2 tally
             tally2 = openmc.Tally(name=f"rr_onaxis2_{n}")
             nb93_n2n_irdff = irdff.cross_section(x)
             multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
                 nb93_n2n_irdff[r])
-            tally2.filters = [onaxis2_cell_filter, particle_filter, multiplier]
+            tally2.filters = [onaxis2_cell_filter, neutron_filter, multiplier]
             tally2.scores = ["flux"]
             model.tallies.extend([tally1, tally2])
     elif args.reaction_rates_offaxis:
@@ -2239,7 +2240,7 @@ def main():
         nb93_n2n_irdff = irdff.cross_section(x)
         multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
             nb93_n2n_irdff[r])
-        tally.filters = [offaxis_cell_filter, particle_filter, multiplier]
+        tally.filters = [offaxis_cell_filter, neutron_filter, multiplier]
         tally.scores = ["flux"]
         model.tallies.append(tally)
     elif args.heating:
