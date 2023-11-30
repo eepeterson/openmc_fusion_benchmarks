@@ -2235,14 +2235,15 @@ def main():
             tally2.scores = ["flux"]
             model.tallies.extend([tally1, tally2])
     elif args.reaction_rates_offaxis:
-        # offaxis tally
-        tally = openmc.Tally(name=f"rr_offaxis_{n}")
-        nb93_n2n_irdff = irdff.cross_section(x)
-        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-            nb93_n2n_irdff[r])
-        tally.filters = [offaxis_cell_filter, neutron_filter, multiplier]
-        tally.scores = ["flux"]
-        model.tallies.append(tally)
+        for n, r, x in zip(nuclides, reactions, irdff_xs):
+            # offaxis tally
+            tally = openmc.Tally(name=f"rr_offaxis_{n}")
+            nb93_n2n_irdff = irdff.cross_section(x)
+            multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+                nb93_n2n_irdff[r])
+            tally.filters = [offaxis_cell_filter, neutron_filter, multiplier]
+            tally.scores = ["flux"]
+            model.tallies.append(tally)
     elif args.heating:
         tally = openmc.Tally(tally_id=1, name='nuclear_heating')
         tally.filters = [heatdetector_cell_filter, particle_filter]
