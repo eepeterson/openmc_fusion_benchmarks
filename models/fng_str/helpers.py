@@ -1,31 +1,25 @@
 import numpy as np
-import math
-import matplotlib.pyplot as plt
-import os
 
-import openmc
+# conversions
+ev2gy = 1.60217733e-16  # dose conversion factor from eV and Gy
 
-# data necessary for postprocessing
-_sim_types = ['reaction_rates_onaxis', 'reaction_rates_offaxis', 'heating']
-# reaction rate simulations
-# possible group types for the reaction rate simulation types
-_groups = ['onaxis_group1', 'onaxis_group2', 'offaxis']
-# openmc model foil cell id per group
-_cells_group1 = [135, 158, 181, 204, 602,
-                 239, 262, 285, 308, 331, 363, 386, 398]
-_cells_group2 = [605, 606, 607, 608, 609, 610, 611, 612, 602, 603, 604]
-_cells_offaxis = [135, 158, 181, 204, 605, 606,
-                  607, 608, 609, 610, 611, 612, 602, 603, 604]
 # foil cell volumes per group
 _foil_volume = .1 * 1.8**2/4 * np.pi
-volumes_onaxis1 = np.concatenate(
-    (np.ones(5), np.ones(4)*2, np.ones(4)*3)) * _foil_volume
+_tld_volume = 4/3 * np.pi * .8**3
+volumes_onaxis1 = np.concatenate((np.ones(5),
+                                  np.ones(4)*2,
+                                  np.ones(4)*3)) * _foil_volume
 volumes_onaxis2 = np.ones(11) * _foil_volume
-_volumes_offaxis = np.ones(15) * _foil_volume
+volumes_offaxis = np.ones(15) * _foil_volume
+volumes_heating = np.concatenate((np.ones(4)*_foil_volume, 
+                                 np.ones(4)*2*_foil_volume, 
+                                 np.ones(4)*_tld_volume))
+# include material density for heating
+_densities = np.ones(12) * 7.89
+_densities[-1] = _densities[-3] = 8.94
 
 # heating simulation data
 _cells_heating = [239, 262, 285, 308, 331, 363, 386, 398, 500, 507, 514, 521]
-_ev2gy = 1.60217733e-16  # dose conversion factor from eV and Gy
 
 
 def postprocess_openmc_heating(tally_dataframe, qtld_coeffs_table):
@@ -69,12 +63,12 @@ def postprocess_openmc_heating(tally_dataframe, qtld_coeffs_table):
 
         # normalize and convert values
         # extract neutron and photons heating
-        c_heating_mean = np.array(c_heating['mean']) / vol / density * _ev2gy
+        c_heating_mean = np.array(c_heating['mean']) / vol / density * ev2gy
         n_heating_mean = c_heating_mean[0]
         p_heating_mean = sum(c_heating_mean[1:])
 
         c_heating_stddev = np.array(
-            c_heating['std. dev.']) / vol / density * _ev2gy
+            c_heating['std. dev.']) / vol / density * ev2gy
         n_heating_stddev = c_heating_stddev[0]
         p_heating_stddev = sum(c_heating_stddev[1:])
 
