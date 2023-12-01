@@ -2221,16 +2221,16 @@ def main():
         for n, r, x in zip(nuclides, reactions, irdff_xs):
             # onaxis1 tally
             tally1 = openmc.Tally(name=f"rr_onaxis1_{n}")
-            nb93_n2n_irdff = irdff.cross_section(x)
+            irdff_xs = irdff.cross_section(x)
             multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-                nb93_n2n_irdff[r])
+                irdff_xs[r])
             tally1.filters = [onaxis1_cell_filter, neutron_filter, multiplier]
             tally1.scores = ["flux"]
             # onaxis2 tally
             tally2 = openmc.Tally(name=f"rr_onaxis2_{n}")
-            nb93_n2n_irdff = irdff.cross_section(x)
+            irdff_xs = irdff.cross_section(x)
             multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-                nb93_n2n_irdff[r])
+                irdff_xs[r])
             tally2.filters = [onaxis2_cell_filter, neutron_filter, multiplier]
             tally2.scores = ["flux"]
             model.tallies.extend([tally1, tally2])

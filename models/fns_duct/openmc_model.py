@@ -4,14 +4,14 @@ import argparse
 
 import openmc
 from openmc_sinbad_benchmarks import from_irdff as irdff
-from openmc_sinbad_benchmarks.neutrons_sources import fng_source
+from openmc_sinbad_benchmarks.neutron_sources import fng_source
 
 
 def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--batches", type=int, default=100)
-    parser.add_argument("-p", "--particles", type=int, default=10000)
+    parser.add_argument("-p", "--particles", type=int, default=int(1e7))
     parser.add_argument("-s", "--threads", type=int)
     parser.add_argument("-c", "--cwd", type=str)
     group = parser.add_argument_group("tallies")
@@ -1671,7 +1671,6 @@ def main():
     # detector00 is never used and it is not part of the experiment
     detector_cell_filter = openmc.CellFilter(
         [
-            cell_300,
             cell_301,
             cell_302,
             cell_303,
@@ -1818,114 +1817,34 @@ def main():
         )
     )  # mcnp uses MeV, openmc uses eV
 
-    # energy bins actually found in the output files (excel files)
-    neutron_energy_filter2 = openmc.EnergyFilter(
-        1e6*np.array([
-            1.0946,
-            1.1507,
-            1.2097,
-            1.2717,
-            1.3369,
-            1.4055,
-            1.4775,
-            1.5533,
-            1.6329,
-            1.7166,
-            1.8047,
-            1.8972,
-            1.9945,
-            2.0967,
-            2.2042,
-            2.3172,
-            2.4360,
-            2.5609,
-            2.6922,
-            2.8303,
-            2.9754,
-            3.1279,
-            3.2883,
-            3.4569,
-            3.6341,
-            3.8205,
-            4.0163,
-            4.2223,
-            4.4387,
-            4.6663,
-            4.9056,
-            5.1571,
-            5.4215,
-            5.6995,
-            5.9917,
-            6.2989,
-            6.6218,
-            6.9613,
-            7.3183,
-            7.6935,
-            8.0879,
-            8.5026,
-            8.9385,
-            9.3968,
-            9.8786,
-            10.3850,
-            10.9180,
-            11.4770,
-            12.0660,
-            12.6840,
-            13.3350,
-            14.0180,
-            14.7370,
-            15.4930,
-            16.2870,
-            17.1220,
-            18.0000,
-        ]
-        )
-    )
-
     # dosimetry tallies from IRDFF-II nuclear data library
-    irdff_path = r"../../src/data/irdff2_xs/"
-    nb93_n2n_acef = irdff_path + "dos-irdff2-4125.acef"
-    in115_nn_acef = irdff_path + "dos-irdff2-4931.acef"
-    au197_ng_acef = irdff_path + "dos-irdff2-7925_modified.acef"
+    nb93_n2n_acef = irdff.path + "dos-irdff2-4125.acef"
+    in115_nn_acef = irdff.path + "dos-irdff2-4931.acef"
+    au197_ng_acef = irdff.path + "dos-irdff2-7925_modified.acef"
+    irdff_xs = [nb93_n2n_acef, in115_nn_acef, au197_ng_acef]
+    reactions = [11016, 11004, 102]
+    nuclides = ['nb93', 'in115', 'au197']
 
-    # cell tally - reaction rates at detector
-    tally101 = openmc.Tally(tally_id=101, name="detector_reaction_rate")
-    tally101.filters = [detector_cell_filter, particle_filter]
-    tally101.scores = ["(n,2n)", "(n,nc)", "(n,gamma)"]
-    tally101.nuclides = ["Nb93", "In115", "Au197"]
-
-    # Nb93 (n,2n) Nb92m
-    tally102 = openmc.Tally(tally_id=102, name="nb93_irdff_rr")
-    nb93_n2n_irdff = irdff.cross_section(nb93_n2n_acef, mt=11016)
-    multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-        nb93_n2n_irdff[11016])
-    tally102.filters = [detector_cell_filter, particle_filter, multiplier]
-    tally102.scores = ["flux"]
-
-    # In115 (n,n') In115m
-    tally103 = openmc.Tally(tally_id=103, name="in115_irdff_rr")
-    in115_nn_irdff = irdff.cross_section(in115_nn_acef, mt=11004)
-    multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-        in115_nn_irdff[11004])
-    tally103.filters = [detector_cell_filter, particle_filter, multiplier]
-    tally103.scores = ["flux"]
-
-    # Au197 (n,gamma) Au198
-    tally104 = openmc.Tally(tally_id=104, name="au197_irdff_rr")
-    au197_ng_irdff = irdff.cross_section(au197_ng_acef, 102)
-    multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
-        au197_ng_irdff[102])
-    tally104.filters = [detector_cell_filter, particle_filter, multiplier]
-    tally104.scores = ["flux"]
+    for n, r, x in zip(nuclides, reactions, irdff_xs):
+        # onaxis1 tally
+        tally1 = openmc.Tally(name=f"rr_{n}")
+        irdff_xs = irdff.cross_section(x)
+        multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+            irdff_xs[r])
+        tally1.filters = [detector_cell_filter, neutron_filter, multiplier]
+        tally1.scores = ["flux"]
+        model.tallies.extend([tally1])
 
     # neutrons energy spectrum tallies - same energy bins as mcnp model
     # cell tally - neutron spectrum at detector
-    tally201 = openmc.Tally(tally_id=201, name="detector_nspectrum")
-    tally201.filters = [detector_cell_filter,
-                        neutron_filter, neutron_energy_filter]
-    tally201.scores = ["flux"]
-
-    model.tallies.extend([tally101, tally102, tally103, tally104, tally201])
+    det_cell = [cell_303, cell_305, cell_307, cell_309]
+    det_pos = ['3', '5', '7', '9']
+    for dc, dp in zip(det_cell, det_pos):
+        cell_filter = openmc.CellFilter([dc])
+        tally101 = openmc.Tally(name=f"nspectrum_detector{dp}")
+        tally101.filters = [cell_filter, neutron_filter, neutron_energy_filter]
+        tally101.scores = ["flux"]
+        model.tallies.extend([tally101])
 
     cwd = 'results'
     model.settings = settings
