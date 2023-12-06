@@ -14,7 +14,6 @@ def _parse_args():
     parser.add_argument("-p", "--particles", type=int, default=int(1e7))
     parser.add_argument("-s", "--threads", type=int)
     parser.add_argument("-c", "--cwd", type=str)
-    group = parser.add_argument_group("tallies")
 
     args = parser.parse_args()
 
