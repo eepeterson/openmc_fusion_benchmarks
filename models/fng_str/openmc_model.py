@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import numpy as np
 import argparse
 
 import openmc
@@ -115,8 +114,10 @@ def main():
         detector = openmc.Material.mix_materials(
             [air, au197, aisi316], [0., 0., 1.], 'vo')
     else:
-        detector = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.95, 0.05, 0.], 'vo')
+        detector = aisi316
+        
+        # openmc.Material.mix_materials(
+        #     [air, au197, aisi316], [.95, 0.05, 0.], 'vo')
 
     ############################################################################
     # Build Geometry
@@ -2245,7 +2246,7 @@ def main():
             tally.scores = ["flux"]
             model.tallies.append(tally)
     elif args.heating:
-        tally = openmc.Tally(tally_id=1, name='nuclear_heating')
+        tally = openmc.Tally(name='nuclear_heating')
         tally.filters = [heatdetector_cell_filter, particle_filter]
         tally.scores = ['heating']
         model.tallies.append(tally)
