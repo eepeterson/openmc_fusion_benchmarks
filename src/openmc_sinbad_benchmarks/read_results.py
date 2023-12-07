@@ -187,10 +187,11 @@ class ResultsFromDatabase:
     def print_all_info(self):
         """Prints all info available
         """
-        print(f'When: {self.when}\n',
+        print(f'Info:\n',
+              f'When: {self.when}\n',
               f'Where: {self.where}\n',
               f'Code version:{self.code_version}\n',
-              f'XS library: {self.xs_library}\n'
+              f'XS library: {self.xs_library}\n',
               f'Literature: {self.literature_info}\n')
 
 
