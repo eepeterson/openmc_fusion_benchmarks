@@ -13,11 +13,11 @@ def _parse_args():
     parser.add_argument("-p", "--particles", type=int, default=int(1e7))
     parser.add_argument("-s", "--threads", type=int)
     group = parser.add_argument_group("tallies")
-    group.add_argument('-r', '--reaction_rates_onaxis', action='store_true',
+    group.add_argument("-r", "--reaction_rates_onaxis", action='store_true',
                        default=False)
-    group.add_argument('-o', '--reaction_rates_offaxis', action='store_true',
+    group.add_argument("-o", "--reaction_rates_offaxis", action='store_true',
                        default=False)
-    group.add_argument('-d', '--heating', action='store_true',
+    group.add_argument("-d", "--heating", action='store_true',
                        default=False)
 
     args = parser.parse_args()

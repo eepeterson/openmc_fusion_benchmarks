@@ -3,6 +3,9 @@ import numpy as np
 # conversions
 ev2gy = 1.60217733e-16  # dose conversion factor from eV and Gy
 
+# detector lists
+foil_list = ['nb93', 'al27', 'ni58', 'au197']
+
 # foil cell volumes per group
 _foil_volume = .1 * .9**2 * np.pi
 _tld_volume = 4/3 * np.pi * .8**3
@@ -18,8 +21,6 @@ volumes_heating = np.concatenate((np.ones(4)*2*_foil_volume,
 _densities = np.ones(12) * 7.89
 _densities[-1] = _densities[-3] = 8.94
 
-# heating simulation data
-_cells_heating = [239, 262, 285, 308, 331, 363, 386, 398, 500, 507, 514, 521]
 
 
 def postprocess_openmc_heating(tally_dataframe, qtld_coeffs_table):
