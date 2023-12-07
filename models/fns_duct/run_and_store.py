@@ -32,7 +32,7 @@ def main():
     openmc_file = osb.ResultsFromOpenmc('statepoint.100.h5', 'results')
 
     # openmc hdf file
-    filename = 'openmc_' + args.xslib + '.h5'
+    filename = osb.build_hdf_filename('openmc', args.xslib)
 
     # store activation foil results
     x_axis = 'Detector No.'

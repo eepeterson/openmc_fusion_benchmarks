@@ -303,8 +303,6 @@ class ResultsFromOpenmc:
             Can be the year(s) (YYYY-YYYY) or the month and year (Month, YYYY) of the model run
         where : str, optional
             Name of the institution that run the simulation
-
-
         """
 
         hdf_file = build_hdf_filename('openmc', xs_library)

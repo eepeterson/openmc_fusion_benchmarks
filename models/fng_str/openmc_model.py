@@ -114,10 +114,8 @@ def main():
         detector = openmc.Material.mix_materials(
             [air, au197, aisi316], [0., 0., 1.], 'vo')
     else:
-        detector = aisi316
-        
-        # openmc.Material.mix_materials(
-        #     [air, au197, aisi316], [.95, 0.05, 0.], 'vo')
+        detector = openmc.Material.mix_materials(
+            [air, au197, aisi316], [.95, 0.05, 0.], 'vo')
 
     ############################################################################
     # Build Geometry
