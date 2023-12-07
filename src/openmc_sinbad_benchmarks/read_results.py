@@ -3,6 +3,29 @@ import openmc
 from pathlib import Path
 from typing import Iterable
 
+def build_hdf_filename(software_name:str, xs_library:str) -> str:
+    """Builds the name for the hdf file to be stored in a results_database folder
+
+    Parameters
+    ----------
+    software : str
+        name of the software used for the simulation
+    xs_library : str
+        name of the nuclear data library used in the simulation
+
+    Returns
+    -------
+    str
+        name of the hdf file
+    """
+
+    filename = software_name.strip().replace(' ', '').replace('.', '').replace('-', '')
+    filename += '_'
+    filename += xs_library.strip().replace(' ', '').replace('.', '').replace('-', '')
+    filename += '.h5'
+
+    return filename
+
 
 class ResultsFromDatabase:
     """This class takes in a hdf file and its path and generates a generic
@@ -256,16 +279,12 @@ class ResultsFromOpenmc:
         """
         return self.statepoint.n_batches
 
-    def tally_to_hdf(self, hdf_file: str, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None,
+    def tally_to_hdf(self, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None,
                      path_to_database: str = '../results_database', when: str = 'n/a', where: str = 'n/a'):
         """Stores the openmc tally in a hdf file for the results_database folder
 
         Parameters
         ----------
-        hdf_file : str
-            Name of the hdf file to store in the results_database folder. it should be
-            something 'like oepnmc_X.h5' where X is the nuclear data library used for
-            the simulation 
         tally_name : str
             Exact name of the tally to store in the hdf file. It should be the
             same as the openmc tally
@@ -287,6 +306,8 @@ class ResultsFromOpenmc:
 
 
         """
+
+        hdf_file = build_hdf_filename('openmc', xs_library)
         path = Path(path_to_database)
         # merge path to hdf file
         path_to_file = path / hdf_file
