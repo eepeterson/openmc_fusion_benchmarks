@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Iterable
 import pandas as pd
 
-_del_columns = ['cell', 'particle', 'nuclide', 'score']
+_del_columns = ['cell', 'particle', 'nuclide', 'score', 'energyfunction']
 
 def build_hdf_filename(software_name:str, xs_library:str) -> str:
     """Builds the name for the hdf file to be stored in a results_database folder
@@ -190,7 +190,7 @@ class ResultsFromDatabase:
         print(f'Info:\n',
               f'When: {self.when}\n',
               f'Where: {self.where}\n',
-              f'Code version:{self.code_version}\n',
+              f'Code version: {self.code_version}\n',
               f'XS library: {self.xs_library}\n',
               f'Literature: {self.literature_info}\n')
 
