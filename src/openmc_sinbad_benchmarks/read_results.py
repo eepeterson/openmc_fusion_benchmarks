@@ -2,6 +2,9 @@ import h5py
 import openmc
 from pathlib import Path
 from typing import Iterable
+import pandas as pd
+
+_del_columns = ['cell', 'particle', 'nuclide', 'score']
 
 def build_hdf_filename(software_name:str, xs_library:str) -> str:
     """Builds the name for the hdf file to be stored in a results_database folder
@@ -19,9 +22,9 @@ def build_hdf_filename(software_name:str, xs_library:str) -> str:
         name of the hdf file
     """
 
-    filename = software_name.strip().replace(' ', '').replace('.', '').replace('-', '')
+    filename = software_name.strip().replace(' ', '').replace('.', '').replace('-', '').lower()
     filename += '_'
-    filename += xs_library.strip().replace(' ', '').replace('.', '').replace('-', '')
+    filename += xs_library.strip().replace(' ', '').replace('.', '').replace('-', '').lower()
     filename += '.h5'
 
     return filename
@@ -178,17 +181,17 @@ class ResultsFromDatabase:
     def print_code_info(self):
         """Prints all the code info available
         """
-        print(f'Code version:{self.code_version} \n',
-              f'XS library: {self.xs_library} \n')
+        print(f'Code version:{self.code_version}\n',
+              f'XS library: {self.xs_library}\n')
 
     def print_all_info(self):
         """Prints all info available
         """
-        print(f'When: {self.when} \n',
-              f'Where: {self.where} \n',
-              f'Code version:{self.code_version} \n',
-              f'XS library: {self.xs_library} \n'
-              f'Literature: {self.literature_info} \n')
+        print(f'When: {self.when}\n',
+              f'Where: {self.where}\n',
+              f'Code version:{self.code_version}\n',
+              f'XS library: {self.xs_library}\n'
+              f'Literature: {self.literature_info}\n')
 
 
 class ResultsFromOpenmc:
@@ -279,8 +282,9 @@ class ResultsFromOpenmc:
         """
         return self.statepoint.n_batches
 
-    def tally_to_hdf(self, tally_name: str, normalize_over: Iterable, xs_library: str, x_axis: str = None,
-                     path_to_database: str = '../results_database', when: str = 'n/a', where: str = 'n/a'):
+    def tally_to_hdf(self, tally_name: str, normalize_over: Iterable, xs_library: str, xaxis_name: str,
+                     xaxis_list:Iterable=None, path_to_database: str = '../results_database', when: str = 'n/a',
+                     where: str = 'n/a'):
         """Stores the openmc tally in a hdf file for the results_database folder
 
         Parameters
@@ -293,9 +297,11 @@ class ResultsFromOpenmc:
             by their filter dimension (e.g cell volume, surface area), by default None
         xs_library : str
             Name of the nuclear data library used for the simulation
-        x_axis : str, optional
+        xaxis_name : str, optional
             name of the x_axis to store in order to be retrieved with the
             ResultsFromDatabase.get_tally_xaxis method, by default None
+        xaxis_list : Iterable
+            list of elements to apply to the df columns identified by the xaxis_name
         path_to_database : str, optional
             path to the results_database folder for storing the new hdf file,
             by default '../results_database'
@@ -313,6 +319,16 @@ class ResultsFromOpenmc:
         # extract tally in dataframe format from statepoint file
         tally_df = self.get_tally_dataframe(
             tally_name, normalize_over=normalize_over)
+        
+        # rework the dataframe dropping useless columns
+        for c in _del_columns:
+            if c in tally_df.columns:
+                tally_df = tally_df.drop(columns=c)
+
+        # add xaxis columns if required
+        if xaxis_list is not None:
+            tally_df.insert(loc=0, column=xaxis_name, value=xaxis_list)
+
         # write the tally in the hdf file
         tally_df.to_hdf(path_to_file, tally_name, mode='a',
                         format='table', data_columns=True, index=False)
@@ -320,7 +336,7 @@ class ResultsFromOpenmc:
 
         # write attributes to the hdf file
         with h5py.File(path_to_file, 'a') as f:
-            f[tally_name + '/table'].attrs['x_axis'] = x_axis
+            f[tally_name + '/table'].attrs['x_axis'] = xaxis_name
             f.attrs['code_version'] = code_version
             f.attrs['xs_library'] = xs_library
             f.attrs['batches'] = self.get_batches

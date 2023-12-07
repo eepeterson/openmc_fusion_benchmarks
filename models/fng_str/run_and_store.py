@@ -8,6 +8,11 @@ import pandas as pd
 from pathlib import Path
 import h5py
 
+# ignore NaturalNameWarnings
+import warnings
+from tables import NaturalNameWarning
+warnings.filterwarnings('ignore', category=NaturalNameWarning)
+
 _xaxis_heating = ['46.35/SS', '53.3/SS', '60.05/SS', '66.9/SS', '73.9/SS', '80.6/SS', 
           '87.25/SS', '91.65/SS', '95.36/SS', '97.56/Cu', '99.76/SS', '101.96/Cu']
 _qtld_coeff_eff3 = {'Ce': np.array([.1 , .07, .05, .05, .05, .05, .05, .05, .05, .05, .05, .05]),
@@ -69,7 +74,6 @@ def main():
 
     # store activation foil results
     x_axis = 'Shield depth (cm)'
-
     for foil in helpers.foil_list:
         # on axis group 1
         onaxis_file.tally_to_hdf(hdf_file=filename, tally_name=f'rr_onaxis1_{foil}',
@@ -114,7 +118,7 @@ def main():
     with h5py.File(path_to_file, 'a') as f:
         f[tally_name + '/table'].attrs['x_axis'] = x_axis
         f.attrs['code_version'] = code_version
-        f.attrs['xs_library'] = xs_library.strip.replace(' ','')
+        f.attrs['xs_library'] = args.xlib.strip.replace(' ','')
         f.attrs['batches'] = heating_file.get_batches
         f.attrs['particles_per_batch'] = heating_file.get_particles_per_batch
         f.attrs['when'] = args.when

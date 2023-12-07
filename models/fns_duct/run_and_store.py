@@ -4,6 +4,11 @@ import subprocess
 import openmc_sinbad_benchmarks as osb
 import helpers
 
+# ignore NaturalNameWarnings
+import warnings
+from tables import NaturalNameWarning
+warnings.filterwarnings('ignore', category=NaturalNameWarning)
+
 def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
@@ -19,6 +24,11 @@ def main():
     """Run the fns_duct simulation and store an hdf file in results_database/"""
     args = _parse_args()
 
+    if args.xslib is None:
+        msg = """Please enter the used nuclear data library name to be used in the simulation.
+            Specify it with the argument -x or --xslib"""
+        raise ValueError(msg)
+
     # run simulation
     try:
         p = subprocess.Popen(["python3", "openmc_model.py"])
@@ -31,28 +41,28 @@ def main():
     # read statepoint file
     openmc_file = osb.ResultsFromOpenmc('statepoint.100.h5', 'results')
 
-    # openmc hdf file
-    filename = osb.build_hdf_filename('openmc', args.xslib)
-
     # store activation foil results
-    x_axis = 'Detector No.'
+    xaxis_name = 'Detector No.'
+    xaxis_list = [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]
     for foil in helpers.foil_list:
-        openmc_file.tally_to_hdf(hdf_file=filename, tally_name=f'rr_{foil}',
-                                    normalize_over=helpers.detector_volume,
-                                    xs_library=args.xlib, x_axis=x_axis,
-                                    path_to_database='results_database',
-                                    when=args.when,
-                                    where=args.where)
+        openmc_file.tally_to_hdf(tally_name=f'rr_{foil}',
+                                 normalize_over=helpers.detector_volume,
+                                 xs_library=args.xslib, xaxis_name=xaxis_name,
+                                 xaxis_list=xaxis_list,
+                                 path_to_database='results_database',
+                                 when=args.when,
+                                 where=args.where)
         
     # store spectrometer results
-    x_axis = 'Detector No.'
+    xaxis_name = 'Energy low (eV)'
     for dp in helpers.detector_list:
-        openmc_file.tally_to_hdf(hdf_file=filename, tally_name=f'nspectrum_detector{dp}',
-                                    normalize_over=helpers.detector_volume,
-                                    xs_library=args.xlib, x_axis=x_axis,
-                                    path_to_database='results_database',
-                                    when=args.when,
-                                    where=args.where)
+        openmc_file.tally_to_hdf(tally_name=f'nspectrum_{dp}',
+                                 normalize_over=helpers.detector_volume,
+                                 xs_library=args.xslib,
+                                 xaxis_name=xaxis_name,
+                                 path_to_database='results_database',
+                                 when=args.when,
+                                 where=args.where)
 
 if __name__ == "__main__":
     main()
