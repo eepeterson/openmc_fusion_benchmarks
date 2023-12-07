@@ -43,7 +43,7 @@ def main():
 
     # store activation foil results
     xaxis_name = 'Detector No.'
-    xaxis_list = [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]
+    xaxis_list = [ '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9', '10', '11']
     for foil in helpers.foil_list:
         openmc_file.tally_to_hdf(tally_name=f'rr_{foil}',
                                  normalize_over=helpers.detector_volume,
