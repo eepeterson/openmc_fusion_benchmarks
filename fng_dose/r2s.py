@@ -25,7 +25,10 @@ run_kwargs = {
 }
 
 
-# TODO: Replace with activation_cells.json?
+# TODO: Replace with activation_cells.json? Note that it currently includes
+# cells 636, 637, 638, 648, 649, and 650 which are steel in the neutron model
+# but turn into air in the photon model. Probably should be removed from
+# activation_cells.json
 inner_cell_ids = [
     160, 161, 173, 174, 175, 176, 177, 178, 179, 226, 228, 230, 239, 240, 242,
     251, 252, 253, 601, 620, 621, 622, 624, 625, 627, 628
