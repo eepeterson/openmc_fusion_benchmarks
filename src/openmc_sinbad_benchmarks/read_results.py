@@ -6,13 +6,16 @@ import pandas as pd
 
 _del_columns = ['cell', 'particle', 'nuclide', 'score', 'energyfunction']
 
-def build_hdf_filename(software_name:str, xs_library:str) -> str:
+
+def build_hdf_filename(software_name: str, software_version: Iterable, xs_library: str) -> str:
     """Builds the name for the hdf file to be stored in a results_database folder
 
     Parameters
     ----------
-    software : str
+    software_name : str
         name of the software used for the simulation
+    software_version : Iterable
+        list or tuple with the software version
     xs_library : str
         name of the nuclear data library used in the simulation
 
@@ -22,9 +25,11 @@ def build_hdf_filename(software_name:str, xs_library:str) -> str:
         name of the hdf file
     """
 
-    filename = software_name.strip().replace(' ', '').replace('.', '').replace('-', '').lower()
-    filename += '_'
-    filename += xs_library.strip().replace(' ', '').replace('.', '').replace('-', '').lower()
+    filename = software_name.strip().replace(
+        ' ', '').replace('.', '').replace('-', '').lower()
+    filename += '-' + '-'.join(map(str, software_version)) + '_'
+    filename += xs_library.strip().replace(' ', '').replace('.',
+                                                            '').replace('-', '').lower()
     filename += '.h5'
 
     return filename
@@ -284,7 +289,7 @@ class ResultsFromOpenmc:
         return self.statepoint.n_batches
 
     def tally_to_hdf(self, tally_name: str, normalize_over: Iterable, xs_library: str, xaxis_name: str,
-                     xaxis_list:Iterable=None, path_to_database: str = '../results_database', when: str = 'n/a',
+                     xaxis_list: Iterable = None, path_to_database: str = '../results_database', when: str = 'n/a',
                      where: str = 'n/a'):
         """Stores the openmc tally in a hdf file for the results_database folder
 
@@ -312,7 +317,8 @@ class ResultsFromOpenmc:
             Name of the institution that run the simulation
         """
 
-        hdf_file = build_hdf_filename('openmc', xs_library)
+        hdf_file = build_hdf_filename(
+            'openmc', self.get_openmc_version, xs_library)
         path = Path(path_to_database)
         # merge path to hdf file
         path_to_file = path / hdf_file
@@ -320,7 +326,7 @@ class ResultsFromOpenmc:
         # extract tally in dataframe format from statepoint file
         tally_df = self.get_tally_dataframe(
             tally_name, normalize_over=normalize_over)
-        
+
         # rework the dataframe dropping useless columns
         for c in _del_columns:
             if c in tally_df.columns:

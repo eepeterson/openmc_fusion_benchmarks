@@ -11,7 +11,7 @@ def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--batches", type=int, default=100)
-    parser.add_argument("-p", "--particles", type=int, default=int(1e8))
+    parser.add_argument("-p", "--particles", type=int, default=int(1e9))
     parser.add_argument("-s", "--threads", type=int)
     parser.add_argument("-c", "--cwd", type=str)
 
