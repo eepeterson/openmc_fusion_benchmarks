@@ -43,7 +43,7 @@ class ResultsFromDatabase:
     that have been stored there
     """
 
-    def __init__(self, filename: str, path: str = 'results_database'):
+    def __init__(self, filename: str, path: str = ''):
         """ResultsFromDatabase class constructor
 
         Parameters
