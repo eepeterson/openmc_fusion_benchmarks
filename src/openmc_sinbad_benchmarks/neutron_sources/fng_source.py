@@ -51,7 +51,7 @@ def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1)):
             evalues, fvalues[i], interpolation='linear-linear')
         strength = yields[i]
 
-        my_source = openmc.Source(
+        my_source = openmc.IndependentSource(
             space=space, angle=angle, energy=energy, strength=strength, particle='neutron')
 
         all_sources.append(my_source)
