@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import argparse
 import subprocess
-import openmc_sinbad_benchmarks as osb
+import openmc_fusion_benchmarks as ofb
 import helpers
 
 # ignore NaturalNameWarnings
 import warnings
 from tables import NaturalNameWarning
 warnings.filterwarnings('ignore', category=NaturalNameWarning)
+
 
 def _parse_args():
     """Parse and return commandline arguments"""
@@ -19,6 +20,7 @@ def _parse_args():
     args = parser.parse_args()
 
     return args
+
 
 def main():
     """Run the fns_duct simulation and store an hdf file in results_database/"""
@@ -39,11 +41,12 @@ def main():
     p.wait()
 
     # read statepoint file
-    openmc_file = osb.ResultsFromOpenmc('statepoint.100.h5', 'results')
+    openmc_file = ofb.ResultsFromOpenmc('statepoint.100.h5', 'results')
 
     # store activation foil results
     xaxis_name = 'Detector No.'
-    xaxis_list = [ '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9', '10', '11']
+    xaxis_list = ['1',  '2',  '3',  '4',  '5',
+                  '6',  '7',  '8',  '9', '10', '11']
     for foil in helpers.foil_list:
         openmc_file.tally_to_hdf(tally_name=f'rr_{foil}',
                                  normalize_over=helpers.detector_volume,
@@ -52,7 +55,7 @@ def main():
                                  path_to_database='results_database',
                                  when=args.when,
                                  where=args.where)
-        
+
     # store spectrometer results
     xaxis_name = 'Energy low (eV)'
     for dp in helpers.detector_list:
@@ -63,6 +66,7 @@ def main():
                                  path_to_database='results_database',
                                  when=args.when,
                                  where=args.where)
+
 
 if __name__ == "__main__":
     main()
