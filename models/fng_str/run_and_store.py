@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import subprocess
-import openmc_sinbad_benchmarks as osb
+import openmc_fusion_benchmarks as ofb
 import helpers
 import numpy as np
 import pandas as pd
@@ -59,14 +59,14 @@ def main():
     p.wait()
 
     # read statepoint file
-    onaxis_file = osb.ResultsFromOpenmc(
+    onaxis_file = ofb.ResultsFromOpenmc(
         'statepoint.100.h5', 'reaction_rates_onaxis')
-    offaxis_file = osb.ResultsFromOpenmc(
+    offaxis_file = ofb.ResultsFromOpenmc(
         'statepoint.100.h5', 'reaction_rates_offaxis')
-    heating_file = osb.ResultsFromOpenmc('statepoint.100.h5', 'heating')
+    heating_file = ofb.ResultsFromOpenmc('statepoint.100.h5', 'heating')
 
     # openmc hdf file
-    filename = osb.build_hdf_filename(
+    filename = ofb.build_hdf_filename(
         'openmc', heating_file.get_openmc_version, args.xslib)
 
     # store activation foil results

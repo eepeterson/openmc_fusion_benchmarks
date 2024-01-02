@@ -2,8 +2,8 @@
 import argparse
 
 import openmc
-from openmc_sinbad_benchmarks import from_irdff as irdff
-from openmc_sinbad_benchmarks.neutron_sources import fng_source
+from openmc_fusion_benchmarks import from_irdff as irdff
+from openmc_fusion_benchmarks.neutron_sources import fng_source
 
 
 def _parse_args():
