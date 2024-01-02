@@ -1,3 +1,0 @@
-openmc
-numpy
-pandas
