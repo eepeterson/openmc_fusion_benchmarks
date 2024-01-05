@@ -7,7 +7,7 @@ import openmc
 from pathlib import Path
 
 
-def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1)):
+def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1), beam_energy=260):
     '''method for building the Frascati Neutron Generator source in OpenMC
     with data tabulated from the fortran->C++ routine
 
@@ -18,11 +18,15 @@ def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1)):
     reference_uvw : direction for the polar angle (tuple or list of versors)
     it is the same for the openmc.PolarAzimuthal class
     more specifically, polar angle = 0 is the direction of the D accelerator
-    towards the Ti-T target    
+    towards the Ti-T target
+
+    beam_energy : energy in (keV) of the accelerator D beam impinging on the 
+    Ti-T target
     '''
 
     # read tabulated data
-    filename = str(Path(__file__).parent) + "/fng_characteristics.csv"
+    fname = 'fng_' + str(int(beam_energy)) + 'keV_characteristics.csv'
+    filename = str(Path(__file__).parent) / Path(fname)
     fng_source_fr = np.loadtxt(filename, delimiter=",")
 
     # angular bins in [0, pi)
