@@ -1653,7 +1653,7 @@ def main():
     settings.particles = args.particles
     # fng source
     fng2fns_source = fng_source(
-        center=(0, 0, 0), reference_uvw=(0, 1, 0))
+        center=(0, 0, 0), reference_uvw=(0, 1, 0), beam_energy=230)
     settings.source = fng2fns_source
     settings.weight_windows = ww
     settings.output = {'tallies': False}

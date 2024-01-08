@@ -33,8 +33,8 @@ def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1), beam_energy=260):
     pbins = np.cos(np.linspace(0, np.pi, 37))
 
     # energy and flux values from tables
-    evalues = fng_source_fr[0]
-    fvalues = fng_source_fr[1:]
+    evalues = (fng_source_fr[0] + fng_source_fr[0]) / 2
+    fvalues = fng_source_fr[2:]
 
     # yield values for strengths
     yields = np.sum(fvalues, axis=-1) * np.diff(pbins)

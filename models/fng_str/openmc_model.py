@@ -2166,7 +2166,7 @@ def main():
     fng_uvw = (0., 1., 0)
 
     source = fng_source(center=fng_center,
-                        reference_uvw=fng_uvw)
+                        reference_uvw=fng_uvw, beam_energy=230)
 
     # weight windows from wwinps
     ww = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
