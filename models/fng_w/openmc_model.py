@@ -2140,26 +2140,16 @@ def main():
     nuclides = ['zr90', 'al27', 'mn55', 'nb93', 'ni58_n2n',
                 'ni58_np', 'au197', 'fe56', 'in115']
 
-    # # dosimetry tallies from IRDFF-II nuclear data library
-    # zr90_n2n_acef = irdff.path + "dos-irdff2-4025.acef"
-    # al27_na_acef = irdff.path + "dos-irdff2-1325.acef"
-    # mn55_ng_acef = irdff.path + "dos-irdff2-2525_modified.acef"
-    # nb93_n2n_acef = irdff.path + "dos-irdff2-4125.acef"
-    # ni58_n2n_acef = irdff.path + "dos-irdff2-2825_modified.acef"
-    # ni58_np_acef = irdff.path + "dos-irdff2-2825_modified.acef"
-    # au197_ng_acef = irdff.path + "dos-irdff2-7925_modified.acef"
-    # fe56_np_acef = irdff.path + "dos-irdff2-2631.acef"
-    # in115_nn_acef = irdff.path + "dos-irdff2-4931.acef"
-
-    zr90_n2n_acef = "dos-irdff2-4025.acef"
-    al27_na_acef = "dos-irdff2-1325.acef"
-    mn55_ng_acef = "dos-irdff2-2525_modified.acef"
-    nb93_n2n_acef = "dos-irdff2-4125.acef"
-    ni58_n2n_acef = "dos-irdff2-2825_modified.acef"
-    ni58_np_acef = "dos-irdff2-2825_modified.acef"
-    au197_ng_acef = "dos-irdff2-7925_modified.acef"
-    fe56_np_acef = "dos-irdff2-2631.acef"
-    in115_nn_acef = "dos-irdff2-4931.acef"
+    # dosimetry tallies from IRDFF-II nuclear data library
+    zr90_n2n_acef = irdff.path + "dos-irdff2-4025.acef"
+    al27_na_acef = irdff.path + "dos-irdff2-1325.acef"
+    mn55_ng_acef = irdff.path + "dos-irdff2-2525_modified.acef"
+    nb93_n2n_acef = irdff.path + "dos-irdff2-4125.acef"
+    ni58_n2n_acef = irdff.path + "dos-irdff2-2825_modified.acef"
+    ni58_np_acef = irdff.path + "dos-irdff2-2825_modified.acef"
+    au197_ng_acef = irdff.path + "dos-irdff2-7925_modified.acef"
+    fe56_np_acef = irdff.path + "dos-irdff2-2631.acef"
+    in115_nn_acef = irdff.path + "dos-irdff2-4931.acef"
 
     irdff_xs = [zr90_n2n_acef, al27_na_acef, mn55_ng_acef,
                 nb93_n2n_acef, ni58_n2n_acef, ni58_np_acef, au197_ng_acef,
