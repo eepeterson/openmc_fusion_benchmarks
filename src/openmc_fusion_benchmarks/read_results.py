@@ -208,7 +208,7 @@ class ResultsFromOpenmc:
     results_database folder it is necessary to use ResultsFromDatabase class
     """
 
-    def __init__(self, statepoint_file: str = 'statepoint.100.h5', path: str = 'results'):
+    def __init__(self, statepoint_file: str = 'statepoint.100.h5', path: str = ''):
         """ResultsFromOpenmc class constructor
 
         Parameters
