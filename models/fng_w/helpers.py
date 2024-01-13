@@ -47,7 +47,7 @@ def postprocess_openmc_heating(tally_dataframe):
     # cn = np.array(qtld_coeffs['Cn'])
     # cp = np.array(qtld_coeffs['Cp'])
 
-    ce = 0.1
+    ce = 0.1  # order of magnitude according to FNG-str TLD detector coefficient
     cn = 1
     cp = 1
 
