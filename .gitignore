@@ -47,7 +47,7 @@ delete*
 .python-version
 .coverage
 htmlcov
-*.egg-info
+openmc_fusion_benchmarks.egg-info/
 
 # macOS
 *.DS_Store
