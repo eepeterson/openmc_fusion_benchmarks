@@ -7,7 +7,7 @@
 summary.*
 statepoint.*
 
-# temporary files for notebooks
+# temporary files
 my_openmc_results.h5
 
 # attempt/sketch files 
@@ -47,6 +47,7 @@ delete*
 .python-version
 .coverage
 htmlcov
+*.egg-info
 
 # macOS
 *.DS_Store
