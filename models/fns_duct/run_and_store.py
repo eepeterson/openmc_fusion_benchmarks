@@ -57,7 +57,7 @@ def main():
                                  where=args.where)
 
     # store spectrometer results
-    xaxis_name = 'Energy low (eV)'
+    xaxis_name = 'Energy low [eV]'
     for dp in helpers.detector_list:
         openmc_file.tally_to_hdf(tally_name=f'nspectrum_{dp}',
                                  normalize_over=helpers.detector_volume,
