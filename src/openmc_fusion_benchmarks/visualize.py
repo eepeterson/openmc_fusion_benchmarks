@@ -44,6 +44,7 @@ def add_floor_ceiling(ax: matplotlib.axes, values: Iterable, scale: str = 'lin',
         raise NameError(msg)
 
     # get global min ang max values
+    values = np.array(values)
     if isinstance(values, list):
         min_value = min([np.nanmin(i[np.nonzero(i)]) for i in values])
         max_value = max([np.nanmax(i[np.nonzero(i)]) for i in values])

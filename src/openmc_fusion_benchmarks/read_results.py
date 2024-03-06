@@ -82,7 +82,15 @@ class ResultsFromDatabase:
             DataFrame with tally results
         """
         with h5py.File(self._myfile) as f:
-            return f[tally_name+'/table'][()]
+            df = pd.DataFrame(f[tally_name+'/table'][()]).drop(columns='index')
+            # decode hdf5 strings to strings if necessary
+            try:
+                df[self.get_tally_xaxis(tally_name)] = [el.decode()
+                                                        for el in df[self.get_tally_xaxis(tally_name)]]
+            except:
+                pass
+
+            return df
 
     def get_tally_xaxis(self, tally_name: str):
         """Retrieves the string with the exact name associated to the tally
