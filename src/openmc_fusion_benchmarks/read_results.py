@@ -223,15 +223,17 @@ class ResultsFromOpenmc:
         ----------
         statepoint_file : str, optional
             name of the statepoint.h5 file, by default 'statepoint.100.h5'
-        path : str, optional
-            path to the statepoint file, by default 'results'
         """
         self.statepoint_file = statepoint_file
-        source_folder = Path(path)
-        # merge path to statepoint file
-        self._myfile = source_folder / statepoint_file
         # open statepoint file with openmc
-        self.statepoint = openmc.StatePoint(self._myfile)
+        self.statepoint = openmc.StatePoint(self.statepoint_file)
+
+    def list_tallies(self):
+        """Prints the names of all the tallies available in the statepoint.h5
+        """
+        sp = openmc.StatePoint(self.statepoint_file)
+        for k in sp.tallies.keys():
+            print(sp.tallies[k].name)
 
     def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None):
         """Retrieves the results of a given tally in a Pandas DataFrame format.
