@@ -25,9 +25,9 @@ dependencies = [
     "tables"
 ]
 
-[tool.setuptools.sdist]
+[tool.setuptools.package_data]
 # Specify non-code files to include
-data = ["openmc_fusion_benchmarks/neutron_sources/*.csv"]
+"openmc_fusion_benchmarks" = ["neutron_sources/*.csv"]
 
 [project.urls]
 "Homepage" = "https://github.com/eepeterson/openmc_sinbad_benchmarks"
