@@ -25,11 +25,6 @@ dependencies = [
     "tables"
 ]
 
-
-[tool.setuptools.package_data]
-# Specify non-code files to include
-"your_package_name" = ["neutron_sources/*.csv"]
-
 [project.urls]
 "Homepage" = "https://github.com/eepeterson/openmc_sinbad_benchmarks"
 "Bug Tracker" = "https://github.com/eepeterson/openmc_sinbad_benchmarks/issues"
