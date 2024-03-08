@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -25,9 +25,9 @@ dependencies = [
     "tables"
 ]
 
-[project.package_data]
+[tool.setuptools.sdist]
 # Specify non-code files to include
-"your_package_name" = ["neutron_sources/*.csv"]
+data = ["openmc_fusion_benchmarks/neutron_sources/*.csv"]
 
 [project.urls]
 "Homepage" = "https://github.com/eepeterson/openmc_sinbad_benchmarks"
