@@ -216,22 +216,27 @@ class ResultsFromOpenmc:
     results_database folder it is necessary to use ResultsFromDatabase class
     """
 
-    def __init__(self, statepoint_file: str = 'statepoint.100.h5', path: str = ''):
+    def __init__(self, statepoint_file: str = 'statepoint.100.h5', path: str = 'results'):
         """ResultsFromOpenmc class constructor
 
         Parameters
         ----------
         statepoint_file : str, optional
             name of the statepoint.h5 file, by default 'statepoint.100.h5'
+        path : str, optional
+            path to the hdf file, by default 'results'
         """
         self.statepoint_file = statepoint_file
+        source_folder = Path(path)
+        # merge path to statepoint file
+        self._myfile = source_folder / statepoint_file
         # open statepoint file with openmc
-        self.statepoint = openmc.StatePoint(self.statepoint_file)
+        self.statepoint = openmc.StatePoint(self._myfile)
 
     def list_tallies(self):
         """Prints the names of all the tallies available in the statepoint.h5
         """
-        sp = openmc.StatePoint(self.statepoint_file)
+        sp = self.statepoint
         for k in sp.tallies.keys():
             print(sp.tallies[k].name)
 
