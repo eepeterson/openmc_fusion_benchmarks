@@ -25,6 +25,7 @@ dependencies = [
     "tables"
 ]
 
+[tool.setuptools]
 [tool.setuptools.package_data]
 # Specify non-code files to include
 "openmc_fusion_benchmarks" = ["neutron_sources/*.csv"]
