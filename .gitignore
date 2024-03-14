@@ -4,6 +4,15 @@
 *.log
 *.out
 *.pkl
+summary.*
+statepoint.*
+
+# temporary files
+my_openmc_results.h5
+
+# attempt/sketch files 
+DELETE*
+delete*
 
 # Compiler python objects
 *.pyc
@@ -14,9 +23,6 @@
 # emacs and vim backups
 *~
 *.swp
-
-# HDF5 files
-*.h5
 
 # Images
 *.png
@@ -41,6 +47,7 @@
 .python-version
 .coverage
 htmlcov
+openmc_fusion_benchmarks.egg-info/
 
 # macOS
 *.DS_Store
