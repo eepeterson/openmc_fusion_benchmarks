@@ -2168,19 +2168,18 @@ def main():
     source = fng_source(center=fng_center,
                         reference_uvw=fng_uvw, beam_energy=230)
 
-    # weight windows from wwinps
-    ww = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
-
     # settings
     settings = openmc.Settings(run_mode='fixed source')
     settings.batches = args.batches
     settings.particles = args.particles
-    settings.weight_windows = ww
     settings.source = source
     if args.heating:
         settings.survival_biasing = True
         settings.photon_transport = True
         settings.electron_treatment = 'ttb'
+        settings.weight_windows = openmc.wwinp_to_wws("ww_heating.cadis.wwinp")
+    else:
+        settings.weight_windows = openmc.wwinp_to_wws("ww_rr.cadis.wwinp")
     settings.output = {'tallies': False}
 
     ############################################################################
