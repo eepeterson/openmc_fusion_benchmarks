@@ -1,4 +1,4 @@
-# openmc_sinbad_benchmarks
+# openmc_fusion_benchmarks
 
 ## Installation
 ```
