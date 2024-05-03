@@ -6,16 +6,85 @@ import pandas as pd
 
 _del_columns = ['cell', 'particle', 'nuclide', 'score', 'energyfunction']
 
+def to_hdf(df:pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = None, 
+           xaxis_name: str = None, path_to_folder: str = '', 
+           when: str = 'n/a', where: str = 'n/a', code_version: str = None,
+           batches:int=None, particles_per_batch:int=None, literature: int = 'n/a'):
+    """Stores a DataFrame to a given hdf5 file. Useful function to generate new 
+    hdf5 files results.
 
-def build_hdf_filename(software_name: str, software_version: Iterable, xs_library: str) -> str:
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame of results to store in the hdf5 file
+    hdf_file : str
+        name of the hdf5 file of results
+    tally_name : str
+        name of the tally to store
+    xs_library : str, optional
+        name of the nuclear data library used in the simulation, 
+        by default None
+    xaxis_name : str, optional
+        name of the x_axis to store in order to be retrieved with the
+        ResultsFromDatabase.get_tally_xaxis method, by default None
+    path_to_folder : str, optional
+        path to the folder where the hdf5 file is/has to be stored,
+        by default ''
+    when : str, optional
+        Can be the year(s) (YYYY-YYYY) or the month and year (Month, YYYY)
+        of the model run, by default 'n/a'
+    where : str, optional
+        ame of the institution that run the simulation/experiment,
+        by default 'n/a'
+    code_version : str, optional
+        version of the code used (if simulation result), by default None
+    batches : int, optional
+        number of batches simulated (if simulation result, 
+        assuming openmc particles/batches structure), by default None
+    particles_per_batch : int, optional
+        number of particles per batch simulated (if simulation result, 
+        assuming openmc particles/batches structure), by default None
+    literature : int, optional
+        title/DOI/link if results associated to a publication,
+        by default None
+    """
+    
+
+    path = Path(path_to_folder)
+    # merge path to hdf file
+    path_to_file = path / hdf_file
+    # write the tally in the hdf file
+    df.to_hdf(path_to_file, tally_name, mode='a',
+                    format='table', data_columns=True, index=False)
+
+    # write attributes to the hdf file
+    with h5py.File(path_to_file, 'a') as f:
+        f[tally_name + '/table'].attrs['x_axis'] = xaxis_name
+        f.attrs['when'] = str(when)
+        f.attrs['where'] = where
+        if code_version is not None:
+            f.attrs['code_version'] = code_version
+        if xs_library is not None:
+            f.attrs['xs_library'] = xs_library
+        if batches is not None:
+            f.attrs['batches'] = batches
+        if particles_per_batch is not None:
+            f.attrs['particles_per_batch'] = particles_per_batch
+        if literature is not None:
+            f.attrs['literature_info'] = literature
+    
+
+
+
+def build_hdf_filename(code_name: str, code_version: Iterable, xs_library: str) -> str:
     """Builds the name for the hdf file to be stored in a results_database folder
 
     Parameters
     ----------
-    software_name : str
-        name of the software used for the simulation
-    software_version : Iterable
-        list or tuple with the software version
+    code_name : str
+        name of the code used for the simulation
+    code_version : Iterable
+        list or tuple with the code version
     xs_library : str
         name of the nuclear data library used in the simulation
 
@@ -25,9 +94,9 @@ def build_hdf_filename(software_name: str, software_version: Iterable, xs_librar
         name of the hdf file
     """
 
-    filename = software_name.strip().replace(
+    filename = code_name.strip().replace(
         ' ', '').replace('.', '').replace('-', '').lower()
-    filename += '-' + '-'.join(map(str, software_version)) + '_'
+    filename += '-' + '-'.join(map(str, code_version)) + '_'
     filename += xs_library.strip().replace(' ', '').replace('.',
                                                             '').replace('-', '').lower()
     filename += '.h5'
@@ -194,7 +263,7 @@ class ResultsFromDatabase:
     def print_code_info(self):
         """Prints all the code info available
         """
-        print(f'Code version:{self.code_version}\n',
+        print(f'Code version: {self.code_version}\n',
               f'XS library: {self.xs_library}\n')
 
     def print_all_info(self):
@@ -305,7 +374,7 @@ class ResultsFromOpenmc:
 
     def tally_to_hdf(self, tally_name: str, normalize_over: Iterable, xs_library: str, xaxis_name: str,
                      xaxis_list: Iterable = None, path_to_database: str = '../results_database', when: str = 'n/a',
-                     where: str = 'n/a'):
+                     where: str = 'n/a', literature:int=None):
         """Stores the openmc tally in a hdf file for the results_database folder
 
         Parameters
@@ -334,9 +403,6 @@ class ResultsFromOpenmc:
 
         hdf_file = build_hdf_filename(
             'openmc', self.get_openmc_version, xs_library)
-        path = Path(path_to_database)
-        # merge path to hdf file
-        path_to_file = path / hdf_file
 
         # extract tally in dataframe format from statepoint file
         tally_df = self.get_tally_dataframe(
@@ -351,17 +417,9 @@ class ResultsFromOpenmc:
         if xaxis_list is not None:
             tally_df.insert(loc=0, column=xaxis_name, value=xaxis_list)
 
-        # write the tally in the hdf file
-        tally_df.to_hdf(path_to_file, tally_name, mode='a',
-                        format='table', data_columns=True, index=False)
+
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
-        # write attributes to the hdf file
-        with h5py.File(path_to_file, 'a') as f:
-            f[tally_name + '/table'].attrs['x_axis'] = xaxis_name
-            f.attrs['code_version'] = code_version
-            f.attrs['xs_library'] = xs_library
-            f.attrs['batches'] = self.get_batches
-            f.attrs['particles_per_batch'] = self.get_particles_per_batch
-            f.attrs['when'] = str(when)
-            f.attrs['where'] = where
+        to_hdf(tally_df, hdf_file, tally_name, xs_library, xaxis_name,
+               path_to_database, when, where, code_version, self.get_batches,
+               self.get_particles_per_batch, literature)
