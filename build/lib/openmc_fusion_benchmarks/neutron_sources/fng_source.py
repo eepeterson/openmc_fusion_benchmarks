@@ -6,6 +6,10 @@ import numpy as np
 import openmc
 from pathlib import Path
 
+# create a constant here
+# _data_path = Path(__file__).parent (try .resolve)
+
+
 
 def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1), beam_energy=260):
     '''method for building the Frascati Neutron Generator source in OpenMC
@@ -26,7 +30,7 @@ def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1), beam_energy=260):
 
     # read tabulated data
     fname = 'fng_' + str(int(beam_energy)) + 'keV_characteristics.csv'
-    filename = str(Path(__file__).parent) / Path(fname)
+    filename = str(Path(__file__).resolve) / Path(fname)
     fng_source_fr = np.loadtxt(filename, delimiter=",")
 
     # angular bins in [0, pi)
