@@ -6,7 +6,6 @@ import numpy as np
 import openmc
 from pathlib import Path
 
-
 def fng_source(center=(0, 0, 0), reference_uvw=(0, 0, 1), beam_energy=260):
     '''method for building the Frascati Neutron Generator source in OpenMC
     with data tabulated from the fortran->C++ routine
