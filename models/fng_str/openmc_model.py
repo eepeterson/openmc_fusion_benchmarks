@@ -111,11 +111,15 @@ def main():
     au197.set_density('g/cm3', 19.3)
 
     if args.heating:
-        detector = openmc.Material.mix_materials(
+        detector1 = detector2 = detector3 = openmc.Material.mix_materials(
             [air, au197, aisi316], [0., 0., 1.], 'vo')
     else:
-        detector = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.95, 0.05, 0.], 'vo')
+        detector1 = openmc.Material.mix_materials(
+            [air, au197, aisi316], [0.95, .05, 0.], 'vo')
+        detector2 = openmc.Material.mix_materials(
+            [air, au197, aisi316], [.975, .025, 0.], 'vo')
+        detector3 = openmc.Material.mix_materials(
+            [air, au197, aisi316], [.9833, .0167, 0.], 'vo')
 
     ############################################################################
     # Build Geometry
@@ -1305,7 +1309,7 @@ def main():
                            fill=perspex, region=region_134)
     # 4 SS layer 13
     cell_135 = openmc.Cell(cell_id=135, name='cell_135',
-                           fill=detector, region=region_135)  # detector
+                           fill=detector1, region=region_135)  # detector
     cell_136 = openmc.Cell(cell_id=136, name='cell_136',
                            fill=air, region=region_136)
     cell_137 = openmc.Cell(cell_id=137, name='cell_137',
@@ -1353,7 +1357,7 @@ def main():
                            fill=perspex, region=region_157)
     # 6 SS layer 12
     cell_158 = openmc.Cell(cell_id=158, name='cell_158',
-                           fill=detector, region=region_158)  # detector
+                           fill=detector1, region=region_158)  # detector
     cell_159 = openmc.Cell(cell_id=159, name='cell_159',
                            fill=air, region=region_159)
     cell_160 = openmc.Cell(cell_id=160, name='cell_160',
@@ -1401,7 +1405,7 @@ def main():
                            fill=perspex, region=region_180)
     # 8 SS layer 11
     cell_181 = openmc.Cell(cell_id=181, name='cell_181',
-                           fill=detector, region=region_181)  # detector
+                           fill=detector1, region=region_181)  # detector
     cell_182 = openmc.Cell(cell_id=182, name='cell_182',
                            fill=air, region=region_182)
     cell_183 = openmc.Cell(cell_id=183, name='cell_183',
@@ -1449,7 +1453,7 @@ def main():
                            fill=perspex, region=region_203)
     # 10 SS layer 10
     cell_204 = openmc.Cell(cell_id=204, name='cell_204',
-                           fill=detector, region=region_204)  # detector
+                           fill=detector1, region=region_204)  # detector
     cell_205 = openmc.Cell(cell_id=205, name='cell_205',
                            fill=air, region=region_205)
     cell_206 = openmc.Cell(cell_id=206, name='cell_206',
@@ -1522,7 +1526,7 @@ def main():
                            fill=aisi316, region=region_238)
     # 13 SS layer 9
     cell_239 = openmc.Cell(cell_id=239, name='cell_239',
-                           fill=detector, region=region_239)  # detector
+                           fill=detector2, region=region_239)  # detector
     cell_240 = openmc.Cell(cell_id=240, name='cell_240',
                            fill=aisi316, region=region_240)
     cell_241 = openmc.Cell(cell_id=241, name='cell_241',
@@ -1570,7 +1574,7 @@ def main():
                            fill=perspex, region=region_261)
     # 15 SS layer 8
     cell_262 = openmc.Cell(cell_id=262, name='cell_262',
-                           fill=detector, region=region_262)  # detector
+                           fill=detector2, region=region_262)  # detector
     cell_263 = openmc.Cell(cell_id=263, name='cell_263',
                            fill=aisi316, region=region_263)
     cell_264 = openmc.Cell(cell_id=264, name='cell_264',
@@ -1618,7 +1622,7 @@ def main():
                            fill=perspex, region=region_284)
     # 17 SS layer 6
     cell_285 = openmc.Cell(cell_id=285, name='cell_285',
-                           fill=detector, region=region_285)  # detector
+                           fill=detector2, region=region_285)  # detector
     cell_286 = openmc.Cell(cell_id=286, name='cell_286',
                            fill=aisi316, region=region_286)
     cell_287 = openmc.Cell(cell_id=287, name='cell_287',
@@ -1666,7 +1670,7 @@ def main():
                            fill=perspex, region=region_307)
     # 19 SS layer 5
     cell_308 = openmc.Cell(cell_id=308, name='cell_308',
-                           fill=detector, region=region_308)  # detector
+                           fill=detector2, region=region_308)  # detector
     cell_309 = openmc.Cell(cell_id=309, name='cell_309',
                            fill=aisi316, region=region_309)
     cell_310 = openmc.Cell(cell_id=310, name='cell_310',
@@ -1714,7 +1718,7 @@ def main():
                            fill=perspex, region=region_330)
     # 21 SS layer 4
     cell_331 = openmc.Cell(cell_id=331, name='cell_331',
-                           fill=detector, region=region_331)  # detector
+                           fill=detector3, region=region_331)  # detector
     cell_332 = openmc.Cell(cell_id=332, name='cell_332',
                            fill=aisi316, region=region_332)
     cell_333 = openmc.Cell(cell_id=333, name='cell_333',
@@ -1762,7 +1766,7 @@ def main():
                            fill=perspex, region=region_362)
     # 23 SS layer 2
     cell_363 = openmc.Cell(cell_id=363, name='cell_363',
-                           fill=detector, region=region_363)  # detector
+                           fill=detector3, region=region_363)  # detector
     cell_364 = openmc.Cell(cell_id=364, name='cell_364',
                            fill=aisi316, region=region_364)
     cell_365 = openmc.Cell(cell_id=365, name='cell_365',
@@ -1810,7 +1814,7 @@ def main():
                            fill=perspex, region=region_385)
     # 25 SS layer 3
     cell_386 = openmc.Cell(cell_id=386, name='cell_386',
-                           fill=detector, region=region_386)  # detector
+                           fill=detector3, region=region_386)  # detector
     cell_387 = openmc.Cell(cell_id=387, name='cell_387',
                            fill=aisi316, region=region_387)
     cell_388 = openmc.Cell(cell_id=388, name='cell_388',
@@ -1835,7 +1839,7 @@ def main():
                            fill=aisi316, region=region_397)
     # 26 SS layer 1
     cell_398 = openmc.Cell(cell_id=398, name='cell_398',
-                           fill=detector, region=region_398)
+                           fill=detector3, region=region_398)
     cell_399 = openmc.Cell(cell_id=399, name='cell_399',
                            fill=aisi316, region=region_399)
     cell_400 = openmc.Cell(cell_id=400, name='cell_400',
@@ -2073,27 +2077,27 @@ def main():
     cell_601 = openmc.Cell(cell_id=601, name='cell_601',
                            fill=aisi316, region=region_601)
     cell_602 = openmc.Cell(cell_id=602, name='cell_602',
-                           fill=detector, region=region_602)  # detector
+                           fill=detector1, region=region_602)  # detector
     cell_603 = openmc.Cell(cell_id=603, name='cell_603',
-                           fill=detector, region=region_603)  # detector
+                           fill=detector1, region=region_603)  # detector
     cell_604 = openmc.Cell(cell_id=604, name='cell_604',
-                           fill=detector, region=region_604)  # detector
+                           fill=detector1, region=region_604)  # detector
     cell_605 = openmc.Cell(cell_id=605, name='cell_605',
-                           fill=detector, region=region_605)  # detector
+                           fill=detector1, region=region_605)  # detector
     cell_606 = openmc.Cell(cell_id=606, name='cell_606',
-                           fill=detector, region=region_606)  # detector
+                           fill=detector1, region=region_606)  # detector
     cell_607 = openmc.Cell(cell_id=607, name='cell_607',
-                           fill=detector, region=region_607)  # detector
+                           fill=detector1, region=region_607)  # detector
     cell_608 = openmc.Cell(cell_id=608, name='cell_608',
-                           fill=detector, region=region_608)  # detector
+                           fill=detector1, region=region_608)  # detector
     cell_609 = openmc.Cell(cell_id=609, name='cell_609',
-                           fill=detector, region=region_609)  # detector
+                           fill=detector1, region=region_609)  # detector
     cell_610 = openmc.Cell(cell_id=610, name='cell_610',
-                           fill=detector, region=region_610)  # detector
+                           fill=detector1, region=region_610)  # detector
     cell_611 = openmc.Cell(cell_id=611, name='cell_611',
-                           fill=detector, region=region_611)  # detector
+                           fill=detector1, region=region_611)  # detector
     cell_612 = openmc.Cell(cell_id=612, name='cell_612',
-                           fill=detector, region=region_612)  # detector
+                           fill=detector1, region=region_612)  # detector
 
     # creating universe
     cells = [cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8, cell_9, cell_10,
