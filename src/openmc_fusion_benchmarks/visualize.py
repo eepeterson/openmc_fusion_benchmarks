@@ -2,6 +2,8 @@ import numpy as np
 from typing import Iterable
 import math
 import matplotlib.axes
+import matplotlib.pyplot as plt
+from abc import ABC
 
 
 def add_floor_ceiling(ax: matplotlib.axes, values: Iterable, scale: str = 'lin', gap: float = 0.):
@@ -106,3 +108,95 @@ def plot_stddev_area(ax: matplotlib.axes, ticks: Iterable, mean: Iterable, std_d
     if uncertainty_deg == 3:
         ax.fill_between(ticks, mean + 3*std_dev, mean - 3 *
                         std_dev, color=color, alpha=alpha)
+
+
+class PlotResults(ABC):
+    def __init__(self, figsize, height_ratios, xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+        self._xaxis = xaxis
+        self._ylabel = ylabel
+        self._dtype_label = dtype_label
+
+        self.fig, self.ax = plt.subplots(nrows=2, ncols=1, figsize=figsize,
+                                         gridspec_kw={'height_ratios': height_ratios}, constrained_layout=True)
+        self.ax[0].set_yscale('log')
+        self.ax[0].set_ylabel(self._ylabel, fontsize=12)
+        self.ax[0].tick_params(axis='x', labelbottom=False)
+        self.ax[0].tick_params(axis='both', which='both', direction='in')
+
+        self.ax[1].annotate(self._dtype_label, [0.02, 0.07], xycoords='axes fraction',
+                            horizontalalignment='left', verticalalignment='bottom', fontsize=12)
+        self.ax[1].set_xlabel(self._xaxis, fontsize=12)
+        self.ax[1].set_ylabel('C/E', fontsize=12)
+        self.ax[1].tick_params(axis='x', labelrotation=45)
+        self.ax[1].tick_params(axis='both', which='both', direction='in')
+
+    def add_reference_results(self, reference_data):
+        self.reference_data = reference_data
+        self._reference_tickers = np.arange(len(self.reference_data))
+
+    def add_computed_results(self, computed_data):
+        self.computed_data = computed_data
+        self._computed_tickers = np.arange(len(self.computed_data))
+
+        try:
+            self.reference_data
+        except AttributeError:
+            msg = """You have to add the reference data with the 
+            add_reference_results method before adding the computed data."""
+            raise AttributeError(msg)
+
+        self.rstd = computed_data['std. dev.']/computed_data['mean']
+        self.ce = computed_data['mean']/self.reference_data['mean']
+
+    def show(self):
+        plt.show()
+
+
+class PlotActivationFoils(PlotResults):
+    def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+        super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
+
+    def add_reference_results(self, reference_data, marker='s', color='k', alpha=1., label=''):
+        super().add_reference_results(reference_data)
+
+        # plot results
+        self.ax[0].plot(self._reference_tickers, self.reference_data['mean'], marker=marker, ms=10,
+                        ls='none', mew=1.5, mec=color, mfc='none', alpha=alpha, label=label)
+
+        plot_stddev_area(ax=self.ax[1], ticks=self._reference_tickers, mean=np.ones(len(
+            self.reference_data['mean'])), std_dev=self.reference_data['std. dev.']/self.reference_data['mean'])
+        add_floor_ceiling(ax=self.ax[0], values=[
+                          self.reference_data['mean']], scale='log', gap=0.)
+        #
+        self.ax[1].hlines(1.0, self._reference_tickers[0]-1, self._reference_tickers[-1] + 1, colors='k', linestyles='-',
+                          linewidth=1, label='_nolegend_')
+        for ax in self.ax:
+            ax.set_xlim([self._reference_tickers[0]-0.5,
+                        self._reference_tickers[-1] + .6])
+            ax.set_xticks(self._reference_tickers)
+        self.ax[1].set_ylim([0.1, 1.75])
+        self.ax[1].set_xticklabels(self.reference_data[self._xaxis])
+
+        self.ax[0].legend(frameon=True, fontsize=12)
+
+    def add_computed_results(self, computed_data, marker='o', color='tab:red', alpha=1., label=''):
+        super().add_computed_results(computed_data)
+
+        self.ax[0].plot(self._computed_tickers, computed_data['mean'], marker=marker,
+                        ms=7, ls='none', alpha=alpha, color=color, label=label)
+        self.ax[1].errorbar(self._computed_tickers, self.ce, self.rstd*self.ce, marker=marker, ms=6, capsize=4,
+                            barsabove=True, zorder=9, color=color, ls='none', alpha=alpha, label='_')
+        self.ax[0].legend(frameon=True, fontsize=12)
+
+
+class PlotEnergySpectra:
+    def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+        super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
+
+        self.ax[1].set_yscale('log')
+
+    def add_reference_results(self, reference_data):
+        super().add_reference_results(reference_data)
+
+    def add_computed_results(self, computed_data):
+        super().add_computed_results(computed_data)
