@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from typing import Iterable
 import math
 import matplotlib.axes
@@ -11,7 +12,7 @@ import openmc_fusion_benchmarks as ofb
 def add_floor_ceiling(ax: matplotlib.axes, values: Iterable, scale: str = 'lin', gap: float = 0.):
     """This function computes the minimum and maximum values of a set of different arrays
     collected in a single list. It gets useful for finding the y_limits of a plot when all
-    the values plotted are not known a priori
+    the values plotted are not known a priori.
 
     Parameters
     ----------
@@ -113,18 +114,60 @@ def plot_stddev_area(ax: matplotlib.axes, ticks: Iterable, mean: Iterable, std_d
 
 
 class PlotResults(ABC):
-    def __init__(self, figsize, height_ratios, xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+    """Abstract class for plotting results of the benchmarks. 
+    It is meant to be inherited by other plotting classes specific for
+    different tally types. It contains the basic methods to plot the results.
+    """
+
+    def __init__(self, figsize: Iterable[float, float], height_ratios: Iterable[float, float],
+                 xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+        """Constructor of the PlotResults class that initializes the figure
+        and axes objects. It also sets the basic parameters for the plot.
+        As it is meant to compare results (most likely computed results 
+        agaist experimental results) it most likely has two rows of subfigures
+        The top subfigure(s) is to compare absolute values of results while
+        the bottom subfigure(s) is to show the C/E ratio of the results.
+
+        Parameters
+        ----------
+        figsize : Iterable[float, float]
+            Size of the figure to plot (width, height)
+        height_ratios : Iterable[float, float]
+            Ratios of the heights of the subfigures in the two rows mentioned
+            above
+        xaxis : str, optional
+            Name of the result dataframe column meant to be the values of the 
+            x-axis of the plot, by default ''
+        ylabel : str, optional
+            Name for the plot y-label, by default ''
+        dtype_label : str, optional
+            Overall name to identify the plot, by default ''
+        """
         self._figsize = figsize
         self._height_ratios = height_ratios
         self._xaxis = xaxis
         self._ylabel = ylabel
         self._dtype_label = dtype_label
 
-    def add_reference_results(self, reference_data):
+    def add_reference_results(self, reference_data: pd.DataFrame):
+        """Method to add the reference results to the plot. Most likely the
+        experimental results. It also sets the reference tickers for the plot
+        and it is used as the "E" values in the "C/E" ratio plot. Each plot
+        needs to have one and only one reference results set.
+
+        Parameters
+        ----------
+        reference_data : pd.DataFrame
+            DataFrame containing the reference results to plot
+        """
         self.reference_data = reference_data
         self._reference_tickers = np.arange(len(self.reference_data))
 
-    def add_computed_results(self, computed_data):
+    def add_computed_results(self, computed_data: pd.DataFrame):
+        """Method to add the computed results to the plot. Most likely the
+        results of the simulations. It also sets the computed tickers for the
+        computed plot. Each plot can have as many computed results as needed."""
+
         self.computed_data = computed_data
         self._computed_tickers = np.arange(len(self.computed_data))
 
@@ -139,13 +182,28 @@ class PlotResults(ABC):
         self.ce = computed_data['mean']/self.reference_data['mean']
 
     def show(self):
+        """Shows the plot. Just a plt.show() wrapper.
+        """
         plt.show()
 
     def savefig(self, path: str, dpi: int = 300):
+        """Saves the plot to a file. Just a plt.savefig() wrapper.
+
+        Parameters
+        ----------
+        path : str
+            Path to save the plot, including the filename and extension
+        dpi : int, optional
+            Quality of the image to save, by default 300
+        """
         self.fig.savefig(path, dpi=dpi, bbox_inches="tight")
 
 
 class PlotReactionRates(PlotResults):
+    """Class for plotting the reaction rates results. Inherits from 
+    PlotResults.
+    """
+
     def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
         super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
 
@@ -163,7 +221,22 @@ class PlotReactionRates(PlotResults):
         self.ax[1].tick_params(axis='x', labelrotation=45)
         self.ax[1].tick_params(axis='both', which='both', direction='in')
 
-    def add_reference_results(self, reference_data, marker='s', color='k', alpha=1., label=''):
+    def add_reference_results(self, reference_data, marker: str = 's', color: str = 'k', alpha: float = 1., label=''):
+        """Method to add the reference results to a reaction rate plot.
+        Alongside the reference_data argument, inherited by the PlotResults
+        class, this method also takes the marker, color, alpha and label.
+
+        Parameters
+        ----------
+        marker : str, optional
+            Marker shape like in matplotlib, by default 's'
+        color : str, optional
+            Marker color like in matplotlib, by default 'k'
+        alpha : float, optional
+            Marker alpha of marker like in matplotlib, by default 1.
+        label : str, optional
+            Label for legend, by default ''
+        """
         super().add_reference_results(reference_data)
 
         # plot results
@@ -186,7 +259,12 @@ class PlotReactionRates(PlotResults):
 
         self.ax[0].legend(frameon=True, fontsize=12)
 
-    def add_computed_results(self, computed_data, marker='o', color='tab:red', alpha=1., label=''):
+    def add_computed_results(self, computed_data, marker: str = 'o', color: str = 'tab:red', alpha: float = 1., label=''):
+        """Method to add the computed results to a reaction rate plot.
+        Alongside the reference_data argument, inherited by the PlotResults
+        class, this method also takes the marker, color, alpha and label.
+        Which are described in the add_reference_results method.
+        """
         super().add_computed_results(computed_data)
 
         self.ax[0].plot(self._computed_tickers, computed_data['mean'], marker=marker,
@@ -197,11 +275,19 @@ class PlotReactionRates(PlotResults):
 
 
 class PlotCellHeating(PlotReactionRates):
+    """Class for plotting the cell heating results. Inherits from 
+    PlotReactionRates.
+    """
+
     def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
         super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
 
 
 class PlotEnergySpectra(PlotResults):
+    """Class for plotting the energy spectra results. Inherits from
+    PlotResults.
+    """
+
     def __init__(self, figsize=(12, 6), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
         super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
 
@@ -228,7 +314,22 @@ class PlotEnergySpectra(PlotResults):
         self.ax[1, 1].annotate("Lin scale on x", [0.02, 0.07], xycoords='axes fraction',
                                horizontalalignment='left', verticalalignment='bottom', fontsize=12)
 
-    def add_reference_results(self, reference_data, ls='-', color='k', alpha=1., label=''):
+    def add_reference_results(self, reference_data, ls: str = '-', color: str = 'k', alpha: float = 1., label=''):
+        """Method to add the reference results to an energy spectra plot.
+        Alongside the reference_data argument, inherited by the PlotResults
+        class, this method also takes the ls, color, alpha and label.
+
+        Parameters
+        ----------
+        ls : str, optional
+            Linestyle like in matplotlib, by default '-'
+        color : str, optional
+            Line color like in matplotlib, by default 'k'
+        alpha : float, optional
+            Line alpha like in matplotlib, by default 1.
+        label : str, optional
+            Label for legend, by default ''
+        """
         super().add_reference_results(reference_data)
 
         min_ebound, max_ebound = ofb.get_nonzero_energy_interval(
@@ -255,6 +356,11 @@ class PlotEnergySpectra(PlotResults):
         self.ax[0, 0].legend(frameon=True, fontsize=12)
 
     def add_computed_results(self, computed_data, ls='-', color='tab:red', alpha=1., label=''):
+        """Method to add the computed results to an energy spectra plot.
+        Alongside the computed_data argument, inherited by the PlotResults
+        class, this method also takes the ls, color, alpha and label.
+        Which are described in the add_reference_results method.
+        """
         super().add_computed_results(computed_data)
 
         for i in range(2):
