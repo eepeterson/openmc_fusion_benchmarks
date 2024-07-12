@@ -112,23 +112,11 @@ def plot_stddev_area(ax: matplotlib.axes, ticks: Iterable, mean: Iterable, std_d
 
 class PlotResults(ABC):
     def __init__(self, figsize, height_ratios, xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+        self._figsize = figsize
+        self._height_ratios = height_ratios
         self._xaxis = xaxis
         self._ylabel = ylabel
         self._dtype_label = dtype_label
-
-        self.fig, self.ax = plt.subplots(nrows=2, ncols=1, figsize=figsize,
-                                         gridspec_kw={'height_ratios': height_ratios}, constrained_layout=True)
-        self.ax[0].set_yscale('log')
-        self.ax[0].set_ylabel(self._ylabel, fontsize=12)
-        self.ax[0].tick_params(axis='x', labelbottom=False)
-        self.ax[0].tick_params(axis='both', which='both', direction='in')
-
-        self.ax[1].annotate(self._dtype_label, [0.02, 0.07], xycoords='axes fraction',
-                            horizontalalignment='left', verticalalignment='bottom', fontsize=12)
-        self.ax[1].set_xlabel(self._xaxis, fontsize=12)
-        self.ax[1].set_ylabel('C/E', fontsize=12)
-        self.ax[1].tick_params(axis='x', labelrotation=45)
-        self.ax[1].tick_params(axis='both', which='both', direction='in')
 
     def add_reference_results(self, reference_data):
         self.reference_data = reference_data
@@ -151,10 +139,27 @@ class PlotResults(ABC):
     def show(self):
         plt.show()
 
+    def savefig(self, path: str, dpi: int = 300):
+        self.fig.savefig(path, dpi=dpi, bbox_inches="tight")
 
-class PlotActivationFoils(PlotResults):
+
+class PlotReactionRates(PlotResults):
     def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
         super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
+
+        self.fig, self.ax = plt.subplots(nrows=2, ncols=1, figsize=figsize,
+                                         gridspec_kw={'height_ratios': height_ratios}, constrained_layout=True)
+        self.ax[0].set_yscale('log')
+        self.ax[0].set_ylabel(self._ylabel, fontsize=12)
+        self.ax[0].tick_params(axis='x', labelbottom=False)
+        self.ax[0].tick_params(axis='both', which='both', direction='in')
+
+        self.ax[1].annotate(self._dtype_label, [0.02, 0.07], xycoords='axes fraction',
+                            horizontalalignment='left', verticalalignment='bottom', fontsize=12)
+        self.ax[1].set_xlabel(self._xaxis, fontsize=12)
+        self.ax[1].set_ylabel('C/E', fontsize=12)
+        self.ax[1].tick_params(axis='x', labelrotation=45)
+        self.ax[1].tick_params(axis='both', which='both', direction='in')
 
     def add_reference_results(self, reference_data, marker='s', color='k', alpha=1., label=''):
         super().add_reference_results(reference_data)
@@ -169,7 +174,7 @@ class PlotActivationFoils(PlotResults):
                           self.reference_data['mean']], scale='log', gap=0.)
         #
         self.ax[1].hlines(1.0, self._reference_tickers[0]-1, self._reference_tickers[-1] + 1, colors='k', linestyles='-',
-                          linewidth=1, label='_nolegend_')
+                          linewidth=1, label='_')
         for ax in self.ax:
             ax.set_xlim([self._reference_tickers[0]-0.5,
                         self._reference_tickers[-1] + .6])
@@ -189,14 +194,64 @@ class PlotActivationFoils(PlotResults):
         self.ax[0].legend(frameon=True, fontsize=12)
 
 
-class PlotEnergySpectra:
+class PlotCellHeating(PlotReactionRates):
     def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
         super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
 
-        self.ax[1].set_yscale('log')
 
-    def add_reference_results(self, reference_data):
+class PlotEnergySpectra(PlotResults):
+    def __init__(self, figsize=(12, 6), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+        super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
+
+        self.fig, self.ax = plt.subplots(nrows=2, ncols=2, figsize=figsize,
+                                         gridspec_kw={'height_ratios': height_ratios}, constrained_layout=True)
+
+        for i in range(2):
+            self.ax[i, 0].set_xscale('log')
+            self.ax[0, i].set_yscale('log')
+            self.ax[1, i].set_yscale('log')
+            self.ax[1, i].set_ylim([1e-2, 1e2])
+            self.ax[0, i].tick_params(axis='x', labelbottom=False)
+            self.ax[1, i].set_xlabel('Energy (eV)', fontsize=12)
+            self.ax[1, i].xaxis.set_label_coords(0.5, -0.2)
+            for j in range(2):
+                self.ax[i, j].tick_params(
+                    axis='both', which='both', direction='in', labelsize=12)
+
+        self.ax[0, 0].set_ylabel(self._ylabel, fontsize=12)
+        self.ax[1, 0].set_ylabel('C/E', fontsize=12)
+
+    def add_reference_results(self, reference_data, ls='-', color='k', alpha=1., label=''):
         super().add_reference_results(reference_data)
 
-    def add_computed_results(self, computed_data):
+        for i in range(2):
+            self.ax[0, i].step(reference_data['energy low [eV]'],
+                               reference_data['mean'], ls=ls, lw=1.5, c=color, alpha=alpha, label=label)
+            self.ax[0, i].fill_between(reference_data['energy low [eV]'], reference_data['mean'] - reference_data['std. dev.'], reference_data['mean'] +
+                                       reference_data['std. dev.'], step='pre', color='k', alpha=.2*alpha)
+
+            plot_stddev_area(ax=self.ax[1, i], ticks=reference_data['energy high [eV]'], mean=np.ones(len(
+                reference_data['mean'])), std_dev=reference_data['std. dev.']/reference_data['mean'])
+
+            self.ax[1, i].hlines(1.0, 0, np.array(reference_data['energy high [eV]'])[
+                                 -1] + 5e6, colors='k', linestyles='-', linewidth=1, label='_')
+
+            for j in range(2):
+                self.ax[i, j].set_xlim(
+                    [max(np.array(reference_data['energy low [eV]'])[0]-1e3, .001), np.array(reference_data['energy high [eV]'])[-1] + 1e6])
+
+        self.ax[0, 0].legend(frameon=True, fontsize=12)
+
+    def add_computed_results(self, computed_data, ls='-', color='tab:red', alpha=1., label=''):
         super().add_computed_results(computed_data)
+
+        for i in range(2):
+            self.ax[0, i].step(computed_data['energy low [eV]'],
+                               computed_data['mean'], ls=ls, lw=1.5, c=color, alpha=alpha, label=label)
+            self.ax[0, i].fill_between(computed_data['energy low [eV]'], computed_data['mean'] - computed_data['std. dev.'], computed_data['mean'] +
+                                       computed_data['std. dev.'], step='pre', color=color, alpha=.2*alpha)
+
+            self.ax[1, i].step(computed_data['energy low [eV]'],
+                               self.ce, lw=1.5, c=color, alpha=alpha, label='_')
+
+        self.ax[0, 0].legend(frameon=True, fontsize=12)
