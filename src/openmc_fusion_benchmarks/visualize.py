@@ -5,6 +5,8 @@ import matplotlib.axes
 import matplotlib.pyplot as plt
 from abc import ABC
 
+import openmc_fusion_benchmarks as ofb
+
 
 def add_floor_ceiling(ax: matplotlib.axes, values: Iterable, scale: str = 'lin', gap: float = 0.):
     """This function computes the minimum and maximum values of a set of different arrays
@@ -17,22 +19,22 @@ def add_floor_ceiling(ax: matplotlib.axes, values: Iterable, scale: str = 'lin',
         iterable of arrays/lists of floats. The function finds the absolute
         min and max values of these arrays
     scale : str, optional
-        can be "lin" or "log". If "lin" is selected the function returns the 
-        absolute min and max values present in the values iterable. 
+        can be "lin" or "log". If "lin" is selected the function returns the
+        absolute min and max values present in the values iterable.
         If "log" is selected the function returns 1eX, 1eY where X and Y are the orders of
         magnitude of the absolute min and max, by default 'lin'
     gap : float, optional
-        In order to better frame a plot the function can return values 
-        that are sure to embed all the data in the values argument. If gap=X is selected, the 
+        In order to better frame a plot the function can return values
+        that are sure to embed all the data in the values argument. If gap=X is selected, the
         function returns min-X and max+X as values when scale='lin'. In the case
-        scale='log' is selected the gap argument gets subtracted and added to the order of 
+        scale='log' is selected the gap argument gets subtracted and added to the order of
         magnitude of min and max respectively. The user can then frame a loglog or semilogy plot
         directly changing the orders of magnitude of the two ylims, by default 0.
 
     Returns
     -------
     float, float
-        min-gap, max+gap if scale='lin' 10**(X-gap), 10**(Y+gap) where X is min's order of 
+        min-gap, max+gap if scale='lin' 10**(X-gap), 10**(Y+gap) where X is min's order of
         magnitude and Y is max's order of magnitude if scale='log'
 
     Raises
@@ -129,7 +131,7 @@ class PlotResults(ABC):
         try:
             self.reference_data
         except AttributeError:
-            msg = """You have to add the reference data with the 
+            msg = """You have to add the reference data with the
             add_reference_results method before adding the computed data."""
             raise AttributeError(msg)
 
@@ -220,11 +222,19 @@ class PlotEnergySpectra(PlotResults):
 
         self.ax[0, 0].set_ylabel(self._ylabel, fontsize=12)
         self.ax[1, 0].set_ylabel('C/E', fontsize=12)
-        self.ax[0, 1].annotate(self._dtype_label, [0.02, 0.07], xycoords='axes fraction',
+
+        self.ax[1, 0].annotate("Log scale on x", [0.02, 0.07], xycoords='axes fraction',
+                               horizontalalignment='left', verticalalignment='bottom', fontsize=12)
+        self.ax[1, 1].annotate("Lin scale on x", [0.02, 0.07], xycoords='axes fraction',
                                horizontalalignment='left', verticalalignment='bottom', fontsize=12)
 
     def add_reference_results(self, reference_data, ls='-', color='k', alpha=1., label=''):
         super().add_reference_results(reference_data)
+
+        min_ebound, max_ebound = ofb.get_nonzero_energy_interval(
+            reference_data)
+        min_oom = math.floor(math.log(min_ebound, 10))
+        max_oom = math.floor(math.log(max_ebound, 10))
 
         for i in range(2):
             self.ax[0, i].step(reference_data['energy low [eV]'],
@@ -238,9 +248,9 @@ class PlotEnergySpectra(PlotResults):
             self.ax[1, i].hlines(1.0, 0, np.array(reference_data['energy high [eV]'])[
                                  -1] + 5e6, colors='k', linestyles='-', linewidth=1, label='_')
 
-            for j in range(2):
-                self.ax[i, j].set_xlim(
-                    [max(np.array(reference_data['energy low [eV]'])[0]-1e3, .001), np.array(reference_data['energy high [eV]'])[-1] + 1e6])
+            self.ax[i, 1].set_xlim([0, max_ebound + .1**max_oom])
+            self.ax[i, 0].set_xlim(
+                [max(min_ebound - .1*10**min_oom, .001), max_ebound + .1**max_oom])
 
         self.ax[0, 0].legend(frameon=True, fontsize=12)
 

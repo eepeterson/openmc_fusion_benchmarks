@@ -64,3 +64,21 @@ def rebin_spectrum(df: pd.DataFrame, energy_low: Iterable, energy_high: Iterable
     df_rebinned['mean'] = rebinned_probs
     df_rebinned['std. dev.'] = rebinned_std_devs
     return df_rebinned
+
+
+def get_nonzero_energy_interval(df):
+    # Identify the first and last index where 'mean' is nonzero
+    nonzero_indices = df.index[df['mean'] != 0].tolist()
+
+    if not nonzero_indices:
+        # If there are no nonzero values in 'mean'
+        return None, None
+
+    first_nonzero_idx = nonzero_indices[0]
+    last_nonzero_idx = nonzero_indices[-1]
+
+    # Get the corresponding energy low and high values
+    first_energy_low = df.at[first_nonzero_idx, 'energy low [eV]']
+    last_energy_high = df.at[last_nonzero_idx, 'energy high [eV]']
+
+    return first_energy_low, last_energy_high
