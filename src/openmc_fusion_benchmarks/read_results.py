@@ -6,10 +6,11 @@ import pandas as pd
 
 _del_columns = ['cell', 'particle', 'nuclide', 'score', 'energyfunction']
 
-def to_hdf(df:pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = None, 
-           xaxis_name: str = None, path_to_folder: str = '', 
+
+def to_hdf(df: pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = None,
+           xaxis_name: str = None, path_to_folder: str = '',
            when: str = 'n/a', where: str = 'n/a', code_version: str = None,
-           batches:int=None, particles_per_batch:int=None, literature: int = 'n/a'):
+           batches: int = None, particles_per_batch: int = None, literature: int = 'n/a'):
     """Stores a DataFrame to a given hdf5 file. Useful function to generate new 
     hdf5 files results.
 
@@ -48,14 +49,13 @@ def to_hdf(df:pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = No
         title/DOI/link if results associated to a publication,
         by default None
     """
-    
 
     path = Path(path_to_folder)
     # merge path to hdf file
     path_to_file = path / hdf_file
     # write the tally in the hdf file
     df.to_hdf(path_to_file, tally_name, mode='a',
-                    format='table', data_columns=True, index=False)
+              format='table', data_columns=True, index=False)
 
     # write attributes to the hdf file
     with h5py.File(path_to_file, 'a') as f:
@@ -72,8 +72,6 @@ def to_hdf(df:pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = No
             f.attrs['particles_per_batch'] = particles_per_batch
         if literature is not None:
             f.attrs['literature_info'] = literature
-    
-
 
 
 def build_hdf_filename(code_name: str, code_version: Iterable, xs_library: str) -> str:
@@ -135,7 +133,7 @@ class ResultsFromDatabase:
         with h5py.File(self._myfile) as f:
             print(f.keys())
 
-    def get_tally_dataframe(self, tally_name: str):
+    def get_tally_dataframe(self, tally_name: str) -> pd.DataFrame:
         """Retrieves the results of a given tally in a Pandas DataFrame format.
         It relies on the openmc.Statepoint().get_tally().get_pandas_dataframe()
         method
@@ -147,7 +145,7 @@ class ResultsFromDatabase:
 
         Returns
         -------
-        pandas.DataFrame
+        pd.DataFrame
             DataFrame with tally results
         """
         with h5py.File(self._myfile) as f:
@@ -161,7 +159,7 @@ class ResultsFromDatabase:
 
             return df
 
-    def get_tally_xaxis(self, tally_name: str):
+    def get_tally_xaxis(self, tally_name: str) -> str:
         """Retrieves the string with the exact name associated to the tally
         x-axis. It is necessary because each result of each benchmark has a
         different data classification that can vary from depth in the shield,
@@ -183,7 +181,7 @@ class ResultsFromDatabase:
             return f[tally_name+'/table'].attrs['x_axis']
 
     @property
-    def literature_info(self):
+    def literature_info(self) -> str:
         """Retrieves the peer reviewed publication(s) associated with the data
         provided in the hdf file
 
@@ -199,7 +197,7 @@ class ResultsFromDatabase:
                 return 'n/a'
 
     @property
-    def when(self):
+    def when(self) -> str:
         """Retrieves the experiment or simulation place if provided
 
         Returns
@@ -214,7 +212,7 @@ class ResultsFromDatabase:
                 return 'n/a'
 
     @property
-    def where(self):
+    def where(self) -> str:
         """Retrieves the experiment or simulation place if provided
 
         Returns
@@ -229,7 +227,7 @@ class ResultsFromDatabase:
                 return 'n/a'
 
     @property
-    def code_version(self):
+    def code_version(self) -> str:
         """Retrieves the code version if the hdf file refers to a simulation's
         results and the info was provided
 
@@ -245,7 +243,7 @@ class ResultsFromDatabase:
                 return 'n/a'
 
     @property
-    def xs_library(self):
+    def xs_library(self) -> str:
         """Retrieves the nuclear data library used if the hdf file refers
         to a simulation's results and the info was provided
 
@@ -309,7 +307,7 @@ class ResultsFromOpenmc:
         for k in sp.tallies.keys():
             print(sp.tallies[k].name)
 
-    def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None):
+    def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None) -> pd.DataFrame:
         """Retrieves the results of a given tally in a Pandas DataFrame format.
         It relies on the openmc.Statepoint().get_tally().get_pandas_dataframe()
         method
@@ -324,7 +322,7 @@ class ResultsFromOpenmc:
 
         Returns
         -------
-        pandas.DataFrame
+        pd.DataFrame
             DataFrame with tally results
         """
         # extract tally in dataframe format from statepoint file
@@ -340,7 +338,7 @@ class ResultsFromOpenmc:
         return tally_dataframe
 
     @property
-    def get_openmc_version(self):
+    def get_openmc_version(self) -> tuple:
         """Retrieves openmc's version used in the simulation
 
         Returns
@@ -351,7 +349,7 @@ class ResultsFromOpenmc:
         return self.statepoint.version
 
     @property
-    def get_particles_per_batch(self):
+    def get_particles_per_batch(self) -> float:
         """Retrieves the number of particles per batch defined in the simulation
 
         Returns
@@ -362,7 +360,7 @@ class ResultsFromOpenmc:
         return format(self.statepoint.n_particles, '.2e')
 
     @property
-    def get_batches(self):
+    def get_batches(self) -> int:
         """Retrieves the number of batches defined in the simulation
 
         Returns
@@ -374,7 +372,7 @@ class ResultsFromOpenmc:
 
     def tally_to_hdf(self, tally_name: str, normalize_over: Iterable, xs_library: str, xaxis_name: str,
                      xaxis_list: Iterable = None, path_to_database: str = '../results_database', when: str = 'n/a',
-                     where: str = 'n/a', literature:int=None):
+                     where: str = 'n/a', literature: int = None):
         """Stores the openmc tally in a hdf file for the results_database folder
 
         Parameters
@@ -416,7 +414,6 @@ class ResultsFromOpenmc:
         # add xaxis columns if required
         if xaxis_list is not None:
             tally_df.insert(loc=0, column=xaxis_name, value=xaxis_list)
-
 
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
