@@ -75,7 +75,7 @@ def to_hdf(df: pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = N
 
 
 def build_hdf_filename(code_name: str, code_version: Iterable, xs_library: str) -> str:
-    """Builds the name for the hdf file to be stored in a results_database folder
+    """Builds the name for the hdf file to be stored in a results_database folder.
 
     Parameters
     ----------
@@ -107,7 +107,7 @@ class ResultsFromDatabase:
     object by reading it. It is specifically designed for hdf files present
     in the "results_database" folders of the benchmark models in order to be
     able to read, postprocess and plot the results from previous simulations
-    that have been stored there
+    that have been stored there.
     """
 
     def __init__(self, filename: str, path: str = ''):
@@ -165,7 +165,7 @@ class ResultsFromDatabase:
         different data classification that can vary from depth in the shield,
         energy bin, distance from source, detector position etc. Retrieving this
         string allows to directly use it as string to get the column with that lists
-        the data classification (x-axis for plotting purposes)
+        the data classification (x-axis for plotting purposes).
 
         Parameters
         ----------
@@ -183,7 +183,7 @@ class ResultsFromDatabase:
     @property
     def literature_info(self) -> str:
         """Retrieves the peer reviewed publication(s) associated with the data
-        provided in the hdf file
+        provided in the hdf file.
 
         Returns
         -------
@@ -198,7 +198,7 @@ class ResultsFromDatabase:
 
     @property
     def when(self) -> str:
-        """Retrieves the experiment or simulation place if provided
+        """Retrieves the experiment or simulation place if provided.
 
         Returns
         -------
@@ -213,7 +213,7 @@ class ResultsFromDatabase:
 
     @property
     def where(self) -> str:
-        """Retrieves the experiment or simulation place if provided
+        """Retrieves the experiment or simulation place if provided.
 
         Returns
         -------
@@ -229,7 +229,7 @@ class ResultsFromDatabase:
     @property
     def code_version(self) -> str:
         """Retrieves the code version if the hdf file refers to a simulation's
-        results and the info was provided
+        results and the info was provided.
 
         Returns
         -------
@@ -245,7 +245,7 @@ class ResultsFromDatabase:
     @property
     def xs_library(self) -> str:
         """Retrieves the nuclear data library used if the hdf file refers
-        to a simulation's results and the info was provided
+        to a simulation's results and the info was provided.
 
         Returns
         -------
@@ -265,7 +265,7 @@ class ResultsFromDatabase:
               f'XS library: {self.xs_library}\n')
 
     def print_all_info(self):
-        """Prints all info available
+        """Prints all info available.
         """
         print(f'Info:\n',
               f'When: {self.when}\n',
@@ -280,11 +280,11 @@ class ResultsFromOpenmc:
     containing the results of a fresh new openmc simulation. It extracts
     from an openmc statepoint.h5 file.
     If openmc results have already been stored in an hdf file in the
-    results_database folder it is necessary to use ResultsFromDatabase class
+    results_database folder it is necessary to use ResultsFromDatabase class.
     """
 
     def __init__(self, statepoint_file: str = 'statepoint.100.h5', path: str = 'results'):
-        """ResultsFromOpenmc class constructor
+        """ResultsFromOpenmc class constructor.
 
         Parameters
         ----------
@@ -339,7 +339,7 @@ class ResultsFromOpenmc:
 
     @property
     def get_openmc_version(self) -> tuple:
-        """Retrieves openmc's version used in the simulation
+        """Retrieves openmc's version used in the simulation.
 
         Returns
         -------
@@ -350,7 +350,7 @@ class ResultsFromOpenmc:
 
     @property
     def get_particles_per_batch(self) -> float:
-        """Retrieves the number of particles per batch defined in the simulation
+        """Retrieves the number of particles per batch defined in the simulation.
 
         Returns
         -------
@@ -361,7 +361,7 @@ class ResultsFromOpenmc:
 
     @property
     def get_batches(self) -> int:
-        """Retrieves the number of batches defined in the simulation
+        """Retrieves the number of batches defined in the simulation.
 
         Returns
         -------
@@ -373,7 +373,7 @@ class ResultsFromOpenmc:
     def tally_to_hdf(self, tally_name: str, normalize_over: Iterable, xs_library: str, xaxis_name: str,
                      xaxis_list: Iterable = None, path_to_database: str = '../results_database', when: str = 'n/a',
                      where: str = 'n/a', literature: int = None):
-        """Stores the openmc tally in a hdf file for the results_database folder
+        """Stores the openmc tally in a hdf file for the results_database folder.
 
         Parameters
         ----------
