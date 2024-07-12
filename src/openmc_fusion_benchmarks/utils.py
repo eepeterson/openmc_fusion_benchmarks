@@ -3,7 +3,22 @@ import pandas as pd
 from typing import Iterable
 
 
-def rescale_to_lethargy(df: pd.DataFrame):
+def rescale_to_lethargy(df: pd.DataFrame) -> pd.DataFrame:
+    """Rescale the mean and std. dev. of a DataFrame to lethargy values.
+    Useful when it comes to plot a particle energy spectrum in lethargy scale.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing an energy spectrum tally. it needs to contain
+        'mean' and 'std. dev.' columns, as well as 'energy low [eV]' and 
+        'energy high [eV]' columns.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with the mean and std. dev. rescaled to lethargy values.
+    """
     # Copy the DataFrame to avoid modifying the original
     df_lethargy = df.copy()
 
@@ -18,7 +33,30 @@ def rescale_to_lethargy(df: pd.DataFrame):
     return df_lethargy
 
 
-def rebin_spectrum(df: pd.DataFrame, energy_low: Iterable, energy_high: Iterable):
+def rebin_spectrum(df: pd.DataFrame, energy_low: Iterable, energy_high: Iterable) -> pd.DataFrame:
+    """Rebin an energy spectrum tally to new energy bins. The new energy bins
+    are defined by the energy_low and energy_high arrays. The function
+    calculates the mean and std. dev. of the energy spectrum in the new bins.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing an energy spectrum tally. It needs to contain
+        'mean' and 'std. dev.' columns, as well as 'energy low [eV]' and 
+        'energy high [eV]' columns.
+    energy_low : Iterable
+        Iterable containing the lower bounds of the new energy bins.
+    energy_high : Iterable
+        Iterable containing the upper bounds of the new energy bins.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame containing the rebinned energy spectrum tally. It has the
+        same columns as the input DataFrame, but the mean and std. dev. are
+        calculated in the new energy bins.
+    """
+
     # Ensure that energy_low and energy_high are numpy arrays
     energy_low = np.array(energy_low)
     energy_high = np.array(energy_high)
@@ -66,13 +104,32 @@ def rebin_spectrum(df: pd.DataFrame, energy_low: Iterable, energy_high: Iterable
     return df_rebinned
 
 
-def get_nonzero_energy_interval(df):
+def get_nonzero_energy_interval(df: pd.DataFrame) -> tuple:
+    """Function that takes in a pandas dataframe with a energy spectrum tally
+    and returns the energy interval where the mean is nonzero. Useful to set
+    the correct bounds for plotting the energy spectrum.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        dataframe containing an energy spectrum tally.
+
+    Returns
+    -------
+    tuple
+        tuple with the energy low and high values of the interval where the
+        mean is nonzero. If the mean is zero for all energy bins, the function
+        returns the energy low and high values of the first and last energy
+        bins.
+    """
     # Identify the first and last index where 'mean' is nonzero
     nonzero_indices = df.index[df['mean'] != 0].tolist()
 
     if not nonzero_indices:
         # If there are no nonzero values in 'mean'
-        return None, None
+        first_energy_low = np.array(df['energy low [eV]'])[0]
+        last_energy_high = np.array(df['energy high [eV]'])[-1]
+        return first_energy_low, last_energy_high
 
     first_nonzero_idx = nonzero_indices[0]
     last_nonzero_idx = nonzero_indices[-1]
