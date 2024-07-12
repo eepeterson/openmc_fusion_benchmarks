@@ -220,6 +220,8 @@ class PlotEnergySpectra(PlotResults):
 
         self.ax[0, 0].set_ylabel(self._ylabel, fontsize=12)
         self.ax[1, 0].set_ylabel('C/E', fontsize=12)
+        self.ax[0, 1].annotate(self._dtype_label, [0.02, 0.07], xycoords='axes fraction',
+                               horizontalalignment='left', verticalalignment='bottom', fontsize=12)
 
     def add_reference_results(self, reference_data, ls='-', color='k', alpha=1., label=''):
         super().add_reference_results(reference_data)
