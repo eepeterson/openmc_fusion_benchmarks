@@ -119,7 +119,7 @@ class PlotResults(ABC):
     different tally types. It contains the basic methods to plot the results.
     """
 
-    def __init__(self, figsize: Iterable[float, float], height_ratios: Iterable[float, float],
+    def __init__(self, figsize: Iterable, height_ratios: Iterable,
                  xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
         """Constructor of the PlotResults class that initializes the figure
         and axes objects. It also sets the basic parameters for the plot.
