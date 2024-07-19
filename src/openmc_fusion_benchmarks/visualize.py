@@ -119,8 +119,8 @@ class PlotResults(ABC):
     different tally types. It contains the basic methods to plot the results.
     """
 
-    def __init__(self, figsize: Iterable, height_ratios: Iterable,
-                 xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
+    def __init__(self, xaxis: str, figsize: Iterable, height_ratios: Iterable,
+                 ylabel: str = '', dtype_label: str = ''):
         """Constructor of the PlotResults class that initializes the figure
         and axes objects. It also sets the basic parameters for the plot.
         As it is meant to compare results (most likely computed results 
@@ -130,14 +130,14 @@ class PlotResults(ABC):
 
         Parameters
         ----------
+        xaxis : str
+        Name of the result dataframe column meant to be the values of the 
+        x-axis of the plot
         figsize : Iterable[float, float]
             Size of the figure to plot (width, height)
         height_ratios : Iterable[float, float]
             Ratios of the heights of the subfigures in the two rows mentioned
             above
-        xaxis : str, optional
-            Name of the result dataframe column meant to be the values of the 
-            x-axis of the plot, by default ''
         ylabel : str, optional
             Name for the plot y-label, by default ''
         dtype_label : str, optional
@@ -204,8 +204,8 @@ class PlotReactionRates(PlotResults):
     PlotResults.
     """
 
-    def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
-        super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
+    def __init__(self, xaxis: str, figsize=(6, 5), height_ratios=[2, 1.25], ylabel: str = '', dtype_label: str = ''):
+        super().__init__(xaxis, figsize, height_ratios, ylabel, dtype_label)
 
         self.fig, self.ax = plt.subplots(nrows=2, ncols=1, figsize=figsize,
                                          gridspec_kw={'height_ratios': height_ratios}, constrained_layout=True)
@@ -279,8 +279,8 @@ class PlotNuclearHeating(PlotReactionRates):
     PlotReactionRates.
     """
 
-    def __init__(self, figsize=(6, 5), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
-        super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
+    def __init__(self, xaxis: str, figsize=(6, 5), height_ratios=[2, 1.25], ylabel: str = '', dtype_label: str = ''):
+        super().__init__(xaxis, figsize, height_ratios, ylabel, dtype_label)
 
 
 class PlotEnergySpectra(PlotResults):
@@ -288,8 +288,8 @@ class PlotEnergySpectra(PlotResults):
     PlotResults.
     """
 
-    def __init__(self, figsize=(12, 6), height_ratios=[2, 1.25], xaxis: str = '', ylabel: str = '', dtype_label: str = ''):
-        super().__init__(figsize, height_ratios, xaxis, ylabel, dtype_label)
+    def __init__(self, xaxis: str, figsize=(12, 6), height_ratios=[2, 1.25], ylabel: str = '', dtype_label: str = ''):
+        super().__init__(xaxis, figsize, height_ratios, ylabel, dtype_label)
 
         self.fig, self.ax = plt.subplots(nrows=2, ncols=2, figsize=figsize,
                                          gridspec_kw={'height_ratios': height_ratios}, constrained_layout=True)
