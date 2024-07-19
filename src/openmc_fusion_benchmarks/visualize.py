@@ -274,7 +274,7 @@ class PlotReactionRates(PlotResults):
         self.ax[0].legend(frameon=True, fontsize=12)
 
 
-class PlotCellHeating(PlotReactionRates):
+class PlotNuclearHeating(PlotReactionRates):
     """Class for plotting the cell heating results. Inherits from 
     PlotReactionRates.
     """
