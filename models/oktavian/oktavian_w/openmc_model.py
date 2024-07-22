@@ -187,12 +187,12 @@ def main():
     model.tallies = openmc.Tallies()
 
     # create the tally
-    neutron_surface_spectra_tally = openmc.Tally(name='nspectrum_21')
+    neutron_surface_spectra_tally = openmc.Tally(name='nspectrum')
     neutron_surface_spectra_tally.scores = ['current']
     neutron_surface_spectra_tally.filters = [vessel_surface_filter, neutron_particle_filter, energy_neutron_filter]
     model.tallies.append(neutron_surface_spectra_tally)
 
-    photon_surface_spectra_tally = openmc.Tally(name='gspectrum_41')
+    photon_surface_spectra_tally = openmc.Tally(name='gspectrum')
     photon_surface_spectra_tally.scores = ['current']
     photon_surface_spectra_tally.filters = [vessel_surface_filter, photon_particle_filter, energy_photon_filter]
     model.tallies.append(photon_surface_spectra_tally)
