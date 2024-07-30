@@ -406,6 +406,5 @@ class ResultsFromOpenmc:
 
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
-        to_hdf(tally_df, file, tally_name, xs_library, xaxis_name,
-               path_to_database, when, where, code_version, self.get_batches,
-               self.get_particles_per_batch, literature)
+        to_hdf(tally_df, file, tally_name, xs_library, xaxis_name, when, where,
+               code_version, self.get_batches, self.get_particles_per_batch, literature)
