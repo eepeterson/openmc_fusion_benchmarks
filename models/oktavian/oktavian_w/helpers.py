@@ -44,3 +44,20 @@ def process_g_tally(tally_dataframe):
     
     # Return the corrected mean and standard deviation arrays
     return mean_corrected, stddev_corrected
+
+def postprocess_openmc_spectra(openmc_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Post-process the OpenMC spectra dataframe by removing certain columns.
+
+    Parameters:
+    openmc_df (pd.DataFrame): The input dataframe from OpenMC results.
+
+    Returns:
+    pd.DataFrame: The dataframe with specified columns removed.
+    """
+    # Remove the specified columns if they exist
+    columns_to_remove = ['surface', 'particle', 'nuclide', 'score']
+    for column in columns_to_remove:
+        if column in openmc_df.columns:
+            del openmc_df[column]
+    return openmc_df
