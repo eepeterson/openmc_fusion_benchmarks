@@ -50,8 +50,8 @@ def main():
 
     # read statepoint file
     reaction_rates_file = ofb.ResultsFromOpenmc(
-        'statepoint.100.h5', 'reaction_rates')
-    heating_file = ofb.ResultsFromOpenmc('statepoint.100.h5', 'heating')
+        'reaction_rates/statepoint.100.h5')
+    heating_file = ofb.ResultsFromOpenmc('heating/statepoint.100.h5')
 
     # generate openmc hdf file
     filename = ofb.build_hdf_filename(
