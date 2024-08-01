@@ -291,9 +291,8 @@ class ResultsFromOpenmc:
     def list_tallies(self):
         """Prints the names of all the tallies available in the statepoint.h5
         """
-        sp = self.statepoint
-        for k in sp.tallies.keys():
-            print(sp.tallies[k].name)
+        for k in self.statepoint.tallies.keys():
+            print(self.statepoint.tallies[k].name)
 
     def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None) -> pd.DataFrame:
         """Retrieves the results of a given tally in a Pandas DataFrame format.

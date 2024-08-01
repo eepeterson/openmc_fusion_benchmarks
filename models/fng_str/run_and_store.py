@@ -60,10 +60,10 @@ def main():
 
     # read statepoint file
     onaxis_file = ofb.ResultsFromOpenmc(
-        'statepoint.100.h5', 'reaction_rates_onaxis')
+        'reaction_rates_onaxis/statepoint.100.h5')
     offaxis_file = ofb.ResultsFromOpenmc(
-        'statepoint.100.h5', 'reaction_rates_offaxis')
-    heating_file = ofb.ResultsFromOpenmc('statepoint.100.h5', 'heating')
+        'reaction_rates_offaxis/statepoint.100.h5')
+    heating_file = ofb.ResultsFromOpenmc('heating/statepoint.100.h5')
 
     # openmc hdf file
     filename = ofb.build_hdf_filename(

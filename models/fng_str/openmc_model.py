@@ -2177,13 +2177,11 @@ def main():
     settings.batches = args.batches
     settings.particles = args.particles
     settings.source = source
+    settings.weight_windows = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
     if args.heating:
         settings.survival_biasing = True
         settings.photon_transport = True
         settings.electron_treatment = 'ttb'
-        settings.weight_windows = openmc.wwinp_to_wws("ww_heating.cadis.wwinp")
-    else:
-        settings.weight_windows = openmc.wwinp_to_wws("ww_rr.cadis.wwinp")
     settings.output = {'tallies': False}
 
     ############################################################################
