@@ -45,7 +45,7 @@ def main():
     p.wait()
 
     # read statepoint file
-    openmc_file = ofb.ResultsFromOpenmc('statepoint.100.h5', 'results')
+    openmc_file = ofb.ResultsFromOpenmc('results/statepoint.100.h5')
 
     # openmc hdf file
     filename = ofb.build_hdf_filename(
