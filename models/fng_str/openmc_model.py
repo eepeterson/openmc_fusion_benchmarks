@@ -9,16 +9,19 @@ from openmc_fusion_benchmarks.neutron_sources import fng_source
 def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-b", "--batches", type=int, default=100)
-    parser.add_argument("-p", "--particles", type=int, default=int(1e8))
-    parser.add_argument("-s", "--threads", type=int)
+    parser.add_argument("-b", "--batches", type=int, default=100,
+                        help='Number of batches to simulate (int)')
+    parser.add_argument("-p", "--particles", type=int,
+                        default=int(1e8), help='Number of particles per batch (int)')
+    parser.add_argument("-s", "--threads", type=int,
+                        help='Number of threads to use in the simulation (int)')
     group = parser.add_argument_group("tallies")
     group.add_argument("-r", "--reaction_rates_onaxis", action='store_true',
-                       default=False)
+                       default=False, help='Calculate the reaction rates on-axis case')
     group.add_argument("-o", "--reaction_rates_offaxis", action='store_true',
-                       default=False)
+                       default=False, help='Calculate the reaction rates off-axis case')
     group.add_argument("-d", "--heating", action='store_true',
-                       default=False)
+                       default=False, help='Calculate the nuclear heating case')
 
     args = parser.parse_args()
 
