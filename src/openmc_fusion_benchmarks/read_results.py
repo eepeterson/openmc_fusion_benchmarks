@@ -7,8 +7,8 @@ import pandas as pd
 _del_columns = ['cell', 'particle', 'nuclide', 'score', 'energyfunction']
 
 
-def to_hdf(df: pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = None,
-           xaxis_name: str = None, path_to_folder: str = '',
+def to_hdf(df: pd.DataFrame, file: str, tally_name: str, xs_library: str = None,
+           xaxis_name: str = None,
            when: str = 'n/a', where: str = 'n/a', code_version: str = None,
            batches: int = None, particles_per_batch: int = None, literature: int = 'n/a'):
     """Stores a DataFrame to a given hdf5 file. Useful function to generate new 
@@ -18,8 +18,8 @@ def to_hdf(df: pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = N
     ----------
     df : pd.DataFrame
         DataFrame of results to store in the hdf5 file
-    hdf_file : str
-        name of the hdf5 file of results
+    file : str
+        name of the hdf5 file of results. Can include the path to the file
     tally_name : str
         name of the tally to store
     xs_library : str, optional
@@ -28,9 +28,6 @@ def to_hdf(df: pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = N
     xaxis_name : str, optional
         name of the x_axis to store in order to be retrieved with the
         ResultsFromDatabase.get_tally_xaxis method, by default None
-    path_to_folder : str, optional
-        path to the folder where the hdf5 file is/has to be stored,
-        by default ''
     when : str, optional
         Can be the year(s) (YYYY-YYYY) or the month and year (Month, YYYY)
         of the model run, by default 'n/a'
@@ -50,15 +47,13 @@ def to_hdf(df: pd.DataFrame, hdf_file: str, tally_name: str, xs_library: str = N
         by default None
     """
 
-    path = Path(path_to_folder)
-    # merge path to hdf file
-    path_to_file = path / hdf_file
+    filepath = Path(file)
     # write the tally in the hdf file
-    df.to_hdf(path_to_file, tally_name, mode='a',
+    df.to_hdf(filepath, tally_name, mode='a',
               format='table', data_columns=True, index=False)
 
     # write attributes to the hdf file
-    with h5py.File(path_to_file, 'a') as f:
+    with h5py.File(filepath, 'a') as f:
         f[tally_name + '/table'].attrs['x_axis'] = xaxis_name
         f.attrs['when'] = str(when)
         f.attrs['where'] = where
@@ -110,27 +105,23 @@ class ResultsFromDatabase:
     that have been stored there.
     """
 
-    def __init__(self, filename: str, path: str = ''):
+    def __init__(self, file: str):
         """ResultsFromDatabase class constructor
 
         Parameters
         ----------
-        filename : str
-            Name of the hdf file present in the results_database folder
-        path : str, optional
-            path to the hdf file, by default 'results_database'
+        file : str
+            Name of the hdf file present in the results_database folder.
+            Can include the path to the file
         """
 
-        self.filename = filename
-        source_folder = Path(path)
-
-        # merge path to the file
-        self._myfile = source_folder / filename
+        self.filename = file.strip().split('/')
+        self.filepath = Path(file)
 
     def list_tallies(self):
         """Prints the names of all the tallies available in the hdf file
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             print(f.keys())
 
     def get_tally_dataframe(self, tally_name: str) -> pd.DataFrame:
@@ -148,7 +139,7 @@ class ResultsFromDatabase:
         pd.DataFrame
             DataFrame with tally results
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             df = pd.DataFrame(f[tally_name+'/table'][()]).drop(columns='index')
             # decode hdf5 strings to strings if necessary
             try:
@@ -177,7 +168,7 @@ class ResultsFromDatabase:
         str
             Name used for the dataframe column with the x-axis info
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             return f[tally_name+'/table'].attrs['x_axis']
 
     @property
@@ -190,7 +181,7 @@ class ResultsFromDatabase:
         str
             DOI or link to the publication
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             try:
                 return f.attrs['literature']
             except KeyError:
@@ -205,7 +196,7 @@ class ResultsFromDatabase:
         str
             Experiment or simulation execution year
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             try:
                 return f.attrs['when']
             except KeyError:
@@ -220,7 +211,7 @@ class ResultsFromDatabase:
         str
             Experiment or simulation execution place
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             try:
                 return f.attrs['where']
             except KeyError:
@@ -236,7 +227,7 @@ class ResultsFromDatabase:
         str
             Code version
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             try:
                 return f.attrs['code_version']
             except KeyError:
@@ -252,7 +243,7 @@ class ResultsFromDatabase:
         str
             Nuclear data library name
         """
-        with h5py.File(self._myfile) as f:
+        with h5py.File(self.filepath) as f:
             try:
                 return f.attrs['xs_library']
             except KeyError:
@@ -283,29 +274,25 @@ class ResultsFromOpenmc:
     results_database folder it is necessary to use ResultsFromDatabase class.
     """
 
-    def __init__(self, statepoint_file: str = 'statepoint.100.h5', path: str = 'results'):
+    def __init__(self, file: str = 'statepoint.100.h5'):
         """ResultsFromOpenmc class constructor.
 
         Parameters
         ----------
-        statepoint_file : str, optional
-            name of the statepoint.h5 file, by default 'statepoint.100.h5'
-        path : str, optional
-            path to the hdf file, by default 'results'
+        file : str, optional
+            name of the statepoint.h5 file. Can include the path to the file,
+            by default 'statepoint.100.h5'
         """
-        self.statepoint_file = statepoint_file
-        source_folder = Path(path)
-        # merge path to statepoint file
-        self._myfile = source_folder / statepoint_file
+        self.filename = file.strip().split('/')
+        self.filepath = Path(file)
         # open statepoint file with openmc
-        self.statepoint = openmc.StatePoint(self._myfile)
+        self.statepoint = openmc.StatePoint(self.filepath)
 
     def list_tallies(self):
         """Prints the names of all the tallies available in the statepoint.h5
         """
-        sp = self.statepoint
-        for k in sp.tallies.keys():
-            print(sp.tallies[k].name)
+        for k in self.statepoint.tallies.keys():
+            print(self.statepoint.tallies[k].name)
 
     def get_tally_dataframe(self, tally_name: str, normalize_over: Iterable = None) -> pd.DataFrame:
         """Retrieves the results of a given tally in a Pandas DataFrame format.
@@ -399,8 +386,9 @@ class ResultsFromOpenmc:
             Name of the institution that run the simulation
         """
 
-        hdf_file = build_hdf_filename(
+        filename = build_hdf_filename(
             'openmc', self.get_openmc_version, xs_library)
+        file = path_to_database + '/' + filename
 
         # extract tally in dataframe format from statepoint file
         tally_df = self.get_tally_dataframe(
@@ -417,6 +405,5 @@ class ResultsFromOpenmc:
 
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
-        to_hdf(tally_df, hdf_file, tally_name, xs_library, xaxis_name,
-               path_to_database, when, where, code_version, self.get_batches,
-               self.get_particles_per_batch, literature)
+        to_hdf(tally_df, file, tally_name, xs_library, xaxis_name, when, where,
+               code_version, self.get_batches, self.get_particles_per_batch, literature)
