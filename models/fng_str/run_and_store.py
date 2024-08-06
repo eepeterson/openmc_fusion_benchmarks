@@ -6,7 +6,6 @@ import helpers
 import numpy as np
 import pandas as pd
 from pathlib import Path
-import h5py
 
 # ignore NaturalNameWarnings
 import warnings
@@ -135,22 +134,13 @@ def main():
     tally_df = pd.DataFrame(d)
 
     path_to_file = Path('results_database') / filename
-
-    # write the tally in the hdf file
-    tally_df.to_hdf(path_to_file, tally_name, mode='a',
-                    format='table', data_columns=True, index=False)
     code_version = 'openmc-' + \
         '.'.join(map(str, heating_file.get_openmc_version))
 
-    # write attributes to the hdf file
-    with h5py.File(path_to_file, 'a') as f:
-        f[tally_name + '/table'].attrs['x_axis'] = xaxis_name
-        f.attrs['code_version'] = code_version
-        f.attrs['xs_library'] = args.xslib.strip().replace(' ', '')
-        f.attrs['batches'] = heating_file.get_batches
-        f.attrs['particles_per_batch'] = heating_file.get_particles_per_batch
-        f.attrs['when'] = args.when
-        f.attrs['where'] = args.where
+    xs_library = args.xslib.strip().replace(' ', '')
+    ofb.to_hdf(tally_df, path_to_file, tally_name, xs_library, xaxis_name,
+               args.when, args.where, code_version,
+               heating_file.get_batches, heating_file.get_particles_per_batch)
 
 
 if __name__ == "__main__":
