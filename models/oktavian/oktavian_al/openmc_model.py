@@ -8,9 +8,12 @@ import openmc
 def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-b", "--batches", type=int, default=100)
-    parser.add_argument("-p", "--particles", type=int, default=int(1e7))
-    parser.add_argument("-s", "--threads", type=int)
+    parser.add_argument("-b", "--batches", type=int, default=100,
+                        help='Number of batches to simulate (int)')
+    parser.add_argument("-p", "--particles", type=int, default=int(1e7),
+                        help='Number of particles per batch (int)')
+    parser.add_argument("-s", "--threads", type=int,
+                        help='Number of threads to use in the simulation (int)')
 
     args = parser.parse_args()
 
