@@ -16,7 +16,7 @@ def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-x", "--xslib", type=str,
-                        help="Strign with Cross section library name and version (e.g. 'FENDL-2.3')")
+                        help="String with Cross section library name and version (e.g. 'FENDL-2.3')")
     parser.add_argument("-t", "--when", type=str, default='n/a',
                         help="String with the month and year the simulation is run as (e.g. 'June 2021')")
     parser.add_argument("-w", "--where", type=str, default='n/a',
