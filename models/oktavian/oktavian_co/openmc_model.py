@@ -20,7 +20,7 @@ def _parse_args():
     return args
 
 def main():
-    """Analysis of Osaka Nickel Sphere Benchmark Experiment (OKTAVIAN) -Tungsten experiment"""
+    """Analysis of Osaka Sphere Benchmark Experiment (OKTAVIAN) -Tungsten experiment"""
     
     # Parse commandline arguments
     args = _parse_args()
