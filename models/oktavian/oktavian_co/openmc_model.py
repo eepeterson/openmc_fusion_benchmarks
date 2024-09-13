@@ -61,7 +61,7 @@ def main():
     mat_1.add_nuclide('S36', 1.6e-07, 'wo')
     mat_1.add_nuclide('Cu63', 6.917e-05, 'wo')
     mat_1.add_nuclide('Cu65', 3.083e-05, 'wo')
-    mat_1.add_nuclide('C12', 0.000296402053525706, 'wo')
+    mat_1.add_nuclide('C0', 0.000296402053525706, 'wo')
     mat_1.add_nuclide('C13', 3.597946474294042e-06, 'wo')
     mat_1.add_nuclide('Pb204', 2.8e-07, 'wo')
     mat_1.add_nuclide('Pb206', 4.82e-06, 'wo')
