@@ -40,7 +40,7 @@ def main():
     mat_1.add_nuclide('S33', 1.48643e-07, 'ao')
     mat_1.add_nuclide('S34', 8.34383e-07, 'ao')
     mat_1.add_nuclide('S36', 3.963815e-09, 'ao')
-    mat_1.add_nuclide('As75', 5.089212e-07, 'ao')
+    # mat_1.add_nuclide('As75', 5.089212e-07, 'ao')
     mat_1.add_nuclide('Pb204', 1.288043e-09, 'ao')
     mat_1.add_nuclide('Pb206', 2.217274e-08, 'ao')
     mat_1.add_nuclide('Pb207', 2.033268e-08, 'ao')
