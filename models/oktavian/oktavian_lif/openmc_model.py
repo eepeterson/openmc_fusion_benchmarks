@@ -33,24 +33,19 @@ def main():
 
     # 
     mat_1 = openmc.Material(material_id=1)
-    mat_1.set_density('g/cm3', 6.0123)
-    mat_1.add_nuclide('Cu63', 0.6916842, 'ao')
-    mat_1.add_nuclide('Cu65', 0.308293, 'ao')
-    mat_1.add_nuclide('S32', 1.883208e-05, 'ao')
-    mat_1.add_nuclide('S33', 1.48643e-07, 'ao')
-    mat_1.add_nuclide('S34', 8.34383e-07, 'ao')
-    mat_1.add_nuclide('S36', 3.963815e-09, 'ao')
-    mat_1.add_nuclide('As75', 5.089212e-07, 'ao')
-    mat_1.add_nuclide('Pb204', 1.288043e-09, 'ao')
-    mat_1.add_nuclide('Pb206', 2.217274e-08, 'ao')
-    mat_1.add_nuclide('Pb207', 2.033268e-08, 'ao')
-    mat_1.add_nuclide('Pb208', 4.820962e-08, 'ao')
-    mat_1.add_nuclide('Sb121', 5.971787e-08, 'ao')
-    mat_1.add_nuclide('Sb123', 4.466576e-08, 'ao')
-    mat_1.add_nuclide('Fe54', 1.330256e-07, 'ao')
-    mat_1.add_nuclide('Fe56', 2.088218e-06, 'ao')
-    mat_1.add_nuclide('Fe57', 4.822606e-08, 'ao')
-    mat_1.add_nuclide('Fe58', 6.418003e-09, 'ao')
+    mat_1.set_density('g/cm3', 1.76361)
+    mat_1.add_nuclide('H1', 0.0002463685, 'ao')
+    mat_1.add_nuclide('Li6', 0.037010570799, 'ao')
+    mat_1.add_nuclide('Li7', 0.45639801426, 'ao')
+    mat_1.add_nuclide('O16', 5.796062e-05, 'ao')
+    mat_1.add_nuclide('F19', 0.5062419525, 'ao')
+    mat_1.add_nuclide('Si28', 3.08671e-05, 'ao')
+    mat_1.add_nuclide('Si29', 1.567284e-06, 'ao')
+    mat_1.add_nuclide('Si30', 1.033143e-06, 'ao')
+    mat_1.add_nuclide('Fe54', 6.828722e-07, 'ao')
+    mat_1.add_nuclide('Fe56', 1.071963e-05, 'ao')
+    mat_1.add_nuclide('Fe57', 2.475631e-07, 'ao')
+    mat_1.add_nuclide('Fe58', 3.29461e-08, 'ao')
     # 
     mat_2 = openmc.Material(material_id=2)
     mat_2.set_density('g/cm3', 7.824)
@@ -160,8 +155,7 @@ def main():
     photon_particle_filter = openmc.ParticleFilter(['photon'])
 
     neutron_energies = np.array([
-        7.63990E-02, 7.95200E-02, 8.27600E-02, 8.61400E-02, 8.96500E-02, 9.33100E-02, 
-        9.71200E-02, 1.01090E-01, 1.05210E-01, 1.09500E-01, 1.13970E-01, 1.18620E-01, 
+        0.97122E-01, 1.01090E-01, 1.05210E-01, 1.09500E-01, 1.13970E-01, 1.18620E-01, 
         1.23470E-01, 1.28500E-01, 1.33750E-01, 1.39210E-01, 1.44890E-01, 1.50800E-01, 
         1.56960E-01, 1.63360E-01, 1.70030E-01, 1.76970E-01, 1.84190E-01, 1.91710E-01, 
         1.99530E-01, 2.07670E-01, 2.16150E-01, 2.24970E-01, 2.34150E-01, 2.43710E-01, 
@@ -195,7 +189,7 @@ def main():
         3.50000E+00, 3.60000E+00, 3.70000E+00, 3.80000E+00, 3.90000E+00, 4.00000E+00,
         4.50000E+00, 5.00000E+00, 5.50000E+00, 6.00000E+00, 6.50000E+00, 7.00000E+00,
         7.50000E+00, 8.00000E+00, 8.50000E+00, 9.00000E+00, 9.50000E+00, 1.00000E+01,
-        1.05000E+01, 1.10000E+01 
+        1.05000E+01, 1.10000E+01
     ])*1e6
 
     energy_neutron_filter = openmc.EnergyFilter(neutron_energies)
