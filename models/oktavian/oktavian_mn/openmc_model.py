@@ -35,7 +35,7 @@ def main():
     mat_1 = openmc.Material(material_id=1)
     mat_1.set_density('g/cm3', 4.36894)
     mat_1.add_nuclide('Mn55', 0.9991568, 'ao')
-    mat_1.add_nuclide('C0', 0.0002262949223678, 'ao')
+    mat_1.add_nuclide('C12', 0.0002262949223678, 'ao')
     mat_1.add_nuclide('C13', 2.5349776321999998e-06, 'ao')
     mat_1.add_nuclide('Si28', 3.606999e-05, 'ao')
     mat_1.add_nuclide('Si29', 1.831462e-06, 'ao')
