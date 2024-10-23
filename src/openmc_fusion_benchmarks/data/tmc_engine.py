@@ -7,7 +7,7 @@ import numpy as np
 
 
 def tmc_engine(model: openmc.Model, nsamples: int, lib_name: str, nuclide,
-               reaction: int, perturb_xs: bool = False):
+               reaction: int, perturb_xs: bool = True):
     # convert nuclide to gnds name
     nuclide = get_nuclide_gnds(nuclide)
     xs_file = f'cross_sections_mod.xml'
