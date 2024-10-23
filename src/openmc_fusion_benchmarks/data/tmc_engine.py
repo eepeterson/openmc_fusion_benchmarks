@@ -11,8 +11,9 @@ def tmc_engine(model: openmc.Model, nsamples: int, lib_name: str, nuclide,
     # convert nuclide to gnds name
     nuclide = get_nuclide_gnds(nuclide)
     xs_file = f'cross_sections_mod.xml'
-    path_to_file = f'results_{nuclide}.h5'
+    path_to_file = f'tmc_results_{nuclide}.h5'
 
+    # runs sandy and generates perturbed xs only if perturb_xs is True
     if perturb_xs:
         perturb_to_hdf5(nsamples, lib_name, nuclide, reaction, nprocesses=1,
                         error=.001)
@@ -30,7 +31,8 @@ def tmc_engine(model: openmc.Model, nsamples: int, lib_name: str, nuclide,
         model.run()
 
         # postprocess result
-        sp = openmc.StatePoint('statepoint.100.h5')
+        sp_name = f'statepoint.{model.settings.batches}.h5'
+        sp = openmc.StatePoint(sp_name)
         # open tally and push to hdf5
         for t in sp.tallies:
             tally = sp.get_tally(id=t)
@@ -39,4 +41,4 @@ def tmc_engine(model: openmc.Model, nsamples: int, lib_name: str, nuclide,
                             format='table', data_columns=True, index=False)
 
         os.remove('summary.h5')
-        os.remove('statepoint.100.h5')
+        os.remove(sp_name)
