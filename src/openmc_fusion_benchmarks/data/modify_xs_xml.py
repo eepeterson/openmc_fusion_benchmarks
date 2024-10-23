@@ -3,7 +3,6 @@ import os
 
 
 _this_script_dir = os.path.dirname(os.path.abspath(__file__))
-_model_xml_path = os.path.join(_this_script_dir, 'model_xs.xml')
 
 
 def get_env_variable(var_name: str) -> str:
