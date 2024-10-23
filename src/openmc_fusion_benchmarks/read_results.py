@@ -2,7 +2,9 @@ import h5py
 import openmc
 from pathlib import Path
 from typing import Iterable
+import numpy as np
 import pandas as pd
+import re
 
 _del_columns = ['cell', 'particle', 'nuclide', 'score', 'energyfunction']
 
@@ -95,6 +97,53 @@ def build_hdf_filename(code_name: str, code_version: Iterable, xs_library: str) 
     filename += '.h5'
 
     return filename
+
+
+# class ResultsFrom(ABC):
+#     def __init__(self, file: str):
+#         """ResultsFrom class constructor
+
+#         Parameters
+#         ----------
+#         file : str
+#             Name of the hdf file present in the results_database folder.
+#             Can include the path to the file
+#         """
+
+#         self.filename = file.strip().split('/')
+#         self.filepath = Path(file)
+
+#     def list_tallies(self):
+#         """Prints the names of all the tallies available in the hdf file
+#         """
+#         with h5py.File(self.filepath) as f:
+#             print(f.keys())
+
+#     def get_tally_dataframe(self, tally_name: str) -> pd.DataFrame:
+#         """Retrieves the results of a given tally in a Pandas DataFrame format.
+#         It relies on the openmc.Statepoint().get_tally().get_pandas_dataframe()
+#         method
+
+#         Parameters
+#         ----------
+#         tally_name : str
+#             Exact name of the tally in the hdf file
+
+#         Returns
+#         -------
+#         pd.DataFrame
+#             DataFrame with tally results
+#         """
+#         with h5py.File(self.filepath) as f:
+#             df = pd.DataFrame(f[tally_name+'/table'][()]).drop(columns='index')
+#             # decode hdf5 strings to strings if necessary
+#             try:
+#                 df[self.get_tally_xaxis(tally_name)] = [el.decode()
+#                                                         for el in df[self.get_tally_xaxis(tally_name)]]
+#             except:
+#                 pass
+
+#             return df
 
 
 class ResultsFromDatabase:
@@ -407,3 +456,75 @@ class ResultsFromOpenmc:
 
         to_hdf(tally_df, file, tally_name, xs_library, xaxis_name, when, where,
                code_version, self.get_batches, self.get_particles_per_batch, literature)
+
+
+class ResultsFromTMC(ResultsFromDatabase):
+    def __init__(self, file):
+        super().__init__(file)
+
+    def list_tally_names(self):
+        # Create a set to store unique base names
+        base_names = set()
+
+        # Regular expression to capture the pattern 'name_N'
+        pattern = re.compile(r"(.+?)_(\d+)$")
+
+        # Open the HDF5 file
+        with h5py.File(self.filepath, 'r') as hdf:
+            # List all datasets in the HDF5 file
+            dataset_names = list(hdf.keys())
+
+            # Loop through the dataset names
+            for name in dataset_names:
+                match = pattern.match(name)
+                if match:
+                    # Capture the base name
+                    base_name = match.group(1)
+                    # Add to the set of unique base names
+                    base_names.add(base_name)
+
+        print(list(base_names))
+
+    def find_nsamples(self, tally):
+
+        # Open the HDF5 file
+        with h5py.File(self.filepath, 'r') as hdf:
+            # List all datasets in the HDF5 file
+            dataset_names = list(hdf.keys())
+            # Initialize to track the highest N
+            max_n = -1
+            # Loop through the datasets to find the ones that match the pattern base_name_N
+            for name in dataset_names:
+                if name.startswith(tally + '_'):
+                    # Extract N and update max_n if N is larger
+                    n = int(name.split('_')[-1])
+                    if n > max_n:
+                        max_n = n
+
+        if max_n == -1:
+            msg = f"No datasets found with base name '{tally}' in the HDF5 file."
+            raise ValueError(msg)
+        else:
+            return max_n
+
+    def get_means(self, tally):
+        mean = []
+        nsamples = self.find_nsamples(tally)
+        with h5py.File(self.filepath, 'r') as f:
+            for n in range(nsamples):
+                df = pd.DataFrame(
+                    f[tally+f'_{n}'+'/table'][()]).drop(columns='index')
+                mean.append(np.array(df['mean']))
+
+        return np.array(mean)
+
+    def get_stds(self, tally):
+        stds = []
+        nsamples = self.find_nsamples(tally)
+        with h5py.File(self.filepath, 'r') as f:
+            for n in range(nsamples):
+                df = pd.DataFrame(
+                    f[tally+f'_{n}'+'/table'][()]).drop(columns='index')
+                stds.append(np.array(df['std. dev.']))
+
+        return np.array(stds)
