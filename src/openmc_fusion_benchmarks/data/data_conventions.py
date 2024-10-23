@@ -1,8 +1,18 @@
 import openmc
 
 
-def zaid_to_zam(zaid):
-    # Convert ZAID to string for easy manipulation
+def zaid_to_zam(zaid) -> tuple:
+    """Converts a ZAID to Z, A, and M.
+
+    Parameters
+    ----------
+    zaid : nuclide ZAID
+
+    Returns
+    -------
+    tuple
+        Z, A, and M values
+    """
     zaid_str = str(zaid)
 
     # Extract Z, A, and M based on ZAID length
@@ -23,6 +33,20 @@ def zaid_to_zam(zaid):
 
 
 def get_nuclide_zaid(nuclide):
+    """Gets the ZAID of a nuclide from its name as a GNDS string (e.g. 'H1',
+    'U238) or as a ZAM tuple (e.g. (1, 1, 0)).
+    See openmc.data.zam() for more details.
+
+    Parameters
+    ----------
+    nuclide : int or str or tuple
+        The nuclide identifier or name
+
+    Returns
+    -------
+    int
+        The ZAID of the nuclide
+    """
     if type(nuclide) == int:
         return nuclide
     elif type(nuclide) == str:
@@ -32,6 +56,18 @@ def get_nuclide_zaid(nuclide):
 
 
 def get_nuclide_gnds(nuclide):
+    """Gets the GNDS name from a nuclide ZAID
+
+    Parameters
+    ----------
+    nuclide : str or int
+        The nuclide ZAID or GNDS name
+
+    Returns
+    -------
+    str
+        The GNDS name of the nuclide
+    """
     if type(nuclide) == str:
         return nuclide
     elif type(nuclide) == int:
