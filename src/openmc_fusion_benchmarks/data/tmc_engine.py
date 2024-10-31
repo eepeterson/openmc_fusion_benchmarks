@@ -7,7 +7,36 @@ import numpy as np
 
 
 def tmc_engine(model: openmc.Model, nsamples: int, lib_name: str, nuclide,
-               reaction: int, perturb_xs: bool = True):
+               reaction: int = None, perturb_xs: bool = True):
+    """Runs a TMC simulation on a given OpenMC model object. 
+    With perturb_xs=True it is possible to perturb the cross sections of a 
+    specific nuclide and reaction from a given nuclear data library 
+    automatically before the starting of the actual TMC simulation.
+    The results of the TMC simulation are stored in a .h5 file as OpenMC
+    tallies in PandasDataFrame format.
+
+    Parameters
+    ----------
+    model : openmc.Model
+        OpenMC model object to run TMC simulations on
+    nsamples : int
+        Number of samples to run in the TMC simulation 
+        (i.e. number of times the xs is perturbed)
+    lib_name : str
+        Name of the nuclear data library to perturb the xs from 
+        (e.g. 'ENDF/B-VIII.0')
+    nuclide : str or int
+        Identifier of the nuclide for which the cross section is perturbed
+        (GNDS, ZAID or ZAM)
+    reaction : int, optional
+        MT value for the specific reaction to perturb, by default None
+    perturb_xs : bool, optional
+        Flag for the automatic generation of perturbed .h5 xs files right
+        before running the TMC simulation. Set to False if the use has already
+        a set of perturbed xs in .h5 format
+        to point to, by default True
+    """
+
     # convert nuclide to gnds name
     nuclide = get_nuclide_gnds(nuclide)
     xs_file = f'cross_sections_mod.xml'
