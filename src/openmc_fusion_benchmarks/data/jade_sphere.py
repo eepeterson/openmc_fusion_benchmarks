@@ -1,15 +1,16 @@
 import openmc
 
 
-def jade_sphere(material:openmc.Material, particles:int=int(1e5), 
-                photon_transport:bool=False, nreactions=None, greactions=None):
+def jade_sphere(material: openmc.Material, particles: int = int(1e5),
+                photon_transport: bool = False, nreactions=None,
+                greactions=None) -> openmc.model.Model:
 
     materials = openmc.Materials([material])
 
     # geometry
-    s1  = openmc.Sphere(r=5.)
-    s2  = openmc.Sphere(r= 50.)
-    s3  = openmc.Sphere(r= 60.0, boundary_type='vacuum')
+    s1 = openmc.Sphere(r=5.)
+    s2 = openmc.Sphere(r=50.)
+    s3 = openmc.Sphere(r=60.0, boundary_type='vacuum')
 
     region1 = -s1
     region2 = +s1 & -s2
@@ -74,5 +75,5 @@ def jade_sphere(material:openmc.Material, particles:int=int(1e5),
                 t.filters = [cell2_filter, photon_filter]
                 t.scores = [reaction]
                 tallies_file.append(t)
-    
+
     return openmc.model.Model(geometry, materials, settings, tallies_file)

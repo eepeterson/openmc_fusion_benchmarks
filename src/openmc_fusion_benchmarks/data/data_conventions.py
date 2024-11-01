@@ -1,12 +1,14 @@
-import openmc
+import openmc.data
+from typing import Union
 
 
-def zaid_to_zam(zaid) -> tuple:
+def zaid_to_zam(zaid: int) -> tuple:
     """Converts a ZAID to Z, A, and M.
 
     Parameters
     ----------
-    zaid : nuclide ZAID
+    zaid : int
+    nuclide ZAID
 
     Returns
     -------
@@ -55,7 +57,7 @@ def get_nuclide_zaid(nuclide):
         return nuclide[0]*1000 + nuclide[1]
 
 
-def get_nuclide_gnds(nuclide):
+def get_nuclide_gnds(nuclide: Union[str, int]) -> str:
     """Gets the GNDS name from a nuclide ZAID
 
     Parameters
@@ -73,3 +75,24 @@ def get_nuclide_gnds(nuclide):
     elif type(nuclide) == int:
         zam = zaid_to_zam(nuclide)
         return openmc.data.gnds_name(zam[0], zam[1], zam[2])
+
+
+def get_reaction_mt(reaction: Union[str, int]) -> int:
+    """Gets the MT value from a reaction name
+
+    Parameters
+    ----------
+    reaction : str or int
+        The reaction name or MT value
+
+    Returns
+    -------
+    int
+        The MT value of the reaction
+    """
+    try:
+        mt = openmc.data.REACTION_MT[reaction]
+    except KeyError:
+        mt = reaction
+
+    return mt

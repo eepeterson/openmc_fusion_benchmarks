@@ -1,10 +1,11 @@
-from .data_conventions import get_nuclide_zaid, get_nuclide_gnds
+from .data_conventions import get_nuclide_zaid, get_nuclide_gnds, get_reaction_mt
 import os
 import glob
 import argparse
 import sandy
 import openmc
 import openmc.data
+from typing import Union
 
 
 def remove_ace_files(directory: str, lib_name: str):
@@ -31,8 +32,8 @@ def remove_ace_files(directory: str, lib_name: str):
                 print(f"Error removing {file_path}: {e}")
 
 
-def get_ace_files(nsamples: int, lib_name: str, nuclide, reaction: int,
-                  nprocesses: int, error: float):
+def get_ace_files(nsamples: int, lib_name: str, nuclide: Union[str, int],
+                  reaction: Union[str, int], nprocesses: int, error: float):
     """Generate ACE files for a given nuclide and reaction from a defined 
     nuclear data library using sandy.
 
@@ -42,11 +43,11 @@ def get_ace_files(nsamples: int, lib_name: str, nuclide, reaction: int,
         Number of perturbed cross section samples to generate
     lib_name : str
         Name of the nuclear data library to generate the ACE files from
-    nuclide : str or int or tuple
+    nuclide : str or int
         Identifier of the nuclide for which the cross section is perturbed
-        (GNDS, ZAID or ZAM)
-    reaction : int
-        MT value for the specific reaction to perturb
+        (GNDS, ZAID)
+    reaction : str or int
+        String name or MT value for the specific reaction to perturb
     nprocesses : int
         Number of processes for parallel processing
     error : float
@@ -59,6 +60,7 @@ def get_ace_files(nsamples: int, lib_name: str, nuclide, reaction: int,
     """
     # convert nuclide to ZAID
     nuclide_zaid = get_nuclide_zaid(nuclide)
+    reaction_mt = get_reaction_mt(reaction)
     tape = sandy.get_endf6_file(lib_name, "xs", nuclide_zaid*10, to_file=True)
 
     # Generate perturbations
@@ -71,7 +73,7 @@ def get_ace_files(nsamples: int, lib_name: str, nuclide, reaction: int,
             xs=True,
             nubar=False,
             verbose=True,
-            errorr33_kws=dict(mt=reaction)
+            errorr33_kws=dict(mt=reaction_mt)
         ),
     )
 
@@ -101,7 +103,8 @@ def get_ace_files(nsamples: int, lib_name: str, nuclide, reaction: int,
     return ace_files
 
 
-def ace_to_hdf5(nsamples: int, lib_name: str, nuclide, remove_ace: bool = True):
+def ace_to_hdf5(nsamples: int, lib_name: str, nuclide: Union[str, int],
+                remove_ace: bool = True):
     """Convert ACE files to HDF5 using OpenMC.
 
     Parameters
@@ -110,9 +113,9 @@ def ace_to_hdf5(nsamples: int, lib_name: str, nuclide, remove_ace: bool = True):
         Number of perturbed cross section samples to convert
     lib_name : str
         Name of the nuclear data library used to generate the ACE files
-    nuclide : str or int or tuple
+    nuclide : str or int
         Identifier of the nuclide for which the cross section is perturbed
-        (GNDS, ZAID or ZAM)
+        (GNDS, ZAID)
     remove_ace : bool, optional
         removes the original ACE files, by default True
     """
@@ -142,8 +145,9 @@ def ace_to_hdf5(nsamples: int, lib_name: str, nuclide, remove_ace: bool = True):
         remove_ace_files('', lib_name)
 
 
-def perturb_to_hdf5(nsamples: int, lib_name: str, nuclide, reaction: int,
-                    nprocesses: int = 1, error: float = .001):
+def perturb_to_hdf5(nsamples: int, lib_name: str, nuclide: Union[str, int],
+                    reaction: Union[str, int], nprocesses: int = 1,
+                    error: float = .001):
     """Perturb nuclear data and convert to HDF5 format.
 
     Parameters
@@ -152,11 +156,11 @@ def perturb_to_hdf5(nsamples: int, lib_name: str, nuclide, reaction: int,
         Number of perturbed cross section samples to generate
     lib_name : str
         Name of the nuclear data library to generate the ACE files from
-    nuclide : int or str or tuple
+    nuclide : int or str
         Identifier of the nuclide for which the cross section is perturbed
-        (GNDS, ZAID or ZAM)
-    reaction : int
-        MT value for the specific reaction to perturb
+        (GNDS, ZAID)
+    reaction : str or int
+        Str name or MT value for the specific reaction to perturb
     nprocesses : int, optional
         Number of processes for parallel processing, by default 1
     error : float, optional
@@ -176,7 +180,7 @@ def main():
                         help="Nuclide identifier (ZA number)")
     parser.add_argument("-xs", "--lib_name", type=str, default=1,
                         help="Cross section choice ['JEFF_32', 'JEFF_33', 'ENDFB_71', 'ENDFB_80', 'JENDL_40U', 'IRDFF_2']")
-    parser.add_argument("-r", "--reaction", type=int,
+    parser.add_argument("-r", "--reaction", type=Union[str, int],
                         nargs='+', help="MT value for specific reaction")
     parser.add_argument("-e", "--error", type=float,
                         default=0.001, help="Error tolerance for processing")

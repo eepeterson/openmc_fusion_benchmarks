@@ -31,7 +31,7 @@ def rewrite_xs_xml(new_xs_file: str = 'cross_sections_mod.xml'):
     Parameters
     ----------
     new_xs_file : str, optional
-        name of the new xs file to be created,
+        Name of the new xs file to be created,
         by default 'cross_sections_mod.xml'
     """
     # read xs file
@@ -48,16 +48,16 @@ def create_xs_dict(xs_h5_file: str, nuclide: str, type: str = 'neutron') -> dict
     Parameters
     ----------
     xs_h5_file : str
-        path to the target nuclide h5 xs file
+        Path to the target nuclide h5 xs file
     nuclide : str
-        nuclide name in gnds format
+        Nuclide name in gnds format
     type : str, optional
-        type of incident particle (i.e. neutron, photon), by default 'neutron'
+        Type of incident particle (i.e. neutron, photon), by default 'neutron'
 
     Returns
     -------
     dict
-        dictionary with the path to the h5 xs file, the type of incident
+        Dictionary with the path to the h5 xs file, the type of incident
         particle and the target nuclide
     """
     return {'path': xs_h5_file, 'type': type, 'materials': [nuclide]}
@@ -70,11 +70,11 @@ def perturb_xs_xml(xs_file: str, xs_h5_file: str, nuclide: str):
     Parameters
     ----------
     xs_file : str
-        name of the xs xml file to perturb
+        Name of the xs xml file to perturb
     xs_h5_file : str
-        path to the new (perturbed) h5 xs file
+        Path to the new (perturbed) h5 xs file
     nuclide : str
-        nuclide name in gnds format
+        Nuclide name in gnds format
     """
     # read xs file
     myxs = openmc.data.DataLibrary.from_xml(xs_file)
