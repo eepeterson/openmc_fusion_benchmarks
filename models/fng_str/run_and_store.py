@@ -6,7 +6,6 @@ import helpers
 import numpy as np
 import pandas as pd
 from pathlib import Path
-import h5py
 
 # ignore NaturalNameWarnings
 import warnings
@@ -17,9 +16,12 @@ warnings.filterwarnings('ignore', category=NaturalNameWarning)
 def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-x", "--xslib", type=str)
-    parser.add_argument("-t", "--when", type=str, default='n/a')
-    parser.add_argument("-w", "--where", type=str, default='n/a')
+    parser.add_argument("-x", "--xslib", type=str,
+                        help="Strign with Cross section library name and version (e.g. 'FENDL-2.3')")
+    parser.add_argument("-t", "--when", type=str, default='n/a',
+                        help="String with the month and year the simulation is run as (e.g. 'June 2021')")
+    parser.add_argument("-w", "--where", type=str, default='n/a',
+                        help="String with the place/institution where the simulation is run (e.g. 'MIT-PSFC')")
 
     args = parser.parse_args()
 
@@ -60,10 +62,10 @@ def main():
 
     # read statepoint file
     onaxis_file = ofb.ResultsFromOpenmc(
-        'statepoint.100.h5', 'reaction_rates_onaxis')
+        'reaction_rates_onaxis/statepoint.100.h5')
     offaxis_file = ofb.ResultsFromOpenmc(
-        'statepoint.100.h5', 'reaction_rates_offaxis')
-    heating_file = ofb.ResultsFromOpenmc('statepoint.100.h5', 'heating')
+        'reaction_rates_offaxis/statepoint.100.h5')
+    heating_file = ofb.ResultsFromOpenmc('heating/statepoint.100.h5')
 
     # openmc hdf file
     filename = ofb.build_hdf_filename(
@@ -132,22 +134,13 @@ def main():
     tally_df = pd.DataFrame(d)
 
     path_to_file = Path('results_database') / filename
-
-    # write the tally in the hdf file
-    tally_df.to_hdf(path_to_file, tally_name, mode='a',
-                    format='table', data_columns=True, index=False)
     code_version = 'openmc-' + \
         '.'.join(map(str, heating_file.get_openmc_version))
 
-    # write attributes to the hdf file
-    with h5py.File(path_to_file, 'a') as f:
-        f[tally_name + '/table'].attrs['x_axis'] = xaxis_name
-        f.attrs['code_version'] = code_version
-        f.attrs['xs_library'] = args.xslib.strip().replace(' ', '')
-        f.attrs['batches'] = heating_file.get_batches
-        f.attrs['particles_per_batch'] = heating_file.get_particles_per_batch
-        f.attrs['when'] = args.when
-        f.attrs['where'] = args.where
+    xs_library = args.xslib.strip().replace(' ', '')
+    ofb.to_hdf(tally_df, path_to_file, tally_name, xs_library, xaxis_name,
+               args.when, args.where, code_version,
+               heating_file.get_batches, heating_file.get_particles_per_batch)
 
 
 if __name__ == "__main__":
