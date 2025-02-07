@@ -951,7 +951,7 @@ def main():
     region_503 = +py_127 & -py_150 & +cy_202 & -cy_203
     region_504 = +py_127 & -py_150 & +cy_203 & -cy_204
     region_505 = +py_127 & -py_150 & +cy_204 & -cy_205
-    region_506 = +py_127 & -py_150 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_506 = +py_127 & -py_150 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 2 Cu layer
     region_507 = -sy_316
     region_508 = +py_150 & -py_151 & +sy_316 & -cy_201
@@ -959,7 +959,7 @@ def main():
     region_510 = +py_150 & -py_151 & +cy_202 & -cy_203
     region_511 = +py_150 & -py_151 & +cy_203 & -cy_204
     region_512 = +py_150 & -py_151 & +cy_204 & -cy_205
-    region_513 = +py_150 & -py_151 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_513 = +py_150 & -py_151 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 3 SS layer
     region_514 = -sy_317
     region_515 = +py_151 & -py_152 & +sy_317 & -cy_201
@@ -967,7 +967,7 @@ def main():
     region_517 = +py_151 & -py_152 & +cy_202 & -cy_203
     region_518 = +py_151 & -py_152 & +cy_203 & -cy_204
     region_519 = +py_151 & -py_152 & +cy_204 & -cy_205
-    region_520 = +py_151 & -py_152 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_520 = +py_151 & -py_152 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 4 Cu layer
     region_521 = -sy_318
     region_522 = +py_152 & -py_153 & +sy_318 & -cy_201
@@ -975,7 +975,7 @@ def main():
     region_524 = +py_152 & -py_153 & +cy_202 & -cy_203
     region_525 = +py_152 & -py_153 & +cy_203 & -cy_204
     region_526 = +py_152 & -py_153 & +cy_204 & -cy_205
-    region_527 = +py_152 & -py_153 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_527 = +py_152 & -py_153 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 5 SS layer
     region_528 = -sy_319
     region_529 = +py_153 & -py_154 & +sy_319 & -cy_201
@@ -983,7 +983,7 @@ def main():
     region_531 = +py_153 & -py_154 & +cy_202 & -cy_203
     region_532 = +py_153 & -py_154 & +cy_203 & -cy_204
     region_533 = +py_153 & -py_154 & +cy_204 & -cy_205
-    region_534 = +py_153 & -py_154 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_534 = +py_153 & -py_154 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 6 Cu layer
     region_535 = -sy_320
     region_536 = +py_154 & -py_155 & +sy_320 & -cy_201
@@ -991,7 +991,7 @@ def main():
     region_538 = +py_154 & -py_155 & +cy_202 & -cy_203
     region_539 = +py_154 & -py_155 & +cy_203 & -cy_204
     region_540 = +py_154 & -py_155 & +cy_204 & -cy_205
-    region_541 = +py_154 & -py_155 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_541 = +py_154 & -py_155 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 7 SS layer
     region_542 = -sy_321
     region_543 = +py_155 & -py_156 & +sy_321 & -cy_201
@@ -999,7 +999,7 @@ def main():
     region_545 = +py_155 & -py_156 & +cy_202 & -cy_203
     region_546 = +py_155 & -py_156 & +cy_203 & -cy_204
     region_547 = +py_155 & -py_156 & +cy_204 & -cy_205
-    region_548 = +py_155 & -py_156 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_548 = +py_155 & -py_156 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 8 Cu layer
     region_549 = -sy_322
     region_550 = +py_156 & -py_157 & +sy_322 & -cy_201
@@ -1007,7 +1007,7 @@ def main():
     region_552 = +py_156 & -py_157 & +cy_202 & -cy_203
     region_553 = +py_156 & -py_157 & +cy_203 & -cy_204
     region_554 = +py_156 & -py_157 & +cy_204 & -cy_205
-    region_555 = +py_156 & -py_157 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_555 = +py_156 & -py_157 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 9 SS layer
     region_556 = -sy_323
     region_557 = +py_157 & -py_158 & +sy_323 & -cy_201
@@ -1015,7 +1015,7 @@ def main():
     region_559 = +py_157 & -py_158 & +cy_202 & -cy_203
     region_560 = +py_157 & -py_158 & +cy_203 & -cy_204
     region_561 = +py_157 & -py_158 & +cy_204 & -cy_205
-    region_562 = +py_157 & -py_158 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_562 = +py_157 & -py_158 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     #  10 Cu layer
     region_563 = -sy_324
     region_564 = +py_158 & -py_159 & +sy_324 & -cy_201
@@ -1023,7 +1023,7 @@ def main():
     region_566 = +py_158 & -py_159 & +cy_202 & -cy_203
     region_567 = +py_158 & -py_159 & +cy_203 & -cy_204
     region_568 = +py_158 & -py_159 & +cy_204 & -cy_205
-    region_569 = +py_158 & -py_159 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_569 = +py_158 & -py_159 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 11 SS layer
     region_570 = -sy_325
     region_571 = +py_159 & -py_160 & +sy_325 & -cy_201
@@ -1031,7 +1031,7 @@ def main():
     region_573 = +py_159 & -py_160 & +cy_202 & -cy_203
     region_574 = +py_159 & -py_160 & +cy_203 & -cy_204
     region_575 = +py_159 & -py_160 & +cy_204 & -cy_205
-    region_576 = +py_159 & -py_160 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_576 = +py_159 & -py_160 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 12 Cu layer
     region_577 = -sy_326
     region_578 = +py_160 & -py_161 & +sy_326 & -cy_201
@@ -1039,7 +1039,7 @@ def main():
     region_580 = +py_160 & -py_161 & +cy_202 & -cy_203
     region_581 = +py_160 & -py_161 & +cy_203 & -cy_204
     region_582 = +py_160 & -py_161 & +cy_204 & -cy_205
-    region_583 = +py_160 & -py_161 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_583 = +py_160 & -py_161 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 13 SS layer
     region_584 = -sy_327
     region_585 = +py_161 & -py_162 & +sy_327 & -cy_201
@@ -1047,7 +1047,7 @@ def main():
     region_587 = +py_161 & -py_162 & +cy_202 & -cy_203
     region_588 = +py_161 & -py_162 & +cy_203 & -cy_204
     region_589 = +py_161 & -py_162 & +cy_204 & -cy_205
-    region_590 = +py_161 & -py_162 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_590 = +py_161 & -py_162 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 14 Cu layer
     region_591 = -sy_328
     region_592 = +py_162 & -py_163 & +sy_328 & -cy_201
@@ -1055,7 +1055,7 @@ def main():
     region_594 = +py_162 & -py_163 & +cy_202 & -cy_203
     region_595 = +py_162 & -py_163 & +cy_203 & -cy_204
     region_596 = +py_162 & -py_163 & +cy_204 & -cy_205
-    region_597 = +py_162 & -py_163 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_597 = +py_162 & -py_163 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # Regions for dening foils and inner box walls
     region_601 = +py_112 & -py_91 & +pz_304 & -pz_303 & -px_305 & +px_306 & +cy_301
     region_602 = -cy_302 & +py_353 & -py_5  # detector
