@@ -115,14 +115,14 @@ def main():
 
     if args.heating:
         detector1 = detector2 = detector3 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [0., 0., 1.], 'vo')
+            [air, au197, aisi316], [0., 0., 1.], 'vo', name='tld_material')
     else:
         detector1 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [0.95, .05, 0.], 'vo')
+            [air, au197, aisi316], [0.95, .05, 0.], 'vo', name='foil_0500Au')
         detector2 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.975, .025, 0.], 'vo')
+            [air, au197, aisi316], [.975, .025, 0.], 'vo', name='foil_0250Au')
         detector3 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.9833, .0167, 0.], 'vo')
+            [air, au197, aisi316], [.9833, .0167, 0.], 'vo', name='foil_01670Au')
 
     ############################################################################
     # Build Geometry
