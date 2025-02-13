@@ -10,19 +10,19 @@ def test_add_floor_ceiling():
 
     fig, ax = plt.subplots()
 
-    min,max = ofb.add_floor_ceiling(ax,checklist_lin, scale='lin', gap=0)
-    assert min == 1
-    assert max == 5
+    min_value,max_value = ofb.add_floor_ceiling(ax,checklist_lin, scale='lin', gap=0)
+    assert min_value == 1
+    assert max_value == 5
 
-    min,max = ofb.add_floor_ceiling(ax,checklist_lin, scale='lin', gap=5)
-    assert min == -4
-    assert max == 10
+    min_value,max_value = ofb.add_floor_ceiling(ax,checklist_lin, scale='lin', gap=5)
+    assert min_value == -4
+    assert max_value == 10
 
-    min,max = ofb.add_floor_ceiling(ax,checklist_log, scale='log', gap=0)
-    assert min == 0
-    assert max == 1
+    min_value,max_value = ofb.add_floor_ceiling(ax,checklist_log, scale='log', gap=0)
+    assert min_value == 0
+    assert max_value == 1
 
-    min,max = ofb.add_floor_ceiling(ax,checklist_log, scale='log', gap=1)
+    min_value,max_value = ofb.add_floor_ceiling(ax,checklist_log, scale='log', gap=1)
     assert min == -1
     assert max == 2
 
