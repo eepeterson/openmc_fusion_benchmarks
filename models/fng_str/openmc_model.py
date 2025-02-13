@@ -1078,8 +1078,9 @@ def main():
     region_659 = (-py_442 | +py_443 | -px_440 | +px_441 | -pz_444 | +pz_445) & +py_452 & -py_453 & +px_450 & -px_451 & +pz_454 & -pz_455
     region_660 = (-py_452 | +py_453 | -px_450 | +px_451 | -pz_454 | +pz_455) & +py_462 & -py_463 & +px_460 & -px_461 & +pz_464 & -pz_465
     region_661 = (-py_462 | +py_463 | -px_460 | +px_461 | -pz_464 | +pz_465) & +py_472 & -py_473 & +px_470 & -px_471 & +pz_474 & -pz_475
-    # External vacuum
-    region_600 = -py_472 | +py_473 | -px_470 | +px_471 | -pz_474 | +pz_475
+
+    # air region
+    region_999 = (-py_21 | +py_76 | - px_70 | +px_71 | -pz_73 | +pz_75) & +py_402 & -py_403 & +px_400 & -px_401 & +pz_404 & -pz_405
 
     # cells
     # Cu cup
@@ -2169,8 +2170,8 @@ def main():
     cell_659 = openmc.Cell(cell_id=659, name='cell_659', fill=concrete, region=region_659)
     cell_660 = openmc.Cell(cell_id=660, name='cell_660', fill=concrete, region=region_660)
     cell_661 = openmc.Cell(cell_id=661, name='cell_661', fill=concrete, region=region_661)
-    # External vacuum
-    cell_600 = openmc.Cell(cell_id=600, name='cell_600', fill=None, region=region_600)
+    # Room air cell
+    cell_999 = openmc.Cell(cell_id=999, name='cell_999', fill=air, region=region_999)
 
     # creating universe
     cells = [cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8, cell_9, cell_10,
@@ -2226,7 +2227,7 @@ def main():
              cell_581, cell_582, cell_583, cell_584, cell_585, cell_586, cell_587, cell_588, cell_589, cell_590,
              cell_591, cell_592, cell_593, cell_594, cell_595, cell_596, cell_597,
              cell_601, cell_602, cell_603, cell_604, cell_605, cell_606, cell_607, cell_608, cell_609, cell_610,
-             cell_611, cell_612, cell_655, cell_656, cell_657, cell_658, cell_659, cell_660, cell_661, cell_600]
+             cell_611, cell_612, cell_655, cell_656, cell_657, cell_658, cell_659, cell_660, cell_661, cell_999]
     # export
     model.geometry = openmc.Geometry(cells)
     model.geometry.merge_surfaces = True
