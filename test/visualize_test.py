@@ -23,7 +23,7 @@ def test_add_floor_ceiling():
     assert max_value == 1
 
     min_value,max_value = ofb.add_floor_ceiling(ax,checklist_log, scale='log', gap=1)
-    assert min == -1
-    assert max == 2
+    assert min_value == -1
+    assert max_value == 2
 
     plt.close(fig)
