@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
-[![CI testing](https://github.com/SteSeg/openmc_fusion_benchmarks/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SteSeg/openmc_fusion_benchmarks/workflows/ci.yml)
+[![CI testing](https://github.com/SteSeg/openmc_fusion_benchmarks/actions/workflows/ci.yml/badge.svg?branch=add_ci)](https://github.com/SteSeg/openmc_fusion_benchmarks/workflows/ci.yml)
 [![Code Coverage](https://coveralls.io/github/SteSeg/openmc_fusion_benchmarks)](https://coveralls.io/repos/github/SteSeg/openmc_fusion_benchmarks/badge.svg)
 
 # openmc_fusion_benchmarks
