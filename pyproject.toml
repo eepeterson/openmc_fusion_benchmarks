@@ -28,6 +28,9 @@ dependencies = [
     "tables"
 ]
 
+[project.optional-dependencies]
+tests = ["pytest>=5.4.3", "pytest-cov"]
+
 [project.urls]
 "Homepage" = "https://github.com/eepeterson/openmc_fusion_benchmarks"
 "Bug Tracker" = "https://github.com/eepeterson/openmc_fusion_benchmarks/issues"
