@@ -1363,15 +1363,15 @@ def main():
     region_955 = (+surf_119 & -surf_120 & -surf_84 & +
                   surf_94 & +surf_82 & -surf_92)
     region_990 = (+surf_303 & -surf_101 & +surf_92 & -
-                  surf_93 & +surf_84 & -surf_86)
+                  surf_93 & +surf_84 & -surf_86 & +surf_1)
     region_991 = (+surf_303 & -surf_101 & +surf_92 & -
-                  surf_93 & +surf_87 & -surf_85)
+                  surf_93 & +surf_87 & -surf_85 & +surf_1)
     region_992 = (+surf_303 & -surf_101 & +surf_92 & -
-                  surf_93 & +surf_86 & -surf_87)
+                  surf_93 & +surf_86 & -surf_87 & +surf_1)
     region_993 = (+surf_303 & -surf_101 & +surf_92 & -
-                  surf_93 & +surf_85 & -surf_95)
+                  surf_93 & +surf_85 & -surf_95 & +surf_1)
     region_994 = (+surf_303 & -surf_101 & +surf_92 & -
-                  surf_93 & +surf_94 & -surf_84)
+                  surf_93 & +surf_94 & -surf_84 & +surf_1)
 
     # cells
     cell_1 = openmc.Cell(cell_id=1, region=region_1, fill=mat_3)
