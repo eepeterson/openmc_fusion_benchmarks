@@ -14,6 +14,19 @@ jobs:
         with:
           python-version: "3.10"  # Change to your required version
 
+      - name: Set up Conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: myenv
+          miniforge-version: latest
+          # use-mamba: true
+          channels: conda-forge
+
+      - name: Create Conda environment
+        shell: bash -l {0}
+        run: |
+          conda install -c conda-forge openmc>=0.14.0
+
       - name: Install package
         run: pip install .
 
