@@ -31,7 +31,12 @@ jobs:
         run: |
           python -m pytest test/ --cov=src/ --cov-report=xml
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Run tests and collect coverage
+        run: pytest --cov=my_package
+      - name: Upload coverage to Coveralls
+        run: coveralls
+
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v5
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
