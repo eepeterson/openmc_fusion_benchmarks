@@ -29,7 +29,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-tests = ["pytest>=5.4.3", "pytest-cov"]
+tests = ["pytest>=5.4.3", "pytest-cov", "coveralls"]
 
 [project.urls]
 "Homepage" = "https://github.com/eepeterson/openmc_fusion_benchmarks"
