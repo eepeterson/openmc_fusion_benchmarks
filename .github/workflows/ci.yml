@@ -39,4 +39,5 @@ jobs:
           python -m pytest test/ --cov openmc_fusion_benchmarks --cov-report xml --cov-report term
 
       - name: Upload coverage to Coveralls
+        shell: bash -l {0}
         run: coveralls
