@@ -22,13 +22,15 @@ jobs:
           # use-mamba: true
           channels: conda-forge
 
-      - name: Create Conda environment
-        shell: bash -l {0}
-        run: |
-          conda install -c conda-forge openmc>=0.14.0
+      # - name: Create Conda environment
+      #   shell: bash -l {0}
+      #   run: |
+      #     conda install -c conda-forge openmc>=0.14.0
 
       - name: Install package
-        run: pip install .
+        run: |
+          pip install .
+          pip install openmc
 
       - name: Install dependencies
         run: |
