@@ -14,23 +14,44 @@ jobs:
         with:
           python-version: "3.10"  # Change to your required version
 
-      - name: Set up Conda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: myenv
-          miniforge-version: latest
-          # use-mamba: true
-          channels: conda-forge
+      # - name: Set up Conda
+      #   uses: conda-incubator/setup-miniconda@v2
+      #   with:
+      #     activate-environment: myenv
+      #     miniforge-version: latest
+      #     # use-mamba: true
+      #     channels: conda-forge
 
       # - name: Create Conda environment
       #   shell: bash -l {0}
       #   run: |
       #     conda install -c conda-forge openmc>=0.14.0
 
-      - name: Install package
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test-env
+          python-version: "3.10"
+          auto-activate-base: false
+          channels: conda-forge
+
+      - name: Install dependencies
+        shell: bash -l {0}
         run: |
-          pip install .
-          pip install openmc
+          conda activate test-env
+          conda install -y openmc numpy pandas tables
+          pip install .  # Install your package
+          pip install .[tests]  # Install test dependencies
+
+      # - name: Run tests
+      #   shell: bash -l {0}
+      #   run: |
+      #     conda activate test-env
+      #     pytest --cov=openmc_fusion_benchmarks
+
+      # - name: Install package
+      #   run: pip install .
 
       - name: Install dependencies
         run: |
