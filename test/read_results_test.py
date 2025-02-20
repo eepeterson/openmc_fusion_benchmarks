@@ -13,5 +13,5 @@ def test_build_hdf_filename():
 
 
     assert sample1 == 'test-0-0-0_test.h5'
-    assert sample2 == 'openmc-0-15-0_fendl-3.2b.h5'
-    assert sample3 == 'mcnp-4-6-0_endf-b-8.1.h5'
+    assert sample2 == 'openmc-0-15-0_fendl32b.h5'
+    assert sample3 == 'mcnp-4-6-0_endfb81.h5'
