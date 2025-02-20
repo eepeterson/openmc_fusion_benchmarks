@@ -40,7 +40,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda activate test-env
-          conda install -y openmc numpy pandas tables
+          conda install -y openmc numpy pandas tables scipy
           python -m pip install --upgrade pip
           pip install pytest pytest-cov
           pip install . 
