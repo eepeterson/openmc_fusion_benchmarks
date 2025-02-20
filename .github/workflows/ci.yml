@@ -61,4 +61,5 @@ jobs:
       #     pip install pytest pytest-cov
 
       - name: Run tests with coverage
+        shell: bash -l {0}
         run: pytest --cov=openmc_fusion_benchmarks
