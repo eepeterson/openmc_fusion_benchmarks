@@ -41,8 +41,10 @@ jobs:
         run: |
           conda activate test-env
           conda install -y openmc numpy pandas tables
-          pip install .  # Install your package
-          pip install .[tests]  # Install test dependencies
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          pip install . 
+          pip install .[tests] 
 
       # - name: Run tests
       #   shell: bash -l {0}
