@@ -17,7 +17,7 @@ jobs:
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v2
         with:
-          activate-environment: myenv
+          activate-environment: test-env
           miniforge-version: latest
           # use-mamba: true
           channels: conda-forge
@@ -26,16 +26,11 @@ jobs:
         shell: bash -l {0}
         run: |
           conda install -c conda-forge openmc>=0.14.0
-
-
-      - name: Create Conda environment
-        shell: bash -l {0}
-        run: |
-            conda install -c conda-forge openmc>=0.14.0
   
       - name: Install dependencies
         shell: bash -l {0}
         run: |
+          pip install coveralls
           python -m pip install .[tests]
 
       - name: Run tests
