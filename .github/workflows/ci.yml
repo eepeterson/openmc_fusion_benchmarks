@@ -32,7 +32,7 @@ jobs:
           python -m pytest test/ --cov=src/ --cov-report=xml
 
       - name: Run tests and collect coverage
-        run: pytest --cov=my_package
+        run: pytest --cov=openmc_fusion_benchmakrs
       - name: Upload coverage to Coveralls
         run: coveralls
 
