@@ -1,9 +1,6 @@
 import pytest
 from openmc_fusion_benchmarks import build_hdf_filename
 
-def test_dummy():
-    assert 1 == 1
-
 
 def test_build_hdf_filename():
 
