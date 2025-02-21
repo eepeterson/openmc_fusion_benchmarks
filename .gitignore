@@ -47,7 +47,11 @@ delete*
 .python-version
 .coverage
 htmlcov
-openmc_fusion_benchmarks.egg-info/
+
+# Ignore build folders
+build/
+dist/
+*.egg-info/
 
 # macOS
 *.DS_Store

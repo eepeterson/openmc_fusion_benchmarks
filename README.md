@@ -1,3 +1,7 @@
+[![License](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
+[![CI testing](https://github.com/SteSeg/openmc_fusion_benchmarks/actions/workflows/ci.yml/badge.svg?branch=add_ci)](https://github.com/SteSeg/openmc_fusion_benchmarks/workflows/ci.yml)
+[![Code Coverage](https://coveralls.io/repos/github/SteSeg/openmc_fusion_benchmarks/badge.svg?branch=add_ci)](https://coveralls.io/github/SteSeg/openmc_fusion_benchmarks?branch=add_ci)
+
 # openmc_fusion_benchmarks
 OpenMC Fusion Benchmarks is a platform for V&V of fusion neutronics. It focuses on fusion-relevant integral benchmarks. It relies on an automated workflow for model simulation, data postprocessing, visualization and analysis. It embeds a database of experimental and numerical results for quick comparisons to which users can contribute to. The database contribution workflow is fully automated.
 
