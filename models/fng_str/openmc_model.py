@@ -115,14 +115,14 @@ def main():
 
     if args.heating:
         detector1 = detector2 = detector3 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [0., 0., 1.], 'vo')
+            [air, au197, aisi316], [0., 0., 1.], 'vo', name='tld_material')
     else:
         detector1 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [0.95, .05, 0.], 'vo')
+            [air, au197, aisi316], [0.95, .05, 0.], 'vo', name='foil_0500Au')
         detector2 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.975, .025, 0.], 'vo')
+            [air, au197, aisi316], [.975, .025, 0.], 'vo', name='foil_0250Au')
         detector3 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.9833, .0167, 0.], 'vo')
+            [air, au197, aisi316], [.9833, .0167, 0.], 'vo', name='foil_01670Au')
 
     ############################################################################
     # Build Geometry
@@ -187,8 +187,7 @@ def main():
     cy_19 = openmc.YCylinder(x0=0.0, z0=0.0, r=17.7,
                              name='cy_29').translate(t3)
     py_20 = openmc.YPlane(y0=-8.4, name='py_20').translate(t3)
-    py_21 = openmc.YPlane(y0=-14.1, boundary_type='vacuum',
-                          name='py_21').translate(t3)
+    py_21 = openmc.YPlane(y0=-14.1, name='py_21').translate(t3)
     p_22 = openmc.Plane(2.6516504294495524, -12.450000000000001,
                         2.6516504294495524, 5.01, name='p_22').translate(t3)  # COPIED FROM XML
     p_23 = openmc.Plane(2.54558441227157, -12.450000000000001, 2.54558441227157,
@@ -281,13 +280,13 @@ def main():
     pz_68 = openmc.ZPlane(
         z0=-1.45, name='pz_68').rotate(r2).translate(t2)  # tr2
     # Polyethilene block
-    px_70 = openmc.XPlane(x0=-63.5, boundary_type='vacuum', name='px_70')
-    px_71 = openmc.XPlane(x0=63.5, boundary_type='vacuum', name='px_71')
+    px_70 = openmc.XPlane(x0=-63.5, name='px_70')
+    px_71 = openmc.XPlane(x0=63.5, name='px_71')
     py_72 = openmc.YPlane(y0=66.56, name='py_72')
-    pz_73 = openmc.ZPlane(z0=-59.5, boundary_type='vacuum', name='pz_73')
+    pz_73 = openmc.ZPlane(z0=-59.5, name='pz_73')
     pz_74 = openmc.ZPlane(z0=59.5, name='pz_74')
-    pz_75 = openmc.ZPlane(z0=67.5, boundary_type='vacuum', name='pz_75')
-    py_76 = openmc.YPlane(y0=151.56, boundary_type='vacuum', name='py_76')
+    pz_75 = openmc.ZPlane(z0=67.5, name='pz_75')
+    py_76 = openmc.YPlane(y0=151.56, name='py_76')
     pz_77 = openmc.ZPlane(z0=-28.5, name='pz_77')
     pz_78 = openmc.ZPlane(z0=28.5, name='pz_78')
     pz_79 = openmc.ZPlane(z0=-38.5, name='pz_79')
@@ -427,6 +426,56 @@ def main():
     px_356 = openmc.XPlane(x0=-7.3, name='px_356')
     pz_357 = openmc.ZPlane(z0=2.5, name='pz_357')
     pz_358 = openmc.ZPlane(z0=-2.5, name='pz_358')
+
+    # Wall surfaces
+    px_400 = openmc.XPlane(x0=-570, name='px_400').rotate(r1).translate(t1)  # tr1
+    px_401 = openmc.XPlane(x0=570, name='px_401').rotate(r1).translate(t1)  # tr1
+    py_402 = openmc.YPlane(y0=-760, name='py_402').rotate(r1).translate(t1)  # tr1
+    py_403 = openmc.YPlane(y0=480, name='py_403').rotate(r1).translate(t1)  # tr1
+    pz_404 = openmc.ZPlane(z0=-406, name='pz_404')
+    pz_405 = openmc.ZPlane(z0=530, name='pz_405')
+    px_410 = openmc.XPlane(x0=-572, name='px_410').rotate(r1).translate(t1)  # tr1
+    px_411 = openmc.XPlane(x0=572, name='px_411').rotate(r1).translate(t1)  # tr1
+    py_412 = openmc.YPlane(y0=-762, name='py_412').rotate(r1).translate(t1)  # tr1
+    py_413 = openmc.YPlane(y0=482, name='py_413').rotate(r1).translate(t1)  # tr1
+    pz_414 = openmc.ZPlane(z0=-408, name='pz_414')
+    pz_415 = openmc.ZPlane(z0=532, name='pz_415')
+    px_420 = openmc.XPlane(x0=-576, name='px_420').rotate(r1).translate(t1)  # tr1
+    px_421 = openmc.XPlane(x0=576, name='px_421').rotate(r1).translate(t1)  # tr1
+    py_422 = openmc.YPlane(y0=-766, name='py_422').rotate(r1).translate(t1)  # tr1
+    py_423 = openmc.YPlane(y0=486, name='py_423').rotate(r1).translate(t1)  # tr1
+    pz_424 = openmc.ZPlane(z0=-412, name='pz_424')
+    pz_425 = openmc.ZPlane(z0=536, name='pz_425')
+    px_430 = openmc.XPlane(x0=-582, name='px_430').rotate(r1).translate(t1)  # tr1
+    px_431 = openmc.XPlane(x0=582, name='px_431').rotate(r1).translate(t1)  # tr1
+    py_432 = openmc.YPlane(y0=-772, name='py_432').rotate(r1).translate(t1)  # tr1
+    py_433 = openmc.YPlane(y0=492, name='py_403').rotate(r1).translate(t1)  # tr1
+    pz_434 = openmc.ZPlane(z0=-418, name='pz_434')
+    pz_435 = openmc.ZPlane(z0=542, name='pz_435')
+    px_440 = openmc.XPlane(x0=-590, name='px_440').rotate(r1).translate(t1)  # tr1
+    px_441 = openmc.XPlane(x0=590, name='px_441').rotate(r1).translate(t1)  # tr1
+    py_442 = openmc.YPlane(y0=-780, name='py_442').rotate(r1).translate(t1)  # tr1
+    py_443 = openmc.YPlane(y0=500, name='py_443').rotate(r1).translate(t1)  # tr1
+    pz_444 = openmc.ZPlane(z0=-426, name='pz_444')
+    pz_445 = openmc.ZPlane(z0=550, name='pz_445')
+    px_450 = openmc.XPlane(x0=-600, name='px_450').rotate(r1).translate(t1)  # tr1
+    px_451 = openmc.XPlane(x0=600, name='px_451').rotate(r1).translate(t1)  # tr1
+    py_452 = openmc.YPlane(y0=-790, name='py_452').rotate(r1).translate(t1)  # tr1
+    py_453 = openmc.YPlane(y0=510, name='py_453').rotate(r1).translate(t1)  # tr1
+    pz_454 = openmc.ZPlane(z0=-436, name='pz_454')
+    pz_455 = openmc.ZPlane(z0=560, name='pz_455')
+    px_460 = openmc.XPlane(x0=-610, name='px_460').rotate(r1).translate(t1)  # tr1
+    px_461 = openmc.XPlane(x0=610, name='px_461').rotate(r1).translate(t1)  # tr1
+    py_462 = openmc.YPlane(y0=-800, name='py_462').rotate(r1).translate(t1)  # tr1
+    py_463 = openmc.YPlane(y0=520, name='py_463').rotate(r1).translate(t1)  # tr1
+    pz_464 = openmc.ZPlane(z0=-446, name='pz_464')
+    pz_465 = openmc.ZPlane(z0=570, name='pz_465')
+    px_470 = openmc.XPlane(x0=-620, boundary_type='vacuum', name='px_470').rotate(r1).translate(t1)  # tr1
+    px_471 = openmc.XPlane(x0=620, boundary_type='vacuum', name='px_471').rotate(r1).translate(t1)  # tr1
+    py_472 = openmc.YPlane(y0=-810, boundary_type='vacuum', name='py_472').rotate(r1).translate(t1)  # tr1
+    py_473 = openmc.YPlane(y0=530, boundary_type='vacuum', name='py_473').rotate(r1).translate(t1)  # tr1
+    pz_474 = openmc.ZPlane(z0=-456, boundary_type='vacuum', name='pz_474')
+    pz_475 = openmc.ZPlane(z0=580, boundary_type='vacuum', name='pz_475')
 
     # regions
     # Cu cup
@@ -902,7 +951,7 @@ def main():
     region_503 = +py_127 & -py_150 & +cy_202 & -cy_203
     region_504 = +py_127 & -py_150 & +cy_203 & -cy_204
     region_505 = +py_127 & -py_150 & +cy_204 & -cy_205
-    region_506 = +py_127 & -py_150 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_506 = +py_127 & -py_150 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 2 Cu layer
     region_507 = -sy_316
     region_508 = +py_150 & -py_151 & +sy_316 & -cy_201
@@ -910,7 +959,7 @@ def main():
     region_510 = +py_150 & -py_151 & +cy_202 & -cy_203
     region_511 = +py_150 & -py_151 & +cy_203 & -cy_204
     region_512 = +py_150 & -py_151 & +cy_204 & -cy_205
-    region_513 = +py_150 & -py_151 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_513 = +py_150 & -py_151 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 3 SS layer
     region_514 = -sy_317
     region_515 = +py_151 & -py_152 & +sy_317 & -cy_201
@@ -918,7 +967,7 @@ def main():
     region_517 = +py_151 & -py_152 & +cy_202 & -cy_203
     region_518 = +py_151 & -py_152 & +cy_203 & -cy_204
     region_519 = +py_151 & -py_152 & +cy_204 & -cy_205
-    region_520 = +py_151 & -py_152 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_520 = +py_151 & -py_152 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 4 Cu layer
     region_521 = -sy_318
     region_522 = +py_152 & -py_153 & +sy_318 & -cy_201
@@ -926,7 +975,7 @@ def main():
     region_524 = +py_152 & -py_153 & +cy_202 & -cy_203
     region_525 = +py_152 & -py_153 & +cy_203 & -cy_204
     region_526 = +py_152 & -py_153 & +cy_204 & -cy_205
-    region_527 = +py_152 & -py_153 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_527 = +py_152 & -py_153 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 5 SS layer
     region_528 = -sy_319
     region_529 = +py_153 & -py_154 & +sy_319 & -cy_201
@@ -934,7 +983,7 @@ def main():
     region_531 = +py_153 & -py_154 & +cy_202 & -cy_203
     region_532 = +py_153 & -py_154 & +cy_203 & -cy_204
     region_533 = +py_153 & -py_154 & +cy_204 & -cy_205
-    region_534 = +py_153 & -py_154 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_534 = +py_153 & -py_154 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 6 Cu layer
     region_535 = -sy_320
     region_536 = +py_154 & -py_155 & +sy_320 & -cy_201
@@ -942,7 +991,7 @@ def main():
     region_538 = +py_154 & -py_155 & +cy_202 & -cy_203
     region_539 = +py_154 & -py_155 & +cy_203 & -cy_204
     region_540 = +py_154 & -py_155 & +cy_204 & -cy_205
-    region_541 = +py_154 & -py_155 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_541 = +py_154 & -py_155 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 7 SS layer
     region_542 = -sy_321
     region_543 = +py_155 & -py_156 & +sy_321 & -cy_201
@@ -950,7 +999,7 @@ def main():
     region_545 = +py_155 & -py_156 & +cy_202 & -cy_203
     region_546 = +py_155 & -py_156 & +cy_203 & -cy_204
     region_547 = +py_155 & -py_156 & +cy_204 & -cy_205
-    region_548 = +py_155 & -py_156 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_548 = +py_155 & -py_156 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 8 Cu layer
     region_549 = -sy_322
     region_550 = +py_156 & -py_157 & +sy_322 & -cy_201
@@ -958,7 +1007,7 @@ def main():
     region_552 = +py_156 & -py_157 & +cy_202 & -cy_203
     region_553 = +py_156 & -py_157 & +cy_203 & -cy_204
     region_554 = +py_156 & -py_157 & +cy_204 & -cy_205
-    region_555 = +py_156 & -py_157 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_555 = +py_156 & -py_157 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 9 SS layer
     region_556 = -sy_323
     region_557 = +py_157 & -py_158 & +sy_323 & -cy_201
@@ -966,7 +1015,7 @@ def main():
     region_559 = +py_157 & -py_158 & +cy_202 & -cy_203
     region_560 = +py_157 & -py_158 & +cy_203 & -cy_204
     region_561 = +py_157 & -py_158 & +cy_204 & -cy_205
-    region_562 = +py_157 & -py_158 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_562 = +py_157 & -py_158 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     #  10 Cu layer
     region_563 = -sy_324
     region_564 = +py_158 & -py_159 & +sy_324 & -cy_201
@@ -974,7 +1023,7 @@ def main():
     region_566 = +py_158 & -py_159 & +cy_202 & -cy_203
     region_567 = +py_158 & -py_159 & +cy_203 & -cy_204
     region_568 = +py_158 & -py_159 & +cy_204 & -cy_205
-    region_569 = +py_158 & -py_159 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_569 = +py_158 & -py_159 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 11 SS layer
     region_570 = -sy_325
     region_571 = +py_159 & -py_160 & +sy_325 & -cy_201
@@ -982,7 +1031,7 @@ def main():
     region_573 = +py_159 & -py_160 & +cy_202 & -cy_203
     region_574 = +py_159 & -py_160 & +cy_203 & -cy_204
     region_575 = +py_159 & -py_160 & +cy_204 & -cy_205
-    region_576 = +py_159 & -py_160 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_576 = +py_159 & -py_160 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 12 Cu layer
     region_577 = -sy_326
     region_578 = +py_160 & -py_161 & +sy_326 & -cy_201
@@ -990,7 +1039,7 @@ def main():
     region_580 = +py_160 & -py_161 & +cy_202 & -cy_203
     region_581 = +py_160 & -py_161 & +cy_203 & -cy_204
     region_582 = +py_160 & -py_161 & +cy_204 & -cy_205
-    region_583 = +py_160 & -py_161 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_583 = +py_160 & -py_161 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 13 SS layer
     region_584 = -sy_327
     region_585 = +py_161 & -py_162 & +sy_327 & -cy_201
@@ -998,7 +1047,7 @@ def main():
     region_587 = +py_161 & -py_162 & +cy_202 & -cy_203
     region_588 = +py_161 & -py_162 & +cy_203 & -cy_204
     region_589 = +py_161 & -py_162 & +cy_204 & -cy_205
-    region_590 = +py_161 & -py_162 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_590 = +py_161 & -py_162 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # 14 Cu layer
     region_591 = -sy_328
     region_592 = +py_162 & -py_163 & +sy_328 & -cy_201
@@ -1006,7 +1055,7 @@ def main():
     region_594 = +py_162 & -py_163 & +cy_202 & -cy_203
     region_595 = +py_162 & -py_163 & +cy_203 & -cy_204
     region_596 = +py_162 & -py_163 & +cy_204 & -cy_205
-    region_597 = +py_162 & -py_163 & +cy_205 & +px_92 & -px_93 & +pz_94 & -pz_95
+    region_597 = +py_162 & -py_163 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # Regions for dening foils and inner box walls
     region_601 = +py_112 & -py_91 & +pz_304 & -pz_303 & -px_305 & +px_306 & +cy_301
     region_602 = -cy_302 & +py_353 & -py_5  # detector
@@ -1020,6 +1069,18 @@ def main():
     region_610 = -coz_351 & +pz_357 & -pz_303  # detector
     region_611 = -coz_352 & +pz_304 & -pz_358  # detector
     region_612 = -coz_352 & +pz_357 & -pz_303  # detector
+
+    # Walls
+    region_655 = (-py_402 | +py_403 | -px_400 | +px_401 | -pz_404 | +pz_405) & +py_412 & -py_413 & +px_410 & -px_411 & +pz_414 & -pz_415
+    region_656 = (-py_412 | +py_413 | -px_410 | +px_411 | -pz_414 | +pz_415) & +py_422 & -py_423 & +px_420 & -px_421 & +pz_424 & -pz_425
+    region_657 = (-py_422 | +py_423 | -px_420 | +px_421 | -pz_424 | +pz_425) & +py_432 & -py_433 & +px_430 & -px_431 & +pz_434 & -pz_435
+    region_658 = (-py_432 | +py_433 | -px_430 | +px_431 | -pz_434 | +pz_435) & +py_442 & -py_443 & +px_440 & -px_441 & +pz_444 & -pz_445
+    region_659 = (-py_442 | +py_443 | -px_440 | +px_441 | -pz_444 | +pz_445) & +py_452 & -py_453 & +px_450 & -px_451 & +pz_454 & -pz_455
+    region_660 = (-py_452 | +py_453 | -px_450 | +px_451 | -pz_454 | +pz_455) & +py_462 & -py_463 & +px_460 & -px_461 & +pz_464 & -pz_465
+    region_661 = (-py_462 | +py_463 | -px_460 | +px_461 | -pz_464 | +pz_465) & +py_472 & -py_473 & +px_470 & -px_471 & +pz_474 & -pz_475
+
+    # air region
+    region_999 = (-py_21 | +py_76 | - px_70 | +px_71 | -pz_73 | +pz_75) & +py_402 & -py_403 & +px_400 & -px_401 & +pz_404 & -pz_405
 
     # cells
     # Cu cup
@@ -2101,6 +2162,16 @@ def main():
                            fill=detector1, region=region_611)  # detector
     cell_612 = openmc.Cell(cell_id=612, name='cell_612',
                            fill=detector1, region=region_612)  # detector
+    # Walls
+    cell_655 = openmc.Cell(cell_id=655, name='cell_655', fill=concrete, region=region_655)
+    cell_656 = openmc.Cell(cell_id=656, name='cell_656', fill=concrete, region=region_656)
+    cell_657 = openmc.Cell(cell_id=657, name='cell_657', fill=concrete, region=region_657)
+    cell_658 = openmc.Cell(cell_id=658, name='cell_658', fill=concrete, region=region_658)
+    cell_659 = openmc.Cell(cell_id=659, name='cell_659', fill=concrete, region=region_659)
+    cell_660 = openmc.Cell(cell_id=660, name='cell_660', fill=concrete, region=region_660)
+    cell_661 = openmc.Cell(cell_id=661, name='cell_661', fill=concrete, region=region_661)
+    # Room air cell
+    cell_999 = openmc.Cell(cell_id=999, name='cell_999', fill=air, region=region_999)
 
     # creating universe
     cells = [cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8, cell_9, cell_10,
@@ -2156,7 +2227,7 @@ def main():
              cell_581, cell_582, cell_583, cell_584, cell_585, cell_586, cell_587, cell_588, cell_589, cell_590,
              cell_591, cell_592, cell_593, cell_594, cell_595, cell_596, cell_597,
              cell_601, cell_602, cell_603, cell_604, cell_605, cell_606, cell_607, cell_608, cell_609, cell_610,
-             cell_611, cell_612,]
+             cell_611, cell_612, cell_655, cell_656, cell_657, cell_658, cell_659, cell_660, cell_661, cell_999]
     # export
     model.geometry = openmc.Geometry(cells)
     model.geometry.merge_surfaces = True
