@@ -2,7 +2,7 @@
 import openmc
 from openmc_fusion_benchmarks import StatePoint
 from openmc_fusion_benchmarks import get_statepoint_path
-import impotlib
+import importlib
 
 
 class Benchmark:
