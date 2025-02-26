@@ -23,6 +23,11 @@ class Benchmark:
     
     def statepoint(self) -> StatePoint:
         sp_path = get_statepoint_path(self.geometry_type)
+
+    def get_cad_file(self, file_format:str='step'):
+
+            if file_format not in ['step', 'rtt', 'h5m']:
+                raise ValueError('Invalid file format, can be "step", "rtt" or "h5m"')
     
     def _run_and_store(self):
         pass
