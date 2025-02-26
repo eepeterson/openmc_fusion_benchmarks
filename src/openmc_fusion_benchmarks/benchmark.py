@@ -1,6 +1,8 @@
+"""Module for defining and managing benchmarks"""
 import openmc
 from openmc_fusion_benchmarks import StatePoint
 from openmc_fusion_benchmarks import get_statepoint_path
+import impotlib
 
 class Benchmark:
     def __init__(self, name, geometry_type:str):
@@ -11,7 +13,13 @@ class Benchmark:
             raise ValueError('Invalid geometry type can be either "csg" or "cad"')
 
     def model(self) -> openmc.Model:
-        pass
+        """Dynamically import and return the model object from models/{model_name}/model.py"""
+        try:
+            module_path = f"openmc_fusion_benchmarks.models.{self.model_name}.model"
+            model_module = importlib.import_module(module_path)
+            return model_module.model  # Assuming `model` is an object/function inside model.py
+        except ModuleNotFoundError:
+            raise ValueError(f"Model {self.model_name} not found in myrepo.models")
     
     def statepoint(self) -> StatePoint:
         sp_path = get_statepoint_path(self.geometry_type)
