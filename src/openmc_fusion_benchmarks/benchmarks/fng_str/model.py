@@ -92,9 +92,13 @@ def model(batches: int, particles: int, run_option: str):
     au197.add_element('Au', 1.0, 'ao')
     au197.set_density('g/cm3', 19.3)
 
+    materials = [aisi316, water, copper, air, perspex,
+                 ch2, concrete, al27, ni58, nb93, au197]
+
     if run_option == 'heating':
         detector1 = detector2 = detector3 = openmc.Material.mix_materials(
             [air, au197, aisi316], [0., 0., 1.], 'vo', name='tld_material')
+        materials.append(detector1)
     else:
         detector1 = openmc.Material.mix_materials(
             [air, au197, aisi316], [0.95, .05, 0.], 'vo', name='foil_0500Au')
@@ -102,6 +106,9 @@ def model(batches: int, particles: int, run_option: str):
             [air, au197, aisi316], [.975, .025, 0.], 'vo', name='foil_0250Au')
         detector3 = openmc.Material.mix_materials(
             [air, au197, aisi316], [.9833, .0167, 0.], 'vo', name='foil_01670Au')
+        materials.extend([detector1, detector2, detector3])
+
+    model.materials = openmc.Materials(materials)
 
     ############################################################################
     # Build Geometry
