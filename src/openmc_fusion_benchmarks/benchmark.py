@@ -4,60 +4,74 @@ from openmc_fusion_benchmarks import StatePoint
 from openmc_fusion_benchmarks import get_statepoint_path
 import impotlib
 
+
 class Benchmark:
-    def __init__(self, name, geometry_type:str):
+    def __init__(self, name, geometry_type: str):
         self.name = name
         self.geometry_type = geometry_type
 
         if geometry_type not in ['csg', 'cad']:
-            raise ValueError('Invalid geometry type can be either "csg" or "cad"')
+            raise ValueError(
+                'Invalid geometry type can be either "csg" or "cad"')
 
     def model(self) -> openmc.Model:
         """Dynamically import and return the model object from benchmarks/{benchmark_name}/model.py"""
         try:
             module_path = f"openmc_fusion_benchmarks.benchmarks.{self.name}.model"
             benchmark_module = importlib.import_module(module_path)
-            return benchmark_module.model  # Assuming `model` is an object/function inside model.py
+            # Assuming `model` is an object/function inside model.py
+            return benchmark_module.model
         except ModuleNotFoundError:
             raise ValueError(f"Model {self.name} not found in myrepo.models")
-    
+
     def statepoint(self) -> StatePoint:
         sp_path = get_statepoint_path(self.geometry_type)
 
-    def get_cad_file(self, file_format:str='step'):
+    def get_cad_file(self, file_format: str = 'step'):
 
-            if file_format not in ['step', 'rtt', 'h5m']:
-                raise ValueError('Invalid file format, can be "step", "rtt" or "h5m"')
-    
+        if file_format not in ['step', 'rtt', 'h5m']:
+            raise ValueError(
+                'Invalid file format, can be "step", "rtt" or "h5m"')
+
     def _run_and_store(self):
         pass
 
+
 class FngStr(Benchmark):
-    def __init__(self, geometry_type:str, run_option:str='onaxis'):
+    def __init__(self, geometry_type: str, run_option: str = 'onaxis'):
         super().__init__("fng_str", geometry_type)
 
+        self.run_option = run_option
+
         if run_option not in ['onaxis', 'offaxis', 'heating']:
-            raise ValueError('Invalid run option, can be "onaxis", "offaxis" or "heating"')
+            raise ValueError(
+                'Invalid run option, can be "onaxis", "offaxis" or "heating"')
+
 
 class FngW(Benchmark):
-    def __init__(self, geometry_type:str, run_option:str='reaction_rates'):
+    def __init__(self, geometry_type: str, run_option: str = 'reaction_rates'):
         super().__init__("fng_w", geometry_type)
 
+        self.run_option = run_option
+
         if run_option not in ['reaction_rates', 'heating']:
-            raise ValueError('Invalid run option, can be "reaction_rates" or "heating"')
+            raise ValueError(
+                'Invalid run option, can be "reaction_rates" or "heating"')
+
 
 class Oktavian(Benchmark):
-    def __init__(self, geometry_type:str, run_option:str='Al'):
+    def __init__(self, geometry_type: str, run_option: str = 'Al'):
         super().__init__("oktavian", geometry_type)
 
+
 class FnsDuct(Benchmark):
-    def __init__(self, geometry_type:str):
+    def __init__(self, geometry_type: str):
         super().__init__("fns_duct", geometry_type)
 
-class FnsCleanW(Benchmark):
-    def __init__(self, geometry_type:str):
-        super().__init__("fns_clean_w", geometry_type)
 
+class FnsCleanW(Benchmark):
+    def __init__(self, geometry_type: str):
+        super().__init__("fns_clean_w", geometry_type)
 
 
 class BenchmarkDatabase:
