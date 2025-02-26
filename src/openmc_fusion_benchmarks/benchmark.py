@@ -43,20 +43,12 @@ class FngStr(Benchmark):
 
         self.run_option = run_option
 
-        if run_option not in ['onaxis', 'offaxis', 'heating']:
-            raise ValueError(
-                'Invalid run option, can be "onaxis", "offaxis" or "heating"')
-
 
 class FngW(Benchmark):
     def __init__(self, geometry_type: str, run_option: str = 'reaction_rates'):
         super().__init__("fng_w", geometry_type)
 
         self.run_option = run_option
-
-        if run_option not in ['reaction_rates', 'heating']:
-            raise ValueError(
-                'Invalid run option, can be "reaction_rates" or "heating"')
 
 
 class Oktavian(Benchmark):
