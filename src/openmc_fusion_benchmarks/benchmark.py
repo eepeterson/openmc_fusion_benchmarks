@@ -1,12 +1,12 @@
 """Module for defining and managing benchmarks"""
 import openmc
-from openmc_fusion_benchmarks import StatePoint
-from openmc_fusion_benchmarks import get_statepoint_path
+# from openmc_fusion_benchmarks import StatePoint
+# from openmc_fusion_benchmarks import get_statepoint_path
 import importlib
 
 
 class Benchmark:
-    def __init__(self, name, geometry_type: str):
+    def __init__(self, name: str, geometry_type: str):
         self.name = name
         self.geometry_type = geometry_type
 
@@ -19,13 +19,21 @@ class Benchmark:
         try:
             module_path = f"openmc_fusion_benchmarks.benchmarks.{self.name}.model"
             benchmark_module = importlib.import_module(module_path)
-            # Assuming `model` is an object/function inside model.py
-            return benchmark_module.model
-        except ModuleNotFoundError:
-            raise ValueError(f"Model {self.name} not found in myrepo.models")
+            # Retrieve the model function or class from the module
+            benchmark_func = benchmark_module.model
 
-    def statepoint(self) -> StatePoint:
-        sp_path = get_statepoint_path(self.geometry_type)
+            # Check if 'run_option' exists in the instance, and pass it if available
+            if hasattr(self, "run_option"):
+                return benchmark_func(self.run_option)
+            else:
+                return benchmark_func()
+
+        except ModuleNotFoundError:
+            raise ValueError(
+                f"Model {self.model_name} not found in myrepo.models")
+
+    # def statepoint(self) -> StatePoint:
+    #     sp_path = get_statepoint_path(self.geometry_type)
 
     def get_cad_file(self, file_format: str = 'step'):
 
