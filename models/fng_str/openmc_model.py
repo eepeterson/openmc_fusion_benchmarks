@@ -2,7 +2,7 @@
 import argparse
 
 import openmc
-from openmc_fusion_benchmarks import from_irdff as irdff
+from openmc_fusion_benchmarks import irdff
 from openmc_fusion_benchmarks.neutron_sources import fng_source
 
 
@@ -428,52 +428,84 @@ def main():
     pz_358 = openmc.ZPlane(z0=-2.5, name='pz_358')
 
     # Wall surfaces
-    px_400 = openmc.XPlane(x0=-570, name='px_400').rotate(r1).translate(t1)  # tr1
-    px_401 = openmc.XPlane(x0=570, name='px_401').rotate(r1).translate(t1)  # tr1
-    py_402 = openmc.YPlane(y0=-760, name='py_402').rotate(r1).translate(t1)  # tr1
-    py_403 = openmc.YPlane(y0=480, name='py_403').rotate(r1).translate(t1)  # tr1
+    px_400 = openmc.XPlane(
+        x0=-570, name='px_400').rotate(r1).translate(t1)  # tr1
+    px_401 = openmc.XPlane(x0=570, name='px_401').rotate(
+        r1).translate(t1)  # tr1
+    py_402 = openmc.YPlane(
+        y0=-760, name='py_402').rotate(r1).translate(t1)  # tr1
+    py_403 = openmc.YPlane(y0=480, name='py_403').rotate(
+        r1).translate(t1)  # tr1
     pz_404 = openmc.ZPlane(z0=-406, name='pz_404')
     pz_405 = openmc.ZPlane(z0=530, name='pz_405')
-    px_410 = openmc.XPlane(x0=-572, name='px_410').rotate(r1).translate(t1)  # tr1
-    px_411 = openmc.XPlane(x0=572, name='px_411').rotate(r1).translate(t1)  # tr1
-    py_412 = openmc.YPlane(y0=-762, name='py_412').rotate(r1).translate(t1)  # tr1
-    py_413 = openmc.YPlane(y0=482, name='py_413').rotate(r1).translate(t1)  # tr1
+    px_410 = openmc.XPlane(
+        x0=-572, name='px_410').rotate(r1).translate(t1)  # tr1
+    px_411 = openmc.XPlane(x0=572, name='px_411').rotate(
+        r1).translate(t1)  # tr1
+    py_412 = openmc.YPlane(
+        y0=-762, name='py_412').rotate(r1).translate(t1)  # tr1
+    py_413 = openmc.YPlane(y0=482, name='py_413').rotate(
+        r1).translate(t1)  # tr1
     pz_414 = openmc.ZPlane(z0=-408, name='pz_414')
     pz_415 = openmc.ZPlane(z0=532, name='pz_415')
-    px_420 = openmc.XPlane(x0=-576, name='px_420').rotate(r1).translate(t1)  # tr1
-    px_421 = openmc.XPlane(x0=576, name='px_421').rotate(r1).translate(t1)  # tr1
-    py_422 = openmc.YPlane(y0=-766, name='py_422').rotate(r1).translate(t1)  # tr1
-    py_423 = openmc.YPlane(y0=486, name='py_423').rotate(r1).translate(t1)  # tr1
+    px_420 = openmc.XPlane(
+        x0=-576, name='px_420').rotate(r1).translate(t1)  # tr1
+    px_421 = openmc.XPlane(x0=576, name='px_421').rotate(
+        r1).translate(t1)  # tr1
+    py_422 = openmc.YPlane(
+        y0=-766, name='py_422').rotate(r1).translate(t1)  # tr1
+    py_423 = openmc.YPlane(y0=486, name='py_423').rotate(
+        r1).translate(t1)  # tr1
     pz_424 = openmc.ZPlane(z0=-412, name='pz_424')
     pz_425 = openmc.ZPlane(z0=536, name='pz_425')
-    px_430 = openmc.XPlane(x0=-582, name='px_430').rotate(r1).translate(t1)  # tr1
-    px_431 = openmc.XPlane(x0=582, name='px_431').rotate(r1).translate(t1)  # tr1
-    py_432 = openmc.YPlane(y0=-772, name='py_432').rotate(r1).translate(t1)  # tr1
-    py_433 = openmc.YPlane(y0=492, name='py_403').rotate(r1).translate(t1)  # tr1
+    px_430 = openmc.XPlane(
+        x0=-582, name='px_430').rotate(r1).translate(t1)  # tr1
+    px_431 = openmc.XPlane(x0=582, name='px_431').rotate(
+        r1).translate(t1)  # tr1
+    py_432 = openmc.YPlane(
+        y0=-772, name='py_432').rotate(r1).translate(t1)  # tr1
+    py_433 = openmc.YPlane(y0=492, name='py_403').rotate(
+        r1).translate(t1)  # tr1
     pz_434 = openmc.ZPlane(z0=-418, name='pz_434')
     pz_435 = openmc.ZPlane(z0=542, name='pz_435')
-    px_440 = openmc.XPlane(x0=-590, name='px_440').rotate(r1).translate(t1)  # tr1
-    px_441 = openmc.XPlane(x0=590, name='px_441').rotate(r1).translate(t1)  # tr1
-    py_442 = openmc.YPlane(y0=-780, name='py_442').rotate(r1).translate(t1)  # tr1
-    py_443 = openmc.YPlane(y0=500, name='py_443').rotate(r1).translate(t1)  # tr1
+    px_440 = openmc.XPlane(
+        x0=-590, name='px_440').rotate(r1).translate(t1)  # tr1
+    px_441 = openmc.XPlane(x0=590, name='px_441').rotate(
+        r1).translate(t1)  # tr1
+    py_442 = openmc.YPlane(
+        y0=-780, name='py_442').rotate(r1).translate(t1)  # tr1
+    py_443 = openmc.YPlane(y0=500, name='py_443').rotate(
+        r1).translate(t1)  # tr1
     pz_444 = openmc.ZPlane(z0=-426, name='pz_444')
     pz_445 = openmc.ZPlane(z0=550, name='pz_445')
-    px_450 = openmc.XPlane(x0=-600, name='px_450').rotate(r1).translate(t1)  # tr1
-    px_451 = openmc.XPlane(x0=600, name='px_451').rotate(r1).translate(t1)  # tr1
-    py_452 = openmc.YPlane(y0=-790, name='py_452').rotate(r1).translate(t1)  # tr1
-    py_453 = openmc.YPlane(y0=510, name='py_453').rotate(r1).translate(t1)  # tr1
+    px_450 = openmc.XPlane(
+        x0=-600, name='px_450').rotate(r1).translate(t1)  # tr1
+    px_451 = openmc.XPlane(x0=600, name='px_451').rotate(
+        r1).translate(t1)  # tr1
+    py_452 = openmc.YPlane(
+        y0=-790, name='py_452').rotate(r1).translate(t1)  # tr1
+    py_453 = openmc.YPlane(y0=510, name='py_453').rotate(
+        r1).translate(t1)  # tr1
     pz_454 = openmc.ZPlane(z0=-436, name='pz_454')
     pz_455 = openmc.ZPlane(z0=560, name='pz_455')
-    px_460 = openmc.XPlane(x0=-610, name='px_460').rotate(r1).translate(t1)  # tr1
-    px_461 = openmc.XPlane(x0=610, name='px_461').rotate(r1).translate(t1)  # tr1
-    py_462 = openmc.YPlane(y0=-800, name='py_462').rotate(r1).translate(t1)  # tr1
-    py_463 = openmc.YPlane(y0=520, name='py_463').rotate(r1).translate(t1)  # tr1
+    px_460 = openmc.XPlane(
+        x0=-610, name='px_460').rotate(r1).translate(t1)  # tr1
+    px_461 = openmc.XPlane(x0=610, name='px_461').rotate(
+        r1).translate(t1)  # tr1
+    py_462 = openmc.YPlane(
+        y0=-800, name='py_462').rotate(r1).translate(t1)  # tr1
+    py_463 = openmc.YPlane(y0=520, name='py_463').rotate(
+        r1).translate(t1)  # tr1
     pz_464 = openmc.ZPlane(z0=-446, name='pz_464')
     pz_465 = openmc.ZPlane(z0=570, name='pz_465')
-    px_470 = openmc.XPlane(x0=-620, boundary_type='vacuum', name='px_470').rotate(r1).translate(t1)  # tr1
-    px_471 = openmc.XPlane(x0=620, boundary_type='vacuum', name='px_471').rotate(r1).translate(t1)  # tr1
-    py_472 = openmc.YPlane(y0=-810, boundary_type='vacuum', name='py_472').rotate(r1).translate(t1)  # tr1
-    py_473 = openmc.YPlane(y0=530, boundary_type='vacuum', name='py_473').rotate(r1).translate(t1)  # tr1
+    px_470 = openmc.XPlane(x0=-620, boundary_type='vacuum',
+                           name='px_470').rotate(r1).translate(t1)  # tr1
+    px_471 = openmc.XPlane(x0=620, boundary_type='vacuum',
+                           name='px_471').rotate(r1).translate(t1)  # tr1
+    py_472 = openmc.YPlane(y0=-810, boundary_type='vacuum',
+                           name='py_472').rotate(r1).translate(t1)  # tr1
+    py_473 = openmc.YPlane(y0=530, boundary_type='vacuum',
+                           name='py_473').rotate(r1).translate(t1)  # tr1
     pz_474 = openmc.ZPlane(z0=-456, boundary_type='vacuum', name='pz_474')
     pz_475 = openmc.ZPlane(z0=580, boundary_type='vacuum', name='pz_475')
 
@@ -1071,16 +1103,24 @@ def main():
     region_612 = -coz_352 & +pz_357 & -pz_303  # detector
 
     # Walls
-    region_655 = (-py_402 | +py_403 | -px_400 | +px_401 | -pz_404 | +pz_405) & +py_412 & -py_413 & +px_410 & -px_411 & +pz_414 & -pz_415
-    region_656 = (-py_412 | +py_413 | -px_410 | +px_411 | -pz_414 | +pz_415) & +py_422 & -py_423 & +px_420 & -px_421 & +pz_424 & -pz_425
-    region_657 = (-py_422 | +py_423 | -px_420 | +px_421 | -pz_424 | +pz_425) & +py_432 & -py_433 & +px_430 & -px_431 & +pz_434 & -pz_435
-    region_658 = (-py_432 | +py_433 | -px_430 | +px_431 | -pz_434 | +pz_435) & +py_442 & -py_443 & +px_440 & -px_441 & +pz_444 & -pz_445
-    region_659 = (-py_442 | +py_443 | -px_440 | +px_441 | -pz_444 | +pz_445) & +py_452 & -py_453 & +px_450 & -px_451 & +pz_454 & -pz_455
-    region_660 = (-py_452 | +py_453 | -px_450 | +px_451 | -pz_454 | +pz_455) & +py_462 & -py_463 & +px_460 & -px_461 & +pz_464 & -pz_465
-    region_661 = (-py_462 | +py_463 | -px_460 | +px_461 | -pz_464 | +pz_465) & +py_472 & -py_473 & +px_470 & -px_471 & +pz_474 & -pz_475
+    region_655 = (-py_402 | +py_403 | -px_400 | +px_401 | -pz_404 | +
+                  pz_405) & +py_412 & -py_413 & +px_410 & -px_411 & +pz_414 & -pz_415
+    region_656 = (-py_412 | +py_413 | -px_410 | +px_411 | -pz_414 | +
+                  pz_415) & +py_422 & -py_423 & +px_420 & -px_421 & +pz_424 & -pz_425
+    region_657 = (-py_422 | +py_423 | -px_420 | +px_421 | -pz_424 | +
+                  pz_425) & +py_432 & -py_433 & +px_430 & -px_431 & +pz_434 & -pz_435
+    region_658 = (-py_432 | +py_433 | -px_430 | +px_431 | -pz_434 | +
+                  pz_435) & +py_442 & -py_443 & +px_440 & -px_441 & +pz_444 & -pz_445
+    region_659 = (-py_442 | +py_443 | -px_440 | +px_441 | -pz_444 | +
+                  pz_445) & +py_452 & -py_453 & +px_450 & -px_451 & +pz_454 & -pz_455
+    region_660 = (-py_452 | +py_453 | -px_450 | +px_451 | -pz_454 | +
+                  pz_455) & +py_462 & -py_463 & +px_460 & -px_461 & +pz_464 & -pz_465
+    region_661 = (-py_462 | +py_463 | -px_460 | +px_461 | -pz_464 | +
+                  pz_465) & +py_472 & -py_473 & +px_470 & -px_471 & +pz_474 & -pz_475
 
     # air region
-    region_999 = (-py_21 | +py_76 | - px_70 | +px_71 | -pz_73 | +pz_75) & +py_402 & -py_403 & +px_400 & -px_401 & +pz_404 & -pz_405
+    region_999 = (-py_21 | +py_76 | - px_70 | +px_71 | -pz_73 | +pz_75) & + \
+        py_402 & -py_403 & +px_400 & -px_401 & +pz_404 & -pz_405
 
     # cells
     # Cu cup
@@ -2163,15 +2203,23 @@ def main():
     cell_612 = openmc.Cell(cell_id=612, name='cell_612',
                            fill=detector1, region=region_612)  # detector
     # Walls
-    cell_655 = openmc.Cell(cell_id=655, name='cell_655', fill=concrete, region=region_655)
-    cell_656 = openmc.Cell(cell_id=656, name='cell_656', fill=concrete, region=region_656)
-    cell_657 = openmc.Cell(cell_id=657, name='cell_657', fill=concrete, region=region_657)
-    cell_658 = openmc.Cell(cell_id=658, name='cell_658', fill=concrete, region=region_658)
-    cell_659 = openmc.Cell(cell_id=659, name='cell_659', fill=concrete, region=region_659)
-    cell_660 = openmc.Cell(cell_id=660, name='cell_660', fill=concrete, region=region_660)
-    cell_661 = openmc.Cell(cell_id=661, name='cell_661', fill=concrete, region=region_661)
+    cell_655 = openmc.Cell(cell_id=655, name='cell_655',
+                           fill=concrete, region=region_655)
+    cell_656 = openmc.Cell(cell_id=656, name='cell_656',
+                           fill=concrete, region=region_656)
+    cell_657 = openmc.Cell(cell_id=657, name='cell_657',
+                           fill=concrete, region=region_657)
+    cell_658 = openmc.Cell(cell_id=658, name='cell_658',
+                           fill=concrete, region=region_658)
+    cell_659 = openmc.Cell(cell_id=659, name='cell_659',
+                           fill=concrete, region=region_659)
+    cell_660 = openmc.Cell(cell_id=660, name='cell_660',
+                           fill=concrete, region=region_660)
+    cell_661 = openmc.Cell(cell_id=661, name='cell_661',
+                           fill=concrete, region=region_661)
     # Room air cell
-    cell_999 = openmc.Cell(cell_id=999, name='cell_999', fill=air, region=region_999)
+    cell_999 = openmc.Cell(cell_id=999, name='cell_999',
+                           fill=air, region=region_999)
 
     # creating universe
     cells = [cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8, cell_9, cell_10,

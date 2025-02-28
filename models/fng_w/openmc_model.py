@@ -2,7 +2,7 @@
 import argparse
 
 import openmc
-from openmc_fusion_benchmarks import from_irdff as irdff
+from openmc_fusion_benchmarks import irdff
 from openmc_fusion_benchmarks.neutron_sources import fng_source
 
 
