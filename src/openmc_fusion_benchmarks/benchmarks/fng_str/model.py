@@ -2331,14 +2331,14 @@ def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 
         for n, r, x in zip(nuclides, reactions, irdff_xs):
             # onaxis1 tally
             tally1 = openmc.Tally(name=f"rr_onaxis1_{n}")
-            irdff_xs = irdff.cross_section(x)
+            irdff_xs = irdff.get_cross_section(x)
             multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
                 irdff_xs[r])
             tally1.filters = [onaxis1_cell_filter, neutron_filter, multiplier]
             tally1.scores = ["flux"]
             # onaxis2 tally
             tally2 = openmc.Tally(name=f"rr_onaxis2_{n}")
-            irdff_xs = irdff.cross_section(x)
+            irdff_xs = irdff.get_cross_section(x)
             multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
                 irdff_xs[r])
             tally2.filters = [onaxis2_cell_filter, neutron_filter, multiplier]
@@ -2348,7 +2348,7 @@ def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 
         for n, r, x in zip(nuclides, reactions, irdff_xs):
             # offaxis tally
             tally = openmc.Tally(name=f"rr_offaxis_{n}")
-            nb93_n2n_irdff = irdff.cross_section(x)
+            nb93_n2n_irdff = irdff.get_cross_section(x)
             multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
                 nb93_n2n_irdff[r])
             tally.filters = [offaxis_cell_filter, neutron_filter, multiplier]
