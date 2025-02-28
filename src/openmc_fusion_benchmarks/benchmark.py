@@ -43,6 +43,9 @@ class Benchmark:
 
     def get_weight_windows(self):
         # file needs to go on drive with the rest
+
+        # download ww file:
+        # return openmc.wwinp_to_wws(path/to/ww_file)
         pass
 
     def _run_and_store(self):
