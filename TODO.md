@@ -6,6 +6,9 @@
 ## tests
 
 ## notebooks
+- show how the Benchmark class and factory pattern works (the different ways to call a benchmark), a bit of focus on run_option
+- Show how the model objects in src/ofb/benchmarks/ are structured and can be used
+- the irdff function
 
 ## clean postprocessing
 - being able to extract tally from statepoint files
