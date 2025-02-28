@@ -1,11 +1,13 @@
 """"This module contains functions to extract cross section data from IRDFF-II files"""
 
 import openmc.data
+import importlib.resources
 
-path = "../../src/openmc_fusion_benchmarks/data/irdff2_xs/"
+BASE_PATH = importlib.resources.files(
+    "openmc_fusion_benchmarks.data.irdff2_xs")
 
 
-def get_cross_section(irdff_file_path: str):
+def get_cross_section(filename: str):
     """Generates cross section data from IRDFF-II files
     from this discussion and related notebook:
     https://openmc.discourse.group/t/using-irdff-ii-cross-section-data-in-openmc/1950
@@ -22,7 +24,9 @@ def get_cross_section(irdff_file_path: str):
         IRDFF-II tabulated cross section data for a given nuclide
         and reaction
     """
-    ace_table = openmc.data.ace.get_table(irdff_file_path)
+
+    filepath = BASE_PATH / filename
+    ace_table = openmc.data.ace.get_table(filepath)
     nxs = ace_table.nxs
     jxs = ace_table.jxs
     xss = ace_table.xss

@@ -4,8 +4,6 @@ import argparse
 import openmc
 from openmc_fusion_benchmarks import irdff
 from openmc_fusion_benchmarks.neutron_sources import fng_source
-import openmc_fusion_benchmarks.data.irdff2_xs
-import importlib
 
 
 def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
@@ -2319,10 +2317,10 @@ def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 
     nuclides = ['nb93', 'al27', 'ni58', 'au197']
 
     # dosimetry tallies from IRDFF-II nuclear data library
-    nb93_n2n_acef = irdff.path + "dos-irdff2-4125.acef"
-    al27_na_acef = irdff.path + "dos-irdff2-1325.acef"
-    ni58_np_acef = irdff.path + "dos-irdff2-2825_modified.acef"
-    au197_ng_acef = irdff.path + "dos-irdff2-7925_modified.acef"
+    nb93_n2n_acef = "dos-irdff2-4125.acef"
+    al27_na_acef = "dos-irdff2-1325.acef"
+    ni58_np_acef = "dos-irdff2-2825_modified.acef"
+    au197_ng_acef = "dos-irdff2-7925_modified.acef"
     irdff_xs = [nb93_n2n_acef, al27_na_acef, ni58_np_acef, au197_ng_acef]
     reactions = [11016, 107, 103, 102]
 
