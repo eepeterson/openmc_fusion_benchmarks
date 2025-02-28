@@ -24,7 +24,7 @@ class Benchmark:
 
             # Check if 'run_option' exists in the instance, and pass it if available
             if hasattr(self, "run_option"):
-                return benchmark_func(self.run_option)
+                return benchmark_func(run_option=self.run_option)
             else:
                 return benchmark_func()
 
@@ -40,6 +40,10 @@ class Benchmark:
         if file_format not in ['step', 'rtt', 'h5m']:
             raise ValueError(
                 'Invalid file format, can be "step", "rtt" or "h5m"')
+
+    def get_weight_windows(self):
+        # file needs to go on drive with the rest
+        pass
 
     def _run_and_store(self):
         pass
