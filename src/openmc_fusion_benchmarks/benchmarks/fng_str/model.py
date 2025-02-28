@@ -2,8 +2,10 @@
 import argparse
 
 import openmc
-from openmc_fusion_benchmarks import from_irdff as irdff
+from openmc_fusion_benchmarks import irdff
 from openmc_fusion_benchmarks.neutron_sources import fng_source
+import openmc_fusion_benchmarks.data.irdff2_xs
+import importlib
 
 
 def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):

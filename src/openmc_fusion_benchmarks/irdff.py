@@ -5,7 +5,7 @@ import openmc.data
 path = "../../src/openmc_fusion_benchmarks/data/irdff2_xs/"
 
 
-def cross_section(irdff_file_path: str):
+def get_cross_section(irdff_file_path: str):
     """Generates cross section data from IRDFF-II files
     from this discussion and related notebook:
     https://openmc.discourse.group/t/using-irdff-ii-cross-section-data-in-openmc/1950
