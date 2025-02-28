@@ -6,7 +6,7 @@ from openmc_fusion_benchmarks import from_irdff as irdff
 from openmc_fusion_benchmarks.neutron_sources import fng_source
 
 
-def model(batches: int, particles: int, run_option: str):
+def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
     """FNG-ITER neutron streaming experiment model"""
 
     if run_option not in ['onaxis', 'offaxis', 'heating']:
@@ -2285,7 +2285,7 @@ def model(batches: int, particles: int, run_option: str):
     settings.batches = batches
     settings.particles = particles
     settings.source = source
-    settings.weight_windows = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
+    # settings.weight_windows = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
     if run_option == 'heating':
         settings.survival_biasing = True
         settings.photon_transport = True
