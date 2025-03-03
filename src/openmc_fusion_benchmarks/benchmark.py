@@ -18,7 +18,7 @@ class Benchmark:
     def model(self) -> openmc.Model:
         """Dynamically import and return the model object from benchmarks/{benchmark_name}/model.py"""
         try:
-            module_path = f"openmc_fusion_benchmarks.benchmarks.{self.name}.model"
+            module_path = f"openmc_fusion_benchmarks.benchmarks.{self.name}.benchmark_module"
             benchmark_module = importlib.import_module(module_path)
             # Retrieve the model function or class from the module
             benchmark_func = benchmark_module.model
