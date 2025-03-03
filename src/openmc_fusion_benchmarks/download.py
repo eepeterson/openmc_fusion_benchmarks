@@ -24,5 +24,4 @@ def download_geometry(benchmark_name: str, file_format: str, run_option: str = N
     download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
 
     # Download the file
-    output = f"{benchmark_name}_{run_option}.{file_format}"
-    gdown.download(download_url, output=output, quiet=False)
+    gdown.download(download_url, quiet=False, use_cookies=False)
