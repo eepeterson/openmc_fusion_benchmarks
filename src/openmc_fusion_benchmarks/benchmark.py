@@ -11,9 +11,9 @@ class Benchmark:
         self.name = name
         self.geometry_type = geometry_type
 
-        if geometry_type not in ['csg', 'cad']:
+        if geometry_type not in ['csg', 'dagmc']:
             raise ValueError(
-                'Invalid geometry type can be either "csg" or "cad"')
+                'Invalid geometry type can be either "csg" or "dagmc"')
 
     def model(self) -> openmc.Model:
         """Dynamically import and return the model object from benchmarks/{benchmark_name}/model.py"""
