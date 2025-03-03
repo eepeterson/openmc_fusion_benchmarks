@@ -3,7 +3,7 @@
 import openmc.data
 import importlib.resources
 
-BASE_PATH = importlib.resources.files(
+IRDFF_PATH = importlib.resources.files(
     "openmc_fusion_benchmarks.data.irdff2_xs")
 
 
@@ -25,7 +25,7 @@ def get_cross_section(filename: str):
         and reaction
     """
 
-    filepath = BASE_PATH / filename
+    filepath = IRDFF_PATH / filename
     ace_table = openmc.data.ace.get_table(filepath)
     nxs = ace_table.nxs
     jxs = ace_table.jxs
