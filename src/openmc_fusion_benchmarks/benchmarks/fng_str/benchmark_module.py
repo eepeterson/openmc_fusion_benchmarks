@@ -6,8 +6,24 @@ from openmc_fusion_benchmarks import irdff
 from openmc_fusion_benchmarks.neutron_sources import fng_source
 
 
-def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
-    """FNG-ITER neutron streaming experiment model"""
+def model(geometry_type: str, batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
+    if geometry_type not in ['dagmc', 'csg']:
+        raise ValueError(
+            'Invalid geometry type can be either "dagmc" or "csg"')
+
+    if geometry_type == 'dagmc':
+        return dagmc_model(batches, particles, run_option)
+    elif geometry_type == 'csg':
+        return csg_model(batches, particles, run_option)
+
+
+def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
+    """DAGMC - unstructured mesh model"""
+    pass
+
+
+def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
+    """Constructive Solid Geometry (CSG) model"""
 
     if run_option not in ['onaxis', 'offaxis', 'heating']:
         raise ValueError(
@@ -2366,6 +2382,8 @@ def model(batches: int = int(100), particles: int = int(1e8), run_option: str = 
 def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
+    parser.add_argument("-g", "--geometry_type", type=str, default='csg',
+                        help='Type of geometry to use in the simulation "csg" or "dagmc"')
     parser.add_argument("-b", "--batches", type=int, default=100,
                         help='Number of batches to simulate (int)')
     parser.add_argument("-p", "--particles", type=int,
@@ -2385,7 +2403,8 @@ def main():
     args = _parse_args()
 
     cwd = args.run_option
-    model = model(args.batches, args.particles, args.run_option)
+    model = model(args.geometry_type, args.batches,
+                  args.particles, args.run_option)
 
     return model.run(cwd=cwd, threads=args.threads)
 
