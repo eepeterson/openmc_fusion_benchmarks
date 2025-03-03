@@ -25,7 +25,9 @@ dependencies = [
     "openmc",
     "numpy",
     "pandas",
-    "tables"
+    "tables",
+    "gdown",
+    "json"
 ]
 
 [project.urls]
