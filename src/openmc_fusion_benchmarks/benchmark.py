@@ -36,13 +36,22 @@ class Benchmark:
     # def statepoint(self) -> StatePoint:
     #     sp_path = get_statepoint_path(self.geometry_type)
 
-    def get_cad_file(self, file_format: str = 'step'):
+    def get_step_file(self):
+        download_geometry(self.name, 'step', self.run_option)
 
-        if file_format not in ['step', 'rtt', 'h5m']:
-            raise ValueError(
-                'Invalid file format, can be "step", "rtt" or "h5m"')
+    def get_rtt_file(self):
+        download_geometry(self.name, 'rtt', self.run_option)
 
-        download_geometry(self.name, file_format, self.run_option)
+    def get_h5m_file(self):
+        download_geometry(self.name, 'h5m', self.run_option)
+
+    # def get_cad_file(self, file_format: str = 'step'):
+
+    #     if file_format not in ['step', 'rtt', 'h5m']:
+    #         raise ValueError(
+    #             'Invalid file format, can be "step", "rtt" or "h5m"')
+
+    #     download_geometry(self.name, file_format, self.run_option)
 
     def get_weight_windows(self):
         # file needs to go on drive with the rest
