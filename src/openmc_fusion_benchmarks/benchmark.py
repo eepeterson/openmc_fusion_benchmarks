@@ -1,6 +1,6 @@
 """Module for defining and managing benchmarks"""
 import openmc
-from openmc_fusion_benchmarks import download_geometry
+from .cloud_interface import download_geometry
 # from openmc_fusion_benchmarks import StatePoint
 # from openmc_fusion_benchmarks import get_statepoint_path
 import importlib
