@@ -1,5 +1,6 @@
 """Module for defining and managing benchmarks"""
 import openmc
+from openmc_fusion_benchmarks import download_geometry
 # from openmc_fusion_benchmarks import StatePoint
 # from openmc_fusion_benchmarks import get_statepoint_path
 import importlib
@@ -40,6 +41,8 @@ class Benchmark:
         if file_format not in ['step', 'rtt', 'h5m']:
             raise ValueError(
                 'Invalid file format, can be "step", "rtt" or "h5m"')
+
+        download_geometry(self.name, file_format, self.run_option)
 
     def get_weight_windows(self):
         # file needs to go on drive with the rest
