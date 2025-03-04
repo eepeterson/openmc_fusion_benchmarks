@@ -112,14 +112,18 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     if run_option == 'heating':
         detector1 = detector2 = detector3 = openmc.Material.mix_materials(
             [air, au197, aisi316], [0., 0., 1.], 'vo', name='tld_material')
+        detector1.id = 7
         materials.append(detector1)
     else:
         detector1 = openmc.Material.mix_materials(
             [air, au197, aisi316], [0.95, .05, 0.], 'vo', name='foil_0500Au')
+        detector1.id = 7
         detector2 = openmc.Material.mix_materials(
             [air, au197, aisi316], [.975, .025, 0.], 'vo', name='foil_0250Au')
+        detector2.id = 9
         detector3 = openmc.Material.mix_materials(
             [air, au197, aisi316], [.9833, .0167, 0.], 'vo', name='foil_01670Au')
+        detector3.id = 10
         materials.extend([detector1, detector2, detector3])
 
     model.materials = openmc.Materials(materials)
