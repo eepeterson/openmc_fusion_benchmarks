@@ -96,11 +96,9 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     # m281
     ni58 = openmc.Material(material_id=281, name='Ni58')
     ni58.add_element('Ni', 1.0, 'ao')
-    # ni58.add_nuclide('Ni58', 1.0, 'ao')
     ni58.set_density('g/cm3', 8.908)
     # m411
     nb93 = openmc.Material(material_id=411, name='Nb93')
-    # nb93.add_nuclide('Nb93', 1.0, 'ao')
     nb93.add_element('Nb', 1.0, 'ao')
     nb93.set_density('g/cm3', 8.57)
     # m791 Au-197(n,g)Au-198
