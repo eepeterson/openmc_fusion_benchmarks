@@ -7,16 +7,16 @@ import importlib
 
 
 class Benchmark:
-    def __init__(self, name: str, geometry_type: str):
+    def __init__(self, name: str):
         self.name = name
-        self.geometry_type = geometry_type
+
+    def get_model(self, geometry_type: str) -> openmc.Model:
+        """Dynamically import and return the model object from benchmarks/{benchmark_name}/model.py"""
 
         if geometry_type not in ['csg', 'dagmc']:
             raise ValueError(
                 'Invalid geometry type can be either "csg" or "dagmc"')
 
-    def model(self) -> openmc.Model:
-        """Dynamically import and return the model object from benchmarks/{benchmark_name}/model.py"""
         try:
             module_path = f"openmc_fusion_benchmarks.benchmarks.{self.name}.benchmark_module"
             benchmark_module = importlib.import_module(module_path)
@@ -36,24 +36,16 @@ class Benchmark:
     # def statepoint(self) -> StatePoint:
     #     sp_path = get_statepoint_path(self.geometry_type)
 
-    def get_step_file(self):
+    def download_step_file(self):
         download_geometry(self.name, 'step', self.run_option)
 
-    def get_rtt_file(self):
+    def download_rtt_file(self):
         download_geometry(self.name, 'rtt', self.run_option)
 
-    def get_h5m_file(self):
+    def download_h5m_file(self):
         download_geometry(self.name, 'h5m', self.run_option)
 
-    # def get_cad_file(self, file_format: str = 'step'):
-
-    #     if file_format not in ['step', 'rtt', 'h5m']:
-    #         raise ValueError(
-    #             'Invalid file format, can be "step", "rtt" or "h5m"')
-
-    #     download_geometry(self.name, file_format, self.run_option)
-
-    def get_weight_windows(self):
+    def download_weight_windows(self):
         # file needs to go on drive with the rest
 
         # download ww file:
@@ -65,46 +57,46 @@ class Benchmark:
 
 
 class FngStr(Benchmark):
-    def __init__(self, geometry_type: str, run_option: str = 'onaxis'):
-        super().__init__("fng_str", geometry_type)
+    def __init__(self, run_option: str = 'onaxis'):
+        super().__init__("fng_str")
 
         self.run_option = run_option
 
 
 class FngW(Benchmark):
-    def __init__(self, geometry_type: str, run_option: str = 'reaction_rates'):
-        super().__init__("fng_w", geometry_type)
+    def __init__(self, run_option: str = 'reaction_rates'):
+        super().__init__("fng_w")
 
         self.run_option = run_option
 
 
 class Oktavian(Benchmark):
-    def __init__(self, geometry_type: str, run_option: str = 'Al'):
-        super().__init__("oktavian", geometry_type)
+    def __init__(self, run_option: str = 'Al'):
+        super().__init__("oktavian")
 
 
 class FnsDuct(Benchmark):
-    def __init__(self, geometry_type: str):
-        super().__init__("fns_duct", geometry_type)
+    def __init__(self):
+        super().__init__("fns_duct")
 
 
 class FnsCleanW(Benchmark):
-    def __init__(self, geometry_type: str):
-        super().__init__("fns_clean_w", geometry_type)
+    def __init__(self):
+        super().__init__("fns_clean_w")
 
 
 class BenchmarkDatabase:
     @staticmethod
-    def get_benchmark(name: str, geometry_type: str, **kwargs):
+    def get_benchmark(name: str, **kwargs):
         if name == "fng_str":
-            return FngStr(geometry_type, **kwargs)
+            return FngStr(**kwargs)
         elif name == "fng_w":
-            return FngW(geometry_type, **kwargs)
+            return FngW(**kwargs)
         elif name == "oktavian":
-            return Oktavian(geometry_type, **kwargs)
+            return Oktavian(**kwargs)
         elif name == "fns_duct":
-            return FnsDuct(geometry_type, **kwargs)
+            return FnsDuct(**kwargs)
         elif name == "fns_clean_w":
-            return FnsCleanW(geometry_type, **kwargs)
+            return FnsCleanW(**kwargs)
         else:
-            return Benchmark(name, geometry_type)
+            return Benchmark(name)
