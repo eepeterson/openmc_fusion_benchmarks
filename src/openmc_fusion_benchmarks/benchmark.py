@@ -25,9 +25,9 @@ class Benchmark:
 
             # Check if 'run_option' exists in the instance, and pass it if available
             if hasattr(self, "run_option"):
-                return benchmark_func(run_option=self.run_option)
+                return benchmark_func(geometry_type=geometry_type, run_option=self.run_option)
             else:
-                return benchmark_func()
+                return benchmark_func(geometry_type=geometry_type)
 
         except ModuleNotFoundError:
             raise ValueError(
