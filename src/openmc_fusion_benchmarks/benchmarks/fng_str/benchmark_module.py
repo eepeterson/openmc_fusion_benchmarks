@@ -17,21 +17,7 @@ def model(geometry_type: str, batches: int = int(100), particles: int = int(1e8)
         return csg_model(batches, particles, run_option)
 
 
-def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
-    """DAGMC - unstructured mesh model"""
-    pass
-
-
-def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
-    """Constructive Solid Geometry (CSG) model"""
-
-    if run_option not in ['onaxis', 'offaxis', 'heating']:
-        raise ValueError(
-            'Invalid run option, can be "onaxis", "offaxis" or "heating"')
-
-    # Instantiate Model object
-    model = openmc.Model()
-
+def _get_materials(run_option: str):
     # define materials
 
     # m1 Stainless Steel SS (AISI-316)  # from the "eff-639.pdf" file, 99.7765% of weight composition
@@ -88,26 +74,11 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     concrete.add_element('Fe', 0.04, 'wo')
     concrete.set_density('g/cm3', 2.6)
 
-    # Dosimetric materials
-    # m131
-    al27 = openmc.Material(material_id=131, name='Al27')
-    al27.add_element('Al', 1.0, 'ao')
-    al27.set_density('g/cm3', 2.7)
-    # m281
-    ni58 = openmc.Material(material_id=281, name='Ni58')
-    ni58.add_element('Ni', 1.0, 'ao')
-    ni58.set_density('g/cm3', 8.908)
-    # m411
-    nb93 = openmc.Material(material_id=411, name='Nb93')
-    nb93.add_element('Nb', 1.0, 'ao')
-    nb93.set_density('g/cm3', 8.57)
-    # m791 Au-197(n,g)Au-198
     au197 = openmc.Material(material_id=791, name='Au197')
     au197.add_element('Au', 1.0, 'ao')
     au197.set_density('g/cm3', 19.3)
 
-    materials = [aisi316, water, copper, air, perspex,
-                 ch2, concrete, al27, ni58, nb93, au197]
+    materials = [aisi316, water, copper, air, perspex, ch2, concrete]
 
     if run_option == 'heating':
         detector1 = detector2 = detector3 = openmc.Material.mix_materials(
@@ -125,6 +96,36 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
             [air, au197, aisi316], [.9833, .0167, 0.], 'vo', name='foil_01670Au')
         detector3.id = 10
         materials.extend([detector1, detector2, detector3])
+
+    return materials
+
+
+def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
+    """DAGMC - unstructured mesh model"""
+    pass
+
+
+def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
+    """Constructive Solid Geometry (CSG) model"""
+
+    if run_option not in ['onaxis', 'offaxis', 'heating']:
+        raise ValueError(
+            'Invalid run option, can be "onaxis", "offaxis" or "heating"')
+
+    # Instantiate Model object
+    model = openmc.Model()
+
+    # define materials
+    if run_option == 'heating':
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1 = _get_materials(
+            'heating')
+        detector2 = detector3 = detector1
+    else:
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1, detector2, detector3 = _get_materials(
+            'onaxis')
+
+    materials = [aisi316, water, copper, air, perspex, ch2, concrete,
+                 detector1, detector2, detector3]
 
     model.materials = openmc.Materials(materials)
 
