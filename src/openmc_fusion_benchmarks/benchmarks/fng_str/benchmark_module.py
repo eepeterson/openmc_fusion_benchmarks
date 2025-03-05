@@ -18,7 +18,7 @@ def model(geometry_type: str, batches: int = int(100), particles: int = int(1e8)
 
 
 def _get_materials(run_option: str):
-    # define materials
+    # Define materials
 
     # m1 Stainless Steel SS (AISI-316)  # from the "eff-639.pdf" file, 99.7765% of weight composition
     aisi316 = openmc.Material(material_id=1, name='aisi316')
@@ -102,7 +102,60 @@ def _get_materials(run_option: str):
 
 def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
     """DAGMC - unstructured mesh model"""
-    pass
+
+    if run_option not in ['onaxis', 'offaxis', 'heating']:
+        raise ValueError(
+            'Invalid run option, can be "onaxis", "offaxis" or "heating"')
+
+    # Instantiate Model object
+    model = openmc.Model()
+
+    # Get materials
+    if run_option == 'heating':
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1 = _get_materials(
+            'heating')
+        detector2 = detector3 = detector1
+    else:
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1, detector2, detector3 = _get_materials(
+            'onaxis')
+
+    materials = [aisi316, water, copper, air, perspex, ch2, concrete,
+                 detector1, detector2, detector3]
+
+    model.materials = openmc.Materials(materials)
+
+    # # Get DAGMC geometry
+    # dag_universe = openmc.DAGMCUniverse(
+    #     'fng_str_onaxis.h5m').bounded_universe(starting_id=90000)
+    # geometry = openmc.Geometry(root=dag_universe)
+    # model = openmc.Model(materials=materials, geometry=geometry)
+
+    # # Define settingd
+    # # source definition
+    # # fng source
+    # fng_center = (0, 0, 0)
+    # fng_uvw = (0., 1., 0)
+
+    # source = fng_source(center=fng_center,
+    #                     reference_uvw=fng_uvw)
+
+    # # # weight windows from wwinps
+    # # ww = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
+
+    # # settings
+    # model.settings = openmc.Settings(run_mode='fixed source')
+    # model.settings.batches = batches
+    # model.settings.particles = particles
+    # # model.settings.weight_windows = ww
+    # model.settings.source = source
+    # # model.settings.survival_biasing = True
+    # # model.settings.photon_transport = True
+    # # model.settings.electron_treatment = 'ttb'
+    # model.settings.output = {'tallies': False}
+
+    # Specify tallies
+
+    return model
 
 
 def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
@@ -115,7 +168,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     # Instantiate Model object
     model = openmc.Model()
 
-    # define materials
+    # Get materials
     if run_option == 'heating':
         aisi316, water, copper, air, perspex, ch2, concrete, detector1 = _get_materials(
             'heating')
@@ -130,9 +183,9 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     model.materials = openmc.Materials(materials)
 
     ############################################################################
-    # Build Geometry
+    # Build CSG Geometry
 
-    # rotation and translation matrices for surfaces
+    # Rotation and translation matrices for surfaces
     t1x = 0  # cm - translation along x
     t1y = 0  # cm - translation along y
     t1z = 0  # cm - translation along z
@@ -151,21 +204,21 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     t3z = 0.  # cm - translation along z
 
     if run_option == 'offaxis':
-        t2x = -5.3  # adjustement to translation number 2
+        t2x = -5.3  # Adjustement to translation number 2
         #
         t3x = -5.3  # cm - translation along x -     ON-AXIS
         t3y = 0.  # cm - translation along y 0.15
         t3z = 0.  # cm - translation along z
 
-    # transformations
-    r1 = (r1phi, r1theta, r1psi)  # for rotation matrix
-    r2 = (r2phi, r2theta, r2psi)  # for rotation matrix
-    t1 = (t1x, t1y, t1z)  # translation vector
-    t2 = (t2x, t2y, t2z)  # translation vector
-    # off axis translation
-    t3 = (t3x, t3y, t3z)  # translation vector
+    # Transformations
+    r1 = (r1phi, r1theta, r1psi)  # For rotation matrix
+    r2 = (r2phi, r2theta, r2psi)  # For rotation matrix
+    t1 = (t1x, t1y, t1z)  # Translation vector
+    t2 = (t2x, t2y, t2z)  # Translation vector
+    # Off axis translation
+    t3 = (t3x, t3y, t3z)  # Oranslation vector
 
-    # surfaces
+    # Surfaces
 
     # Target surfaces
     py_1 = openmc.YPlane(y0=0.0, name='py_1').translate(t3)
@@ -194,21 +247,21 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     py_20 = openmc.YPlane(y0=-8.4, name='py_20').translate(t3)
     py_21 = openmc.YPlane(y0=-14.1, name='py_21').translate(t3)
     p_22 = openmc.Plane(2.6516504294495524, -12.450000000000001,
-                        2.6516504294495524, 5.01, name='p_22').translate(t3)  # COPIED FROM XML
+                        2.6516504294495524, 5.01, name='p_22').translate(t3)
     p_23 = openmc.Plane(2.54558441227157, -12.450000000000001, 2.54558441227157,
-                        2.842499999999999, name='p_23').translate(t3)  # COPIED FROM XML
+                        2.842499999999999, name='p_23').translate(t3)
     p_24 = openmc.Plane(2.651650429449554, 12.450000000000001, 2.651650429449554,
-                        8.745, name='p_24').translate(t3)  # COPIED FROM XML
+                        8.745, name='p_24').translate(t3)
     p_25 = openmc.Plane(2.651650429449554, 12.450000000000001,
-                        2.651650429449554, 7.5, name='p_25').translate(t3)  # COPIED FROM XML
+                        2.651650429449554, 7.5, name='p_25').translate(t3)
     p_26 = openmc.Plane(-2.651650429449554, -12.450000000000001, -
-                        2.651650429449554, 5.01, name='p_26').translate(t3)  # COPIED FROM XML
+                        2.651650429449554, 5.01, name='p_26').translate(t3)
     p_27 = openmc.Plane(-2.545584412271572, -12.450000000000001, -2.545584412271572,
-                        2.842499999999999, name='p_27').translate(t3)  # COPIED FROM XML
+                        2.842499999999999, name='p_27').translate(t3)
     p_28 = openmc.Plane(-2.6516504294495524, 12.450000000000001, -
-                        2.6516504294495524, 8.745, name='p_28').translate(t3)  # COPIED FROM XML
+                        2.6516504294495524, 8.745, name='p_28').translate(t3)
     p_29 = openmc.Plane(-2.6516504294495524, 12.450000000000001, -
-                        2.6516504294495524, 7.5, name='p_29').translate(t3)  # COPIED FROM XML
+                        2.6516504294495524, 7.5, name='p_29').translate(t3)
     pz_30 = openmc.ZPlane(z0=2.0, name='pz_30').rotate(r2).translate(t2)  # tr2
     pz_31 = openmc.ZPlane(z0=1.9, name='pz_31').rotate(r2).translate(t2)  # tr2
     pz_32 = openmc.ZPlane(
@@ -216,21 +269,21 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     pz_33 = openmc.ZPlane(
         z0=-2.0, name='pz_33').rotate(r2).translate(t2)  # tr2
     p_34 = openmc.Plane(-7.530687219636732, 0, 10.076271631908304,
-                        27.255, name='p_34').translate(t3)  # COPIED FROM XML
+                        27.255, name='p_34').translate(t3)
     p_35 = openmc.Plane(-7.530687219636731, 0, 10.076271631908305,
-                        28.500000000000004, name='p_35').translate(t3)  # COPIED FROM XML
+                        28.500000000000004, name='p_35').translate(t3)
     p_36 = openmc.Plane(10.076271631908302, 0, -7.530687219636734,
-                        27.255, name='p_36').translate(t3)  # COPIED FROM XML
+                        27.255, name='p_36').translate(t3)
     p_37 = openmc.Plane(10.076271631908304, 0, -7.530687219636733,
-                        28.500000000000004, name='p_37').translate(t3)  # COPIED FROM XML
+                        28.500000000000004, name='p_37').translate(t3)
     p_38 = openmc.Plane(-10.076271631908302, 0, 7.530687219636734,
-                        27.255, name='p_38').translate(t3)  # COPIED FROM XML
+                        27.255, name='p_38').translate(t3)
     p_39 = openmc.Plane(-10.076271631908304, 0, 7.530687219636733,
-                        28.500000000000004, name='p_39').translate(t3)  # COPIED FROM XML
+                        28.500000000000004, name='p_39').translate(t3)
     p_40 = openmc.Plane(7.530687219636732, 0, -10.076271631908304,
-                        27.255, name='p_40').translate(t3)  # COPIED FROM XML
+                        27.255, name='p_40').translate(t3)
     p_41 = openmc.Plane(7.530687219636731, 0, -10.076271631908305,
-                        28.500000000000004, name='p_41').translate(t3)  # COPIED FROM XML
+                        28.500000000000004, name='p_41').translate(t3)
     px_42 = openmc.XPlane(x0=6.15, name='px_42').rotate(
         r2).translate(t2)  # tr2
     px_43 = openmc.XPlane(
@@ -514,7 +567,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     pz_474 = openmc.ZPlane(z0=-456, boundary_type='vacuum', name='pz_474')
     pz_475 = openmc.ZPlane(z0=580, boundary_type='vacuum', name='pz_475')
 
-    # regions
+    # Regions
     # Cu cup
     region_1 = +py_6 & (+py_1 | +cy_7) & -py_2 & -cy_8
     # Cylindrical water gap
@@ -602,7 +655,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     # Air for the region right and left to the taped tubes, lower part
     region_52 = -px_17 & +px_43 & -pz_30 & + \
         pz_33 & (+p_39 | +p_41) & +p_27 & +p_29
-    # polyethilene
+    # Polyethilene
     region_53 = +px_89 & -px_90 & +py_72 & -py_127 & +pz_81 & -pz_94
     region_54 = +px_89 & -px_90 & +py_72 & -py_127 & +pz_95 & -pz_82
     region_55 = +px_89 & -px_92 & +py_72 & -py_127 & +pz_94 & -pz_95
@@ -1095,17 +1148,17 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     region_597 = +py_162 & -py_163 & +cy_205 & +px_96 & -px_97 & +pz_98 & -pz_99
     # Regions for dening foils and inner box walls
     region_601 = +py_112 & -py_91 & +pz_304 & -pz_303 & -px_305 & +px_306 & +cy_301
-    region_602 = -cy_302 & +py_353 & -py_5  # detector
-    region_603 = -coy_348 & +py_353 & -py_5  # detector
-    region_604 = -coy_349 & +py_353 & -py_5  # detector
-    region_605 = -coy_348 & +py_91 & -py_354  # detector
-    region_606 = -coy_349 & +py_91 & -py_354  # detector
-    region_607 = -cox_350 & +px_306 & -px_356  # detector
-    region_608 = -cox_350 & +px_355 & -px_305  # detector
-    region_609 = -coz_351 & +pz_304 & -pz_358  # detector
-    region_610 = -coz_351 & +pz_357 & -pz_303  # detector
-    region_611 = -coz_352 & +pz_304 & -pz_358  # detector
-    region_612 = -coz_352 & +pz_357 & -pz_303  # detector
+    region_602 = -cy_302 & +py_353 & -py_5  # Detector
+    region_603 = -coy_348 & +py_353 & -py_5  # Detector
+    region_604 = -coy_349 & +py_353 & -py_5  # Detector
+    region_605 = -coy_348 & +py_91 & -py_354  # Detector
+    region_606 = -coy_349 & +py_91 & -py_354  # Detector
+    region_607 = -cox_350 & +px_306 & -px_356  # Detector
+    region_608 = -cox_350 & +px_355 & -px_305  # Detector
+    region_609 = -coz_351 & +pz_304 & -pz_358  # Detector
+    region_610 = -coz_351 & +pz_357 & -pz_303  # Detector
+    region_611 = -coz_352 & +pz_304 & -pz_358  # Detector
+    region_612 = -coz_352 & +pz_357 & -pz_303  # Detector
 
     # Walls
     region_655 = (-py_402 | +py_403 | -px_400 | +px_401 | -pz_404 | +
@@ -1123,11 +1176,11 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     region_661 = (-py_462 | +py_463 | -px_460 | +px_461 | -pz_464 | +
                   pz_465) & +py_472 & -py_473 & +px_470 & -px_471 & +pz_474 & -pz_475
 
-    # air region
+    # Air region
     region_999 = (-py_21 | +py_76 | - px_70 | +px_71 | -pz_73 | +pz_75) & + \
         py_402 & -py_403 & +px_400 & -px_401 & +pz_404 & -pz_405
 
-    # cells
+    # Cells
     # Cu cup
     cell_1 = openmc.Cell(cell_id=1, name='cell_1',
                          fill=copper, region=region_1)
@@ -1254,7 +1307,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     # Air for the region right and left to the taped tubes, lower part
     cell_52 = openmc.Cell(cell_id=52, name='cell_52',
                           fill=air, region=region_52)
-    # polyethilene
+    # Polyethilene
     cell_53 = openmc.Cell(cell_id=53, name='cell_53',
                           fill=ch2, region=region_53)
     cell_54 = openmc.Cell(cell_id=54, name='cell_54',
@@ -1418,7 +1471,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_134)
     # 4 SS layer 13
     cell_135 = openmc.Cell(cell_id=135, name='cell_135',
-                           fill=detector1, region=region_135)  # detector
+                           fill=detector1, region=region_135)  # Detector
     cell_136 = openmc.Cell(cell_id=136, name='cell_136',
                            fill=air, region=region_136)
     cell_137 = openmc.Cell(cell_id=137, name='cell_137',
@@ -1466,7 +1519,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_157)
     # 6 SS layer 12
     cell_158 = openmc.Cell(cell_id=158, name='cell_158',
-                           fill=detector1, region=region_158)  # detector
+                           fill=detector1, region=region_158)  # Detector
     cell_159 = openmc.Cell(cell_id=159, name='cell_159',
                            fill=air, region=region_159)
     cell_160 = openmc.Cell(cell_id=160, name='cell_160',
@@ -1514,7 +1567,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_180)
     # 8 SS layer 11
     cell_181 = openmc.Cell(cell_id=181, name='cell_181',
-                           fill=detector1, region=region_181)  # detector
+                           fill=detector1, region=region_181)  # Detector
     cell_182 = openmc.Cell(cell_id=182, name='cell_182',
                            fill=air, region=region_182)
     cell_183 = openmc.Cell(cell_id=183, name='cell_183',
@@ -1562,7 +1615,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_203)
     # 10 SS layer 10
     cell_204 = openmc.Cell(cell_id=204, name='cell_204',
-                           fill=detector1, region=region_204)  # detector
+                           fill=detector1, region=region_204)  # Detector
     cell_205 = openmc.Cell(cell_id=205, name='cell_205',
                            fill=air, region=region_205)
     cell_206 = openmc.Cell(cell_id=206, name='cell_206',
@@ -1635,7 +1688,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=aisi316, region=region_238)
     # 13 SS layer 9
     cell_239 = openmc.Cell(cell_id=239, name='cell_239',
-                           fill=detector2, region=region_239)  # detector
+                           fill=detector2, region=region_239)  # Detector
     cell_240 = openmc.Cell(cell_id=240, name='cell_240',
                            fill=aisi316, region=region_240)
     cell_241 = openmc.Cell(cell_id=241, name='cell_241',
@@ -1683,7 +1736,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_261)
     # 15 SS layer 8
     cell_262 = openmc.Cell(cell_id=262, name='cell_262',
-                           fill=detector2, region=region_262)  # detector
+                           fill=detector2, region=region_262)  # Detector
     cell_263 = openmc.Cell(cell_id=263, name='cell_263',
                            fill=aisi316, region=region_263)
     cell_264 = openmc.Cell(cell_id=264, name='cell_264',
@@ -1731,7 +1784,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_284)
     # 17 SS layer 6
     cell_285 = openmc.Cell(cell_id=285, name='cell_285',
-                           fill=detector2, region=region_285)  # detector
+                           fill=detector2, region=region_285)  # Detector
     cell_286 = openmc.Cell(cell_id=286, name='cell_286',
                            fill=aisi316, region=region_286)
     cell_287 = openmc.Cell(cell_id=287, name='cell_287',
@@ -1779,7 +1832,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_307)
     # 19 SS layer 5
     cell_308 = openmc.Cell(cell_id=308, name='cell_308',
-                           fill=detector2, region=region_308)  # detector
+                           fill=detector2, region=region_308)  # Detector
     cell_309 = openmc.Cell(cell_id=309, name='cell_309',
                            fill=aisi316, region=region_309)
     cell_310 = openmc.Cell(cell_id=310, name='cell_310',
@@ -1827,7 +1880,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_330)
     # 21 SS layer 4
     cell_331 = openmc.Cell(cell_id=331, name='cell_331',
-                           fill=detector3, region=region_331)  # detector
+                           fill=detector3, region=region_331)  # Detector
     cell_332 = openmc.Cell(cell_id=332, name='cell_332',
                            fill=aisi316, region=region_332)
     cell_333 = openmc.Cell(cell_id=333, name='cell_333',
@@ -1875,7 +1928,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_362)
     # 23 SS layer 2
     cell_363 = openmc.Cell(cell_id=363, name='cell_363',
-                           fill=detector3, region=region_363)  # detector
+                           fill=detector3, region=region_363)  # Detector
     cell_364 = openmc.Cell(cell_id=364, name='cell_364',
                            fill=aisi316, region=region_364)
     cell_365 = openmc.Cell(cell_id=365, name='cell_365',
@@ -1923,7 +1976,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=perspex, region=region_385)
     # 25 SS layer 3
     cell_386 = openmc.Cell(cell_id=386, name='cell_386',
-                           fill=detector3, region=region_386)  # detector
+                           fill=detector3, region=region_386)  # Detector
     cell_387 = openmc.Cell(cell_id=387, name='cell_387',
                            fill=aisi316, region=region_387)
     cell_388 = openmc.Cell(cell_id=388, name='cell_388',
@@ -1974,7 +2027,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     # SS-Cu block
     # 1 SS layer
     cell_500 = openmc.Cell(cell_id=500, name='cell_500',
-                           fill=aisi316, region=region_500)  # heat detector
+                           fill=aisi316, region=region_500)  # Heat detector
     cell_501 = openmc.Cell(cell_id=501, name='cell_501',
                            fill=aisi316, region=region_501)
     cell_502 = openmc.Cell(cell_id=502, name='cell_502',
@@ -1989,7 +2042,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=aisi316, region=region_506)
     # 2 Cu layer
     cell_507 = openmc.Cell(cell_id=507, name='cell_507',
-                           fill=copper, region=region_507)  # heat detector
+                           fill=copper, region=region_507)  # Heat detector
     cell_508 = openmc.Cell(cell_id=508, name='cell_508',
                            fill=copper, region=region_508)
     cell_509 = openmc.Cell(cell_id=509, name='cell_509',
@@ -2004,7 +2057,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
                            fill=copper, region=region_513)
     # 3 SS layer
     cell_514 = openmc.Cell(cell_id=514, name='cell_514',
-                           fill=aisi316, region=region_514)  # heat detector
+                           fill=aisi316, region=region_514)  # Heat detector
     cell_515 = openmc.Cell(cell_id=515, name='cell_515',
                            fill=aisi316, region=region_515)
     cell_516 = openmc.Cell(cell_id=516, name='cell_516',
@@ -2186,27 +2239,27 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     cell_601 = openmc.Cell(cell_id=601, name='cell_601',
                            fill=aisi316, region=region_601)
     cell_602 = openmc.Cell(cell_id=602, name='cell_602',
-                           fill=detector1, region=region_602)  # detector
+                           fill=detector1, region=region_602)  # Detector
     cell_603 = openmc.Cell(cell_id=603, name='cell_603',
-                           fill=detector1, region=region_603)  # detector
+                           fill=detector1, region=region_603)  # Detector
     cell_604 = openmc.Cell(cell_id=604, name='cell_604',
-                           fill=detector1, region=region_604)  # detector
+                           fill=detector1, region=region_604)  # Detector
     cell_605 = openmc.Cell(cell_id=605, name='cell_605',
-                           fill=detector1, region=region_605)  # detector
+                           fill=detector1, region=region_605)  # Detector
     cell_606 = openmc.Cell(cell_id=606, name='cell_606',
-                           fill=detector1, region=region_606)  # detector
+                           fill=detector1, region=region_606)  # Detector
     cell_607 = openmc.Cell(cell_id=607, name='cell_607',
-                           fill=detector1, region=region_607)  # detector
+                           fill=detector1, region=region_607)  # Detector
     cell_608 = openmc.Cell(cell_id=608, name='cell_608',
-                           fill=detector1, region=region_608)  # detector
+                           fill=detector1, region=region_608)  # Detector
     cell_609 = openmc.Cell(cell_id=609, name='cell_609',
-                           fill=detector1, region=region_609)  # detector
+                           fill=detector1, region=region_609)  # Detector
     cell_610 = openmc.Cell(cell_id=610, name='cell_610',
-                           fill=detector1, region=region_610)  # detector
+                           fill=detector1, region=region_610)  # Detector
     cell_611 = openmc.Cell(cell_id=611, name='cell_611',
-                           fill=detector1, region=region_611)  # detector
+                           fill=detector1, region=region_611)  # Detector
     cell_612 = openmc.Cell(cell_id=612, name='cell_612',
-                           fill=detector1, region=region_612)  # detector
+                           fill=detector1, region=region_612)  # Detector
     # Walls
     cell_655 = openmc.Cell(cell_id=655, name='cell_655',
                            fill=concrete, region=region_655)
@@ -2281,15 +2334,15 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
              cell_591, cell_592, cell_593, cell_594, cell_595, cell_596, cell_597,
              cell_601, cell_602, cell_603, cell_604, cell_605, cell_606, cell_607, cell_608, cell_609, cell_610,
              cell_611, cell_612, cell_655, cell_656, cell_657, cell_658, cell_659, cell_660, cell_661, cell_999]
-    # export
+    # Export
     model.geometry = openmc.Geometry(cells)
     model.geometry.merge_surfaces = True
 
     ############################################################################
     # Define Settings
 
-    # source definition
-    # fng source
+    # Source definition
+    # FNG source
     fng_center = (0, 0, 0)
     if run_option == 'offaxis':
         fng_center = (-5.3, 0, 0)
@@ -2299,7 +2352,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     source = fng_source(center=fng_center,
                         reference_uvw=fng_uvw, beam_energy=230)
 
-    # settings
+    # Settings
     settings = openmc.Settings(run_mode='fixed source')
     settings.batches = batches
     settings.particles = particles
@@ -2316,13 +2369,13 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
 
     model.tallies = openmc.Tallies()
 
-    # filters
-    # particle filters
+    # Filters
+    # Particle filters
     neutron_filter = openmc.ParticleFilter(['neutron'])
     particle_filter = openmc.ParticleFilter(
         ['neutron', 'photon', 'electron', 'positron'])
 
-    # cell filters
+    # Cell filters
     onaxis1_cell_filter = openmc.CellFilter([cell_135, cell_158, cell_181, cell_204, cell_602,
                                             cell_239, cell_262, cell_285, cell_308, cell_331, cell_363, cell_386, cell_398])
     onaxis2_cell_filter = openmc.CellFilter([cell_605, cell_606, cell_607, cell_608, cell_609,
@@ -2335,7 +2388,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
 
     nuclides = ['nb93', 'al27', 'ni58', 'au197']
 
-    # dosimetry tallies from IRDFF-II nuclear data library
+    # Dosimetry tallies from IRDFF-II nuclear data library
     nb93_n2n_acef = "dos-irdff2-4125.acef"
     al27_na_acef = "dos-irdff2-1325.acef"
     ni58_np_acef = "dos-irdff2-2825_modified.acef"
@@ -2343,7 +2396,7 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
     irdff_xs = [nb93_n2n_acef, al27_na_acef, ni58_np_acef, au197_ng_acef]
     reactions = [11016, 107, 103, 102]
 
-    # define tallies according to simulation type
+    # Define tallies according to simulation type
     if run_option == 'onaxis':
         for n, r, x in zip(nuclides, reactions, irdff_xs):
             # onaxis1 tally
