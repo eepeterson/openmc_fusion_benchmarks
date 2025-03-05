@@ -2,6 +2,7 @@
 ### download geometry
 - better (more resilient) way to name the downloaded file?
 - add the possibility to chose the path to download it in
+- implement the rtt-to-h5m workflow (`rtt_to_pydagmc` and `pydagmc_to_h5m` scripts) 
 
 
 - the to_hdf method should be revised: one should be able to provide the "when" and "where" and a default hdf_file name should be added, think about the xaxis thing as well (?)
