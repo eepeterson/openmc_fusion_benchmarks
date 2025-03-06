@@ -122,7 +122,7 @@ def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: 
 
     # # Get DAGMC geometry
     # dag_universe = openmc.DAGMCUniverse(
-    #     'fng_str_onaxis.h5m').bounded_universe(starting_id=90000)
+    #     f'fng_str_{run_option}.h5m').bounded_universe(starting_id=90000)
     # geometry = openmc.Geometry(root=dag_universe)
     # model = openmc.Model(materials=materials, geometry=geometry)
 
