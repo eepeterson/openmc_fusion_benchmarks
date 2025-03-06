@@ -64,6 +64,16 @@ class Benchmark:
         pass
 
 
+def _wrap_run(download_files_func, original_run):
+    """Standalone function to wrap `run()` and ensure files are downloaded first."""
+    @wraps(original_run)
+    def wrapped_run(*args, **kwargs):
+        cwd = kwargs.get("cwd", ".")  # Extract cwd argument (default: ".")
+        download_files_func(cwd)  # Ensure files are downloaded
+        return original_run(*args, **kwargs)  # Call the original method
+    return wrapped_run
+
+
 class FngStr(Benchmark):
     def __init__(self, run_option: str = 'onaxis'):
         super().__init__("fng_str")
@@ -108,13 +118,3 @@ class BenchmarkDatabase:
             return FnsCleanW(**kwargs)
         else:
             return Benchmark(name)
-
-
-def _wrap_run(download_files_func, original_run):
-    """Standalone function to wrap `run()` and ensure files are downloaded first."""
-    @wraps(original_run)
-    def wrapped_run(*args, **kwargs):
-        cwd = kwargs.get("cwd", ".")  # Extract cwd argument (default: ".")
-        download_files_func(cwd)  # Ensure files are downloaded
-        return original_run(*args, **kwargs)  # Call the original method
-    return wrapped_run
