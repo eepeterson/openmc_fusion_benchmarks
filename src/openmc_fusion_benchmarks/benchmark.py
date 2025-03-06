@@ -36,16 +36,16 @@ class Benchmark:
     # def statepoint(self) -> StatePoint:
     #     sp_path = get_statepoint_path(self.geometry_type)
 
-    def download_step_file(self):
-        download_geometry(self.name, 'step', self.run_option)
+    def download_step_file(self, cwd: str = None):
+        download_geometry(self.name, 'step', self.run_option, cwd)
 
-    def download_rtt_file(self):
-        download_geometry(self.name, 'rtt', self.run_option)
+    def download_rtt_file(self, cwd: str = None):
+        download_geometry(self.name, 'rtt', self.run_option, cwd)
 
-    def download_h5m_file(self):
-        download_geometry(self.name, 'h5m', self.run_option)
+    def download_h5m_file(self, cwd: str = None):
+        download_geometry(self.name, 'h5m', self.run_option, cwd)
 
-    def download_weight_windows(self):
+    def download_weight_windows(self, cwd: str = None):
         # file needs to go on drive with the rest
 
         # download ww file:
