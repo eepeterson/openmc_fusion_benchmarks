@@ -82,19 +82,15 @@ def _get_materials(run_option: str):
 
     if run_option == 'heating':
         detector1 = detector2 = detector3 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [0., 0., 1.], 'vo', name='tld_material')
-        detector1.id = 7
+            [air, au197, aisi316], [0., 0., 1.], 'vo', material_id=7, name='tld_material')
         materials.append(detector1)
     else:
         detector1 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [0.95, .05, 0.], 'vo', name='foil_0500Au')
-        detector1.id = 7
+            [air, au197, aisi316], [0.95, .05, 0.], 'vo', material_id=7, name='foil_0500Au')
         detector2 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.975, .025, 0.], 'vo', name='foil_0250Au')
-        detector2.id = 9
+            [air, au197, aisi316], [.975, .025, 0.], 'vo', material_id=9, name='foil_0250Au')
         detector3 = openmc.Material.mix_materials(
-            [air, au197, aisi316], [.9833, .0167, 0.], 'vo', name='foil_01670Au')
-        detector3.id = 10
+            [air, au197, aisi316], [.9833, .0167, 0.], 'vo', material_id=10, name='foil_01670Au')
         materials.extend([detector1, detector2, detector3])
 
     return materials
