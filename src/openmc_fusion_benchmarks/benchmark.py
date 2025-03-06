@@ -4,6 +4,7 @@ from .cloud_interface import download_geometry
 # from openmc_fusion_benchmarks import StatePoint
 # from openmc_fusion_benchmarks import get_statepoint_path
 import importlib
+from functools import wraps
 
 
 class Benchmark:
@@ -23,11 +24,18 @@ class Benchmark:
             # Retrieve the model function or class from the module
             benchmark_func = benchmark_module.model
 
-            # Check if 'run_option' exists in the instance, and pass it if available
-            if hasattr(self, "run_option"):
-                return benchmark_func(geometry_type=geometry_type, run_option=self.run_option)
-            else:
-                return benchmark_func(geometry_type=geometry_type)
+            model = (
+                benchmark_func(geometry_type=geometry_type,
+                               run_option=self.run_option)
+                if hasattr(self, "run_option")
+                else benchmark_func(geometry_type=geometry_type)
+            )
+
+            # Wrap `run()` only if geometry_type == 'dagmc'
+            if geometry_type == "dagmc" and hasattr(model, "run") and callable(model.run):
+                model.run = _wrap_run(self.download_h5m_file, model.run)
+
+            return model
 
         except ModuleNotFoundError:
             raise ValueError(
@@ -100,3 +108,13 @@ class BenchmarkDatabase:
             return FnsCleanW(**kwargs)
         else:
             return Benchmark(name)
+
+
+def _wrap_run(download_files_func, original_run):
+    """Standalone function to wrap `run()` and ensure files are downloaded first."""
+    @wraps(original_run)
+    def wrapped_run(*args, **kwargs):
+        cwd = kwargs.get("cwd", ".")  # Extract cwd argument (default: ".")
+        download_files_func(cwd)  # Ensure files are downloaded
+        return original_run(*args, **kwargs)  # Call the original method
+    return wrapped_run
