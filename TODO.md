@@ -1,11 +1,16 @@
 # To do
-### Download geometry
+### Manage CAD geometry
 - Better (more resilient) way to name the downloaded file?
 - Add the possibility to chose the path to download it in
 - Implement the `rtt_to_h5m` workflow
-
+- implement choice of rtt workflow or directly h5m in Benchmark class
+- `is_file_in_folder()` on h5m/rtt to avoid download everytime the file
+- use the above function in `get_model()` of the `Benchmark` class if files are not in `cwd`, download them (in `cwd`)
 ### Benchmark modules
 - Figure out how to import mesh for the DAGMC geometry (download h5m and json for tallies? download rtt and go `rtt_to_h5m` for tallies? Or download h5m and save tallies directly in the python api model?)
+- implement UM tallies choice
+- check if wwinp file is there, if not, run analog
+- print the python api model input file in cwd (?)
 
 ## Tests
 - Add tests to everything
