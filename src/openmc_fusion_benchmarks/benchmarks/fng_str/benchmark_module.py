@@ -17,7 +17,7 @@ def model(geometry_type: str, batches: int = int(100), particles: int = int(1e8)
         return csg_model(batches, particles, run_option)
 
 
-def _get_materials(run_option: str):
+def _materials(run_option: str):
     # Define materials
 
     # m1 Stainless Steel SS (AISI-316)  # from the "eff-639.pdf" file, 99.7765% of weight composition
@@ -96,6 +96,94 @@ def _get_materials(run_option: str):
     return materials
 
 
+def _settings(batches: int, particles: int, run_option: str, weight_windows: bool = True):
+
+    # Source definition
+    # FNG source
+    fng_center = (0, 0, 0)
+    if run_option == 'offaxis':
+        fng_center = (-5.3, 0, 0)
+
+    fng_uvw = (0., 1., 0)
+
+    source = fng_source(center=fng_center,
+                        reference_uvw=fng_uvw, beam_energy=230)
+
+    # Settings
+    settings = openmc.Settings(run_mode='fixed source')
+    settings.batches = batches
+    settings.particles = particles
+    settings.source = source
+    # if weight_windows:
+    #     settings.weight_windows = openmc.wwinp_to_wws(
+    #         "weight_windows.cadis.wwinp")
+    if run_option == 'heating':
+        settings.survival_biasing = True
+        settings.photon_transport = True
+        settings.electron_treatment = 'ttb'
+    settings.output = {'tallies': False}
+
+    return settings
+
+
+def _tallies(onaxis1_cellfilter, onaxis2_cellfilter, offaxis_cellfilter, heating_cellfilter, run_option: str):
+    tallies = openmc.Tallies()
+
+    # Filters
+    # Particle filters
+    neutron_filter = openmc.ParticleFilter(['neutron'])
+    particle_filter = openmc.ParticleFilter(
+        ['neutron', 'photon', 'electron', 'positron'])
+
+    nuclides = ['nb93', 'al27', 'ni58', 'au197']
+
+    # Dosimetry tallies from IRDFF-II nuclear data library
+    nb93_n2n_acef = "dos-irdff2-4125.acef"
+    al27_na_acef = "dos-irdff2-1325.acef"
+    ni58_np_acef = "dos-irdff2-2825_modified.acef"
+    au197_ng_acef = "dos-irdff2-7925_modified.acef"
+    irdff_xs = [nb93_n2n_acef, al27_na_acef, ni58_np_acef, au197_ng_acef]
+    reactions = [11016, 107, 103, 102]
+
+    # Define tallies according to simulation type
+    if run_option == 'onaxis':
+        for n, r, x in zip(nuclides, reactions, irdff_xs):
+            # onaxis1 tally
+            tally1 = openmc.Tally(name=f"rr_onaxis1_{n}")
+            irdff_xs = irdff.get_cross_section(x)
+            multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+                irdff_xs[r])
+            tally1.filters = [onaxis1_cellfilter, neutron_filter, multiplier]
+            tally1.scores = ["flux"]
+            # onaxis2 tally
+            tally2 = openmc.Tally(name=f"rr_onaxis2_{n}")
+            irdff_xs = irdff.get_cross_section(x)
+            multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+                irdff_xs[r])
+            tally2.filters = [onaxis2_cellfilter, neutron_filter, multiplier]
+            tally2.scores = ["flux"]
+            tallies.extend([tally1, tally2])
+    elif run_option == 'offaxis':
+        for n, r, x in zip(nuclides, reactions, irdff_xs):
+            # offaxis tally
+            tally = openmc.Tally(name=f"rr_offaxis_{n}")
+            nb93_n2n_irdff = irdff.get_cross_section(x)
+            multiplier = openmc.EnergyFunctionFilter.from_tabulated1d(
+                nb93_n2n_irdff[r])
+            tally.filters = [offaxis_cellfilter, neutron_filter, multiplier]
+            tally.scores = ["flux"]
+            tallies.append(tally)
+    elif run_option == 'heating':
+        tally = openmc.Tally(name='nuclear_heating')
+        tally.filters = [heating_cellfilter, particle_filter]
+        tally.scores = ['heating']
+        tallies.append(tally)
+
+    # Unstructured mesh flux tally
+
+    return tallies
+
+
 def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
     """DAGMC - unstructured mesh model"""
 
@@ -108,11 +196,11 @@ def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: 
 
     # Get materials
     if run_option == 'heating':
-        aisi316, water, copper, air, perspex, ch2, concrete, detector1 = _get_materials(
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1 = _materials(
             'heating')
         detector2 = detector3 = detector1
     else:
-        aisi316, water, copper, air, perspex, ch2, concrete, detector1, detector2, detector3 = _get_materials(
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1, detector2, detector3 = _materials(
             'onaxis')
 
     materials = [aisi316, water, copper, air, perspex, ch2, concrete,
@@ -126,30 +214,13 @@ def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: 
     # geometry = openmc.Geometry(root=dag_universe)
     # model = openmc.Model(materials=materials, geometry=geometry)
 
-    # # Define settingd
-    # # source definition
-    # # fng source
-    # fng_center = (0, 0, 0)
-    # fng_uvw = (0., 1., 0)
+    # # Settings
+    # model.settings = _settings(batches, particles, run_option)
 
-    # source = fng_source(center=fng_center,
-    #                     reference_uvw=fng_uvw)
+    # # Specify tallies
 
-    # # # weight windows from wwinps
-    # # ww = openmc.wwinp_to_wws("weight_windows.cadis.wwinp")
-
-    # # settings
-    # model.settings = openmc.Settings(run_mode='fixed source')
-    # model.settings.batches = batches
-    # model.settings.particles = particles
-    # # model.settings.weight_windows = ww
-    # model.settings.source = source
-    # # model.settings.survival_biasing = True
-    # # model.settings.photon_transport = True
-    # # model.settings.electron_treatment = 'ttb'
-    # model.settings.output = {'tallies': False}
-
-    # Specify tallies
+    # model.tallies = _tallies(onaxis1_cellfilter, onaxis2_cellfilter, offaxis_cellfilter,
+    #                          heating_cellfilter, run_option)
 
     return model
 
@@ -166,11 +237,11 @@ def csg_model(batches: int = int(100), particles: int = int(1e8), run_option: st
 
     # Get materials
     if run_option == 'heating':
-        aisi316, water, copper, air, perspex, ch2, concrete, detector1 = _get_materials(
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1 = _materials(
             'heating')
         detector2 = detector3 = detector1
     else:
-        aisi316, water, copper, air, perspex, ch2, concrete, detector1, detector2, detector3 = _get_materials(
+        aisi316, water, copper, air, perspex, ch2, concrete, detector1, detector2, detector3 = _materials(
             'onaxis')
 
     materials = [aisi316, water, copper, air, perspex, ch2, concrete,
