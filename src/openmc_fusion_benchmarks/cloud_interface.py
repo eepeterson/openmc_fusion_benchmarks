@@ -9,7 +9,7 @@ LIB_PATH = importlib.resources.files(
 
 def download_geometry(benchmark_name: str, file_format: str, run_option: str = None, cwd: str = None):
 
-    filepath = LIB_PATH / "dagmc_geometries.json"
+    filepath = LIB_PATH / "cad_geometries.json"
     with open(filepath, "r") as f:
         data = json.load(f)
 
