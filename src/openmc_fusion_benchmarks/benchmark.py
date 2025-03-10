@@ -14,9 +14,9 @@ class Benchmark:
     def get_model(self, geometry_type: str) -> openmc.Model:
         """Dynamically import and return the model object from benchmarks/{benchmark_name}/model.py"""
 
-        if geometry_type not in ['csg', 'dagmc']:
+        if geometry_type not in ['csg', 'cad']:
             raise ValueError(
-                'Invalid geometry type can be either "csg" or "dagmc"')
+                'Invalid geometry type can be either "csg" or "cad"')
 
         try:
             module_path = f"openmc_fusion_benchmarks.benchmarks.{self.name}.benchmark_module"
@@ -31,8 +31,8 @@ class Benchmark:
                 else benchmark_func(geometry_type=geometry_type)
             )
 
-            # Wrap `run()` only if geometry_type == 'dagmc'
-            if geometry_type == "dagmc" and hasattr(model, "run") and callable(model.run):
+            # Wrap `run()` only if geometry_type == 'cad'
+            if geometry_type == "cad" and hasattr(model, "run") and callable(model.run):
                 model.run = _wrap_run(self.download_h5m_file, model.run)
 
             return model

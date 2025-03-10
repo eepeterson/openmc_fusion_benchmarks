@@ -7,12 +7,12 @@ from openmc_fusion_benchmarks.neutron_sources import fng_source
 
 
 def model(geometry_type: str, batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
-    if geometry_type not in ['dagmc', 'csg']:
+    if geometry_type not in ['cad', 'csg']:
         raise ValueError(
-            'Invalid geometry type can be either "dagmc" or "csg"')
+            'Invalid geometry type can be either "cad" or "csg"')
 
-    if geometry_type == 'dagmc':
-        return dagmc_model(batches, particles, run_option)
+    if geometry_type == 'cad':
+        return cad_model(batches, particles, run_option)
     elif geometry_type == 'csg':
         return csg_model(batches, particles, run_option)
 
@@ -184,7 +184,7 @@ def _tallies(onaxis1_cellfilter, onaxis2_cellfilter, offaxis_cellfilter, heating
     return tallies
 
 
-def dagmc_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
+def cad_model(batches: int = int(100), particles: int = int(1e8), run_option: str = 'onaxis'):
     """DAGMC - unstructured mesh model"""
 
     if run_option not in ['onaxis', 'offaxis', 'heating']:
@@ -2506,7 +2506,7 @@ def _parse_args():
     """Parse and return commandline arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-g", "--geometry_type", type=str, default='csg',
-                        help='Type of geometry to use in the simulation "csg" or "dagmc"')
+                        help='Type of geometry to use in the simulation "csg" or "cad"')
     parser.add_argument("-b", "--batches", type=int, default=100,
                         help='Number of batches to simulate (int)')
     parser.add_argument("-p", "--particles", type=int,
