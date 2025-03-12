@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openmc_fusion_benchmarks"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
   { name="Stefano Segantin", email="segantin@psfc.mit.edu" }
 ]
@@ -25,7 +25,10 @@ dependencies = [
     "openmc",
     "numpy",
     "pandas",
-    "tables"
+    "tables",
+    "importlib",
+    "gdown",
+    "json"
 ]
 
 [project.optional-dependencies]

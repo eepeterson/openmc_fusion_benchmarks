@@ -1,3 +1,5 @@
+"""Classes and fuctions for visualizing the results of the benchmarks."""
+
 import numpy as np
 import pandas as pd
 from typing import Iterable
