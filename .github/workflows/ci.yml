@@ -1,0 +1,45 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"  # Change to your required version
+
+      - name: Set up Conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test-env
+          miniforge-version: latest
+          # use-mamba: true
+          channels: conda-forge
+
+      - name: Create Conda environment
+        shell: bash -l {0}
+        run: |
+          conda install -c conda-forge openmc>=0.14.0
+  
+      - name: Install dependencies
+        shell: bash -l {0}
+        run: |
+          pip install coveralls
+          python -m pip install .[tests]
+
+      - name: Run tests
+        shell: bash -l {0}
+        run: |
+          python -m pytest test/ --cov openmc_fusion_benchmarks --cov-report xml --cov-report term
+
+      - name: Upload coverage to Coveralls
+        shell: bash -l {0}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: coveralls
