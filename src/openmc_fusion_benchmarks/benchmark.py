@@ -3,7 +3,6 @@ import openmc
 from .cloud_interface import download_geometry
 # from openmc_fusion_benchmarks import StatePoint
 # from openmc_fusion_benchmarks import get_statepoint_path
-import importlib
 from functools import wraps
 
 
@@ -20,7 +19,7 @@ class Benchmark:
 
         try:
             module_path = f"openmc_fusion_benchmarks.benchmarks.{self.name}.benchmark_module"
-            benchmark_module = importlib.import_module(module_path)
+            benchmark_module = __import__(module_path, fromlist=['model'])
             # Retrieve the model function or class from the module
             benchmark_func = benchmark_module.model
 
