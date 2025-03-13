@@ -16,19 +16,17 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-[tool.setuptools.package-data]
-fng_source = ["openmc_fusion_benchmarks/neutron_sources/fng_source/*.csv"]
-
 dependencies = [
-    "openmc",
     "numpy",
     "pandas",
     "tables",
     "importlib",
     "gdown",
-    "json"
 ]
+
+[tool.setuptools.package-data]
+fng_source = ["openmc_fusion_benchmarks/neutron_sources/fng_source/*.csv"]
+
 
 [project.optional-dependencies]
 tests = ["pytest>=5.4.3", "pytest-cov", "coveralls"]
