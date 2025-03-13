@@ -6,5 +6,8 @@ from openmc_fusion_benchmarks.utils import *
 from openmc_fusion_benchmarks.benchmark import *
 from openmc_fusion_benchmarks.cloud_interface import *
 
-# new
-from openmc_fusion_benchmarks.statepoint import *
+# this is commented out as the statepoint module is not ready yet and causes
+# the package to break on import. TODO add the statepoint module to the package
+# from openmc_fusion_benchmarks.statepoint import *
+
+__version__ = "0.1.0"

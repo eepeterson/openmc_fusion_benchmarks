@@ -4,11 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "openmc_fusion_benchmarks"
-version = "0.1.0"
 authors = [
   { name="Stefano Segantin", email="segantin@psfc.mit.edu" }
 ]
-
+dynamic = ["version"]
 description = "V&V of openmc for nuclear fusion applications"
 readme = "README.md"
 requires-python = ">=3.7"
@@ -37,3 +36,6 @@ tests = ["pytest>=5.4.3", "pytest-cov", "coveralls"]
 [project.urls]
 "Homepage" = "https://github.com/eepeterson/openmc_fusion_benchmarks"
 "Bug Tracker" = "https://github.com/eepeterson/openmc_fusion_benchmarks/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "openmc_fusion_benchmarks.__version__"} 
