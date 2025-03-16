@@ -1,0 +1,12 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: installation
+- file: fng_str_benchmark
+- file: fng_w_benchmark
+- file: fns_clean_w_benchmark
+- file: fns_duct_benchmark
+- file: oktavian_benchmark
