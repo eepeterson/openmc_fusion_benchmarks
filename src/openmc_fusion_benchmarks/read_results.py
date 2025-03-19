@@ -399,10 +399,20 @@ class ResultsFromOpenmc:
             if c in tally_df.columns:
                 tally_df = tally_df.drop(columns=c)
 
+                
         # add xaxis columns if required
         if xaxis_list is not None:
             tally_df.insert(loc=0, column=xaxis_name, value=xaxis_list)
 
+            if tally_df.columns.nlevels > 1:
+                #Case where the mesh voxel indices wind up in a multi-level
+                # column. Drop a level and then remove these new identically-named
+                # columsn.
+                tally_df.columns = tally_df.columns.droplevel(1)            
+                duplicate_cols = tally_df.columns[tally_df.columns.duplicated()]
+                tally_df.drop(columns=duplicate_cols, inplace=True)
+            
+            
         code_version = 'openmc-' + '.'.join(map(str, self.get_openmc_version))
 
         to_hdf(tally_df, file, tally_name, xs_library, xaxis_name, when, where,
