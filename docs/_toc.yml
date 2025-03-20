@@ -3,10 +3,20 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: installation
-- file: fng_str_benchmark
-- file: fng_w_benchmark
-- file: fns_clean_w_benchmark
-- file: fns_duct_benchmark
-- file: oktavian_benchmark
+parts:
+  - chapters:
+    - file: installation
+  - caption: FNG
+    chapters:
+    - file: fng_readme
+    - file: fng_str_benchmark
+    - file: fng_w_benchmark
+  - caption: FNS
+    chapters:
+    - file: fns_readme
+    - file: fns_clean_w_benchmark
+    - file: fns_duct_benchmark
+  - caption: Oktavian
+    chapters:
+    - file: oktavian_readme
+    - file: oktavian_benchmark

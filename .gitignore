@@ -61,3 +61,6 @@ dist/
 
 # Python pickle files
 *.pkl
+
+# built html docs
+**_build
