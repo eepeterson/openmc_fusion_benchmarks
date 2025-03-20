@@ -4,8 +4,10 @@
 format: jb-book
 root: intro
 parts:
-  - chapters:
-    - file: installation
+  - caption: Installation
+    chapters:
+    - file: user_installation
+    - file: dev_installation
   - caption: FNG
     chapters:
     - file: fng_readme
