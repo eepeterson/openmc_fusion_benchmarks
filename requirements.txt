@@ -1,0 +1,5 @@
+numpy
+pandas
+tables
+gdown
+jupyter-book
