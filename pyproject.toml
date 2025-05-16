@@ -17,6 +17,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "openmc>=0.14.0",
     "pyYAML",
     "jsonschema",
     "openapi_schema_validator",
