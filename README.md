@@ -5,6 +5,9 @@
 # openmc_fusion_benchmarks
 OpenMC Fusion Benchmarks is a platform for V&V of fusion neutronics. It focuses on fusion-relevant integral benchmarks. It relies on an automated workflow for model simulation, data postprocessing, visualization and analysis. It embeds a database of experimental and numerical results for quick comparisons to which users can contribute to. The database contribution workflow is fully automated.
 
+## Documentation
+The documentation for OpenMC Fusion Benchamrks is built using hupyter-book and is [available online](https://eepeterson.github.io/openmc_fusion_benchmarks/). 
+
 ## Installation
 ```
 pip install -e .
