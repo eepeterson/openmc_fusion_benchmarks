@@ -6,6 +6,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Apt dependencies
+        shell: bash
+        run: |
+          sudo apt -y update
+          sudo apt install -y libglu1-mesa \
+                              libglu1-mesa-dev
+        
       - name: Checkout repository
         uses: actions/checkout@v3
 

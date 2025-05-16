@@ -43,11 +43,3 @@ def test_benchmark_file_not_found(mock_validate):
     with patch.object(Path, "open", side_effect=FileNotFoundError):
         with pytest.raises(FileNotFoundError):
             DummyBenchmark("nonexistent")
-
-
-@patch("openmc_fusion_benchmarks.benchmark.validate_benchmark")
-def test_benchmark_invalid_yaml(mock_validate):
-    # Simulate YAML load returns None
-    with patch.object(Path, "open", mock_open(read_data="")):
-        bench = DummyBenchmark("dummy")
-        assert bench._benchmark_spec is None

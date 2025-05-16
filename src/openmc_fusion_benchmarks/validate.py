@@ -8,7 +8,7 @@ def validate_benchmark(benchmark_name: str):
 
     print(f"\n🔍 Validating benchmark file: {benchmark_name}")
 
-    base_path = Path("src/openmc_fusion_benchmarks/benchmarks")
+    base_path = Path(__file__).parent / "benchmarks"
     schema_path = base_path / "benchmark_schema.yaml"
     benchmark_path = base_path / benchmark_name / "specifications.yaml"
 

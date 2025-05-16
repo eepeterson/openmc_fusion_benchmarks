@@ -13,8 +13,8 @@ class Benchmark(ABC):
     def __init__(self, name: str):
         self.name = name
 
-        # # Validate the benchmark specification
-        # validate_benchmark(name)
+        # Validate the benchmark specification
+        validate_benchmark(name)
 
         with (BENCHMARK_DIR / f"{self.name}/specifications.yaml").open("r") as f:
             self._benchmark_spec = yaml.safe_load(f)
