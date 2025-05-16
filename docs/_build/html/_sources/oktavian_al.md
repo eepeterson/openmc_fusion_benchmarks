@@ -1,1 +1,0 @@
-# Oktavian Aluminum Benchmark
