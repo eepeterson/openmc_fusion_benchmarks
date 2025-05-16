@@ -55,7 +55,7 @@ delete*
 htmlcov
 
 # Ignore build folders
-_build/
+docs/_build/
 build/
 dist/
 *.egg-info/
