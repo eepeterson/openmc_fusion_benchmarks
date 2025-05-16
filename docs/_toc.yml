@@ -18,7 +18,9 @@ parts:
     - file: fns_readme
     - file: fns_clean_w_benchmark
     - file: fns_duct_benchmark
-  - caption: Oktavian
+  - caption: Benchmarks
     chapters:
     - file: oktavian_readme
-    - file: oktavian_benchmark
+      title: Oktavian
+      sections:
+      - file: oktavian_al
