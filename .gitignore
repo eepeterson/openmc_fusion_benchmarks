@@ -30,6 +30,12 @@ delete*
 *.voxel
 *.vti
 
+# EXCEPTION: do not ignore images in docs/images/
+!docs/images/*.png
+!docs/images/*.ppm
+!docs/images/*.voxel
+!docs/images/*.vti
+
 # PyCharm project configuration files
 .idea
 .idea/*
