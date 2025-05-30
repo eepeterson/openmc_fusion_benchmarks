@@ -138,7 +138,7 @@ class OpenmcBenchmark(Benchmark):
 
     def build_geometry(self):
 
-        def build_mesh(cad_file: str, material_tags, set_size: dict, global_mesh_size_min: float, global_mesh_size_max: float, dimensions: int = 2, mesh_file: str = "mesh.h5m"):
+        def build_mesh(cad_file: str, material_tags, set_size: dict, global_mesh_size_min: float, global_mesh_size_max: float, mesh_file: str = "mesh.h5m"):
 
             # Instantiate the CadToDagmc model
             model = CadToDagmc()
@@ -148,7 +148,7 @@ class OpenmcBenchmark(Benchmark):
 
             # Generate the mesh
             model.export_dagmc_h5m_file(imprint=True, min_mesh_size=global_mesh_size_min,
-                                        max_mesh_size=global_mesh_size_max, set_size=set_size, dimensions=dimensions, filename=mesh_file)
+                                        max_mesh_size=global_mesh_size_max, set_size=set_size, filename=mesh_file)
 
         # Implement the logic to build geometry for OpenMC
         geometry_data = self._benchmark_spec['geometry']
