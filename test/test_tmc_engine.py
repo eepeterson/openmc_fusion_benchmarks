@@ -1,9 +1,15 @@
+import importlib.util
 import pytest
 from unittest.mock import Mock, patch, MagicMock
 import openmc
 import numpy as np
 from pathlib import Path
 from openmc_fusion_benchmarks.uq.tmc_engine import tmc_engine
+
+try:
+    OPENMC_AVAILABLE = importlib.util.find_spec("openmc") is not None
+except ValueError:
+    OPENMC_AVAILABLE = False
 
 
 @pytest.fixture
@@ -21,6 +27,7 @@ def temp_results_dir(tmp_path, monkeypatch):
     return tmp_path
 
 
+@pytest.mark.skipif(not OPENMC_AVAILABLE, reason="OpenMC not installed")
 def test_tmc_engine_basic_structure(mock_openmc_model, temp_results_dir):
     """Test that tmc_engine accepts correct parameters."""
     with patch('openmc_fusion_benchmarks.uq.tmc_engine.get_nuclide_gnds') as mock_gnds, \
@@ -28,7 +35,7 @@ def test_tmc_engine_basic_structure(mock_openmc_model, temp_results_dir):
          patch('openmc_fusion_benchmarks.uq.tmc_engine.perturb_xs_xml') as mock_perturb_xml, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.StatePoint') as mock_sp, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine._save_result') as mock_save, \
-         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}):
+         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}, create=True):
         
         # Setup mocks
         mock_gnds.return_value = 'H1'
@@ -71,6 +78,7 @@ def test_tmc_engine_basic_structure(mock_openmc_model, temp_results_dir):
         assert mock_openmc_model.run.called
 
 
+@pytest.mark.skipif(not OPENMC_AVAILABLE, reason="OpenMC not installed")
 def test_tmc_engine_without_perturbation(mock_openmc_model, temp_results_dir):
     """Test tmc_engine with perturb_xs=False."""
     with patch('openmc_fusion_benchmarks.uq.tmc_engine.get_nuclide_gnds') as mock_gnds, \
@@ -78,7 +86,7 @@ def test_tmc_engine_without_perturbation(mock_openmc_model, temp_results_dir):
          patch('openmc_fusion_benchmarks.uq.tmc_engine.perturb_xs_xml') as mock_perturb_xml, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.StatePoint') as mock_sp, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine._save_result') as mock_save, \
-         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}):
+         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}, create=True):
         
         mock_gnds.return_value = 'U238'
         
@@ -119,6 +127,7 @@ def test_tmc_engine_without_perturbation(mock_openmc_model, temp_results_dir):
         assert mock_openmc_model.run.called
 
 
+@pytest.mark.skipif(not OPENMC_AVAILABLE, reason="OpenMC not installed")
 def test_tmc_engine_multiple_realizations(mock_openmc_model, temp_results_dir):
     """Test that tmc_engine runs multiple realizations."""
     with patch('openmc_fusion_benchmarks.uq.tmc_engine.get_nuclide_gnds') as mock_gnds, \
@@ -126,7 +135,7 @@ def test_tmc_engine_multiple_realizations(mock_openmc_model, temp_results_dir):
          patch('openmc_fusion_benchmarks.uq.tmc_engine.perturb_xs_xml') as mock_perturb_xml, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.StatePoint') as mock_sp, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine._save_result') as mock_save, \
-         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}):
+         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}, create=True):
         
         mock_gnds.return_value = 'H1'
         
@@ -168,6 +177,7 @@ def test_tmc_engine_multiple_realizations(mock_openmc_model, temp_results_dir):
         assert mock_save.call_count == 3
 
 
+@pytest.mark.skipif(not OPENMC_AVAILABLE, reason="OpenMC not installed")
 def test_tmc_engine_benchmark_mode(mock_openmc_model, temp_results_dir):
     """Test tmc_engine in benchmark mode (_is_benchmark=True)."""
     with patch('openmc_fusion_benchmarks.uq.tmc_engine.get_nuclide_gnds') as mock_gnds, \
@@ -175,7 +185,7 @@ def test_tmc_engine_benchmark_mode(mock_openmc_model, temp_results_dir):
          patch('openmc_fusion_benchmarks.uq.tmc_engine.perturb_xs_xml') as mock_perturb_xml, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.StatePoint') as mock_sp, \
          patch('openmc_fusion_benchmarks.uq.tmc_engine._openmc_to_ofb') as mock_ofb, \
-         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}):
+         patch('openmc_fusion_benchmarks.uq.tmc_engine.openmc.config', {'cross_sections': ''}, create=True):
         
         mock_gnds.return_value = 'H1'
         

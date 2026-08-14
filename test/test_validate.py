@@ -2,7 +2,7 @@ import pytest
 import yaml
 from pathlib import Path
 from unittest.mock import patch, mock_open, MagicMock
-from openmc_fusion_benchmarks import validate_benchmark
+from openmc_fusion_benchmarks.validate_spec import validate_benchmark
 
 
 @pytest.fixture
@@ -24,9 +24,9 @@ def test_file_not_found(mock_paths):
         validate_benchmark("dummy_benchmark")
 
 
-@patch("openmc_fusion_benchmarks.validate.yaml.safe_load")
-@patch("openmc_fusion_benchmarks.validate.open")
-@patch("openmc_fusion_benchmarks.validate.Path.is_file")
+@patch("openmc_fusion_benchmarks.validate_spec.yaml.safe_load")
+@patch("openmc_fusion_benchmarks.validate_spec.open")
+@patch("openmc_fusion_benchmarks.validate_spec.Path.is_file")
 def test_valid_yaml_schema_validation_passes(mock_is_file, mock_open_file, mock_safe_load, capsys):
     # Arrange
     mock_is_file.return_value = True
@@ -59,9 +59,9 @@ def test_valid_yaml_schema_validation_passes(mock_is_file, mock_open_file, mock_
     assert "✅ dummy_benchmark is valid!" in out
 
 
-@patch("openmc_fusion_benchmarks.validate.yaml.safe_load")
-@patch("openmc_fusion_benchmarks.validate.open")
-@patch("openmc_fusion_benchmarks.validate.Path.is_file")
+@patch("openmc_fusion_benchmarks.validate_spec.yaml.safe_load")
+@patch("openmc_fusion_benchmarks.validate_spec.open")
+@patch("openmc_fusion_benchmarks.validate_spec.Path.is_file")
 def test_invalid_yaml_schema_validation_fails(mock_is_file, mock_open_file, mock_safe_load, capsys):
     # Arrange
     mock_is_file.return_value = True

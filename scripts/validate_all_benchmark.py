@@ -1,4 +1,4 @@
-from openmc_fusion_benchmarks import validate_benchmark
+from openmc_fusion_benchmarks.validate_spec import validate_benchmark
 from pathlib import Path
 
 benchmarks_dir = Path("src/openmc_fusion_benchmarks/benchmarks")

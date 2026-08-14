@@ -1,9 +1,10 @@
-import openmc.data
 from typing import Union
 from pathlib import Path
 import os
-import sandy
+
 import openmc
+import openmc.data
+import sandy
 
 
 def zaid_to_zam(zaid: int) -> tuple:

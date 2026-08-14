@@ -268,6 +268,93 @@ def test_build_source_point_source():
     # The function returns just 'source' variable which is the last one in angular_sources list
     assert source is not None
 
+def test_build_source_invalid_spatial_distribution():
+    """Ensure unsupported spatial distribution raises ValueError."""
+    spec = create_minimal_spec(
+        sources=[{
+            "particle": "neutron",
+            "strength": 1.0,
+            "spatial_distribution": {
+                "type": "invalid",
+                "center": [0.0, 0.0, 0.0]
+            },
+            "angular_energy_distribution": {
+                "polar_direction": [0.0, 1.0, 0.0],
+                "angle": {"bins": [0.0, 360.0], "units": "degrees"},
+                "energy": {"values": [14.1e6], "units": "eV", "interpolation": "histogram"},
+                "weights": [[1.0]],
+                "strength": {"data": [1.0]}
+            }
+        }]
+    )
+
+    with patch("openmc_fusion_benchmarks.benchmark.validate_benchmark"):
+        with patch.object(Path, "open", mock_open(read_data=yaml.dump(spec))):
+            with patch.object(OpenmcBenchmark, '_build_geometry', return_value=openmc.Geometry()):
+                with patch.object(OpenmcBenchmark, '_build_settings', return_value=openmc.Settings()):
+                    with patch.object(OpenmcBenchmark, '_build_tallies', return_value=openmc.Tallies()):
+                        bench = OpenmcBenchmark("test")
+                        with pytest.raises(ValueError, match="Unsupported spatial distribution type"):
+                            bench._build_source()
+
+def test_build_source_invalid_energy_units():
+    """Ensure invalid energy units raise ValueError."""
+    spec = create_minimal_spec(
+        sources=[{
+            "particle": "neutron",
+            "strength": 1.0,
+            "spatial_distribution": {
+                "type": "point",
+                "center": [0.0, 0.0, 0.0]
+            },
+            "angular_energy_distribution": {
+                "polar_direction": [0.0, 1.0, 0.0],
+                "angle": {"bins": [0.0, 360.0], "units": "degrees"},
+                "energy": {"values": [14.1], "units": "invalid", "interpolation": "histogram"},
+                "weights": [[1.0]],
+                "strength": {"data": [1.0]}
+            }
+        }]
+    )
+
+    with patch("openmc_fusion_benchmarks.benchmark.validate_benchmark"):
+        with patch.object(Path, "open", mock_open(read_data=yaml.dump(spec))):
+            with patch.object(OpenmcBenchmark, '_build_geometry', return_value=openmc.Geometry()):
+                with patch.object(OpenmcBenchmark, '_build_settings', return_value=openmc.Settings()):
+                    with patch.object(OpenmcBenchmark, '_build_tallies', return_value=openmc.Tallies()):
+                        bench = OpenmcBenchmark("test")
+                        with pytest.raises(ValueError, match="Unsupported energy unit"):
+                            bench._build_source()
+
+def test_build_source_invalid_weights_shape():
+    """Ensure invalid weights shape raises ValueError."""
+    spec = create_minimal_spec(
+        sources=[{
+            "particle": "neutron",
+            "strength": 1.0,
+            "spatial_distribution": {
+                "type": "point",
+                "center": [0.0, 0.0, 0.0]
+            },
+            "angular_energy_distribution": {
+                "polar_direction": [0.0, 1.0, 0.0],
+                "angle": {"bins": [0.0, 360.0], "units": "degrees"},
+                "energy": {"values": [14.1e6], "units": "eV", "interpolation": "histogram"},
+                "weights": [1.0, 2.0],
+                "strength": {"data": [1.0]}
+            }
+        }]
+    )
+
+    with patch("openmc_fusion_benchmarks.benchmark.validate_benchmark"):
+        with patch.object(Path, "open", mock_open(read_data=yaml.dump(spec))):
+            with patch.object(OpenmcBenchmark, '_build_geometry', return_value=openmc.Geometry()):
+                with patch.object(OpenmcBenchmark, '_build_settings', return_value=openmc.Settings()):
+                    with patch.object(OpenmcBenchmark, '_build_tallies', return_value=openmc.Tallies()):
+                        bench = OpenmcBenchmark("test")
+                        with pytest.raises(ValueError, match="Weights must be a 2D array"):
+                            bench._build_source()
+
 
 def test_build_source_box_raises_not_implemented():
     """Test that box source raises NotImplementedError."""
@@ -510,10 +597,16 @@ def test_postprocess():
                 with patch.object(OpenmcBenchmark, '_build_settings', return_value=openmc.Settings()):
                     bench = OpenmcBenchmark("test")
                     
-                    mock_sp = Mock()
-                    with patch("openmc_fusion_benchmarks.benchmark._openmc_to_ofb") as mock_post:
-                        bench._postprocess(statepoint=mock_sp, mesh="test.h5m")
-                        mock_post.assert_called_once()
+                    class DummyStatePoint:
+                        pass
+
+                    with patch("openmc_fusion_benchmarks.benchmark.openmc.StatePoint", new=DummyStatePoint):
+                        mock_sp = DummyStatePoint()
+                        with patch("openmc_fusion_benchmarks.benchmark.make_default_openmc_normalizer", return_value="norm") as mock_norm:
+                            with patch("openmc_fusion_benchmarks.benchmark.save_openmc_statepoint_tallies") as mock_post:
+                                bench._postprocess(statepoint=mock_sp, mesh="test.h5m")
+                                mock_norm.assert_called_once_with("test.h5m")
+                                mock_post.assert_called_once()
 
 
 def test_run_without_uq():

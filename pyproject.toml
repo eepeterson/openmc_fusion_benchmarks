@@ -25,10 +25,12 @@ dependencies = [
     "xarray",
     "tables",
     "netCDF4",
+    "h5netcdf",
     "h5py",
     "cad-to-dagmc",
     "pydagmc @ git+https://github.com/svalinn/pydagmc.git",
     "sandy",
+    "matplotlib",
 ]
 
 [tool.setuptools.package-data]

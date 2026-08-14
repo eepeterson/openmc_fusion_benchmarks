@@ -1,17 +1,22 @@
+from __future__ import annotations
+
 import yaml
+import h5py
 from pathlib import Path
 import warnings
 from abc import ABC, abstractmethod
 import numpy as np
-import xarray as xr
-import h5py
-from .validate import validate_benchmark
-from .utils import _openmc_to_ofb, _save_result
-from .uq.tmc_engine import tmc_engine
-
 import openmc
-import pydagmc
 from cad_to_dagmc import CadToDagmc
+
+from .validate_spec import validate_benchmark
+from .benchmark_results import BenchmarkResults
+from .report import ReportConfig, ResultSource, build_report, render_pdf, render_yaml
+from .backends.openmc.tallies import (
+    make_default_openmc_normalizer,
+    save_openmc_statepoint_tallies,
+)
+from .uq.tmc_engine import tmc_engine
 
 
 BENCHMARK_DIR = Path(__file__).parent / "benchmarks"
@@ -66,7 +71,13 @@ class Benchmark(ABC):
         pass
 
     @abstractmethod
-    def run(self):
+    def run(
+        self,
+        *args,
+        generate_report: bool = False,
+        report_config: ReportConfig | None = None,
+        **kwargs,
+    ):
         """Run the benchmark simulation."""
         pass
 
@@ -125,6 +136,88 @@ class Benchmark(ABC):
 
         return self._metadata
 
+    def _write_spec_snapshot(self, filename: str = "benchmark_results.h5") -> None:
+        """Persist a snapshot of specifications.yaml into the results file."""
+        path = Path(filename)
+        if not path.exists():
+            warnings.warn(
+                f"Results file '{filename}' not found. Skipping spec snapshot.",
+                UserWarning,
+            )
+            return
+
+        spec_yaml = yaml.safe_dump(self._benchmark_spec, sort_keys=False)
+        spec_bytes = spec_yaml.encode("utf-8")
+
+        with h5py.File(path, "a") as handle:
+            if "specifications" in handle:
+                del handle["specifications"]
+            group = handle.create_group("specifications")
+            group.attrs["format"] = "yaml"
+            group.attrs["benchmark_name"] = self.name
+            group.create_dataset("yaml", data=np.bytes_(spec_bytes))
+
+    def _write_run_metadata(
+        self,
+        code_name: str,
+        code_version: str,
+        nuclear_data_name: str | None = None,
+        nuclear_data_version: str | None = None,
+        geometry: str | None = None,
+        filename: str = "benchmark_results.h5",
+    ) -> None:
+        """Persist run metadata into the results file."""
+        path = Path(filename)
+        if not path.exists():
+            warnings.warn(
+                f"Results file '{filename}' not found. Skipping run metadata.",
+                UserWarning,
+            )
+            return
+
+        with h5py.File(path, "a") as handle:
+            if "run_metadata" in handle:
+                del handle["run_metadata"]
+            group = handle.create_group("run_metadata")
+            group.attrs["code_name"] = str(code_name)
+            group.attrs["code_version"] = str(code_version)
+            if nuclear_data_name is not None:
+                group.attrs["nuclear_data_name"] = str(nuclear_data_name)
+            if nuclear_data_version is not None:
+                group.attrs["nuclear_data_version"] = str(nuclear_data_version)
+            if geometry is not None:
+                group.attrs["geometry"] = str(geometry)
+
+    def _generate_report(self, report_config: ReportConfig | None = None) -> None:
+        """Generate a report from the current benchmark results file."""
+        results_path = Path("benchmark_results.h5")
+        if not results_path.exists():
+            warnings.warn("benchmark_results.h5 not found. Skipping report generation.", UserWarning)
+            return
+
+        print("Generating validation report...")
+
+        if report_config is None:
+            report_config = ReportConfig(output_dir=Path("report"), include_yaml=True, include_pdf=True)
+
+        sources: list[ResultSource] = []
+        calculation = BenchmarkResults.from_file(results_path)
+        sources.append(ResultSource(name="calculation", kind="calculation", results=calculation))
+
+        try:
+            reference = BenchmarkResults.from_database(self.name, filename="experiment.h5")
+            sources.append(ResultSource(name="reference", kind="experiment", results=reference))
+        except Exception:
+            pass
+
+        report = build_report(sources, report_config)
+        output_dir = Path(report_config.output_dir)
+        plots_dir = output_dir / "plots"
+        if report_config.include_yaml:
+            render_yaml(report, output_dir / "report.yaml")
+        if report_config.include_pdf:
+            render_pdf(report, output_dir / "report.pdf", plots_dir)
+
 
 class OpenmcBenchmark(Benchmark):
     def __init__(self, name: str):
@@ -163,7 +256,6 @@ class OpenmcBenchmark(Benchmark):
         return materials
 
     def _build_geometry(self):
-
         def build_mesh(cad_file: str, material_tags, set_size: dict, global_mesh_size_min: float, global_mesh_size_max: float, mesh_file: str = "mesh.h5m"):
 
             # Instantiate the CadToDagmc model
@@ -213,6 +305,7 @@ class OpenmcBenchmark(Benchmark):
         return openmc.Geometry(root=dag_universe)
 
     def _build_source(self):
+        
         source_data = self._benchmark_spec['sources']
 
         def energy_conversion(values, units):
@@ -328,6 +421,7 @@ class OpenmcBenchmark(Benchmark):
         return source
 
     def _build_tallies(self):
+        
         tallies_data = self._benchmark_spec['tallies']
 
         # Initialize openmc tallies
@@ -365,6 +459,7 @@ class OpenmcBenchmark(Benchmark):
         return tallies
 
     def _build_settings(self):
+        
         settings_data = self._benchmark_spec['settings']
 
         settings = openmc.Settings()
@@ -389,6 +484,7 @@ class OpenmcBenchmark(Benchmark):
         return settings
 
     def _build_model(self):
+        
         materials = self._build_materials()
         geometry = self._build_geometry()
         settings = self._build_settings()
@@ -401,16 +497,55 @@ class OpenmcBenchmark(Benchmark):
         )
         return model
 
-    def _postprocess(self, statepoint: openmc.StatePoint, mesh: str = 'mesh.h5m'):
+    def _postprocess(self, statepoint: openmc.StatePoint | str | Path, mesh: str = 'mesh.h5m'):
         """Post-process the model after running."""
         # Retrieve tallies data from specifications
         tallies_data = self._benchmark_spec['tallies']
+        
+        tally_names = [t["name"] for t in tallies_data]
+        normalizer = make_default_openmc_normalizer(mesh)
 
-        _openmc_to_ofb(
-            spec_tallies=tallies_data,
-            statepoint=statepoint,
-            mesh=mesh
-        )
+        # Accept both already-open StatePoint objects and statepoint file paths.
+        code_version = "unknown"
+
+        if isinstance(statepoint, openmc.StatePoint):
+            sp = statepoint
+            if hasattr(sp, "version"):
+                code_version = ".".join(str(v) for v in sp.version)
+            save_openmc_statepoint_tallies(
+                statepoint=sp,
+                filename="benchmark_results.h5",
+                tally_names=tally_names,
+                spec_tallies=tallies_data,
+                tmc_coords={"realization": ["baseline"]},
+                append_dim="realization",
+                normalizer=normalizer,
+            )
+        else:
+            with openmc.StatePoint(str(statepoint)) as sp:
+                if hasattr(sp, "version"):
+                    code_version = ".".join(str(v) for v in sp.version)
+                save_openmc_statepoint_tallies(
+                    statepoint=sp,
+                    filename="benchmark_results.h5",
+                    tally_names=tally_names,
+                    spec_tallies=tallies_data,
+                    tmc_coords={"realization": ["baseline"]},
+                    append_dim="realization",
+                    normalizer=normalizer,
+                )
+
+        if hasattr(self, "_write_spec_snapshot"):
+            self._write_spec_snapshot("benchmark_results.h5")
+        if hasattr(self, "_write_run_metadata"):
+            self._write_run_metadata(
+                code_name="openmc",
+                code_version=code_version,
+                nuclear_data_name=None,
+                nuclear_data_version=None,
+                geometry="cad",
+                filename="benchmark_results.h5",
+            )
 
         return
 
@@ -430,7 +565,14 @@ class OpenmcBenchmark(Benchmark):
 
         return
 
-    def run(self, uq: bool = False, *args, **kwargs):
+    def run(
+        self,
+        uq: bool = False,
+        *args,
+        generate_report: bool = False,
+        report_config: ReportConfig | None = None,
+        **kwargs,
+    ):
         """Run the benchmark simulation."""
 
         # Check if benchmark_results.h5 already exists and delete it
@@ -450,5 +592,8 @@ class OpenmcBenchmark(Benchmark):
             statepoint = openmc.StatePoint(sp)
             # Post-process the results
             self._postprocess(statepoint=statepoint)
+
+        if generate_report:
+            self._generate_report(report_config=report_config)
 
         return
